@@ -1,0 +1,32 @@
+#form-bar {
+    margin: 0 auto;
+}
+
+#form-bar div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#form-bar div span{
+    width: 100%;
+    height: 21px;
+}
+
+
+#form-bar span hr {
+    height: 1px;
+    position: relative;
+    top: -1.16em;
+    z-index: -1;
+}
+
+#form-bar span div {
+    position: relative;
+    left: 40%;
+    justify-content: center;
+    border-radius: 50px;
+    width: 1.1em;
+    border-width: 1.5px;
+    z-index: 1;
+}

@@ -1,0 +1,34 @@
+.selected-info {
+    max-width: 400px;
+    width: 100%;
+    height: 30px;
+
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-columns: 15px auto 50px;
+    grid-template-rows: auto;
+
+    align-items: center;
+}
+
+.selected-info .display {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.selected-info .side-bar {
+    height: 100%;
+    border-radius: 10px 0px 0px 10px;
+
+}
+
+.selected-info button {
+    float: right;
+}
+
+.selected-info .minor-button {
+    height: 100%;
+    padding-top: 4px;
+    border-radius: 0 10px 10px 0;
+}
