@@ -109,7 +109,12 @@ function User(props) {
         }
     }
 
-    if (typeof props.username === "string" && typeof props.password === "string" && typeof props.state === "string")  {
+    if (props === undefined) {
+        return {
+            newUser:newUser,
+            login:login,
+        }
+    } else if (typeof props.username === "string" && typeof props.password === "string" && typeof props.state === "string")  {
         let returns = {
             addState:addState,
         }
@@ -120,16 +125,10 @@ function User(props) {
             returns[key] = value;
         });
 
-        console.log(returns);
         return returns;
     } else if (typeof props.username === "string" && typeof props.password === "string") {
         return {
             addState:addState,
-        }
-    } else {
-        return {
-            newUser:newUser,
-            login:login,
         }
     }
 }

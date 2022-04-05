@@ -1,5 +1,7 @@
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {backend} from "../managers/Manager";
 
 import "../css/Guardian.css";
 
@@ -35,7 +37,14 @@ function Guardian() {
                 <div>{recomendation.title}</div>
                 <img src={recomendation.image} alt=""/>
                 <div>{recomendation.description}</div>
-                <button onClick={()=>alert("not yet implemented")} className="minor-button b1 c1">{recomendation.link}</button>
+                <button onClick={()=>{
+                    alert("not yet implemented");
+                    //make an axios call push the user to the link
+                    axios.post(`${backend}/test`, {
+                        username: JSON.parse(localStorage.getItem("user")).username,
+                        token: localStorage.getItem("token"),
+                    });
+                }} className="minor-button b1 c1">{recomendation.link}</button>
             </div>
         </main>
     );
