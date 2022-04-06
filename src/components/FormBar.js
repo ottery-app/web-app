@@ -17,7 +17,7 @@ function FormBar({numFields, current}) {
                         cur = "current";
                     }
                     
-                    return <Field val={val} status={cur}/>
+                    return <Field key={val} val={val} status={cur}/>
                 })}
             </div>
         </div>

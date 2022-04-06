@@ -6,45 +6,17 @@ import {
     userStates,
 } from "./Manager";
 
-import Guardian from "./Guardian";
-
 /**
  * this is the user manager the state is the manager of the current state that the user is in
  * 
  */
 function User(props) {
     /*
-    {
-        username: "",
-        password: "",
-        state: "",
-        success: "",
-        error: "",
+    props = {
+        token: token,
+        state: state,
     }
     */
-
-    /**
-     * this adds a new state to the user
-     * @param {String} state 
-     * @param {function} success 
-     * @param {function} error 
-     */
-    let addState = async (state, success, error) => {
-        [success, error] = setDefaults(success, error);
-        try {
-            const res = await axios.post(
-                `${backend}/addState`,
-                {
-                    username:props.username,
-                    password:props.password,
-                    state:state
-                }
-            );
-            success(res);
-        } catch (err) {
-            error(err);
-        }
-    }
 
     /**
      * this is usesd to generate a new user
@@ -69,7 +41,7 @@ function User(props) {
         [success, error] = setDefaults(success, error);
         try {
             const res = await axios.post(
-                `${backend}/register`,
+                `${backend}/user/register`,
                 {
                     email:email,
                     username:username,
@@ -90,6 +62,7 @@ function User(props) {
             success(res)
         } catch (err) {
             error(err);
+            console.error(err);
         }
     }
 
@@ -97,7 +70,7 @@ function User(props) {
     let login = async (username, password, success, error) => {
         try {
             const res = await axios.post(
-                `${backend}/login`,
+                `${backend}/user/login`,
                 {
                     username:username,
                     password:password
@@ -106,6 +79,38 @@ function User(props) {
             success(res);
         } catch (err) {
             error(err);
+            console.error(err);
+        }
+    }
+
+    let loadUser = async (success, error) => {
+        try {
+            const res = await axios.post(
+                `${backend}/user/load`,
+                {
+                    token: localStorage.getItem("token"),
+                }
+            );
+            success(res);
+        } catch (err) {
+            error(err);
+            console.error(err);
+        }
+    }
+
+    let addState = async (state, success, error) => {
+        try {
+            const res = await axios.post(
+                `${backend}/user/addState`,
+                {
+                    token:props.token,
+                    state:state
+                }
+            );
+            success(res);
+        } catch (err) {
+            error(err);
+            console.error(err);
         }
     }
 
@@ -113,23 +118,19 @@ function User(props) {
         return {
             newUser:newUser,
             login:login,
+            loadUser:loadUser,
         }
-    } else if (typeof props.username === "string" && typeof props.password === "string" && typeof props.state === "string")  {
+    } else if (typeof props.token === "string" && typeof props.state === "string")  {
         let returns = {
             addState:addState,
         }
         
         let state = userStates.get(props.state);
-        state = state(props.username, props.password);
-        Object.entries(state).forEach(([key, value]) => {
+        Object.entries(state(props.token)).forEach(([key, value]) => {
             returns[key] = value;
         });
 
         return returns;
-    } else if (typeof props.username === "string" && typeof props.password === "string") {
-        return {
-            addState:addState,
-        }
     }
 }
 

@@ -1,4 +1,4 @@
-function Guardian(username, password) {
+function Guardian(token) {
     let getChildren = async (success, error) =>{
         success([
             {

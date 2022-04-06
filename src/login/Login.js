@@ -16,11 +16,7 @@ function Login() {
 
     useEffect(() => {
         if (authContext.isAuthenticated) {
-            if (authContext.state) {
-                navigate(`/${authContext.state}`);
-            } else {
-                navigate("/bridge");
-            }
+            navigate(`/${authContext.manager.state}`)
         }
     }, [authContext.isAuthenticated, navigate]);
 

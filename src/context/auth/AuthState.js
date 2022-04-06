@@ -1,6 +1,3 @@
-import { backend } from "../../managers/Manager.js";
-import axios from "axios";
-
 import { useReducer } from "react";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
@@ -25,12 +22,10 @@ function AuthState(props) {
     isAuthenticated: null,
     loading: true,
     error: null,
-    user: null,
     manager: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
-  console.log(state);
 
   function success(type, res) {
     dispatch({
@@ -42,14 +37,17 @@ function AuthState(props) {
   function error(type, err) {
     dispatch({
       type: type,
-      payload: err.response.data.msg,
+      payload: err,
     });
   }
 
   //load user token
   function loadUser() {
     if (initialState.token) {
-      dispatch({ type: LOAD_USER });
+      User().loadUser(
+        (res) => {success(LOAD_USER, res)},
+        (err) => {error(UNLOAD_USER, err)}
+      );
     } else {
       dispatch({ type: UNLOAD_USER });
     }
@@ -86,7 +84,6 @@ function AuthState(props) {
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
-        user: state.user,
         loading: state.loading,
         error: state.error,
         manager: state.manager,

@@ -13,8 +13,6 @@ import {
 } from "./types";
 //no body ever hears cries for help
 export default (state, action) => {
-  console.log(action);
-  console.log(state);
   switch (action.type) {
     case LOAD_USER:
       console.log("loading user");
@@ -22,14 +20,12 @@ export default (state, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: localStorage.getItem("user"),
-        token: localStorage.getItem("token"),
+        token: action.payload.state,
         manager: User({
-          username: JSON.parse(localStorage.getItem("user")).username,
-          password: localStorage.getItem("token"),
-          state: JSON.parse(localStorage.getItem("user")).state,
+          token: action.payload.token,
+          state: action.payload.state,
         })
-      };
+      }
     case UNLOAD_USER:
       console.log("unloading user");
       return {
@@ -42,17 +38,14 @@ export default (state, action) => {
     case LOGIN_SUCCESS:
       console.log("loggin in user");
       localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("user", action.payload.user);
       return {
         ...state,
-        ...action.payload,
-        user: action.payload.user,
+        token: action.payload.token,
         isAuthenticated: true,
         loading: false,
         manager: User({
-          username: JSON.parse(localStorage.getItem("user")).username,
-          password: localStorage.getItem("token"),
-          state: JSON.parse(localStorage.getItem("user")).state,
+          token: action.payload.token,
+          state: action.payload.state,
         })
       };
     case REGISTER_FAIL:
@@ -62,7 +55,6 @@ export default (state, action) => {
     case LOGOUT:
       console.log("remove user");
       localStorage.removeItem("token");
-      localStorage.removeItem("user");
       return {
         ...state,
         token: null,
@@ -73,15 +65,16 @@ export default (state, action) => {
         manager: null,
       };
     case ADD_STATE:
-      localStorage.setItem("user", action.payload.user);
-      alert("UPDATE THE STATE")
+      console.log("adding state");
+      console.log("adding state not yet implemented");
       return {
         ...state,
-        user: action.payload.user
       };
     case ADD_STATE_FAIL:
       console.log("adding state fail");
-      return {...state};
+      return {
+        ...state
+      };
     case CLEAR_ERRORS:
       console.log("clear errors");
       return {
@@ -90,6 +83,7 @@ export default (state, action) => {
       };
     //CHANGE STATE HERE
     default:
+      alert("default");
       return state;
   }
 };

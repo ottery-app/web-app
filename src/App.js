@@ -15,7 +15,6 @@ import NewChild from "./new/NewChild";
 import Director from "./director/Director";
 
 import AuthContext from "./context/auth/authContext";
-import Bridge from "./login/Bridge";
 
 /**
  * Dream big and make it happen.
@@ -33,7 +32,6 @@ function App() {
           <Routes>
             {/*<Route index element={<Navigate to={state} />} />*/}
             <Route index element={<Login />} />
-            <Route path="/bridge" element={<Bridge />} />
             
             {/*talk to benjamin for a better undersanding of guardian*/}
             <Route path="guardian" element={<Wrapper state="guardian"/>}>
