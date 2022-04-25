@@ -51,14 +51,42 @@ function AuthState(props) {
   };
 
   //Login User
-  async function login(username, password) {
+  async function login(email, password) {
     try {
-      const res = await axios.post("/api/auth/login", { username, password });
+      const res = await axios.post("", { email, password });
       success(LOGIN_SUCCESS, res);
     } catch (err) {
       error(LOGIN_FAIL, err);
     }
   };
+
+  //Register User
+  async function register(email, name, address, password, code) {
+    try {
+      const res = await axios.post("", {
+        email,
+        name,
+        address,
+        password,
+        code
+      });
+      success(REGISTER_SUCCESS, res);
+    } catch (err) {
+      error(REGISTER_FAIL, err);
+    }
+  };
+
+  async function confirmation(email, code) {
+    try {
+      const res = await axios.post("", {
+        email,
+        code
+      });
+      console.log("handle success");
+    } catch (err) {
+      console.log("handle error");
+    }
+  }
 
   //clear user data
   function logout() {
@@ -82,6 +110,7 @@ function AuthState(props) {
         login,
         logout,
         clearErrors,
+        register,
       }}
     >
       {props.children}

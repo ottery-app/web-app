@@ -15,8 +15,11 @@ import Wrapper from "./components/Wrapper.js";
  */
 function App() {
   const authContext = useContext(AuthContext);
-  
-  //authContext.load();
+
+  //checks if the user is saved on the local storage
+  useEffect(() => {
+    authContext.load();
+  },[]);
 
   return (
     <div id="app">
