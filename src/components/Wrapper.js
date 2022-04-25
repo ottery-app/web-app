@@ -1,8 +1,8 @@
-function Wrapper({state}) {
+function Wrapper({state, children}) {
     return(
-        <div>
-            lksadfjlkljksdf
-        </div>
+        <>
+            children
+        </>
     );
 }
 

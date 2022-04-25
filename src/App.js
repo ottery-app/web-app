@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useContext } from "react";
 
-import Login from "./login/Login";
+import Login from "./components/login/Login";
+import Regester from "./components/login/Register";
 
 import GuardianHome from "./components/guardian/GuardianHome";
 
@@ -21,6 +22,7 @@ function App() {
       <BrowserRouter>
           <Routes>
             <Route index element={<Login />} />
+            <Route path="register" element={<Regester />} />
             
             <Route path="guardian" element={<Wrapper state="guardian"/>}>
               <Route index element={<GuardianHome />} />
