@@ -15,7 +15,8 @@ import Wrapper from "./components/Wrapper.js";
  */
 function App() {
   const authContext = useContext(AuthContext);
-  authContext.load();
+  
+  //authContext.load();
 
   return (
     <div id="app">

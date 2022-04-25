@@ -1,9 +1,10 @@
+import React from "react";
+
 import {useEffect, useContext} from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../auth/authContext";
 import {tertiary} from "../oui/styles/colors";
-import { radiusDefault } from "../oui/styles/radius";
 import { shadowDefault } from "../oui/styles/shadow";
 
 import logo from "../../assets/images/logo.jpg";
@@ -25,13 +26,13 @@ const LoginField = styled.div`
     align-items: center;
     border: 1px solid ${tertiary};
     margin: 20px;
-    padding: 25px;
+    padding: 20px;
     ${shadowDefault}
 `;
 
 const NewAccount = LoginField;
 
-const Form = styled.form`
+const Form = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -40,7 +41,16 @@ const Form = styled.form`
     padding: 10px;
 `;
 
+const Error = styled.div`
+    color: red;
+    padding: 10px;
+`;
+
 function Login() {
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [error, setError] = React.useState("");
+
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -50,16 +60,38 @@ function Login() {
         }
     }, [authContext.isAuthenticated, navigate]);
 
-   return(
+    useEffect(()=>{
+        if(authContext.error){
+            setError(authContext.error.message);
+        }
+    }, [authContext.error]);
+
+    return(
         <Wrapper>
             <LoginField>
                 <Image src={logo} alt="logo" width={"100%"}/>
                 <Form>
-                    <Input width="100%" type="text" label="username" />
-                    <Input width="100%" type="password" label="password"  />
+                    <Input 
+                        width="100%" 
+                        type="text" 
+                        label="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Input 
+                        width="100%"
+                        type="password"
+                        label="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                     <br></br>
-                    <Button width="100%" >Login</Button>
+                    <Button 
+                        width="100%"
+                        onClick={() => authContext.login(email, password)}
+                    >Login</Button>
                 </Form>
+                <Error>{error}</Error>
             </LoginField>
             <NewAccount>
                 <div>Don't have an account? <Link onClick={()=>{navigate("/register")}}>Sign up!</Link></div>

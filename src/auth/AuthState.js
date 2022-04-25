@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 import Manager from "../managers/Manager";
+import axios from "axios";
 
 import {
   REGISTER_SUCCESS,
@@ -51,7 +52,12 @@ function AuthState(props) {
 
   //Login User
   async function login(username, password) {
-    //make axios call to login
+    try {
+      const res = await axios.post("/api/auth/login", { username, password });
+      success(LOGIN_SUCCESS, res);
+    } catch (err) {
+      error(LOGIN_FAIL, err);
+    }
   };
 
   //clear user data

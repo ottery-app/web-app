@@ -1,7 +1,7 @@
 function Wrapper({state, children}) {
     return(
         <>
-            children
+            {children}
         </>
     );
 }
