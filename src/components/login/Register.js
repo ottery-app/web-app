@@ -31,7 +31,7 @@ function Register() {
     const [address, setAddress] = React.useState("");
     const [error, setError] = React.useState("");
     const [code, setCode] = React.useState();
-
+    const [codeState, setCodeState] = React.useState("");
     const [emailState, setEmailState] = React.useState("");
     const [passwordState, setPasswordState] = React.useState("");
     const [passwordRepeatState, setPasswordRepeatState] = React.useState("");
@@ -101,6 +101,13 @@ function Register() {
     }
 
     function register() {
+        console.log(code);
+        if (code === undefined || code === "" || code === null) {
+            setError("Code cannot be empty");
+            setCodeState("error");
+            return;
+        }
+
         authContext.register(email, name, address, password, code);
     }
 
@@ -176,12 +183,13 @@ function Register() {
                         label="activation code"
                         value={(code)? code : "" /*this is required to handle a known bug in mui*/}
                         onChange={(e) => setCode(e.target.value)}
-                        regex={/^[0-9]{6}$/}
+                        regex={/^([0-9 A-Z]){6}$/}
+                        state={codeState}
                     />
                     <Button 
                         width="100%"
                         onClick={register}
-                    >Register</Button>
+                    >Validate</Button>
                     <Link onClick={()=>{setPhase(phases.register)}}>Go Back</Link>
                 </Form>
                 <Error>{error}</Error>

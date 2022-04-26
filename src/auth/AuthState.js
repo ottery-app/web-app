@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import Manager from "../managers/Manager";
+import Client from "../clients/Client";
 import axios from "axios";
 
 import {
@@ -22,7 +22,7 @@ function AuthState(props) {
     isAuthenticated: null,
     loading: true,
     error: null,
-    manager: null,
+    client: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -105,7 +105,7 @@ function AuthState(props) {
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
         error: state.error,
-        manager: state.manager,
+        client: state.client,
         load,
         login,
         logout,

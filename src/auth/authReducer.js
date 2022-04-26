@@ -1,4 +1,4 @@
-import Manager from "../managers/Manager";
+import Client from "../clients/Client";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -18,7 +18,7 @@ export default (state, action) => {
         loading: false,
         isAuthenticated: true,
         token: action.payload.state,
-        manager: Manager({
+        client: Client({
           token: action.payload.token,
           state: action.payload.state,
         })
@@ -44,7 +44,7 @@ export default (state, action) => {
         token: action.payload.token,
         isAuthenticated: true,
         loading: false,
-        manager: Manager({
+        client: Client({
           token: action.payload.token,
           state: action.payload.state,
         })
@@ -65,7 +65,7 @@ export default (state, action) => {
         isAuthenticated: false,
         loading: false,
         error: action.payload,
-        manager: null,
+        client: null,
       };
 
 

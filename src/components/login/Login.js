@@ -21,7 +21,7 @@ function Login() {
 
     useEffect(() => {
         if (authContext.isAuthenticated) {
-            navigate(`/${authContext.manager.state}`)
+            navigate(`/${authContext.client.state}`)
         }
     }, [authContext.isAuthenticated, navigate]);
 
