@@ -7,9 +7,34 @@ import AuthContext from "../../auth/authContext";
 
 import logo from "../../assets/images/logo.jpg";
 import mail from "../../assets/images/mail.svg";
-import {Image, Link, Input, Button} from "../oui/index";
-import { Wrapper, RegisterField, Form, Error, NewAccount } from "./LoginStyles";
+
+import {
+    Image,
+    Link,
+    Input,
+    Button
+} from "../oui/index";
+
+import { 
+    Wrapper,
+    RegisterField,
+    Form,
+    Error,
+    NewAccount
+} from "./LoginStyles";
+
 import {largeProfile} from "../oui/styles/image";
+
+import { 
+    regexCode,
+    regexEmail,
+    regexPassword,
+    regexPasswordLower,
+    regexPasswordMin,
+    regexPasswordNumber,
+    regexPasswordSpecial,
+    regexPasswordUpper,
+} from "../../globals/regex";
 
 const Header = styled.div`
     padding: 20px;
@@ -69,7 +94,7 @@ function Register() {
     }, [password, passwordRepeat]);
 
     function authenticate() {
-        if(!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(email)){
+        if(!regexEmail.test(email)){
             setEmailState("error");
             setError("Invalid email");
             return;
@@ -89,10 +114,22 @@ function Register() {
             return;
         }
 
-        if (false) {//check if the password is strong enough
-            setPasswordState("error");
-            setPasswordRepeatState("error");
-            setError("password is too weak");
+        if (!regexPassword.test(password)) {//check if the password is strong enough
+            if (!regexPasswordMin.test(password)) {
+                setError("The password must be least 8 characters long");
+            } else if (!regexPasswordUpper.test(password)) {
+                setError("The password must contain at least one uppercase letter");
+            } else if (!regexPasswordLower.test(password)) {
+                setError("The password must contain at least one lowercase letter");
+            } else if (!regexPasswordNumber.test(password)) {
+                setError("The password must contain at least one number");
+            } else if (!regexPasswordSpecial.test(password)) {
+                setError("The password must contain at least one special character");
+            } else {
+                setError("The password must contain at least one uppercase letter, one lowercase letter, one number and one special character");
+            }
+
+            setCodeState("error");
             return;
         }
 
@@ -101,10 +138,15 @@ function Register() {
     }
 
     function register() {
-        console.log(code);
         if (code === undefined || code === "" || code === null) {
             setError("Code cannot be empty");
             setCodeState("error");
+            return;
+        }
+
+        if (!regexCode.test(code)) {
+            setCodeState("error");
+            setError("Invalid code");
             return;
         }
 
@@ -155,7 +197,7 @@ function Register() {
                     <Input 
                         width="100%"
                         type="password"
-                        label="repeat password"
+                        label="re-enter password"
                         value={passwordRepeat}
                         onChange={(e) => setPasswordRepeat(e.target.value)}
                         state={passwordRepeatState}
@@ -183,7 +225,7 @@ function Register() {
                         label="activation code"
                         value={(code)? code : "" /*this is required to handle a known bug in mui*/}
                         onChange={(e) => setCode(e.target.value)}
-                        regex={/^([0-9 A-Z]){6}$/}
+                        regex={regexCode}
                         state={codeState}
                     />
                     <Button 
