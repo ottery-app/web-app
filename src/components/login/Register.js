@@ -110,22 +110,6 @@ function Register() {
         }
 
         if (!regexPassword.test(password)) {//check if the password is strong enough
-            /*
-            if (!regexPasswordMin.test(password)) {
-                setError("The password must be least 8 characters long");
-            } else if (!regexPasswordUpper.test(password)) {
-                setError("The password must contain at least one uppercase letter");
-            } else if (!regexPasswordLower.test(password)) {
-                setError("The password must contain at least one lowercase letter");
-            } else if (!regexPasswordNumber.test(password)) {
-                setError("The password must contain at least one number");
-            } else if (!regexPasswordSpecial.test(password)) {
-                setError("The password must contain at least one special character");
-            } else {
-                setError("The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
-            }
-            */
-
             setError("The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
             setCodeState("error");
             return;
@@ -147,12 +131,15 @@ function Register() {
             return;
         }
 
-        authContext.activate(email, code);
+        authContext.activate(email, code.toUpperCase());
     }
 
     function resend() {
-        alert("We resent the code to your email");
-        alert("not set up yet");
+        authContext.resendActivation(email, ()=>{
+            alert("email sent to " + email);
+        }, ()=> {
+            setError("email not sent");
+        });
     }
 
     let phaseDisplay;
@@ -229,7 +216,6 @@ function Register() {
                         width="100%"
                         onClick={activate}
                     >Validate</Button>
-                    <Link onClick={()=>{setPhase(phases.register)}}>Go Back</Link>
                 </Form>
                 <Error>{error}</Error>
             </>

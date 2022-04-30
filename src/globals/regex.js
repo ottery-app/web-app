@@ -4,20 +4,5 @@ export const regexEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=
 //password strong
 export const regexPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
 
-//8 characters min
-export const regexPasswordMin = /(?=.{8,})/;
-
-//one upppercase letter
-export const regexPasswordUpper = /(?=.*[A-Z])/;
-
-//one lowercase letter
-export const regexPasswordLower = /(?=.*[a-z])/;
-
-//one number
-export const regexPasswordNumber = /(?=.*[0-9])/;
-
-//one special character
-export const regexPasswordSpecial = /(?=.*[^A-Za-z0-9])/;
-
 //code
-export const regexCode = /^([0-9 a-z]){5}$/;
+export const regexCode = /^([0-9 A-Z a-z]){6}$/;

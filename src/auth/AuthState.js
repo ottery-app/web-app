@@ -94,7 +94,7 @@ function AuthState(props) {
 
   async function activate(email, activationCode, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/activate", {
+      const res = await axios.put(process.env.REACT_APP_BACKEND + "auth/activate", {
         email,
         activationCode
       });
@@ -112,6 +112,17 @@ function AuthState(props) {
         payload: err,
       });
 
+      error(err);
+    }
+  }
+
+  async function resendActivation(email, success=()=>{}, error=()=>{}) {
+    try {
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/resendActivation", {
+        email,
+      });
+      success(res);
+    } catch (err) {
       error(err);
     }
   }
@@ -140,6 +151,7 @@ function AuthState(props) {
         clearErrors,
         register,
         activate,
+        resendActivation,
       }}
     >
       {props.children}
