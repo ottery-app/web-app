@@ -29,11 +29,6 @@ import {
     regexCode,
     regexEmail,
     regexPassword,
-    regexPasswordLower,
-    regexPasswordMin,
-    regexPasswordNumber,
-    regexPasswordSpecial,
-    regexPasswordUpper,
 } from "../../globals/regex";
 
 const Header = styled.div`
@@ -70,7 +65,7 @@ function Register() {
 
     useEffect(() => {
         if (authContext.isAuthenticated) {
-            navigate(`/${authContext.manager.state}`)
+            navigate(`/`) //authContext.client.state
         }
     }, [authContext.isAuthenticated, navigate]);
 
@@ -93,7 +88,7 @@ function Register() {
         }
     }, [password, passwordRepeat]);
 
-    function authenticate() {
+    function register() {
         if(!regexEmail.test(email)){
             setEmailState("error");
             setError("Invalid email");
@@ -115,6 +110,7 @@ function Register() {
         }
 
         if (!regexPassword.test(password)) {//check if the password is strong enough
+            /*
             if (!regexPasswordMin.test(password)) {
                 setError("The password must be least 8 characters long");
             } else if (!regexPasswordUpper.test(password)) {
@@ -126,18 +122,19 @@ function Register() {
             } else if (!regexPasswordSpecial.test(password)) {
                 setError("The password must contain at least one special character");
             } else {
-                setError("The password must contain at least one uppercase letter, one lowercase letter, one number and one special character");
+                setError("The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
             }
+            */
 
+            setError("The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
             setCodeState("error");
             return;
         }
 
-        setPhase(phases.confirmation);
-        authContext.confirmation(); 
+        authContext.register(email, name, address, password, ()=>{setPhase(phases.confirmation)});
     }
 
-    function register() {
+    function activate() {
         if (code === undefined || code === "" || code === null) {
             setError("Code cannot be empty");
             setCodeState("error");
@@ -150,12 +147,12 @@ function Register() {
             return;
         }
 
-        authContext.register(email, name, address, password, code);
+        authContext.activate(email, code);
     }
 
     function resend() {
         alert("We resent the code to your email");
-        authenticate();
+        alert("not set up yet");
     }
 
     let phaseDisplay;
@@ -204,7 +201,7 @@ function Register() {
                     />
                     <Button 
                         width="100%"
-                        onClick={authenticate}
+                        onClick={register}
                     >Register</Button>
                 </Form>
                 <Error>{error}</Error>
@@ -230,7 +227,7 @@ function Register() {
                     />
                     <Button 
                         width="100%"
-                        onClick={register}
+                        onClick={activate}
                     >Validate</Button>
                     <Link onClick={()=>{setPhase(phases.register)}}>Go Back</Link>
                 </Form>
@@ -245,7 +242,7 @@ function Register() {
                 {phaseDisplay}
             </RegisterField>
             <NewAccount>
-                <div>Already have an account? <Link onClick={()=>{navigate("/")}}>Sign in!</Link></div>
+                <div>Already have an account? <Link onClick={()=>{navigate("/login")}}>Sign in!</Link></div>
             </NewAccount>
        </Wrapper>
    );

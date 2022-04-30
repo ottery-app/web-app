@@ -8,7 +8,7 @@ import GuardianHome from "./components/guardian/GuardianHome";
 
 import AuthContext from "./auth/authContext";
 
-import Wrapper from "./components/Wrapper.js";
+import Redirect from "./components/login/Redirect.js";
 
 /**
  * Dream big and make it happen.
@@ -22,26 +22,26 @@ function App() {
   },[]);
 
   return (
-    <div id="app">
-      <BrowserRouter>
-          <Routes>
-            <Route index element={<Login />} />
-            <Route path="register" element={<Regester />} />
-            
-            <Route path="guardian" element={<Wrapper state="guardian"/>}>
-              <Route index element={<GuardianHome />} />
-            </Route>
+    <BrowserRouter>
+      <Redirect>
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Regester />} />
+          
+          <Route path="guardian">
+            <Route index element={<GuardianHome />} />
+          </Route>
 
-            <Route path="director" element={<Wrapper state="director" />}>
-            </Route>
+          <Route path="director">
+          </Route>
 
-            <Route path="organization" element={<Wrapper state="orginization" />} >
-            </Route>
+          <Route path="organization">
+          </Route>
 
-            <Route path="*" element={<div>missing</div>} />
-          </Routes>
-      </BrowserRouter>
-    </div>
+          <Route path="*" element={<div>missing</div>} />
+        </Routes>
+      </Redirect>
+    </BrowserRouter>
   );
 }
 

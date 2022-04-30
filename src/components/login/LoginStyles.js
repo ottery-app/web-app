@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import {tertiary} from "../oui/styles/colors";
 import { shadowDefault } from "../oui/styles/shadow";
@@ -47,4 +46,6 @@ export const Form = styled.div`
 export const Error = styled.div`
     color: red;
     padding: 15px;
+    text-align: center;
+
 `;

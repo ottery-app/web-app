@@ -8,3 +8,5 @@ export const LOAD_USER = "LOAD_USER";
 export const UNLOAD_USER = "UNLOAD_USER";
 export const ADD_STATE = "ADD_STATE";
 export const ADD_STATE_FAIL = "ADD_STATE_FAIL";
+export const ACTIVATE_SUCCESS = "ACTIVATE_SUCCESS";
+export const ACTIVATE_FAIL = "ACTIVATE_FAIL";

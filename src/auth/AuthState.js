@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import Client from "../clients/Client";
 import axios from "axios";
 
 import {
@@ -11,6 +10,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  ACTIVATE_SUCCESS,
+  ACTIVATE_FAIL,
   LOAD_USER,
   UNLOAD_USER,
 } from "./types";
@@ -27,64 +28,91 @@ function AuthState(props) {
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  function success(type, res) {
-    dispatch({
-      type: type,
-      payload: res.data,
-    });
-  }
-
-  function error(type, err) {
-    dispatch({
-      type: type,
-      payload: err,
-    });
-  }
-
   //load user token
-  function load() {
+  async function load() {
     if (initialState.token) {
-      //load user from local storage then make axios call to verify token
+      try {
+        const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/load", {token: initialState.token});
+        dispatch({
+          type: LOAD_USER,
+          payload: res.data,
+        });
+      } catch (err) {
+        dispatch({ type: UNLOAD_USER });
+      }
     } else {
       dispatch({ type: UNLOAD_USER });
     }
   };
 
   //Login User
-  async function login(email, password) {
+  async function login(email, password, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post("", { email, password });
-      success(LOGIN_SUCCESS, res);
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/login", { email, password });
+      
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      success(res);
     } catch (err) {
-      error(LOGIN_FAIL, err);
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err,
+      });
+      error(err);
     }
   };
 
   //Register User
-  async function register(email, name, address, password, code) {
+  async function register(email, name, address, password, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post("", {
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/register", {
         email,
         name,
         address,
         password,
-        code
       });
-      success(REGISTER_SUCCESS, res);
+
+      /*
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
+      */
+
+      success(res);
     } catch (err) {
-      error(REGISTER_FAIL, err);
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err,
+      });
+
+      error(err);
     }
   };
 
-  async function confirmation(email, code) {
+  async function activate(email, activationCode, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post("", {
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/activate", {
         email,
-        code
+        activationCode
       });
-      console.log("handle success");
+      
+      dispatch({
+        type: ACTIVATE_SUCCESS,
+        payload: res.data,
+      });
+
+      success(res);
     } catch (err) {
-      console.log("handle error");
+
+      dispatch({
+        type: ACTIVATE_FAIL,
+        payload: err,
+      });
+
+      error(err);
     }
   }
 
@@ -111,6 +139,7 @@ function AuthState(props) {
         logout,
         clearErrors,
         register,
+        activate,
       }}
     >
       {props.children}

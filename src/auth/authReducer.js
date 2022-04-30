@@ -8,36 +8,35 @@ import {
   CLEAR_ERRORS,
   LOAD_USER,
   UNLOAD_USER,
+  ACTIVATE_SUCCESS,
+  ACTIVATE_FAIL,
 } from "./types";
+
 export default (state, action) => {
+  console.log(action.type);
   switch (action.type) {
     case LOAD_USER:
-      console.log("loading user");
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
-        token: action.payload.state,
+        token: localStorage.getItem("token"),
         client: Client({
-          token: action.payload.token,
+          token: localStorage.getItem("token"),
           state: action.payload.state,
         })
       }
 
 
     case UNLOAD_USER:
-      console.log("unloading user");
       return {
         ...state,
         loading: false,
         isAuthenticated: false,
       };
 
-
-    case REGISTER_SUCCESS:
-      console.log("regestering user");
+    case ACTIVATE_SUCCESS:  
     case LOGIN_SUCCESS:
-      console.log("loggin in user");
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -52,11 +51,9 @@ export default (state, action) => {
 
 
     case REGISTER_FAIL:
-      console.log("regester fail");
+    case ACTIVATE_FAIL:
     case LOGIN_FAIL:
-      console.log("login fail");
     case LOGOUT:
-      console.log("remove user");
       localStorage.removeItem("token");
       return {
         ...state,
@@ -70,15 +67,13 @@ export default (state, action) => {
 
 
     case CLEAR_ERRORS:
-      console.log("clear errors");
       return {
         ...state,
         error: null,
       };
 
-      
     default:
-      console.log("default");
+      console.log("default do nothing");
       return state;
   }
 };
