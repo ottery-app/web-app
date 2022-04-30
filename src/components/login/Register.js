@@ -71,6 +71,7 @@ function Register() {
 
     useEffect(()=>{
         if(authContext.error){
+            console.log(authContext.error);
             setError(authContext.error.message);
         }
     }, [authContext.error]);
