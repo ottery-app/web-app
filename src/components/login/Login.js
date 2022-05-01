@@ -20,12 +20,6 @@ function Login() {
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (authContext.isAuthenticated) {
-            navigate(`/`);
-        }
-    }, [authContext.isAuthenticated, navigate]);
-
     useEffect(()=>{
         if(authContext.error){
             setError(authContext.error.message);

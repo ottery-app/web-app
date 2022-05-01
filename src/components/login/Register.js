@@ -63,12 +63,6 @@ function Register() {
         setError("");
     }, [phase]);
 
-    useEffect(() => {
-        if (authContext.isAuthenticated) {
-            navigate(`/`) //authContext.client.state
-        }
-    }, [authContext.isAuthenticated, navigate]);
-
     useEffect(()=>{
         if(authContext.error){
             console.log(authContext.error);
