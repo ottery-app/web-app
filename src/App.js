@@ -10,7 +10,7 @@ import AuthContext from "./auth/authContext";
 
 import Redirect from "./components/login/Redirect.js";
 import Missing from "./components/Missing.js";
-import Wrap from "./components/Wrap.js";
+import Wrapper from "./components/Wrapper.js";
 
 /**
  * Dream big and make it happen.
@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Redirect>
-        <Wrap>
+        <Wrapper>
           <Routes>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Regester />} />
@@ -40,7 +40,7 @@ function App() {
 
             <Route path="*" element={<Missing/>} />
           </Routes>
-        </Wrap>
+        </Wrapper>
       </Redirect>
     </BrowserRouter>
   );
