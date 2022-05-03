@@ -5,7 +5,7 @@ import {useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../auth/authContext";
 
-import logo from "../../assets/images/logo.jpg";
+import {logoDefault} from "../../assets/images/logos";
 import mail from "../../assets/images/mail.svg";
 
 import {
@@ -62,12 +62,6 @@ function Register() {
     useEffect(() => {
         setError("");
     }, [phase]);
-
-    useEffect(() => {
-        if (authContext.isAuthenticated) {
-            navigate(`/`) //authContext.client.state
-        }
-    }, [authContext.isAuthenticated, navigate]);
 
     useEffect(()=>{
         if(authContext.error){
@@ -147,7 +141,7 @@ function Register() {
     if (phase === phases.register) {
         phaseDisplay = (
             <>
-                <Image src={logo} alt="logo" width={"100%"}/>
+                <Image src={logoDefault} alt="logo" width={"100%"}/>
                 <Form>
                     <Input 
                         width="100%" 

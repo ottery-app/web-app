@@ -1,0 +1,1 @@
+export const logoDefault = "https://raw.githubusercontent.com/ottery-app/global-data/main/images/logos/logoDefault.png"

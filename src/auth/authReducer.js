@@ -13,7 +13,6 @@ import {
 } from "./types";
 
 export default (state, action) => {
-  console.log(action.type);
   switch (action.type) {
     case LOAD_USER:
       return {
@@ -37,6 +36,7 @@ export default (state, action) => {
 
     case ACTIVATE_SUCCESS:  
     case LOGIN_SUCCESS:
+      console.log(action.payload);
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,

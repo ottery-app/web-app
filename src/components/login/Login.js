@@ -4,7 +4,7 @@ import {useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../auth/authContext";
 
-import logo from "../../assets/images/logo.jpg";
+import {logoDefault} from "../../assets/images/logos";
 import {Image, Link, Input, Button} from "../oui/index";
 import { Wrapper, LoginField, NewAccount, Form, Error } from "./LoginStyles";
 import { regexEmail } from "../../globals/regex";
@@ -19,12 +19,6 @@ function Login() {
 
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (authContext.isAuthenticated) {
-            navigate(`/`);
-        }
-    }, [authContext.isAuthenticated, navigate]);
 
     useEffect(()=>{
         if(authContext.error){
@@ -57,7 +51,7 @@ function Login() {
     return(
         <Wrapper>
             <LoginField>
-                <Image src={logo} alt="logo" width={"100%"}/>
+                <Image src={logoDefault} alt="logo" width={"100%"}/>
                 <Form>
                     <Input 
                         width="100%" 
