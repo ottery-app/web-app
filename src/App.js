@@ -10,7 +10,7 @@ import AuthContext from "./auth/authContext";
 
 import Redirect from "./components/login/Redirect.js";
 import Missing from "./components/Missing.js";
-import Wrapper from "./components/Wrapper.js";
+import Wrapper from "./components/wrappers/Wrapper.js";
 
 /**
  * Dream big and make it happen.

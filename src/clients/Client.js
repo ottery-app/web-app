@@ -11,8 +11,6 @@ function Client({token, state}) {
     }props
     */
 
-    console.log(token, state)
-
     return {
         state,
     }

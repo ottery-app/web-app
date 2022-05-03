@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import authContext from "../auth/authContext";
 
 export default function Missing() {
     const navigate = useNavigate();
+    const {client} = useContext(authContext);
 
     return (
         <center>
@@ -9,7 +12,7 @@ export default function Missing() {
             <p>
                 Sorry, the page you are looking for does not exist.
             </p>
-            <button onClick={()=>navigate("/")}>
+            <button onClick={()=>navigate("/" + client.state)}>
                 go home
             </button>
         </center>
