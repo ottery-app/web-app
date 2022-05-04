@@ -15,7 +15,11 @@ const Main = styled.main`
     `;
 
     const Content = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin: 10px;
+        width: 100%;
     `
 
     const Footer = styled.footer`
@@ -49,9 +53,9 @@ export default function MainWrap({state, children}) {
         <>
             <Header>
                 <MainHeader
-                    left={<IconButton icon="back" onClick={()=>{navigate("/" + state + "/dropoff")}} secondaryTextColor={"black"}/>}
+                    left={<IconButton icon="back" onClick={()=>{navigate(-1)}} secondaryTextColor={"black"}/>}
                     main={title}
-                    right={<IconButton icon="menu" onClick={()=>{navigate("/" + state + "/dropoff")}} secondaryTextColor={"black"}/>}
+                    right={<IconButton icon="menu" onClick={()=>{navigate("/menu")}} secondaryTextColor={"black"}/>}
                 />
             </Header>
             <Main>
@@ -62,7 +66,7 @@ export default function MainWrap({state, children}) {
             <Footer>
                 <NavBar>
                     <IconButton icon="dropoff" onClick={()=>{navigate("/" + state + "/dropoff")}}/>
-                    <IconButton icon="user" onClick={()=>{navigate("/user")}} primaryTextColor={textPale} />
+                    <IconButton icon="user" onClick={()=>{navigate("/" + state + "/user")}} primaryTextColor={textPale} />
                     <IconButton icon="home" onClick={()=>{navigate("/" + state)}} />
                     <IconButton icon="calendar" onClick={()=>{navigate("/" + state + "/calender")}} primaryTextColor={textPale} />
                     <IconButton icon="pickup" onClick={()=>{navigate("/" + state + "/pickup")}} />
