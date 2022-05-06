@@ -2,13 +2,24 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MultiFieldHeader, OrderedList } from '../oui/index.js';
+import {height} from "../oui/styles/banners";
 import authContext from '../../auth/authContext';
+import addPx from '../../functions/addPx.js';
+import { backgroundColor } from '../oui/styles/colors.js';
 
 const Main = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+`;
+
+const Sticky = styled.div`
+    position: sticky;
+    background: ${backgroundColor};
+    padding: 10px;
+    padding-bottom: 0px;
+    top: ${addPx(height, 1)};
 `;
 
 export default function GuardianUserProfile() {
@@ -28,38 +39,24 @@ export default function GuardianUserProfile() {
 
     return (
         <Main>
-            <MultiFieldHeader
-                title="Title"
-                src="pfp"
-                onTab={changeContent}
-                onEdit={()=>{navigate("edit")}}
-            >
-                <span key="kids">kids</span>
-                <span key="friends">friends</span>
-                <span key="vehicles">vehicles</span>
-            </MultiFieldHeader>
+            <Sticky>
+                <MultiFieldHeader
+                    title={client.getName()}
+                    src="pfp"
+                    onTab={changeContent}
+                    onEdit={()=>{navigate("edit")}}
+                >
+                    <span key="kids">kids</span>
+                    <span key="friends">friends</span>
+                    <span key="vehicles">vehicles</span>
+                </MultiFieldHeader>
+            </Sticky>
             {(()=>{switch(currentKey) {
                 case "kids":
                     return(
                         <OrderedList
-                            title = "kids"
                             sort = {(a,b)=> 1}
                         >
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
                             <span>1</span>
                             <span>2</span>
                             <span>3</span>
@@ -68,9 +65,7 @@ export default function GuardianUserProfile() {
                 case "friends":
                     return(
                         <OrderedList
-                            title = "friends"
                             sort = {(a,b)=> 1}
-                            onClick={()=>{}}
                         >
                             <span>1</span>
                             <span>2</span>
@@ -80,7 +75,6 @@ export default function GuardianUserProfile() {
                 case "vehicles":
                     return(
                         <OrderedList
-                            title = "vehicles"
                             sort = {(a,b)=> 1}
                         >
                             <span>1</span>

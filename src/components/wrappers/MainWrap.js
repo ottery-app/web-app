@@ -7,18 +7,20 @@ import { logoDefault } from '../../assets/images/logos';
 import {NavBar, MainHeader, IconButton, Image} from "../oui/index.js";
 import {textPale} from "../oui/styles/colors.js";
 
+import { mainLayer, topLayer } from '../../globals/layers';
+
 const Main = styled.main`
         display: flex;
         align-items: center;
         justify-content: center;
         padding-bottom: 60px;
+        z-index: ${mainLayer};
     `;
 
     const Content = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 10px;
         width: 100%;
     `
 
@@ -26,12 +28,14 @@ const Main = styled.main`
         width: 100%;
         position: fixed;
         bottom: 0;
+        z-index: ${topLayer};
     `;
 
     const Header = styled.header`
         width: 100%;
         position: sticky;
         top: 0;
+        z-index: ${topLayer};
     `;
 
 export default function MainWrap({state, children}) {
