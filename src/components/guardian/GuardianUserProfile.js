@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { MultiFieldHeader, OrderedList } from '../oui/index.js';
+import { AddButton, ImageButton, MultiFieldHeader, OrderedList } from '../oui/index.js';
 import {height} from "../oui/styles/banners";
 import authContext from '../../auth/authContext';
 import addPx from '../../functions/addPx.js';
 import { backgroundColor } from '../oui/styles/colors.js';
+import { minHeight } from '../oui/styles/clickable';
 
 const Main = styled.div`
     width: 100%;
@@ -22,19 +23,35 @@ const Sticky = styled.div`
     top: ${addPx(height, 1)};
 `;
 
-export default function GuardianUserProfile() {
-    const [currentKey, setCurrentKey] = useState("kids");
+const Button = styled.div`
+    position: fixed;
+    bottom: ${minHeight};
+    right: 0;
+    padding: 30px 20px;
+`;
 
+const fields = ["kids", "friends", "vehicles"];
+
+const data = {
+    kids: [1,2,3,4,5],
+    friends: [6,7,8],
+    vehicles: [9,10],
+}
+
+export default function GuardianUserProfile() {
+    const [currentKey, setCurrentKey] = useState(fields[0]);
+    const [add, setAdd] = useState(() => () => console.log("add") );
+    const [curDat, setCurDat] = useState(data.kids);
     const navigate = useNavigate();
     const {client} = useContext(authContext);
 
-    useEffect(() => {
-        //load the user data
-        //load the content
-    }, []);
+    useEffect(()=>{
+        console.log("load data");
+    },[])
 
     function changeContent(key) {
         setCurrentKey(key);
+        setCurDat(data[key])
     }
 
     return (
@@ -46,43 +63,21 @@ export default function GuardianUserProfile() {
                     onTab={changeContent}
                     onEdit={()=>{navigate("edit")}}
                 >
-                    <span key="kids">kids</span>
-                    <span key="friends">friends</span>
-                    <span key="vehicles">vehicles</span>
+                    {fields.map((key)=>{
+                        return <span key={key}>{key}</span>
+                    })}
                 </MultiFieldHeader>
             </Sticky>
-            {(()=>{switch(currentKey) {
-                case "kids":
-                    return(
-                        <OrderedList
-                            sort = {(a,b)=> 1}
-                        >
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                        </OrderedList>
-                    );
-                case "friends":
-                    return(
-                        <OrderedList
-                            sort = {(a,b)=> 1}
-                        >
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                        </OrderedList>
-                    );
-                case "vehicles":
-                    return(
-                        <OrderedList
-                            sort = {(a,b)=> 1}
-                        >
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                        </OrderedList>
-                    );
-            }})()}
+            <OrderedList
+                sort = {(a,b)=> -1}
+            >
+                {curDat.map((cur)=>{
+                    return <ImageButton key={cur} content={cur} right={"pfp"} />
+                })}
+            </OrderedList>
+            <Button>
+                <AddButton onClick={add} type="solid"/>
+            </Button>
         </Main>
     );
 }
