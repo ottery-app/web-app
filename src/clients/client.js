@@ -1,15 +1,18 @@
 import axios from "axios";
+import { axiosInst } from "./axiosInst";
 import guardian from "./guardian";
 
 /**
  * This is a function factory that returns an object of functions that the user has access to.
  */
 function client({token, state}) {
+    axiosInst.defaults.headers.common['Authorization'] = token;
+
     //this is here so we only need to call certain vals from backend once
     const user = {}
     
     //get the user info loaded in
-    axios.post(process.env.REACT_APP_BACKEND + "client/info", {token: token})
+    axiosInst.get("client/info")
     .then((res)=>{
         user.firstName = res.data.firstName;
         user.lastName = res.data.lastName;

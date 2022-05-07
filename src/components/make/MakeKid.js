@@ -51,7 +51,6 @@ export default function MakeKid() {
             return;
         }
 
-
         client.addKid({
             first: capitalize(first),
             middle: capitalize(middle),

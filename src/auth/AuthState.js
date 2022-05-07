@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import capitalize from "../functions/capitalize";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import axios from "axios";
+import {axiosInst} from "../clients/axiosInst";
 
 import {
   REGISTER_SUCCESS,
@@ -33,7 +33,8 @@ function AuthState(props) {
   async function load() {
     if (initialState.token) {
       try {
-        const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/load", {token: initialState.token});
+        axiosInst.defaults.headers.common["Authorization"] = initialState.token;
+        const res = await axiosInst.get("auth/load");
         dispatch({
           type: LOAD_USER,
           payload: res.data,
@@ -49,7 +50,7 @@ function AuthState(props) {
   //Login User
   async function login(email, password, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/login", { email, password });
+      const res = await axiosInst.post("auth/login", { email, password });
       
       dispatch({
         type: LOGIN_SUCCESS,
@@ -68,7 +69,7 @@ function AuthState(props) {
   //Register User
   async function register(email, name, address, password, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/register", {
+      const res = await axiosInst.post(process.env.REACT_APP_BACKEND + "auth/register", {
         email,
         firstName: capitalize(name.first),
         lastName: capitalize(name.last),
@@ -99,7 +100,7 @@ function AuthState(props) {
 
   async function activate(email, activationCode, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.put(process.env.REACT_APP_BACKEND + "auth/activate", {
+      const res = await axiosInst.put("auth/activate", {
         email,
         activationCode
       });
@@ -123,7 +124,7 @@ function AuthState(props) {
 
   async function resendActivation(email, success=()=>{}, error=()=>{}) {
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/resendActivation", {
+      const res = await axiosInst.post("auth/resendActivation", {
         email,
       });
       success(res);
@@ -134,7 +135,13 @@ function AuthState(props) {
 
   //clear user data
   function logout() {
-    dispatch({ type: LOGOUT })
+    axiosInst.delete("auth/logout").then(
+      () => {
+        dispatch({ type: LOGOUT })
+      }
+    ).catch(() => {
+      console.error("failed to logout");
+    });
   };
 
   //Clear Errors
