@@ -30,35 +30,52 @@ const Button = styled.div`
     padding: 30px 20px;
 `;
 
-const fields = ["kids", "friends", "vehicles"];
+const List = styled.div`
+    margin: 0 55px;
+`;
 
-const data = {
-    kids: [1,2,3,4,5],
-    friends: [6,7,8],
-    vehicles: [9,10],
-}
+const fields = ["kids", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
     const [currentKey, setCurrentKey] = useState(fields[0]);
-    const [add, setAdd] = useState(() => () => console.log("add") );
-    const [curDat, setCurDat] = useState(data.kids);
     const navigate = useNavigate();
+    const [add, setAdd] = useState(() => () => navigate("./create/" + fields[0]));
+    const [data, setData] = useState({});
+    const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
 
     useEffect(()=>{
-        console.log("load data");
-    },[])
+        client.getKids((k)=>{
+            console.log(k);
+            data.kids = k;
+        })
+
+        client.getVehicles((v)=>{
+            console.log(v);
+            data.vehicles = v;
+        })
+
+        client.getFriends((f)=>{
+            console.log(f);
+            data.friends = f;
+        })
+    },[]);
+
+    useEffect(()=>{
+        setCurDat(data[currentKey]);
+    }, [data[currentKey]]);
 
     function changeContent(key) {
         setCurrentKey(key);
         setCurDat(data[key])
+        setAdd(() => () => navigate("./create/" + key));
     }
 
     return (
         <Main>
             <Sticky>
                 <MultiFieldHeader
-                    title={client.getName()}
+                    title={client.getInfo().name}
                     src="pfp"
                     onTab={changeContent}
                     onEdit={()=>{navigate("edit")}}
@@ -68,13 +85,15 @@ export default function GuardianUserProfile() {
                     })}
                 </MultiFieldHeader>
             </Sticky>
-            <OrderedList
-                sort = {(a,b)=> -1}
-            >
-                {curDat.map((cur)=>{
-                    return <ImageButton key={cur} content={cur} right={"pfp"} />
-                })}
-            </OrderedList>
+            <List>
+                <OrderedList
+                    sort = {(a,b)=> -1}
+                >
+                    {curDat.map((cur)=>{
+                        return <ImageButton key={cur} content={cur} right={"pfp"} />
+                    })}
+                </OrderedList>
+            </List>
             <Button>
                 <AddButton onClick={add} type="solid"/>
             </Button>

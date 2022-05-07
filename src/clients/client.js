@@ -9,6 +9,7 @@ function client({token, state}) {
     const user = {
         name: "name",
         address: "address",
+        email: "email",
     }
     
     //get the user info loaded in
@@ -16,6 +17,7 @@ function client({token, state}) {
     .then((res)=>{
         user.name = res.data.name;
         user.address = res.data.address;
+        user.email = res.data.email;
     })
     .catch(()=>{
         console.error("failed to load the user's name");
@@ -33,13 +35,13 @@ function client({token, state}) {
             console.error("unable to validate user state");
     }
 
-    function getName() {
-        return user.name;
+    function getInfo() {
+        return user;
     }
 
     return {
         state,
-        getName,
+        getInfo,
         ...stateFuncs,
     }
 }

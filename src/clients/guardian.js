@@ -2,23 +2,32 @@ import makeArr from "../functions/makeArr";
 
 function guardian(token) {
 
-    function addKids(k) {
+    function addKids(k, success, error) {
         k = makeArr(k)
         
         console.log(k);
     }
 
-    function getKids() {}
-
-    function addVehicles(v) {
+    function addVehicles(v, success, error) {
         v = makeArr(v);
 
         console.log(v);
     }
 
-    function getVehicles() {}
+    function getKids(success=()=>{}, error=()=>{}) {
+        success(["k","i","d","s"]);
+        error("error");
+    }
 
-    function getFriends() {}
+    function getVehicles(success=()=>{}, error=()=>{}) {
+        success(["v","e","h","i","c","l","e","s"]);
+        error("error");
+    }
+
+    function getFriends(success=()=>{}, error=()=>{}) {
+        success(["f","r","i","e","n","d","s"]);
+        error("error");
+    }
 
     /**
      * these are the public functions that can be used
@@ -26,6 +35,9 @@ function guardian(token) {
     return {
         addKids,
         addVehicles,
+        getKids,
+        getFriends,
+        getVehicles,
     }
 }
 

@@ -7,6 +7,8 @@ import Regester from "./components/login/Register";
 import GuardianHome from "./components/guardian/GuardianHome";
 import GuardianUserProfile from "./components/guardian/GuardianUserProfile";
 
+import MakeKid from "./components/make/MakeKid"
+
 import AuthContext from "./auth/authContext";
 
 import Redirect from "./components/login/Redirect.js";
@@ -35,6 +37,7 @@ function App() {
             <Route path="guardian">
               <Route index element={<GuardianHome />} />
               <Route path="user" element={<GuardianUserProfile />} />
+              <Route path="user/create/kids" element={<MakeKid />} />
             </Route>
 
             <Route path="director">
