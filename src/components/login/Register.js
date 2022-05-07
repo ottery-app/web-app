@@ -29,11 +29,18 @@ import {
     regexCode,
     regexEmail,
     regexPassword,
+    regexZip,
 } from "../../globals/regex";
 
 const Header = styled.div`
     padding: 20px;
     text-align: center;
+`;
+
+const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
 `;
 
 const phases = {
@@ -47,10 +54,15 @@ function Register() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordRepeat, setPasswordRepeat] = React.useState("");
-    const [name, setName] = React.useState("");
+    const [first, setFirst] = React.useState("");
+    const [last, setLast] = React.useState("");
     const [address, setAddress] = React.useState("");
+    const [city, setCity] = React.useState("");
+    const [state, setState] = React.useState("");
+    const [zip, setZip] = React.useState("");
+    const [zipState, setZipState] = React.useState("");
     const [error, setError] = React.useState("");
-    const [code, setCode] = React.useState();
+    const [code, setCode] = React.useState(null);
     const [codeState, setCodeState] = React.useState("");
     const [emailState, setEmailState] = React.useState("");
     const [passwordState, setPasswordState] = React.useState("");
@@ -84,6 +96,12 @@ function Register() {
     }, [password, passwordRepeat]);
 
     function register() {
+        if (!regexZip.test(zip)) {
+            setZipState("error");
+            setError("Invalid zip code");
+            return;
+        }
+
         if(!regexEmail.test(email)){
             setEmailState("error");
             setError("Invalid email");
@@ -110,7 +128,13 @@ function Register() {
             return;
         }
 
-        authContext.register(email, name, address, password, ()=>{setPhase(phases.confirmation)});
+        const name = first + " " + last;
+        const fullAddress = address + "," + city + "," + state + "," + zip;
+
+        authContext.register(
+            email, name, fullAddress, password,
+            ()=>{setPhase(phases.confirmation)}
+        );
     }
 
     function activate() {
@@ -141,7 +165,7 @@ function Register() {
     if (phase === phases.register) {
         phaseDisplay = (
             <>
-                <Image src={logoDefault} alt="logo" width={"100%"}/>
+                <h1>Register</h1>
                 <Form>
                     <Input 
                         width="100%" 
@@ -151,12 +175,20 @@ function Register() {
                         onChange={(e) => setEmail(e.target.value)}
                         state={emailState}
                     />
-                    <Input
-                        width="100%"
-                        label="full name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                    <Row>
+                        <Input
+                            width="100%"
+                            label="first name"
+                            value={first}
+                            onChange={(e) => setFirst(e.target.value)}
+                        />
+                        <Input
+                            width="100%"
+                            label="last"
+                            value={last}
+                            onChange={(e) => setLast(e.target.value)}
+                        />
+                    </Row>
                     <Input
                         width="100%"
                         type="text"
@@ -164,6 +196,28 @@ function Register() {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                     />
+                    <Row>
+                        <Input
+                            type="text"
+                            label="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                        />
+                        <Input 
+                            type="states"
+                            label="state"
+                            value={state}
+                            onChange={(e)=>{setState(e.target.value)}}
+                            supported
+                        />
+                        <Input
+                            type="text"
+                            label="zip"
+                            value={zip}
+                            onChange={(e) => setZip(e.target.value)}
+                            state={zipState}
+                        />
+                    </Row>
                     <Input 
                         width="100%"
                         type="password"

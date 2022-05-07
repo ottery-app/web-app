@@ -6,3 +6,6 @@ export const regexPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]
 
 //code
 export const regexCode = /^([0-9 A-Z a-z]){6}$/;
+
+//zip
+export const regexZip = /^[0-9]{5}$/;
