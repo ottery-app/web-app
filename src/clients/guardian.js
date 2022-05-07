@@ -15,17 +15,17 @@ function guardian(token) {
     }
 
     function getKids(success=()=>{}, error=()=>{}) {
-        success(["k","i","d","s"]);
+        success([]);
         error("error");
     }
 
     function getVehicles(success=()=>{}, error=()=>{}) {
-        success(["v","e","h","i","c","l","e","s"]);
+        success([]);
         error("error");
     }
 
     function getFriends(success=()=>{}, error=()=>{}) {
-        success(["f","r","i","e","n","d","s"]);
+        success([]);
         error("error");
     }
 

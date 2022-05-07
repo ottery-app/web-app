@@ -128,11 +128,13 @@ function Register() {
             return;
         }
 
-        const name = first + " " + last;
-        const fullAddress = address + "," + city + "," + state + "," + zip;
+        if (!first || !last || !address || !city || !state || !zip || !password || !email) {
+            setError("all fields must be entered");
+            return;
+        }
 
         authContext.register(
-            email, name, fullAddress, password,
+            email, {first, last}, {address, city, state, zip}, password,
             ()=>{setPhase(phases.confirmation)}
         );
     }
@@ -178,13 +180,13 @@ function Register() {
                     <Row>
                         <Input
                             width="100%"
-                            label="first name"
+                            label="first"
                             value={first}
                             onChange={(e) => setFirst(e.target.value)}
                         />
                         <Input
                             width="100%"
-                            label="last"
+                            label="last name"
                             value={last}
                             onChange={(e) => setLast(e.target.value)}
                         />

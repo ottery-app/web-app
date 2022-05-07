@@ -6,17 +6,17 @@ import guardian from "./guardian";
  */
 function client({token, state}) {
     //this is here so we only need to call certain vals from backend once
-    const user = {
-        name: "name",
-        address: "address",
-        email: "email",
-    }
+    const user = {}
     
     //get the user info loaded in
     axios.post(process.env.REACT_APP_BACKEND + "client/info", {token: token})
     .then((res)=>{
-        user.name = res.data.name;
+        user.firstName = res.data.firstName;
+        user.lastName = res.data.lastName;
         user.address = res.data.address;
+        user.state = res.data.address;
+        user.city = res.data.city;
+        user.zip = res.data.zip;
         user.email = res.data.email;
     })
     .catch(()=>{

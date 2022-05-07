@@ -5,7 +5,7 @@ import { AddButton, ImageButton, MultiFieldHeader, OrderedList } from '../oui/in
 import {height} from "../oui/styles/banners";
 import authContext from '../../auth/authContext';
 import addPx from '../../functions/addPx.js';
-import { backgroundColor } from '../oui/styles/colors.js';
+import { backgroundColor, textPale } from '../oui/styles/colors.js';
 import { minHeight } from '../oui/styles/clickable';
 
 const Main = styled.div`
@@ -34,29 +34,38 @@ const List = styled.div`
     margin: 0 55px;
 `;
 
+const Faded = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    font-weight: 1000;
+    font-size: 30px;
+    text-align: center;
+    line-height: 80px;
+    color: ${textPale}
+`;
+
 const fields = ["kids", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
     const [currentKey, setCurrentKey] = useState(fields[0]);
     const navigate = useNavigate();
     const [add, setAdd] = useState(() => () => navigate("./create/" + fields[0]));
-    const [data, setData] = useState({});
+    const [data] = useState({});
     const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
 
     useEffect(()=>{
         client.getKids((k)=>{
-            console.log(k);
             data.kids = k;
         })
 
         client.getVehicles((v)=>{
-            console.log(v);
             data.vehicles = v;
         })
 
         client.getFriends((f)=>{
-            console.log(f);
             data.friends = f;
         })
     },[]);
@@ -75,7 +84,7 @@ export default function GuardianUserProfile() {
         <Main>
             <Sticky>
                 <MultiFieldHeader
-                    title={client.getInfo().name}
+                    title={client.getInfo().firstName + " " + client.getInfo().lastName}
                     src="pfp"
                     onTab={changeContent}
                     onEdit={()=>{navigate("edit")}}
@@ -89,9 +98,14 @@ export default function GuardianUserProfile() {
                 <OrderedList
                     sort = {(a,b)=> -1}
                 >
-                    {curDat.map((cur)=>{
-                        return <ImageButton key={cur} content={cur} right={"pfp"} />
-                    })}
+                    {(curDat.length)
+                        //if the user has anything saved
+                        ?curDat.map((cur)=>{
+                            return <ImageButton key={cur} content={cur} right={"pfp"} />
+                        })
+                        //if the user doesnt have anything saved
+                        :[<Faded key={"singleItem"}>You have no registered {currentKey}</Faded>]
+                    }
                 </OrderedList>
             </List>
             <Button>
