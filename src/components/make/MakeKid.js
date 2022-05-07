@@ -5,6 +5,7 @@ import { largeProfile } from "../oui/styles/image";
 import { radiusRound } from "../oui/styles/radius";
 import { useNavigate } from "react-router-dom";
 import authContext from "../../auth/authContext";
+import capitalize from "../../functions/capitalize";
 
 const Main = styled.div`
     display: flex;
@@ -28,20 +29,38 @@ const Buttons = styled.div`
     width: 100%;
 `;
 
+const Error = styled.div`
+    color: red;
+`;
+
 export default function MakeKid() {
     const [first, setFirst] = useState("");
     const [middle, setMiddle] = useState(""); 
     const [last, setLast] = useState("");
     const [birth, setBirth] = useState("");
+    const [image, setImage] = useState("");
+
+    const [error, setError] = useState("");
 
     const navigate = useNavigate();
     const {client} = useContext(authContext);
 
     function save() {
-        console.log(first);
-        console.log(last);
-        console.log(middle);
-        console.log((new Date(birth)).getTime());
+        if (!first || !middle || !last || !birth ) {
+            setError("text fields can not be empty");
+            return;
+        }
+
+
+        client.addKid({
+            first: capitalize(first),
+            middle: capitalize(middle),
+            last: capitalize(last),
+            image,
+            birth:(new Date(birth)).getTime()
+        },
+        (res)=>{navigate(-1)},
+        (err)=>{setError(err.message)});
     }
 
     return (
@@ -53,7 +72,7 @@ export default function MakeKid() {
                 width={largeProfile}
                 height={largeProfile}
                 radius={radiusRound}
-                onLoad={(img)=>{console.log(img)}}
+                onLoad={(img)=>{setImage(img)}}
             />
             <Name>
                 <Input type="text" label={"first"} value={first} onChange={(e)=>{setFirst(e.target.value)}} />
@@ -66,6 +85,7 @@ export default function MakeKid() {
                 <Button type="outline" onClick={()=>{navigate(-1)}}>cancel</Button>
                 <Button onClick={save}>save</Button>
             </Buttons>
+            <Error>{error}</Error>
         </Main>
     );
 }

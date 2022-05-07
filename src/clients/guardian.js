@@ -1,20 +1,18 @@
-import makeArr from "../functions/makeArr";
+import axios from "axios";
 
 function guardian(token) {
 
-    function addKids(k, success, error) {
-        k = makeArr(k)
-        
-        console.log(k);
-    }
-
-    function addVehicles(v, success, error) {
-        v = makeArr(v);
-
-        console.log(v);
+    function addKid(k, success=()=>{}, error=()=>{}) {
+        axios.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", {
+            token,
+            kid: k,
+        })
+        .then(success)
+        .catch(error);
     }
 
     function getKids(success=()=>{}, error=()=>{}) {
+        //axios.post(process.env.REACT_APP_BACKEND + "guardian/get/kids", {token});
         success([]);
         error("error");
     }
@@ -33,8 +31,7 @@ function guardian(token) {
      * these are the public functions that can be used
      */
     return {
-        addKids,
-        addVehicles,
+        addKid,
         getKids,
         getFriends,
         getVehicles,
