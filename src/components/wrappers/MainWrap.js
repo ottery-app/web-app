@@ -7,27 +7,35 @@ import { logoDefault } from '../../assets/images/logos';
 import {NavBar, MainHeader, IconButton, Image} from "../oui/index.js";
 import {textPale} from "../oui/styles/colors.js";
 
+import { mainLayer, topLayer } from '../../globals/layers';
+
 const Main = styled.main`
         display: flex;
         align-items: center;
         justify-content: center;
         padding-bottom: 60px;
+        z-index: ${mainLayer};
     `;
 
     const Content = styled.div`
-        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     `
 
     const Footer = styled.footer`
         width: 100%;
         position: fixed;
         bottom: 0;
+        z-index: ${topLayer};
     `;
 
     const Header = styled.header`
         width: 100%;
         position: sticky;
         top: 0;
+        z-index: ${topLayer};
     `;
 
 export default function MainWrap({state, children}) {
@@ -49,9 +57,9 @@ export default function MainWrap({state, children}) {
         <>
             <Header>
                 <MainHeader
-                    left={<IconButton icon="back" onClick={()=>{navigate("/" + state + "/dropoff")}} secondaryTextColor={"black"}/>}
+                    left={<IconButton icon="back" onClick={()=>{navigate(-1)}} secondaryTextColor={"black"}/>}
                     main={title}
-                    right={<IconButton icon="menu" onClick={()=>{navigate("/" + state + "/dropoff")}} secondaryTextColor={"black"}/>}
+                    right={<IconButton icon="menu" onClick={()=>{navigate("/menu")}} secondaryTextColor={"black"}/>}
                 />
             </Header>
             <Main>
@@ -62,7 +70,7 @@ export default function MainWrap({state, children}) {
             <Footer>
                 <NavBar>
                     <IconButton icon="dropoff" onClick={()=>{navigate("/" + state + "/dropoff")}}/>
-                    <IconButton icon="user" onClick={()=>{navigate("/user")}} primaryTextColor={textPale} />
+                    <IconButton icon="user" onClick={()=>{navigate("/" + state + "/user")}} primaryTextColor={textPale} />
                     <IconButton icon="home" onClick={()=>{navigate("/" + state)}} />
                     <IconButton icon="calendar" onClick={()=>{navigate("/" + state + "/calender")}} primaryTextColor={textPale} />
                     <IconButton icon="pickup" onClick={()=>{navigate("/" + state + "/pickup")}} />

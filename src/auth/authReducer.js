@@ -1,4 +1,4 @@
-import Client from "../clients/Client";
+import client from "../clients/client";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -20,7 +20,7 @@ export default (state, action) => {
         loading: false,
         isAuthenticated: true,
         token: localStorage.getItem("token"),
-        client: Client({
+        client: client({
           token: localStorage.getItem("token"),
           state: action.payload.state,
         })
@@ -36,14 +36,13 @@ export default (state, action) => {
 
     case ACTIVATE_SUCCESS:  
     case LOGIN_SUCCESS:
-      console.log(action.payload);
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         token: action.payload.token,
         isAuthenticated: true,
         loading: false,
-        client: Client({
+        client: client({
           token: action.payload.token,
           state: action.payload.state,
         })
@@ -54,7 +53,6 @@ export default (state, action) => {
     case ACTIVATE_FAIL:
     case LOGIN_FAIL:
     case LOGOUT:
-      console.log(action)
       localStorage.removeItem("token");
       return {
         ...state,

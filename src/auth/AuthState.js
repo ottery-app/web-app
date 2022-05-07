@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import capitalize from "../functions/capitalize";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 import axios from "axios";
@@ -69,8 +70,12 @@ function AuthState(props) {
     try {
       const res = await axios.post(process.env.REACT_APP_BACKEND + "auth/register", {
         email,
-        name,
-        address,
+        firstName: capitalize(name.first),
+        lastName: capitalize(name.last),
+        address: capitalize(address.address),
+        city: capitalize(address.city),
+        state: capitalize(address.state),
+        zip: address.zip,
         password,
       });
 
