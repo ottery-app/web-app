@@ -3,10 +3,8 @@ import axios from "axios";
 function guardian(token) {
 
     function addKid(k, success=()=>{}, error=()=>{}) {
-        axios.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", {
-            token,
-            kid: k,
-        })
+        console.log(k)
+        axios.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", k)
         .then(success)
         .catch(error);
     }
