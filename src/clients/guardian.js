@@ -1,18 +1,29 @@
-import axios from "axios";
+import { axiosInst } from "./axiosInst";
+import capitalize from "../functions/capitalize";
 
-function guardian(token) {
-
-    function addKid(k, success=()=>{}, error=()=>{}) {
-        console.log(k)
-        axios.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", k)
+function guardian() {
+    
+    function newKid(firstName, middleName, lastName, birthday, success=()=>{}, error=()=>{}) {
+        axiosInst.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", {
+            firstName: capitalize(firstName),
+            middleName: capitalize(middleName),
+            lastName: capitalize(lastName),
+            birthday: "" + birthday,
+        })
         .then(success)
         .catch(error);
     }
 
     function getKids(success=()=>{}, error=()=>{}) {
-        //axios.post(process.env.REACT_APP_BACKEND + "guardian/get/kids", {token});
-        success([]);
-        error("error");
+        axiosInst.get("guardian/get/kids").then(
+            (res)=>{
+                if (!res.data.kids) {
+                    res.data.kids = [];
+                }
+
+                success(res);
+            }
+        ).catch(error);
     }
 
     function getVehicles(success=()=>{}, error=()=>{}) {
@@ -29,7 +40,7 @@ function guardian(token) {
      * these are the public functions that can be used
      */
     return {
-        addKid,
+        newKid,
         getKids,
         getFriends,
         getVehicles,

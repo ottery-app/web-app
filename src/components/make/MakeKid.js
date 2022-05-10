@@ -51,15 +51,15 @@ export default function MakeKid() {
             return;
         }
 
-        client.addKid({
-            first: capitalize(first),
-            middle: capitalize(middle),
-            last: capitalize(last),
-            image,
-            birth:(new Date(birth)).getTime()
-        },
-        (res)=>{navigate(-1)},
-        (err)=>{setError(err.message)});
+        console.warn("add image to kid");
+        client.newKid(
+            capitalize(first),
+            capitalize(middle),
+            capitalize(last),
+            new Date(birth).getTime(),
+            ()=>{navigate(-1)},
+            (err)=>{setError(err.message)}
+        );
     }
 
     return (
