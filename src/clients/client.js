@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInst } from "./axiosInst";
 import guardian from "./guardian";
 

@@ -52,13 +52,23 @@ export default function GuardianUserProfile() {
     const [currentKey, setCurrentKey] = useState(fields[0]);
     const navigate = useNavigate();
     const [add, setAdd] = useState(() => () => navigate("./create/" + fields[0]));
-    const [data] = useState({});
+    const [data, setData] = useState({});
     const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
 
     useEffect(()=>{
-        client.getKids((k)=>{
-            data.kids = k;
+        client.getKids((res)=>{
+            res.data.kids.forEach((kid)=>{
+                console.log(kid);
+                kid.name = kid.firstName + " " + kid.lastName;
+            });
+
+            setData((p)=>{
+                return {
+                    ...p,
+                    kids: res.data.kids
+                }
+            });
         })
 
         client.getVehicles((v)=>{
@@ -98,10 +108,10 @@ export default function GuardianUserProfile() {
                 <OrderedList
                     sort = {(a,b)=> -1}
                 >
-                    {(curDat.length)
+                    {(curDat && curDat.length)
                         //if the user has anything saved
                         ?curDat.map((cur)=>{
-                            return <ImageButton key={cur} content={cur} right={"pfp"} />
+                            return <ImageButton key={cur} content={cur.name} right={"pfp"} />
                         })
                         //if the user doesnt have anything saved
                         :[<Faded key={"singleItem"}>You have no registered {currentKey}</Faded>]
