@@ -41,9 +41,17 @@ function client({token, state}) {
         return user;
     }
 
+    function searchUser(search, success, error) {
+        let res = {};
+        res.data = {};
+        res.data.results = [search, search, search, search];
+        success(res);
+    }
+
     return {
         state,
         getInfo,
+        searchUser,
         ...stateFuncs,
     }
 }

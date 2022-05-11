@@ -8,6 +8,7 @@ import GuardianHome from "./components/guardian/GuardianHome";
 import GuardianUserProfile from "./components/guardian/GuardianUserProfile";
 
 import MakeKid from "./components/make/MakeKid"
+import MakeFriend from "./components/make/MakeFriend";
 
 import AuthContext from "./auth/authContext";
 
@@ -38,6 +39,7 @@ function App() {
               <Route index element={<GuardianHome />} />
               <Route path="user" element={<GuardianUserProfile />} />
               <Route path="user/create/kids" element={<MakeKid />} />
+              <Route path="user/create/friends" element={<MakeFriend />} />
             </Route>
 
             <Route path="director">
