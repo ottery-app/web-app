@@ -14,9 +14,12 @@ export default function MakeFriend() {
     const {client} = useContext(authContext);
 
     useEffect(()=>{
-        console.log("search db asyncly using search:", search);
-        client.searchUser(search, (res)=>{setResults(res.data.results)}, ()=>{})
+        client.searchUser(search, (res)=>{setResults(res.data.results)}, ()=>{});
     }, [search]);
+
+    useEffect(()=>{
+        console.log(results)
+    }, [results]);
 
     return (
         <div>
@@ -24,10 +27,13 @@ export default function MakeFriend() {
             <Search value={search} onChange={(e)=>{setSearch(e.target.value)}} />
             <br/>
             <UnorderedList>
-                {results.map((result)=>{
-                    return <div key={result}>{result}</div>
-                })}
+                {[]}
             </UnorderedList>
         </div>
     );
 }
+
+
+//{results.map((result)=>{
+//    return <div key={result}>{result}</div>
+//})}

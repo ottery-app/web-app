@@ -42,10 +42,7 @@ function client({token, state}) {
     }
 
     function searchUser(search, success, error) {
-        let res = {};
-        res.data = {};
-        res.data.results = [search, search, search, search];
-        success(res);
+        axiosInst.get("client/search/user?search=" + `${search}`).then(success).catch(error);
     }
 
     return {
