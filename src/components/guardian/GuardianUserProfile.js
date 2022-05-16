@@ -5,8 +5,9 @@ import { AddButton, ImageButton, MultiFieldHeader, OrderedList } from '../oui/in
 import {height} from "../oui/styles/banners";
 import authContext from '../../auth/authContext';
 import addPx from '../../functions/addPx.js';
-import { backgroundColor, textPale } from '../oui/styles/colors.js';
+import { backgroundColor } from '../oui/styles/colors.js';
 import { minHeight } from '../oui/styles/clickable';
+import Faded from '../oui/text/Faded.js';
 
 const Main = styled.div`
     width: 100%;
@@ -34,18 +35,6 @@ const List = styled.div`
     margin: 0 55px;
 `;
 
-const Faded = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    font-weight: 1000;
-    font-size: 30px;
-    text-align: center;
-    line-height: 80px;
-    color: ${textPale}
-`;
-
 const fields = ["kids", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
@@ -59,7 +48,6 @@ export default function GuardianUserProfile() {
     useEffect(()=>{
         client.getKids((res)=>{
             res.data.kids.forEach((kid)=>{
-                console.log(kid);
                 kid.name = kid.firstName + " " + kid.lastName;
             });
 
