@@ -59,8 +59,17 @@ export default function GuardianUserProfile() {
             });
         })
 
-        client.getVehicles((v)=>{
-            data.vehicles = v;
+        client.getVehicles((res)=>{
+            res.data.vehicles.forEach((vehicle)=>{
+                vehicle.name = vehicle.color + " " + vehicle.model;
+            });
+
+            setData((p)=>{
+                return {
+                    ...p,
+                    vehicles: res.data.vehicles
+                }
+            });
         })
 
         client.getFriends((f)=>{
