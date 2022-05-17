@@ -4,7 +4,7 @@ import capitalize from "../functions/capitalize";
 function guardian() {
     
     function newKid(firstName, middleName, lastName, birthday, success=()=>{}, error=()=>{}) {
-        axiosInst.post(process.env.REACT_APP_BACKEND + "guardian/new/kid", {
+        axiosInst.post("guardian/new/kid", {
             firstName: capitalize(firstName),
             middleName: capitalize(middleName),
             lastName: capitalize(lastName),
@@ -12,6 +12,16 @@ function guardian() {
         })
         .then(success)
         .catch(error);
+    }
+
+    function newVehicle(make, model, color, year, plate, success=()=>{}, error=()=>{}) {
+        axiosInst.post("guardian/new/vehicle", {
+            make: make,
+            model: model,
+            color: color,
+            year: +year,
+            plate: plate,
+        }).then(success).catch(error);
     }
 
     function getKids(success=()=>{}, error=()=>{}) {
@@ -27,8 +37,14 @@ function guardian() {
     }
 
     function getVehicles(success=()=>{}, error=()=>{}) {
-        success([]);
-        error("error");
+        axiosInst.get("guardian/get/vehicles").then(
+            (res)=>{
+                if (!res.data.vehicles) {
+                    res.data.vehicles = [];
+                }
+                success(res);
+            }
+        ).catch(error);
     }
 
     function getFriends(success=()=>{}, error=()=>{}) {
@@ -41,6 +57,7 @@ function guardian() {
      */
     return {
         newKid,
+        newVehicle,
         getKids,
         getFriends,
         getVehicles,

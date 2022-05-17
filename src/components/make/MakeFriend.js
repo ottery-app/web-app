@@ -5,7 +5,7 @@ import authContext from "../../auth/authContext";
 import Faded from "../oui/text/Faded";
 
 const Main = styled.div`
-    margin: 20px;
+    margin: 0px;
 `;
 
 export default function MakeFriend() {
@@ -16,7 +16,7 @@ export default function MakeFriend() {
 
     useEffect(()=>{
         client.searchUser(search, (res)=>{setResults(res.data.users)});
-    }, [search]);
+    }, [search, client]);
 
 
     return (
