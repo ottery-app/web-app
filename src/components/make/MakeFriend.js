@@ -18,13 +18,14 @@ export default function MakeFriend() {
         client.searchUser(search, (res)=>{setResults(res.data.users)});
     }, [search]);
 
+
     return (
         <Main>
             <h1>Search for friend</h1>
             <Search value={search} onChange={(e)=>{setSearch(e.target.value)}} />
             <br/>
             <UnorderedList>
-                {(results) ? results.map((user, i)=>{
+                {(results && results.length !== 0) ? results.map((user, i)=>{
                     return <ImageButton key={i} content={user.firstName + " " + user.lastName} right={"pfp"} />
                 }) : <Faded key={"singleItem"}>No Results</Faded>}
             </UnorderedList>
