@@ -6,6 +6,7 @@ import Regester from "./components/login/Register";
 
 import GuardianHome from "./components/guardian/GuardianHome";
 import GuardianUserProfile from "./components/guardian/GuardianUserProfile";
+import GuardianEdit from "./components/guardian/GuardianEdit";
 
 import MakeKid from "./components/make/MakeKid"
 import MakeFriend from "./components/make/MakeFriend";
@@ -39,6 +40,7 @@ function App() {
             <Route path="guardian">
               <Route index element={<GuardianHome />} />
               <Route path="user" element={<GuardianUserProfile />} />
+              <Route path="user/edit" element={<GuardianEdit />} />
               <Route path="user/create/kids" element={<MakeKid />} />
               <Route path="user/create/friends" element={<MakeFriend />} />
               <Route path="user/create/vehicles" element={<MakeVehicle />} />

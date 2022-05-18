@@ -13,13 +13,12 @@ const Main = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0px;
 `;
 
 const Sticky = styled.div`
     position: sticky;
     background: ${backgroundColor};
-    padding: 10px;
     padding-bottom: 0px;
     top: ${addPx(height, 1)};
 `;
