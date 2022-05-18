@@ -13,6 +13,7 @@ const Main = styled.main`
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 10px;
         padding-bottom: 60px;
         z-index: ${mainLayer};
     `;

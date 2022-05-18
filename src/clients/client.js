@@ -16,7 +16,7 @@ function client({token, state}) {
         user.firstName = res.data.firstName;
         user.lastName = res.data.lastName;
         user.address = res.data.address;
-        user.state = res.data.address;
+        user.state = res.data.state;
         user.city = res.data.city;
         user.zip = res.data.zip;
         user.email = res.data.email;
@@ -41,6 +41,15 @@ function client({token, state}) {
         return user;
     }
 
+    function updateUser(user,  success, error) {
+        console.log(user)
+        axiosInst.put("client/user", user).then((res)=>{
+            success(res.data);
+        }).catch((err)=>{
+            error(err);
+        });
+    }
+
     function searchUser(search, success, error) {
         axiosInst.get("client/search/user?search=" + `${search}`).then(success).catch(error);
     }
@@ -49,6 +58,7 @@ function client({token, state}) {
         state,
         getInfo,
         searchUser,
+        updateUser,
         ...stateFuncs,
     }
 }

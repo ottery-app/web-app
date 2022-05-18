@@ -4,7 +4,7 @@ import capitalize from "../functions/capitalize";
 function guardian() {
     
     function newKid(firstName, middleName, lastName, birthday, success=()=>{}, error=()=>{}) {
-        axiosInst.post("guardian/new/kid", {
+        axiosInst.post("guardian/kids", {
             firstName: capitalize(firstName),
             middleName: capitalize(middleName),
             lastName: capitalize(lastName),
@@ -15,7 +15,7 @@ function guardian() {
     }
 
     function newVehicle(make, model, color, year, plate, success=()=>{}, error=()=>{}) {
-        axiosInst.post("guardian/new/vehicle", {
+        axiosInst.post("guardian/vehicles", {
             make: make,
             model: model,
             color: color,
@@ -25,7 +25,7 @@ function guardian() {
     }
 
     function getKids(success=()=>{}, error=()=>{}) {
-        axiosInst.get("guardian/get/kids").then(
+        axiosInst.get("guardian/kids").then(
             (res)=>{
                 if (!res.data.kids) {
                     res.data.kids = [];
@@ -37,7 +37,7 @@ function guardian() {
     }
 
     function getVehicles(success=()=>{}, error=()=>{}) {
-        axiosInst.get("guardian/get/vehicles").then(
+        axiosInst.get("guardian/vehicles").then(
             (res)=>{
                 if (!res.data.vehicles) {
                     res.data.vehicles = [];
