@@ -34,7 +34,10 @@ export default function GuardianEdit() {
     const {client} = React.useContext(authContext);
 
     React.useEffect(() => {
-        setUser(client.getInfo());
+        client.getInfo(
+            (res) => {setUser(res.data)},
+            (err) => {console.error(err)}
+        );
     }, [client]);
 
     function update(user) {
@@ -49,15 +52,21 @@ export default function GuardianEdit() {
         <Main>
             <EditImage src={"pfp"} alt={"profile picture"} width={largeProfile} />
             {Object.keys(user).map(key => {
-                return <Input type="text" key={key} label={key} value={user[key]} onChange={(e)=>{
-                    if (key!=="email") {
-                        setUser({...user, [key]: e.target.value});
-                    }
-                }} />;
+                if (key!=="email") {
+                    return <Input type="text" key={key} label={splitAtCapital(key)} value={user[key]} onChange={(e)=>{
+                            setUser({...user, [key]: e.target.value});
+                    }} />;
+                }
             })}
             <Button>
                 <IconButton onClick={()=>{update(user)}} primaryColor={primary} primaryTextColor={textLight} secondaryTextColor={textLight} icon={"check"} />
             </Button>
         </Main> 
     );
+}
+
+function splitAtCapital(str) {
+    let split = str.split(/(?=[A-Z])/);
+    split = split.join(" ");
+    return split.toLowerCase();
 }

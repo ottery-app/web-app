@@ -7,24 +7,6 @@ import guardian from "./guardian";
 function client({token, state}) {
     axiosInst.defaults.headers.common['Authorization'] = token;
 
-    //this is here so we only need to call certain vals from backend once
-    const user = {}
-    
-    //get the user info loaded in
-    axiosInst.get("client/info")
-    .then((res)=>{
-        user.firstName = res.data.firstName;
-        user.lastName = res.data.lastName;
-        user.address = res.data.address;
-        user.state = res.data.state;
-        user.city = res.data.city;
-        user.zip = res.data.zip;
-        user.email = res.data.email;
-    })
-    .catch(()=>{
-        console.error("failed to load the user's name");
-    })
-
     //gets the functions for that state
     let stateFuncs = {}
     switch(state) {
@@ -37,12 +19,12 @@ function client({token, state}) {
             console.error("unable to validate user state");
     }
 
-    function getInfo() {
-        return user;
+    function getInfo(success, error) {
+        //get the user info loaded in
+        axiosInst.get("client/info").then(success).catch(error);
     }
 
     function updateUser(user,  success, error) {
-        console.log(user)
         axiosInst.put("client/user", user).then((res)=>{
             success(res.data);
         }).catch((err)=>{

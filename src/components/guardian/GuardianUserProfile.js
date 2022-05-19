@@ -31,18 +31,30 @@ const Button = styled.div`
 `;
 
 const List = styled.div`
-    margin: 0 55px;
+    margin: 0 20px;
 `;
 
 const fields = ["kids", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
+    const [user, setUser] = useState({
+        firstName: "",
+        lastName: "",
+    });
     const [currentKey, setCurrentKey] = useState(fields[0]);
     const navigate = useNavigate();
-    const [add, setAdd] = useState(() => () => navigate("./create/" + fields[0]));
+    const [add, setAdd] = useState(() => () => navigate("../create/" + fields[0]));
     const [data, setData] = useState({});
     const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
+
+    useEffect(() => {
+        client.getInfo(
+            (res) => {setUser(res.data)},
+            (err) => {console.error(err)}
+        );
+    }, []);
+
 
     useEffect(()=>{
         client.getKids((res)=>{
@@ -83,14 +95,22 @@ export default function GuardianUserProfile() {
     function changeContent(key) {
         setCurrentKey(key);
         setCurDat(data[key])
-        setAdd(() => () => navigate("./create/" + key));
+        setAdd(() => () => navigate("../create/" + key));
+    }
+
+    function showInfo(key, id) {
+        //remove the s off the end of the key
+        key = key.substring(0, key.length - 1);
+        key = (key === "friend") ? "user" : key;
+        //attach the id as a query param
+        navigate("/info/" + key + "?id=" + id);
     }
 
     return (
         <Main>
             <Sticky>
                 <MultiFieldHeader
-                    title={client.getInfo().firstName + " " + client.getInfo().lastName}
+                    title={user.firstName + " " + user.lastName}
                     src="pfp"
                     onTab={changeContent}
                     onEdit={()=>{navigate("edit")}}
@@ -101,13 +121,11 @@ export default function GuardianUserProfile() {
                 </MultiFieldHeader>
             </Sticky>
             <List>
-                <OrderedList
-                    sort = {(a,b)=> -1}
-                >
+                <OrderedList>
                     {(curDat && curDat.length)
                         //if the user has anything saved
                         ?curDat.map((cur)=>{
-                            return <ImageButton key={cur} content={cur.name} right={"pfp"} />
+                            return <ImageButton key={cur} content={cur.name} right={"pfp"} onClick={()=>{showInfo(currentKey, cur._id)}}/>
                         })
                         //if the user doesnt have anything saved
                         :[<Faded key={"singleItem"}>You have no registered {currentKey}</Faded>]
