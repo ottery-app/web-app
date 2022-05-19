@@ -5,7 +5,6 @@ import {useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../auth/authContext";
 
-import {logoDefault} from "../../assets/images/logos";
 import mail from "../../assets/images/mail.svg";
 
 import {

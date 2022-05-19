@@ -12,6 +12,10 @@ import MakeKid from "./components/make/MakeKid"
 import MakeFriend from "./components/make/MakeFriend";
 import MakeVehicle from "./components/make/MakeVehicle";
 
+import Kid from "./components/info/Kid";
+import User from "./components/info/User";
+import Vehicle from "./components/info/Vehicle";
+
 import AuthContext from "./auth/authContext";
 
 import Redirect from "./components/login/Redirect.js";
@@ -41,9 +45,15 @@ function App() {
               <Route index element={<GuardianHome />} />
               <Route path="user" element={<GuardianUserProfile />} />
               <Route path="user/edit" element={<GuardianEdit />} />
-              <Route path="user/create/kids" element={<MakeKid />} />
-              <Route path="user/create/friends" element={<MakeFriend />} />
-              <Route path="user/create/vehicles" element={<MakeVehicle />} />
+              <Route path="create/kids" element={<MakeKid />} />
+              <Route path="create/friends" element={<MakeFriend />} />
+              <Route path="create/vehicles" element={<MakeVehicle />} />
+            </Route>
+
+            <Route path="info">
+              <Route path="kid" element={<Kid />} />
+              <Route path="user" element={<User />} />
+              <Route path="vehicle" element={<Vehicle />} />
             </Route>
 
             <Route path="director">

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Search, UnorderedList, ImageButton } from "../oui";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import authContext from "../../auth/authContext";
 import Faded from "../oui/text/Faded";
@@ -11,11 +12,11 @@ const Main = styled.div`
 export default function MakeFriend() {
     const [search, setSearch] = useState("");
     const [results, setResults] = useState([]);
-
+    const navigate = useNavigate();
     const {client} = useContext(authContext);
 
     useEffect(()=>{
-        client.searchUser(search, (res)=>{setResults(res.data.users)});
+        client.searchUser(search, (res)=>setResults(res.data.users));
     }, [search, client]);
 
 
@@ -26,7 +27,7 @@ export default function MakeFriend() {
             <br/>
             <UnorderedList>
                 {(results && results.length !== 0) ? results.map((user, i)=>{
-                    return <ImageButton key={i} content={user.firstName + " " + user.lastName} right={"pfp"} />
+                    return <ImageButton key={i} content={user.firstName + " " + user.lastName} right={"pfp"} onClick={()=>{navigate("/info/user?email="+user.email)}} />
                 }) : <Faded key={"singleItem"}>No Results</Faded>}
             </UnorderedList>
         </Main>
