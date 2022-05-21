@@ -1,7 +1,11 @@
+import {EditImage} from "../oui";
+import { largeProfile } from "../oui/styles/image";
+
 export default function Vehicle() {
-  return (
+  let content = 
     <div>
-      <h1>Vehicle</h1>
+      
     </div>
-  );
+
+  return content;
 }
