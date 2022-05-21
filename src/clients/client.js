@@ -1,48 +1,32 @@
 import { axiosInst } from "./axiosInst";
-import guardian from "./guardian";
+import children from "./children";
+import user from "./user";
+import search from "./search";
+import vehicles from "./vehicles";
+import auth from "./auth";
 
 /**
  * This is a function factory that returns an object of functions that the user has access to.
  */
-function client({token, state}) {
-    axiosInst.defaults.headers.common['Authorization'] = token;
+function client(token) {
 
-    //gets the functions for that state
-    let stateFuncs = {}
-    switch(state) {
-        case "guardian":
-            stateFuncs = guardian(token);
-            break;
-        case "director":
-            break;
-        default:
-            console.error("unable to validate user state");
-    }
+    //gets all the apis that are avalable
+    let api = {}
+    let clients = {};
 
-    function getInfo(success, error) {
-        //get the user info loaded in
-        axiosInst.get("client/info").then(success).catch(error);
+    if (token) {
+        axiosInst.defaults.headers.common["Authorization"] = token;
+        clients = {children, user, vehicles, search};
+    } else {
+        //clients = [auth];
     }
+    
+    Object.keys(clients).forEach((key)=>{
+        api[key] = clients[key](axiosInst);
+    });
 
-    function updateUser(user,  success, error) {
-        axiosInst.put("client/user", user).then((res)=>{
-            success(res.data);
-        }).catch((err)=>{
-            error(err);
-        });
-    }
-
-    function searchUser(search, success, error) {
-        axiosInst.get("client/search/user?search=" + `${search}`).then(success).catch(error);
-    }
-
-    return {
-        state,
-        getInfo,
-        searchUser,
-        updateUser,
-        ...stateFuncs,
-    }
+    console.log(api);
+    return api;
 }
 
 export default client;

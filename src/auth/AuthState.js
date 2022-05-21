@@ -1,8 +1,8 @@
 import { useReducer } from "react";
-import capitalize from "../functions/capitalize";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 import {axiosInst} from "../clients/axiosInst";
+import authClient from "../clients/auth";
 
 import {
   REGISTER_SUCCESS,
@@ -27,122 +27,90 @@ function AuthState(props) {
     client: null,
   };
 
+  const auth = authClient(axiosInst);
+
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  //load user token
-  async function load() {
-    if (initialState.token) {
-      try {
-        axiosInst.defaults.headers.common["Authorization"] = initialState.token;
-        const res = await axiosInst.get("auth/load");
+  function load() {
+    auth.load(
+      ()=>dispatch({ type: LOAD_USER }),
+      ()=>dispatch({ type: UNLOAD_USER }),
+    );
+  };
+
+  function login(email, password, success=()=>{}, error=()=>{}) {
+    auth.login(
+      email,
+      password,
+      (res)=>{
         dispatch({
-          type: LOAD_USER,
+          type: LOGIN_SUCCESS,
           payload: res.data,
         });
-      } catch (err) {
-        dispatch({ type: UNLOAD_USER });
-      }
-    } else {
-      dispatch({ type: UNLOAD_USER });
-    }
-  };
-
-  //Login User
-  async function login(email, password, success=()=>{}, error=()=>{}) {
-    try {
-      const res = await axiosInst.post("auth/login", { email, password });
-      
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
-      success(res);
-    } catch (err) {
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err,
-      });
-      error(err);
-    }
-  };
-
-  //Register User
-  async function register(email, name, address, password, success=()=>{}, error=()=>{}) {
-    try {
-      const res = await axiosInst.post(process.env.REACT_APP_BACKEND + "auth/register", {
-        email,
-        firstName: capitalize(name.first),
-        lastName: capitalize(name.last),
-        address: capitalize(address.address),
-        city: capitalize(address.city),
-        state: capitalize(address.state),
-        zip: address.zip,
-        password,
-      });
-
-      /*
+        success(res);
+      },
+      (err)=>{
         dispatch({
-          type: REGISTER_SUCCESS,
+          type: LOGIN_FAIL,
+          payload: err,
+        });
+        error(err);
+      },
+    )
+  }
+
+  function register(email, name, address, password, success=()=>{}, error=()=>{}) {
+    auth.register(
+      email,
+      name,
+      address,
+      password,
+      success,
+      (err)=>{
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: err,
+        });
+        error(err);
+      }
+    );
+  }
+  
+  function activate(email, activationCode, success=()=>{}, error=()=>{}) {
+    auth.activate(
+      email,
+      activationCode,
+      (res)=>{
+        dispatch({
+          type: ACTIVATE_SUCCESS,
           payload: res.data,
         });
-      */
-
-      success(res);
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: err,
-      });
-
-      error(err);
-    }
-  };
-
-  async function activate(email, activationCode, success=()=>{}, error=()=>{}) {
-    try {
-      const res = await axiosInst.put("auth/activate", {
-        email,
-        activationCode
-      });
-      
-      dispatch({
-        type: ACTIVATE_SUCCESS,
-        payload: res.data,
-      });
-
-      success(res);
-    } catch (err) {
-
-      dispatch({
-        type: ACTIVATE_FAIL,
-        payload: err,
-      });
-
-      error(err);
-    }
-  }
-
-  async function resendActivation(email, success=()=>{}, error=()=>{}) {
-    try {
-      const res = await axiosInst.post("auth/resendActivation", {
-        email,
-      });
-      success(res);
-    } catch (err) {
-      error(err);
-    }
-  }
-
-  //clear user data
-  function logout() {
-    axiosInst.delete("auth/logout").then(
-      () => {
-        dispatch({ type: LOGOUT })
+        success(res);
+      },
+      (err)=>{
+        dispatch({
+          type: ACTIVATE_FAIL,
+          payload: err,
+        });
+  
+        error(err);
       }
-    ).catch(() => {
-      console.error("failed to logout");
-    });
-  };
+    )
+  }
+
+  function resendActivation(email, success=()=>{}, error=()=>{}) {
+    auth.resendActivation(email, success, error);
+  }
+
+  function logout(success=()=>{}, error=()=>{}) {
+    auth.logout(
+      (res)=>{
+        dispatch({ type: LOGOUT });
+        success(res);
+      },
+      (err)=>error(err)
+    );
+  }
 
   //Clear Errors
   function clearErrors() {
