@@ -41,44 +41,41 @@ export default function GuardianUserProfile() {
     const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
 
-    useEffect(() => {
-        client.getInfo(
-            (res) => {setUser(res.data)},
-            (err) => {console.error(err)}
-        );
-    }, []);
-
-
     useEffect(()=>{
-        client.getKids((res)=>{
-            res.data.kids.forEach((kid)=>{
-                kid.name = kid.firstName + " " + kid.lastName;
-            });
+        if (client) {
+            debugger
+            client.children.getAll(
+                (res)=>{addToDat(
+                    "kid",
+                    res.data,
+                    (kid)=>kid.firstName + " " + kid.lastName,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-            setData((p)=>{
-                return {
-                    ...p,
-                    kids: res.data.kids
-                }
-            });
-        })
+            client.vehicles.getAll(
+                (res)=>{addToDat(
+                    "vehicle",
+                    res.data,
+                    (vehicle)=>vehicle.color + " " + vehicle.model,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-        client.getVehicles((res)=>{
-            res.data.vehicles.forEach((vehicle)=>{
-                vehicle.name = vehicle.color + " " + vehicle.model;
-            });
+            client.user.friends(
+                (res)=>{addToDat(
+                    "friends",
+                    res.data,
+                    (friends)=>friends.color + " " + friends.model,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-            setData((p)=>{
-                return {
-                    ...p,
-                    vehicles: res.data.vehicles
-                }
-            });
-        })
-
-        client.getFriends((f)=>{
-            data.friends = f;
-        })
+            client.user.info(
+                (res) => {setUser(res.data)},
+                (err) => {console.error(err)}
+            );
+        }
     },[]);
 
     useEffect(()=>{
@@ -97,6 +94,16 @@ export default function GuardianUserProfile() {
         key = (key === "friend") ? "user" : key;
         //attach the id as a query param
         navigate("/info/" + key + "?id=" + id);
+    }
+
+    function addToDat(key, dat, getTitle) {
+        setData((p)=>{
+            dat.forEach((d)=>{
+                d.name = getTitle(d);
+            });
+            p[key] = dat.title;
+            return p;
+        })
     }
 
     return (

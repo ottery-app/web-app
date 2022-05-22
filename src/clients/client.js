@@ -3,7 +3,6 @@ import children from "./children";
 import user from "./user";
 import search from "./search";
 import vehicles from "./vehicles";
-import auth from "./auth";
 
 /**
  * This is a function factory that returns an object of functions that the user has access to.
