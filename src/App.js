@@ -12,7 +12,7 @@ import MakeKid from "./components/make/MakeKid"
 import MakeFriend from "./components/make/MakeFriend";
 import MakeVehicle from "./components/make/MakeVehicle";
 
-import Kid from "./components/info/Kid";
+import Child from "./components/info/Child";
 import User from "./components/info/User";
 import Vehicle from "./components/info/Vehicle";
 
@@ -51,9 +51,9 @@ function App() {
             </Route>
 
             <Route path="info">
-              <Route path="kid" element={<Kid />} />
-              <Route path="user" element={<User />} />
-              <Route path="vehicle" element={<Vehicle />} />
+              <Route path="children" element={<Child />} />
+              <Route path="users" element={<User />} />
+              <Route path="vehicles" element={<Vehicle />} />
             </Route>
 
             <Route path="director">

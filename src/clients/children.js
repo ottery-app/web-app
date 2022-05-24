@@ -5,7 +5,7 @@ export default function children(axiosInst) {
     }
 
     async function getAll(success, error) {
-        axiosInst.get(children).then(success).catch(error);
+        axiosInst.get("children").then(success).catch(error);
     }
 
     async function post(child, success, error) {

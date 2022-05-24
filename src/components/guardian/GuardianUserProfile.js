@@ -27,7 +27,7 @@ const List = styled.div`
     margin: 0 20px;
 `;
 
-const fields = ["kids", "friends", "vehicles"];
+const fields = ["children", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
     const [user, setUser] = useState({
@@ -43,11 +43,10 @@ export default function GuardianUserProfile() {
 
     useEffect(()=>{
         if (client) {
-            debugger
             client.children.getAll(
                 (res)=>{addToDat(
-                    "kid",
-                    res.data,
+                    "children",
+                    res.data.children,
                     (kid)=>kid.firstName + " " + kid.lastName,
                 )},
                 (e)=>{console.error(e)}
@@ -55,8 +54,8 @@ export default function GuardianUserProfile() {
 
             client.vehicles.getAll(
                 (res)=>{addToDat(
-                    "vehicle",
-                    res.data,
+                    "vehicles",
+                    res.data.vehicles,
                     (vehicle)=>vehicle.color + " " + vehicle.model,
                 )},
                 (e)=>{console.error(e)}
@@ -65,7 +64,7 @@ export default function GuardianUserProfile() {
             client.user.friends(
                 (res)=>{addToDat(
                     "friends",
-                    res.data,
+                    res.data.friends,
                     (friends)=>friends.color + " " + friends.model,
                 )},
                 (e)=>{console.error(e)}
@@ -90,7 +89,6 @@ export default function GuardianUserProfile() {
 
     function showInfo(key, id) {
         //remove the s off the end of the key
-        key = key.substring(0, key.length - 1);
         key = (key === "friend") ? "user" : key;
         //attach the id as a query param
         navigate("/info/" + key + "?id=" + id);
@@ -101,8 +99,8 @@ export default function GuardianUserProfile() {
             dat.forEach((d)=>{
                 d.name = getTitle(d);
             });
-            p[key] = dat.title;
-            return p;
+            p[key] = dat;
+            return {...p};
         })
     }
 

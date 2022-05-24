@@ -5,7 +5,13 @@ export default function user(axiosInst) {
 
     async function friends(success, error) {
         console.error("not yet implemented");
-        axiosInst.get("user/friends").success(success).catch(error);
+        let res = {};
+        res.data = {};
+        res.data.friends = [];
+
+        success(res);
+
+        //axiosInst.get("user/friends").success(success).catch(error);
     }
 
     async function get(id, success, error) {
