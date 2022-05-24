@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { AddButton, ImageButton, MultiFieldHeader, OrderedList } from '../oui/index.js';
+import { ImageButton, MultiFieldHeader, OrderedList } from '../oui/index.js';
 import {height} from "../oui/styles/banners";
 import authContext from '../../auth/authContext';
 import addPx from '../../functions/addPx.js';
 import { backgroundColor } from '../oui/styles/colors.js';
-import { minHeight } from '../oui/styles/clickable';
 import Faded from '../oui/text/Faded.js';
+import BottomButton from '../oui/buttons/BottomButton.js';
 
 const Main = styled.div`
     width: 100%;
@@ -23,18 +23,11 @@ const Sticky = styled.div`
     top: ${addPx(height, 1)};
 `;
 
-const Button = styled.div`
-    position: fixed;
-    bottom: ${minHeight};
-    right: 0;
-    padding: 30px 20px;
-`;
-
 const List = styled.div`
     margin: 0 20px;
 `;
 
-const fields = ["kids", "friends", "vehicles"];
+const fields = ["children", "friends", "vehicles"];
 
 export default function GuardianUserProfile() {
     const [user, setUser] = useState({
@@ -48,44 +41,40 @@ export default function GuardianUserProfile() {
     const [curDat, setCurDat] = useState([]);
     const {client} = useContext(authContext);
 
-    useEffect(() => {
-        client.getInfo(
-            (res) => {setUser(res.data)},
-            (err) => {console.error(err)}
-        );
-    }, []);
-
-
     useEffect(()=>{
-        client.getKids((res)=>{
-            res.data.kids.forEach((kid)=>{
-                kid.name = kid.firstName + " " + kid.lastName;
-            });
+        if (client) {
+            client.children.getAll(
+                (res)=>{addToDat(
+                    "children",
+                    res.data.children,
+                    (kid)=>kid.firstName + " " + kid.lastName,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-            setData((p)=>{
-                return {
-                    ...p,
-                    kids: res.data.kids
-                }
-            });
-        })
+            client.vehicles.getAll(
+                (res)=>{addToDat(
+                    "vehicles",
+                    res.data.vehicles,
+                    (vehicle)=>vehicle.color + " " + vehicle.model,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-        client.getVehicles((res)=>{
-            res.data.vehicles.forEach((vehicle)=>{
-                vehicle.name = vehicle.color + " " + vehicle.model;
-            });
+            client.user.friends(
+                (res)=>{addToDat(
+                    "friends",
+                    res.data.friends,
+                    (friends)=>friends.color + " " + friends.model,
+                )},
+                (e)=>{console.error(e)}
+            );
 
-            setData((p)=>{
-                return {
-                    ...p,
-                    vehicles: res.data.vehicles
-                }
-            });
-        })
-
-        client.getFriends((f)=>{
-            data.friends = f;
-        })
+            client.user.info(
+                (res) => {setUser(res.data)},
+                (err) => {console.error(err)}
+            );
+        }
     },[]);
 
     useEffect(()=>{
@@ -100,10 +89,19 @@ export default function GuardianUserProfile() {
 
     function showInfo(key, id) {
         //remove the s off the end of the key
-        key = key.substring(0, key.length - 1);
         key = (key === "friend") ? "user" : key;
         //attach the id as a query param
         navigate("/info/" + key + "?id=" + id);
+    }
+
+    function addToDat(key, dat, getTitle) {
+        setData((p)=>{
+            dat.forEach((d)=>{
+                d.name = getTitle(d);
+            });
+            p[key] = dat;
+            return {...p};
+        })
     }
 
     return (
@@ -132,9 +130,7 @@ export default function GuardianUserProfile() {
                     }
                 </OrderedList>
             </List>
-            <Button>
-                <AddButton onClick={add} type="solid"/>
-            </Button>
+            <BottomButton icon={"pluss"} onClick={add} />
         </Main>
     );
 }

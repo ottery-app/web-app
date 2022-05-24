@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {Input, EditImage, IconButton} from "../../components/oui";
-import { primary, textLight } from "../oui/styles/colors";
+import {Input, EditImage, BottomButton} from "../../components/oui";
 import { largeProfile } from "../oui/styles/image";
-import { minHeight } from '../oui/styles/clickable';
 import authContext from "../../auth/authContext";
 import { useNavigate } from "react-router-dom";
 
@@ -14,19 +12,6 @@ const Main = styled.div`
     gap: 10px;
 `;
 
-const Button = styled.div`
-    position: fixed;
-    bottom: ${minHeight};
-    padding: 30px;
-    right: 0;
-`;
-
-const Name = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-`;
-
 export default function GuardianEdit() {
     const [user, setUser] = React.useState({});
     const navigate = useNavigate();
@@ -34,8 +19,8 @@ export default function GuardianEdit() {
     const {client} = React.useContext(authContext);
 
     React.useEffect(() => {
-        client.getInfo(
-            (res) => {setUser(res.data)},
+        client.user.info(
+            (res) => {setUser(res.data.user)},
             (err) => {console.error(err)}
         );
     }, [client]);
@@ -58,9 +43,7 @@ export default function GuardianEdit() {
                     }} />;
                 }
             })}
-            <Button>
-                <IconButton onClick={()=>{update(user)}} primaryColor={primary} primaryTextColor={textLight} secondaryTextColor={textLight} icon={"check"} />
-            </Button>
+            <BottomButton onClick={()=>{update(user)}} icon={"check"} />
         </Main> 
     );
 }

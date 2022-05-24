@@ -19,11 +19,7 @@ export default (state, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        token: localStorage.getItem("token"),
-        client: client({
-          token: localStorage.getItem("token"),
-          state: action.payload.state,
-        })
+        client: client(localStorage.getItem("token"))
       }
 
 
@@ -42,10 +38,7 @@ export default (state, action) => {
         token: action.payload.token,
         isAuthenticated: true,
         loading: false,
-        client: client({
-          token: action.payload.token,
-          state: action.payload.state,
-        })
+        client: client(action.payload.token)
       };
 
 
