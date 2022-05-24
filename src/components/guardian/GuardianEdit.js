@@ -19,8 +19,8 @@ export default function GuardianEdit() {
     const {client} = React.useContext(authContext);
 
     React.useEffect(() => {
-        client.getInfo(
-            (res) => {setUser(res.data)},
+        client.user.info(
+            (res) => {setUser(res.data.user)},
             (err) => {console.error(err)}
         );
     }, [client]);

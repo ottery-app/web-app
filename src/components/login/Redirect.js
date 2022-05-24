@@ -13,19 +13,22 @@ export default function Redirect({children}) {
     const {isAuthenticated, loading, client} = useContext(authContext);
 
     useEffect(()=>{
+        let pathname = window.location.pathname;
         if (client) {
             client.user.info(
                 (res)=>{
-                    let pathname = window.location.pathname
-        
                     if (!isAuthenticated && !authPaths[pathname]) {
                         navigate("/login");
                     } else if (isAuthenticated && authPaths[pathname]) {
-                        navigate("/" + res.data.userState);
+                        navigate("/" + res.data.user.userState);
                     }
                 },
                 (err)=>{console.error(err)},
             );
+        } else {
+            if (!authPaths[pathname]) {
+                navigate("/login");
+            }
         }
     }, [client, isAuthenticated, loading, navigate])
     
