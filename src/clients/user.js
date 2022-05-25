@@ -17,7 +17,7 @@ export default function user(axiosInst) {
     async function get(id, success, error) {
         console.error("not yet implemented");
         //get the user info loaded in
-        axiosInst.get("user?id=" + id).then(success).catch(error);
+        axiosInst.get("user/" + id).then(success).catch(error);
     }
 
     async function info(success, error) {

@@ -26,7 +26,7 @@ export default function GuardianEdit() {
     }, [client]);
 
     function update(user) {
-        client.updateUser(user, () => {
+        client.user.update(user, () => {
             navigate(-1);
         }, (err) => {
             alert("unable to update user");
