@@ -52,11 +52,12 @@ export default function MakeKid() {
         }
 
         console.warn("add image to kid");
-        client.newKid(
-            capitalize(first),
-            capitalize(middle),
-            capitalize(last),
-            new Date(birth).getTime(),
+        client.children.post({
+                firstName: capitalize(first),
+                middleName: capitalize(middle),
+                lastName: capitalize(last),
+                birthday: new Date(birth).getTime()
+            },
             ()=>{navigate(-1)},
             (err)=>{setError(err.message)}
         );

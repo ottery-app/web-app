@@ -13,6 +13,10 @@ export default function auth(axiosInst) {
     };
 
     async function register(email, name, address, password, success, error) {
+        
+        name.firstName = name.first;
+        name.lastName = name.last;
+
         axiosInst.post("auth/register", {
             email,
             ...name,

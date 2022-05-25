@@ -16,7 +16,7 @@ export default function MakeFriend() {
     const {client} = useContext(authContext);
 
     useEffect(()=>{
-        client.searchUser(search, (res)=>setResults(res.data.users));
+        client.search.user(search, (res)=>setResults(res.data.users));
     }, [search, client]);
 
 
@@ -27,7 +27,7 @@ export default function MakeFriend() {
             <br/>
             <UnorderedList>
                 {(results && results.length !== 0) ? results.map((user, i)=>{
-                    return <ImageButton key={i} content={user.firstName + " " + user.lastName} right={"pfp"} onClick={()=>{navigate("/info/user?email="+user.email)}} />
+                    return <ImageButton key={i} content={user.firstName + " " + user.lastName} right={"pfp"} onClick={()=>{navigate("/info/user?id="+user.email)}} />
                 }) : <Faded key={"singleItem"}>No Results</Faded>}
             </UnorderedList>
         </Main>

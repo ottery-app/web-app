@@ -45,7 +45,8 @@ function App() {
               <Route index element={<GuardianHome />} />
               <Route path="user" element={<GuardianUserProfile />} />
               <Route path="user/edit" element={<GuardianEdit />} />
-              <Route path="create/kids" element={<MakeKid />} />
+
+              <Route path="create/children" element={<MakeKid />} />
               <Route path="create/friends" element={<MakeFriend />} />
               <Route path="create/vehicles" element={<MakeVehicle />} />
             </Route>

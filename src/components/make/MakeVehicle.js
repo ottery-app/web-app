@@ -57,7 +57,13 @@ export default function MakeVehicle() {
         }
 
         console.warn("add image to vehicle");
-        client.newVehicle(make, model, color, year, plate,
+        client.vehicles.post({
+                make,
+                model,
+                color,
+                year,
+                plate
+            },
             ()=>{navigate(-1)},
             (err)=>{setError(err.message)}
         );

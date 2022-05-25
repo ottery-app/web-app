@@ -71,7 +71,7 @@ export default function GuardianUserProfile() {
             );
 
             client.user.info(
-                (res) => {setUser(res.data)},
+                (res) => {setUser(res.data.user)},
                 (err) => {console.error(err)}
             );
         }

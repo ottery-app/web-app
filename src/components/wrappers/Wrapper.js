@@ -11,7 +11,7 @@ export default function Wrapper({children}) {
         if (isAuthenticated) {
             client.user.info(
                 (res)=>{
-                    setState(res.data.userState)},
+                    setState(res.data.user.userState)},
                 (e)=>{console.log(e)}
             )
         }
