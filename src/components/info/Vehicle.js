@@ -3,7 +3,7 @@ import Editable from "./Editable";
 import { largeProfile } from "../oui/styles/image";
 import {useEffect, useState, useContext} from 'react';
 import authContext from "../../auth/authContext";
-import Url from "../../classes/url";
+import Url from "../../types/url";
 
 const alt = "profile picture";
 
