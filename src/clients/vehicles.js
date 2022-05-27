@@ -1,7 +1,6 @@
 export default function vehicles(axiosInst) {
     async function get(id, success, error) {
-        console.error("not implemented");
-        axiosInst.get("vehicles/" + id, success, error);
+        axiosInst.get("vehicles/" + id).then(success).catch(error);
     }
 
     async function getAll(success, error) {

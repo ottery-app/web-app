@@ -37,7 +37,7 @@ export default function GuardianEdit() {
         <Main>
             <EditImage src={"pfp"} alt={"profile picture"} width={largeProfile} />
             {Object.keys(user).map(key => {
-                if (key!=="email") {
+                if (key!=="email" && key!=="userState") {
                     return <Input type="text" key={key} label={splitAtCapital(key)} value={user[key]} onChange={(e)=>{
                             setUser({...user, [key]: e.target.value});
                     }} />;
