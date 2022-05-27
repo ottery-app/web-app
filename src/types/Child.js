@@ -1,7 +1,9 @@
+import Name from './Name';
+
 /**
- * this is the generic child class it is used to make sure that any instance of
- * a child object is valid and is using a supported child prototype
+ * this function should inherit the human function
  */
 function Child(props) {
-
+    this.name = new Name(props);
+    this.birthday = new Date(props.birthday);
 }
