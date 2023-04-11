@@ -1,0 +1,2 @@
+export const closedMailWithHalo = "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg";
+export const checkMarkHappy = "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/happyCheck.PNG";

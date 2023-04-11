@@ -1,16 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import AuthState from "./auth/AuthState";
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import Router from './router/Router';
 
-import './index.css';
+const container = document.getElementById('root');
+const root = createRoot(container);
 
-
-ReactDOM.render(
+/**
+ * To Ulf Svensson. The man who showed me why you shouldn't wear jeans.
+ * 
+ * "I praise God for this good, exciting and privileged life. I am very blessed
+ * to have two daughters and a son, and five grandchildren, a heritage far more
+ * than I imagined as a boy in Sweden; they are my legacy"
+ * 
+ * I hope to make you proud.
+ */
+root.render(
   <React.StrictMode>
-    <AuthState>
-      <App />
-    </AuthState>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Provider store={store}>
+      <Router />
+    </Provider>
+  </React.StrictMode>
 );

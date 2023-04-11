@@ -1,0 +1,2 @@
+export const otterDrawingInTheSand = "https://github.com/ottery-app/global-data/blob/main/images/otters/otterDrawingInTheSand.PNG?raw=true";
+export const roundOtterFullBody = "https://raw.githubusercontent.com/ottery-app/global-data/main/images/otters/cute-otter-cartoon-illustration-animal-nature-concept-isolated-flat-cartoon-style/spinningOtter.png";
