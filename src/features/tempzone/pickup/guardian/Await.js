@@ -22,15 +22,14 @@ export function Await({form, onDone, mainFlow}) {
         if (requests.length) {
             setTimeout(async ()=>{
                 const {data} = await checkRequestsStatus(requests.map(({child})=>child._id));
-
+                
                 let dones = 0;
                 data.forEach((request)=>{
-                    if (request.status === requestStatus.ACCEPTED) {
+                    if (request.status !== requestStatus.INPROGRESS) {
                         dones++;
                     }
                     request.child = children.get(request.child);
                 });
-
 
                 if (dones === data.length) {
                     onDone(mainFlow, {
@@ -43,7 +42,6 @@ export function Await({form, onDone, mainFlow}) {
         }
     },[requests]);
 
-    console.log(requests);
     return <Main>
         <Image
             src={roundOtterFullBody}
