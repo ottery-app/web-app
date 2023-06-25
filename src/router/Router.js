@@ -30,6 +30,7 @@ import { EventInfo } from '../features/event/EventInfo';
 import {Notifications} from "../features/notifications/notifications";
 import { Chat } from '../features/social/chat/Chat';
 import { ProfileGuard } from '../guards/ProfileGuard';
+import { Messages } from '../features/message/Messages';
 
 //this is the router that is used to map the contents of the cite
 const router = createBrowserRouter([
@@ -68,6 +69,14 @@ const router = createBrowserRouter([
                   <Chat/>
                 </Wrap>
               </ProfileGuard>
+            </AuthGuard>
+  },
+  {
+    path: paths.social.messages,
+    element: <AuthGuard loggedin activated>
+                <Wrap title="Messages">
+                  <Messages />
+                </Wrap>
             </AuthGuard>
   },
   //CARETAKER CARETAKER CARETAKER CARETAKER CARETAKER CARETAKER
