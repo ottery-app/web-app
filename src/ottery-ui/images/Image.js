@@ -21,7 +21,7 @@ const I = styled.img`
     ${props=>props.animation}
 `;
 
-export const defaultImages = {
+export const DEFAULT_IMAGES = {
     gear,
     pfp,
     dice,
@@ -30,7 +30,7 @@ export const defaultImages = {
     x,
 };
 
-export const defaultAnimations = {
+export const DEFAULT_ANIMATIONS = {
     spin: "spin",
 }
 
@@ -60,7 +60,7 @@ function Image({
     const [anime, setAnime] = useState();
 
     useEffect(()=>{
-        if (animation === defaultAnimations.spin) {
+        if (animation === DEFAULT_ANIMATIONS.spin) {
             setAnime(spinSlow);
         }
     }, [animation]);
@@ -82,7 +82,7 @@ function Image({
         >
             <I 
                 id={id}
-                src={(defaultImages[src]) ? defaultImages[src] : src} 
+                src={(DEFAULT_IMAGES[src]) ? DEFAULT_IMAGES[src] : src} 
                 alt={alt} 
                 width={width} 
                 height={height}

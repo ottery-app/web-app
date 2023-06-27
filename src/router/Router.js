@@ -30,7 +30,7 @@ import { EventInfo } from '../features/event/EventInfo';
 import {Notifications} from "../features/notifications/notifications";
 import { Chat } from '../features/social/chat/Chat';
 import { ProfileGuard } from '../guards/ProfileGuard';
-import { Messages } from '../features/message/Messages';
+import { Messages } from '../features/chat/Messages';
 
 //this is the router that is used to map the contents of the cite
 const router = createBrowserRouter([

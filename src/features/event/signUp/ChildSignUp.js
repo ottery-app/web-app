@@ -1,5 +1,3 @@
-import { MainSignUp } from "./signUp.styles";
-import Button from "../../../ottery-ui/buttons/Button";
 import Faded from "../../../ottery-ui/text/Faded";
 import { useState, useEffect } from "react";
 import {getChildren} from "../../user/userApi";
@@ -10,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { Title } from "../../../ottery-ui/text/Title";
 import { SelectChildren } from "../../../components/SelectChildren";
 import { Main } from "../../../components/Main";
+import Button from "../../../ottery-ui/buttons/Button";
 
 export function ChildSignUp({onDone, mainFlow}) {
     const userId = useSelector(store=>store.auth.sesh.userId);
