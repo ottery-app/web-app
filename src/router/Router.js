@@ -64,11 +64,9 @@ const router = createBrowserRouter([
   {
     path: paths.social.chat,
     element: <AuthGuard loggedin activated>
-              <ProfileGuard isFollowing={true}>
-                <Wrap title="Chat">
-                  <Chat/>
-                </Wrap>
-              </ProfileGuard>
+              <Wrap title="Chat">
+                <Chat/>
+              </Wrap>
             </AuthGuard>
   },
   {

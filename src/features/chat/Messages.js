@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react"
 import { useUserId } from "../../hooks/useUserId"
 import { getChatsFor } from "./chatApi"
 import { Main } from "../../components/Main";
-import { formatDate } from "../../functions/time";
 import { IconCard } from "../../ottery-ui/containers/IconCard";
 import {DEFAULT_IMAGES} from '../../ottery-ui/images/Image';
-import { H_TYPES, Title } from "../../ottery-ui/text/Title";
+import {getInfo} from '../../features/user/userApi'
+import {useNavigator} from '../../hooks/useNavigator';
+import paths from "../../router/paths";
 
 export function Messages() {
     const userId = useUserId()
@@ -26,13 +27,32 @@ export function Messages() {
 }
 
 export function Chat({chat}) {
+    const selfId = useUserId();
+    const navigator = useNavigator();
     const message = useMemo(()=>chat.messages[chat.messages.length - 1], [])
+    const [users, setUsers] = useState('');
+    const [image, setImage] = useState(DEFAULT_IMAGES.pfp);
+
+    useEffect(()=>{
+        const users = chat.users.filter((id)=>id!==selfId);
+        getInfo(users).then((res)=>{
+            let names = res.data
+                .map((user)=>user.firstName + " " + user.lastName)
+                .join(',');
+
+            setImage(res.data[0].pfp.src);
+            setUsers(names);
+        });
+    }, []);
 
     return ( 
-        <IconCard image={DEFAULT_IMAGES.pfp}>
-            <Title h={H_TYPES.four} margin={'0px'}>{"asdf"}</Title>
-            <div>{message.message}</div>
-            <div>{formatDate(message.date)}</div>
+        <IconCard
+            onClick={()=>navigator(paths.social.chat, {chatId:chat._id})}
+            image={image}
+            title={users}
+            time={message.date}
+        >
+            {message.message}
         </IconCard>
     );
 }

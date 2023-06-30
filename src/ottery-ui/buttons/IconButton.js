@@ -16,6 +16,7 @@ import {
     FiCheck,
     FiX,
     FiShare2,
+    FiSend,
 } from "react-icons/fi";
 
 import {
@@ -72,6 +73,7 @@ const icons = {
     team: <AiOutlineTeam/>,
     orgs: <AiOutlineRead/>,
     clock: <BsClock/>,
+    send: <FiSend/>,
 }
 
 //im sure there is a better way :/
@@ -99,6 +101,7 @@ export const ICON_NAMES = {
     team: "team",
     orgs: "orgs",
     clock: "clock",
+    send:"send",
 }
 
 if (Object.keys(ICON_NAMES).length !== Object.keys(icons).length) {

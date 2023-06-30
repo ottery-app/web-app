@@ -1,3 +1,9 @@
+export const TIME = {
+    date: 'date',
+    time: 'time',
+    md: 'month-day',
+};
+
 export function Time({time, type}) {
     time = new Date(time);
 
@@ -9,13 +15,12 @@ export function Time({time, type}) {
     const minute = String(time.getMinutes()).padStart(2, '0');
     const second = String(time.getSeconds()).padStart(2, '0');
 
-    const formattedDate = `${year}-${month}-${day}`;
-    const formattedTime = `${hour}:${minute}:${second}`;
-
-    if (type==="date") {
-        return formattedDate;
-    } else if (type==="time") {
-        return formattedTime;
+    if (type===TIME.date) {
+        return `${year}-${month}-${day}`;
+    } else if (type===TIME.time) {
+        return `${hour}:${minute}:${second}`;
+    } else if (type===TIME.md){
+        return `${month}-${day}`
     } else {
         return time.toString();
     }

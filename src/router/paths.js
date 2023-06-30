@@ -12,7 +12,7 @@ const paths = {
     social: {
         notifications: "/social/notifications",
         messages: "/social/messages",
-        chat: "/social/messages/:userId",
+        chat: "/social/messages/:chatId",
     },
     guardian: {
         home: "/guardian",
