@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {Ping} from "../../../../ottery-ping/Ping";
 import { dropOffChildren, checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
+import { API_ENV } from "../../../../env/api.env";
 
 export function Await({form, onDone, mainFlow}) {
     const [requests, setRequests] = useState([]);
@@ -77,7 +78,7 @@ export function Await({form, onDone, mainFlow}) {
                             setRequests(update);
                         });
                 }
-            }, 1000);
+            }, API_ENV.query_delta);
         }
     }, [requests]);
 

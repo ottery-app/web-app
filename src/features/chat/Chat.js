@@ -4,12 +4,13 @@ import { useUserId } from "../../hooks/useUserId";
 import { Message } from '../../ottery-ui/chat/Message';
 import { ChatBox } from "../../ottery-ui/chat/ChatBox";
 import { MessageInput } from "../../ottery-ui/chat/MessageInput";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getChat, sendMessage } from "./chatApi";
 import styled from "styled-components";
 import { colors } from "../../ottery-ui/styles/colors";
 import { NAV_HEIGHT } from "../../ottery-ui/footers/NavBar";
 import { useScrollTo } from "../../hooks/useScrollTo";
+import { API_ENV } from "../../env/api.env";
 
 const InputFiller = styled.div`
     height: ${NAV_HEIGHT};
@@ -28,11 +29,9 @@ export function Chat() {
     const [chat, setChat] = useState();
     const [ref, scrollTo] = useScrollTo("instant");
 
-    const [count, setCount] = useState(0);
-
     useEffect(()=>{
         loadChat();
-        let interval = setInterval(loadChat, 1000);
+        let interval = setInterval(loadChat, API_ENV.query_delta);
 
         return ()=>{
             clearInterval(interval);

@@ -8,6 +8,7 @@ import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import { requestType } from "ottery-dto";
 import Faded from "../../../../ottery-ui/text/Faded";
 import * as delay from "delay";
+import { API_ENV } from "../../../../env/api.env";
 
 export function Awaiting({form, mainFlow, onDone}) {
     const eventId = useSelector(store=>store.auth.sesh.event);
@@ -18,7 +19,7 @@ export function Awaiting({form, mainFlow, onDone}) {
             try {
                 console.log(requests);
                 if (requests) {
-                    await delay(1000);
+                    await delay(API_ENV.query_delta);
                 }
 
                 const res = await getWatingChildrenFor(eventId, requestType.PICKUP);

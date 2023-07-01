@@ -6,6 +6,7 @@ import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import { useEffect, useState } from "react";
 import { checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
+import { API_ENV } from "../../../../env/api.env";
 
 export function Await({form, onDone, mainFlow}) {
     const [requests, setRequests] = useState([]);
@@ -38,7 +39,7 @@ export function Await({form, onDone, mainFlow}) {
                 } else {
                     setRequests([...data]);
                 }
-            }, 1000);
+            }, API_ENV.query_delta);
         }
     },[requests]);
 
