@@ -4,6 +4,10 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import Router from './router/Router';
 
+import { Clide } from './ottery-clide/Clide';
+
+console.log(new Clide())
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
