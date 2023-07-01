@@ -28,6 +28,8 @@ export function Chat() {
     const [chat, setChat] = useState();
     const [ref, scrollTo] = useScrollTo("instant");
 
+    const [count, setCount] = useState(0);
+
     useEffect(()=>{
         loadChat();
         let interval = setInterval(loadChat, 1000);
@@ -37,19 +39,24 @@ export function Chat() {
         }
     }, []);
 
+    useEffect(()=>{
+        scrollTo();
+    }, [chat]);
+
     async function loadChat() {
-        const newChat = (await getChat(chatId)).data
-        if (!chat || chat?.messages.length !== newChat.messages.length) {
-            setChat(newChat);
-            //it makes it scroll sooner too which makes no sense but uhhh i dont think it matters
-            //that this is technically risky with bug introducing?
-            setTimeout(scrollTo, 1);
-        }
+        const newChat = (await getChat(chatId)).data;
+        setChat((oldChat)=>{
+            if (!oldChat || oldChat.__v !== newChat.__v) {
+                return newChat;
+            } else {
+                return oldChat;
+            }
+        });
     }
 
     async function send(message) {
         await sendMessage(chatId, message);
-        loadChat();
+        await loadChat();
     }
 
     return <Main>
