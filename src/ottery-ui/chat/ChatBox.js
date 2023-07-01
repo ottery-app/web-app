@@ -6,7 +6,6 @@ const Chat = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${margin.medium};
-    background: red;
 `;
 
 export function ChatBox({children}) {

@@ -4,10 +4,13 @@ import styled from "styled-components";
 import { clickable } from "../styles/clickable";
 
 import addPx from "../functions/addPx";
+import { margin } from "../styles/margin";
+
+export const NAV_HEIGHT = addPx(clickable.minHeight, margin.medium);
 
 const Nav = styled.nav`
     border-top: 1px solid black;
-    height: ${addPx(clickable.minHeight, 10)};
+    height: ${NAV_HEIGHT};
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -30,7 +33,7 @@ const Link = styled.div`
 `;
 
 const Filler = styled.div`
-    height: ${addPx(clickable.minHeight, 10)};
+    height: ${NAV_HEIGHT};
 `
 
 /**

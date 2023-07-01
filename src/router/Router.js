@@ -28,7 +28,7 @@ import { Child } from '../features/child/Child';
 import { EventDash } from '../features/event/EventDash';
 import { EventInfo } from '../features/event/EventInfo';
 import {Notifications} from "../features/notifications/notifications";
-import { Chat } from '../features/social/chat/Chat';
+import { Chat } from '../features/chat/Chat';
 import { ProfileGuard } from '../guards/ProfileGuard';
 import { Messages } from '../features/chat/Messages';
 

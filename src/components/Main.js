@@ -7,7 +7,7 @@ const Base = styled.div`
     justify-content: center;
     align-items:center;
     width:100%;
-`;
+`; 
 
 export const Main = styled(Base)`
     box-sizing: border-box;
