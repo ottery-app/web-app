@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from "axios";
-import { TimeCache } from "../ottery-cache/TimeCache";
 import { CLIDE_CONF } from "./clide.conf";
+import { isDuckDto, classifyWithDto } from "ottery-dto";
 
 //TODO include AbortController for cancling
 //TODO include cashe for cashing
@@ -21,10 +21,11 @@ export class Clide {
      */
     conf
 
-    constructor(conf) {
+    constructor(conf={}) {
         if (!conf.cache_conf) {
             throw new Error('this is needed');
         }
+
         conf = Object.assign({}, CLIDE_CONF, conf);
         this.conf = conf;
         this.instance = axios.create(conf);
@@ -46,6 +47,25 @@ export class Clide {
          */
         return async function request(config) {
             config = Object.assign({}, conf, config);
+
+            if (config.validator) {
+                try {
+                    if (isDuckDto(config.validator)) {
+                        classifyWithDto(
+                            config.validator,
+                            config.data,
+                            {throw: true},
+                        )
+                    } else {
+                        config.validator(
+                            config.data,
+                            {throw: true}
+                        )
+                    }
+                } catch (e) {
+                    throw e;
+                }
+            }
 
             let res;
 
@@ -97,16 +117,3 @@ export class Clide {
         throw new Error('not yet supported');
     }
 }
-
-let clide = new Clide({
-    baseURL: process.env.REACT_APP_BACKEND_API,
-    //this is longer due to some backend apis being long ones
-    timeout: 10000,
-    headers: {'X-Custom-Header': 'foobar'},
-    cache: TimeCache,
-    cache_conf: {lifespan: 100000},
-});
-
-const getFart = clide.makeGet('go/to/here');
-
-getFart();

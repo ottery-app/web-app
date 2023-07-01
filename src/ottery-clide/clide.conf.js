@@ -11,5 +11,11 @@ export const CLIDE_CONF = {
      * these are the config properties for the cache
      * @type {Object}
      */
-    cache_conf: undefined
+    cache_conf: undefined,
+
+    /**
+     * this is used to validate api input before it is sent
+     * @type {Function | isDuck | DuckDto}
+     */
+    validator: undefined,
 };
