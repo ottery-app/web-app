@@ -10,7 +10,6 @@ export class TimeCache extends Cache {
 
     constructor(config) {
         super();
-
         this.lifespan = config?.lifespan || 600000;
     }
 
@@ -25,7 +24,7 @@ export class TimeCache extends Cache {
 
     get(id) {
         let entry = super.get(id);
-        return entry.use();
+        return entry?.use();
     }
 
     delete(id) {

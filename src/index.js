@@ -3,10 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import Router from './router/Router';
-
 import { Clide } from './ottery-clide/Clide';
-
-console.log(new Clide())
+console.log('remove clide from index');
+console.log(Clide);
 
 const container = document.getElementById('root');
 const root = createRoot(container);

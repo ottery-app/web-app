@@ -15,8 +15,19 @@ export class Clide {
      */
     instance;
 
-    constructor(params) {
-        this.instance = axios.create(params);
+    /**
+     * these are the current instance configurations
+     * @type {*}
+     */
+    conf
+
+    constructor(conf) {
+        if (!conf.cache_conf) {
+            throw new Error('this is needed');
+        }
+        conf = Object.assign({}, CLIDE_CONF, conf);
+        this.conf = conf;
+        this.instance = axios.create(conf);
     }
 
     /**
@@ -24,17 +35,17 @@ export class Clide {
      * @param {CLIDE_CONF} conf 
      * @returns 
      */
-    makeRequest(url, conf) { 
+    makeRequest(url, conf={}) { 
         conf.url = url;
-        const cache = new conf.cache(conf.cache_timeout);
-        conf = Object.apply({}, CLIDE_CONF, conf);
+        conf = Object.assign({}, this.conf, conf);
+        const cache = new conf.cache(conf.cache_conf);
 
         const that = this;
         /**
          * @param {AxiosRequestConfig} config
          */
         return async function request(config) {
-            config = Object.apply({}, conf, config);
+            config = Object.assign({}, conf, config);
 
             let res;
 
@@ -49,27 +60,27 @@ export class Clide {
         }
     }
 
-    makeGet(url, conf) {
+    makeGet(url, conf={}) {
         conf.method = 'get';
         return this.makeRequest(url, conf);
     }
 
-    makeDelete(url, conf) {
+    makeDelete(url, conf={}) {
         conf.method = 'delete';
         return this.makeRequest(url, conf);
     }
 
-    makePost(url, conf) {
+    makePost(url, conf={}) {
         conf.method = 'post';
         return this.makeRequest(url, conf);
     }
 
-    makePut(url, conf) {
+    makePut(url, conf={}) {
         conf.method = 'put';
         return this.makeRequest(url, conf);
     }
 
-    makePatch(url, conf) {
+    makePatch(url, conf={}) {
         conf.method = 'patch';
         return this.makeRequest(url, conf);
     }
@@ -92,9 +103,10 @@ let clide = new Clide({
     //this is longer due to some backend apis being long ones
     timeout: 10000,
     headers: {'X-Custom-Header': 'foobar'},
+    cache: TimeCache,
+    cache_conf: {lifespan: 100000},
 });
 
-const getFart = clide.makeGet('go/to/here', {
-    validator: Function,
-    Cache: 25251,
-});
+const getFart = clide.makeGet('go/to/here');
+
+getFart();
