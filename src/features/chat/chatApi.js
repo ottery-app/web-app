@@ -6,18 +6,19 @@ import { clideInst } from "../../app/clideInst";
 
 
 
-export const getChatsFor = clideInst.makeGet("message/user/:userId", {
-    param_validators: {
-        userId: isId,
-    },
-    pipeline: (userId) => {
-        return {
-            params: {
-                userId: userId,
+export const getChatsFor = clideInst
+    .makeGet("message/user/:userId", {
+        param_validators: {
+            userId: isId,
+        },
+        pipeline: (userId) => {
+            return {
+                params: {
+                    userId: userId,
+                }
             }
         }
-    }
-});
+    });
 
 export async function getChat(chatId) {
     try {
