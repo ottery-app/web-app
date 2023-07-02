@@ -24,4 +24,10 @@ export const CLIDE_CONF = {
      * @type {Function | isDuck | DuckDto}
      */
     data_validator: undefined,
+
+    /**
+     * this is used to handle how Clide massages the user input before making a request with it
+     * @param {*} props 
+     */
+    pipeline: props=>props
 };

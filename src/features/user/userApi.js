@@ -1,5 +1,6 @@
 import { axiosInst } from "../../app/axiosInst";
 import {noId} from "ottery-dto";
+import { clideInst } from "../../app/clideInst";
 
 export async function getChildren(userId) {
     try {
@@ -20,20 +21,17 @@ export async function getEvents(userId) {
     }
 }
 
+const clide_getInfo = clideInst.makeGet("user/info");
 export async function getInfo(userIds) {
-    try {
-        if (!Array.isArray(userIds)) {
-            userIds = [userIds];
-        }
-
-        return await axiosInst.get("api/user/info", {
-            params: {
-                users: userIds,
-            }
-        });
-    } catch (e) {
-        throw e.response.data;
+    if (!Array.isArray(userIds)) {
+        userIds = [userIds];
     }
+
+    return await clide_getInfo({
+        params: {
+            users: userIds,
+        }
+    });
 }
 
 export async function getAvalableChildren(userId) {

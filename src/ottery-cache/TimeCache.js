@@ -10,7 +10,7 @@ export class TimeCache extends Cache {
 
     constructor(config) {
         super();
-        this.lifespan = config?.lifespan || 600000;
+        this.lifespan = config?.lifespan || 1000 * 60 * 60; //1 hour
     }
 
     set(id, value) {

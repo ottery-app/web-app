@@ -16,7 +16,7 @@ export class CacheEntry {
     }
 
     use() {
-        this.accessed = new Date.getTime();
+        this.accessed = new Date().getTime();
         return this.value;
     }
 }

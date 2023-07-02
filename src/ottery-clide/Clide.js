@@ -41,8 +41,8 @@ export class Clide {
         const cache = new conf.cache(conf.cache_conf);
 
         const that = this;
-        return async function request(config) {
-            
+        return async function request(...props) {
+            let config = conf.pipeline(...props);
             config = Object.assign({}, conf, config);
 
             function validateWith(validator, data) {
