@@ -1,6 +1,9 @@
 import axios, {AxiosInstance} from "axios";
 import { CLIDE_CONF } from "./clide.conf";
-import { isDuckDto, classifyWithDto } from "ottery-dto";
+import { isDuckDto, classifyWithDto, IdDto } from "ottery-dto";
+import { TimeCache } from "../ottery-cache/TimeCache";
+import { isId } from "ottery-dto";
+import { makeUrl } from "../router/navigate";
 
 //TODO include AbortController for cancling
 //TODO include cashe for cashing
@@ -22,10 +25,6 @@ export class Clide {
     conf
 
     constructor(conf={}) {
-        if (!conf.cache_conf) {
-            throw new Error('this is needed');
-        }
-
         conf = Object.assign({}, CLIDE_CONF, conf);
         this.conf = conf;
         this.instance = axios.create(conf);
@@ -42,31 +41,36 @@ export class Clide {
         const cache = new conf.cache(conf.cache_conf);
 
         const that = this;
-        /**
-         * @param {AxiosRequestConfig} config
-         */
         return async function request(config) {
+            
             config = Object.assign({}, conf, config);
 
-            if (config.validator) {
+            function validateWith(validator, data) {
                 try {
-                    if (isDuckDto(config.validator)) {
-                        classifyWithDto(
-                            config.validator,
-                            config.data,
-                            {throw: true},
-                        )
+                    if (isDuckDto(validator)) {
+                        classifyWithDto(validator, data, {throw: true})
                     } else {
-                        config.validator(
-                            config.data,
-                            {throw: true}
-                        )
+                        validator(data, {throw: true});
                     }
                 } catch (e) {
                     throw e;
                 }
             }
 
+            //validate data
+            if (config.data_validator) {
+                validateWith(config.data_validator, config.data);
+            }
+
+            //validate params
+            for (let key in config.param_validators) {
+                validateWith(config.param_validators[key], config.params[key]);
+            }
+
+            config.url = makeUrl(config.url, config.params);
+            config.params = undefined;
+
+            //make request
             let res;
 
             if (cache.get(config.url)) {
@@ -117,3 +121,26 @@ export class Clide {
         throw new Error('not yet supported');
     }
 }
+
+// const clideInst = new Clide({
+//     baseURL: "http://localhost:8080/api/",
+//     //this is longer due to some backend apis being long ones
+//     timeout: 1000000,
+//     cache: TimeCache,
+// });
+
+// const getChatsForHelper = clideInst.makeGet("message/user/:userId/:clientId", {
+//     param_validators: {
+//         userId: isId,
+//     },
+//     data_validator: IdDto,
+// });
+
+// getChatsForHelper({
+//     params: {
+//         userId: "userId",
+//         clientId: "clientId",
+//         tootId: "tootId",
+//     },
+//     data: {id:"id"}
+// })

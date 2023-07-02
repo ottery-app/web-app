@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Clide } from "../ottery-clide/Clide";
 
 export const axiosInst = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_API,

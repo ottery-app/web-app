@@ -4,4 +4,10 @@ export const API_ENV = {
      * @type {Number}
      */
     query_delta: 5000,
+
+    /**
+     * how long before the request times out
+     * @type {Number}
+     */
+    timeout: 10000,
 };

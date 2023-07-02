@@ -14,8 +14,14 @@ export const CLIDE_CONF = {
     cache_conf: undefined,
 
     /**
-     * this is used to validate api input before it is sent
+     * this is used to validate api params before they are attached to url
+     * @type {{Function | isDuck | DuckDto}}
+     */
+    param_validators: {},
+
+    /**
+     * this is used to validate api data before it is sent
      * @type {Function | isDuck | DuckDto}
      */
-    validator: undefined,
+    data_validator: undefined,
 };
