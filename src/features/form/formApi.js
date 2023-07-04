@@ -1,9 +1,3 @@
-import { axiosInst } from "../../app/axiosInst";
+import { clideInst } from "../../app/clideInst";
 
-export async function getAll() {
-    try {
-        return await axiosInst.get("api/form/fields");
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getAll = clideInst.makeGet("api/form/fields");
