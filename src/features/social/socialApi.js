@@ -1,7 +1,4 @@
 import { socialLinkState, UpdateLinkDto } from "ottery-dto";
-import { axiosInst } from "../../app/axiosInst";
-import { classifyWithDto } from "ottery-dto";
-import { ERR_USER } from "../../app/axiosInst";
 import { clideInst } from "../../app/clideInst";
 
 export const friendStatus = clideInst
