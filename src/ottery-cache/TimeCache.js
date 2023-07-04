@@ -14,8 +14,7 @@ export class TimeCache extends Cache {
     }
 
     set(id, value) {
-        const entry = new CacheEntry(id, value);
-        super.set(id, entry);
+        super.set(id, value);
 
         entry.__timeCach_timeout = setTimeout(()=>{
             super.delete(id);

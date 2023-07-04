@@ -1,8 +1,6 @@
 import axios, {AxiosInstance} from "axios";
 import { CLIDE_CONF } from "./clide.conf";
-import { isDuckDto, classifyWithDto, IdDto } from "ottery-dto";
-import { TimeCache } from "../ottery-cache/TimeCache";
-import { isId } from "ottery-dto";
+import { isDuckDto, classifyWithDto } from "ottery-dto";
 import { makeUrl } from "../router/navigate";
 
 //TODO include AbortController for cancling
@@ -79,14 +77,9 @@ export class Clide {
             config.params = undefined;
 
             //make request
-            let res;
-
-            if (cache.get(config.url)) {
-                res = cache.get(config.url);
-            } else {
-                res = await that.instance.request(config);
-                cache.set(config.url, res);
-            }
+            let res = await cache.retrieveUsing(config.url, async ()=>{
+                return await that.instance.request(config);
+            });
 
             return await config.out_pipeline(res);
         }
