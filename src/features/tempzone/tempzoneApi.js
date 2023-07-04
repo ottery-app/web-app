@@ -1,14 +1,12 @@
-import { axiosInst } from "../../app/axiosInst";
-import { classifyWithDto, isId, isRequestType } from "ottery-dto";
-import { ERR_USER } from "../../app/axiosInst";
+import { isId, isRequestType } from "ottery-dto";
 import { ChildRequestDto, requestStatus } from "ottery-dto";
 import {getChildren} from "../child/childApi";
 import { clideInst } from "../../app/clideInst";
-import { useValidatorAsArr } from "ottery-dto";
+import { validateAsArr } from "ottery-dto";
 
 export const dropOffChildren = clideInst
     .makePost("tempzone/request/dropoff", {
-        data_validator: useValidatorAsArr(ChildRequestDto),
+        data_validator: validateAsArr(ChildRequestDto),
         in_pipeline: (dropOffRequestForms) => {
             return {
                 data:dropOffRequestForms
@@ -18,7 +16,7 @@ export const dropOffChildren = clideInst
 
 export const pickUpChildren = clideInst
     .makePost("tempzone/request/pickup", {
-        data_validator: useValidatorAsArr(ChildRequestDto),
+        data_validator: validateAsArr(ChildRequestDto),
         in_pipeline: (pickUpRequestForms) => {
             return {
                 data:pickUpRequestForms
@@ -29,7 +27,7 @@ export const pickUpChildren = clideInst
 export const checkRequestsStatus = clideInst
     .makeGet("tempzone/request/status", {
         param_validators: {
-            children: useValidatorAsArr(isId),
+            children: validateAsArr(isId),
         },
         in_pipeline: (childIds)=>{
             return {
@@ -71,7 +69,7 @@ export const getWatingChildrenFor = clideInst
 
 export const acceptChildRequest = clideInst
     .makePatch("tempzone/request/accept", {
-        data_validator: useValidatorAsArr(ChildRequestDto),
+        data_validator: validateAsArr(ChildRequestDto),
         in_pipeline: (request)=>{
             return {
                 data: [request]
@@ -79,9 +77,9 @@ export const acceptChildRequest = clideInst
         }
     });
 
-export const acceptChildDecline = clideInst
+export const declineChildRequest = clideInst
     .makePatch("tempzone/request/decline", {
-        data_validator: useValidatorAsArr(ChildRequestDto),
+        data_validator: validateAsArr(ChildRequestDto),
         in_pipeline: (request)=>{
             return {
                 data: [request]
