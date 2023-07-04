@@ -1,9 +1,12 @@
-import { axiosInst } from "../../app/axiosInst";
+import { clideInst } from "../../app/clideInst";
 
-export async function getNotifications(id) {
-    try {
-        return await axiosInst.get(`api/notifications/${id}`);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getNotifications = clideInst
+    .makeGet("notifications/:id", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    id,
+                }
+            }
+        }
+    });
