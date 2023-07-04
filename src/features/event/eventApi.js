@@ -1,83 +1,90 @@
-import { classifyWithDto, CreateEventDto } from "ottery-dto";
-import { axiosInst, ERR_USER } from "../../app/axiosInst";
+import { CreateEventDto } from "ottery-dto";
+import { clideInst } from "../../app/clideInst";
 
-export async function newEvent(form) {
-    try {
-        classifyWithDto(
-            CreateEventDto,
-            form,
-            {throw:true},
-        )
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        return await axiosInst.post("api/event", form);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function getInfo(id) {
-    try {
-        return await axiosInst.get(`api/event/${id}`);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function getEvents(ids) {
-    try {
-        return await axiosInst.get(`api/event`, {
-            params: {
-                ids: ids
+export const newEvent = clideInst
+    .makePost("event", {
+        data_validator: CreateEventDto,
+        in_pipeline: (form)=>{
+            return {
+                data: form,
             }
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+        }
+    });
 
-export async function getAttendeeSignup(id) {
-    try {
-        return await axiosInst.get(`api/event/${id}/signup/attendee`);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getInfo = clideInst
+    .makeGet("event/:id", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    id,
+                }
+            }
+        }
+    });
 
-export async function getVolenteerSignup(id) {
-    try {
-        return await axiosInst.get(`api/event/${id}/signup/volenteer`);
-    } catch (e) {
-        throw e.response.data;
+export const getEvents = clideInst.makeGet("event", {
+    in_pipeline: (ids)=>{
+        return {
+            params: {
+                ids,
+            }
+        }
     }
-}
+});
 
-export async function signUpVolenteersByIds(eventId, ids) {
-    try {
-        return await axiosInst.patch(`api/event/${eventId}/signup/volenteer`, ids);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getAttendeeSignup = clideInst
+    .makeGet("event/:id/signup/attendee", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    id,
+                }
+            }
+        }
+    });
 
-export async function signUpAttendeesByIds(eventId, ids) {
-    try {
-        return await axiosInst.patch(`api/event/${eventId}/signup/attendee`, ids);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getVolenteerSignup = clideInst
+    .makeGet("event/:id/signup/volenteer", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    id,
+                }
+            }
+        }
+    });
 
-export async function getOwner(eventId) {
-    try {
-        return await axiosInst.get(`api/event/${eventId}/owner`);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const signUpVolenteersByIds = clideInst
+    .makePatch("event/:eventId/signup/volenteer", {
+        in_pipeline: (eventId, ids)=>{
+            return {
+                data: ids,
+                params: {
+                    eventId,
+                }
+            }
+        }
+    });
+
+export const signUpAttendeesByIds = clideInst
+    .makePatch("event/:eventId/signup/attendee", {
+        in_pipeline: (eventId, ids)=>{
+            return {
+                data: ids,
+                params: {
+                    eventId,
+                }
+            }
+        }
+    });
+
+export const getOwner = clideInst
+    .makeGet("event/eventId/owner", {
+        in_pipeline: (eventId)=>{
+            return {
+                params: {
+                    eventId,
+                }
+            }
+        }
+    });

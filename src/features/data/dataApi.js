@@ -1,5 +1,4 @@
-import { DataFieldDto, classifyWithDto } from "ottery-dto";
-import { axiosInst } from "../../app/axiosInst";
+import { DataFieldDto } from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 //TODO this sucks why do i have an api called DATA??? like whata that even do? everything is data
