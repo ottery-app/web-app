@@ -1,63 +1,44 @@
-import { IdDto, socialLinkState, UpdateLinkDto, UserSocialStatusDto } from "ottery-dto";
+import { socialLinkState, UpdateLinkDto } from "ottery-dto";
 import { axiosInst } from "../../app/axiosInst";
 import { classifyWithDto } from "ottery-dto";
 import { ERR_USER } from "../../app/axiosInst";
+import { clideInst } from "../../app/clideInst";
 
-export async function friendStatus(id) {
-    try {
-        const res = await axiosInst.get(`api/social/status`, {
-            params: {
-                userIds: [id],
+export const friendStatus = clideInst
+    .makeGet("social/status", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    userIds: [id],
+                }
             }
-        })
+        },
+        out_pipeline: (res)=>{
+            res.data = res.data[0];
+            return res;
+        }
+    });
 
-        res.data = res.data[0];
-        return res;
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function updateStatus(id, to) {
-    const target = {
-        target: id,
-        state: to,
-    }
-
-    try {
-        classifyWithDto(
-            UpdateLinkDto,
-            target,
-            {throw: true}
-        )
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        return await axiosInst.patch(`api/social/update`, target);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function getFriends() {
-    try {
-        const res = await axiosInst.get(`api/social/status`, {
-            params:{
-                types: [socialLinkState.ACCEPTED],
+export const updateStatus = clideInst
+    .makePatch("social/update", {
+        data_validator: UpdateLinkDto,
+        in_pipeline: (id, to) => {
+            return {
+                data: {
+                    target: id,
+                    state: to,
+                }
             }
-        });
+        },
+    });
 
-        res.data = res.data.map((socialStatus)=>{
-            return socialStatus.user;
-        });
-
-        return res;
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getFriends = clideInst
+    .makeGet("social/status", {
+        params: {
+            types: [socialLinkState.ACCEPTED],
+        },
+        out_pipeline: (res)=>{
+            res.data = res.data.map(socialStatus=>socialStatus.user);
+            return res;
+        }
+    });
