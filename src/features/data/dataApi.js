@@ -1,29 +1,32 @@
 import { DataFieldDto, classifyWithDto } from "ottery-dto";
 import { axiosInst } from "../../app/axiosInst";
+import { clideInst } from "../../app/clideInst";
 
-export async function getMissingData(dataId, desired) {
-    try {
-        return await axiosInst.get(`api/data/id/${dataId}/missing`, {
-            params: {
-                desired: desired,
-            },
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+//TODO this sucks why do i have an api called DATA??? like whata that even do? everything is data
 
-export async function getMissingDataByOwner(ownerId, desired) {
-    try {
-        return await axiosInst.get(`api/data/owner/${ownerId}/missing`, {
-            params: {
-                desired: desired,
-            },
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+export const getMissingData = clideInst
+    .makeGet("data/id/:dataId/missing", {
+        in_pipline: (dataId, desired) => {
+            return {
+                params: {
+                    dataId: dataId,
+                    desired: desired,
+                }
+            }
+        }
+    });
+
+export const getMissingDataByOwner = clideInst
+    .makeGet("data/owner/:ownerId/missing", {
+        in_pipline: (ownerId, desired)=>{
+            return {
+                params: {
+                    ownerId: ownerId,
+                    desired: desired,
+                }
+            }
+        }
+    });
 
 /**
  * this is used to set the data to a data id by many id fields
@@ -31,22 +34,15 @@ export async function getMissingDataByOwner(ownerId, desired) {
  * @param {DataFieldDto[]} dataFields 
  * @returns 
  */
-export async function addDataByOwner(ownerId, dataFields) {
-    try {
-        for (let i = 0 ; i < dataFields.length; i++ ) {
-            classifyWithDto(
-                DataFieldDto,
-                dataFields[i],
-                {throw: true}
-            );
+export const addDataByOwner = clideInst
+    .makePatch("data/owner/:ownerId", {
+        data_validator: DataFieldDto,
+        in_pipline: (ownerId, dataFields)=>{
+            return {
+                params : {
+                    ownerId: ownerId,
+                },
+                data: dataFields,
+            }
         }
-    } catch (e) {
-        throw e
-    }
-
-    try {
-        return await axiosInst.patch(`api/data/owner/${ownerId}`, dataFields);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+    });
