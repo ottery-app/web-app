@@ -2,7 +2,6 @@ import { ActivationCodeDto, isId, LoginDto, NewUserDto } from "ottery-dto";
 import {setCookie, getCookie} from "../../functions/cookies";
 import { clideInst } from "../../app/clideInst";
 
-
 export const load = clideInst
     .makeGet("auth/load", {
         in_pipeline: ()=>{

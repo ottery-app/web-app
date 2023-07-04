@@ -1,38 +1,24 @@
-import { classifyWithDto, CreateChildDto, DropOffRequestDto } from "ottery-dto";
-import { axiosInst, ERR_USER } from "../../app/axiosInst";
+import { CreateChildDto } from "ottery-dto";
 import { formatForApi } from "../../functions/images";
+import { clideInst } from "../../app/clideInst";
 
-export async function newChild(form) {
-    try {
-        form.pfp = await formatForApi(form.pfp);
-        form.dateOfBirth = new Date(form.dateOfBirth).getTime();
-        classifyWithDto(
-            CreateChildDto,
-            form,
-            {throw: true}
-        )
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        return await axiosInst.post("api/child", form);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function getChildren(children) {
-    try {
-        return await axiosInst.get(`api/child`, {
-            params: {
-                children: children,
+export const newChild = clideInst
+    .makePost("child", {
+        data_validator: CreateChildDto,
+        in_pipeline: async (form)=>{
+            form.pfp = await formatForApi(form.pfp);
+            form.dateOfBirth = new Date(form.dateOfBirth).getTime();
+            return {
+                data: form,
             }
-        })
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+        },
+    });
+
+export const getChildren = clideInst
+    .makeGet("child", {
+        in_pipeline: (children) => {
+            return {
+                params: {children},
+            }
+        },
+    });
