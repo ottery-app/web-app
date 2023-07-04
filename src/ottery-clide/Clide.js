@@ -42,7 +42,7 @@ export class Clide {
 
         const that = this;
         return async function request(...props) {
-            let config = conf.pipeline(...props);
+            let config = conf.in_pipeline(...props);
             config = Object.assign({}, conf, config);
 
             function validateWith(validator, data) {
@@ -80,7 +80,7 @@ export class Clide {
                 cache.set(config.url, res);
             }
 
-            return res;
+            return config.out_pipeline(res);
         }
     }
 

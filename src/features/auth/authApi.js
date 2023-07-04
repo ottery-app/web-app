@@ -1,7 +1,16 @@
 import { axiosInst, ERR_USER } from "../../app/axiosInst";
 import { ActivationCodeDto, classifyWithDto, LoginDto, NewUserDto } from "ottery-dto";
 import {setCookie, getCookie} from "../../functions/cookies";
+import { clideInst } from "../../app/clideInst";
 
+
+// export const load = clideInst
+//     .makeGet("auth/load", {
+//         in_pipeline: ()=>{
+
+//         },
+//         out_pipeline: ()=>{},
+//     })
 export async function load() {
     axiosInst.defaults.headers.common['Id'] = getCookie("Id");
     axiosInst.defaults.headers.common['Authorization'] = localStorage.getItem('token');
