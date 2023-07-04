@@ -1,137 +1,88 @@
-import { axiosInst, ERR_USER } from "../../app/axiosInst";
-import { ActivationCodeDto, classifyWithDto, LoginDto, NewUserDto } from "ottery-dto";
+import { ActivationCodeDto, isId, LoginDto, NewUserDto } from "ottery-dto";
 import {setCookie, getCookie} from "../../functions/cookies";
 import { clideInst } from "../../app/clideInst";
 
 
-// export const load = clideInst
-//     .makeGet("auth/load", {
-//         in_pipeline: ()=>{
+export const load = clideInst
+    .makeGet("auth/load", {
+        in_pipeline: ()=>{
+            clideInst.defaults.headers.common['Id'] = getCookie("Id");
+            clideInst.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+        },
+        out_pipeline: (res)=>{
+            clideInst.defaults.headers.common['Id'] = res.data.seshId;
+            setCookie('Id', res.data.seshId, 1); //set to 1 day for no real reason
+            return res;
+        },
+    });
 
-//         },
-//         out_pipeline: ()=>{},
-//     })
-export async function load() {
-    axiosInst.defaults.headers.common['Id'] = getCookie("Id");
-    axiosInst.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-
-    try {
-        let res = await axiosInst.get("api/auth/load");
-        axiosInst.defaults.headers.common['Id'] = res.data.seshId;
-        setCookie('Id', res.data.seshId, 1); //TODO set this to a time provided by the backend
-        console.warn("Benjamin: change this to be a time determined by the backend");
-        return res;
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function login(data) {
-    try {
-        classifyWithDto(
-            LoginDto,
-            data,
-            {throw:true}
-        );
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: "Username or password incorrect"
-        };
-    }
-
-    try {
-        let res = await axiosInst.post("api/auth/login", data);
-        localStorage.setItem("token", res.data.token);
-        axiosInst.defaults.headers.common['seshId'] = res.data.seshId;
-        axiosInst.defaults.headers.common['Authorization'] = res.data.token;
-        return res;
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function logout() {
-    if (axiosInst.defaults.headers.common['Authorization']) {
-        let res = await axiosInst.delete("api/auth/logout");
-        axiosInst.defaults.headers.common['Authorization'] = undefined;
-        return res;
-    } else {
-        throw {
-            code: ERR_USER,
-            message: "not logged in"
-        };
-    }
-}
-
-export async function register(data) {
-    try {
-        classifyWithDto(
-            NewUserDto,
-            data,
-            {throw:true}
-        )
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        let res = await axiosInst.post("api/auth/register", data);
-        localStorage.setItem('token', res.data.token);
-        axiosInst.defaults.headers.common['Authorization'] = res.data.token;
-        return res;
-    } catch (e) {
-        console.log(e);
-        throw e.response.data;
-    }
-}
-
-export async function activate(data) {
-    try {
-        classifyWithDto(
-            ActivationCodeDto,
-            data,
-            {
-                throw:true,
-                allowEmpty: false,
+export const login = clideInst
+    .makePost("auth/login", {
+        data_validator: LoginDto,
+        in_pipeline: (loginDto) => {
+            return {
+                data: loginDto,
             }
-        )
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
+        },
+        out_pipeline: (res)=>{
+            localStorage.setItem("token", res.data.token);
+            clideInst.defaults.headers.common['seshId'] = res.data.seshId;
+            clideInst.defaults.headers.common['Authorization'] = res.data.token;
+            return res;
+        },
+    });
 
-    try {
-        return await axiosInst.put("api/auth/activate", data);
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function resendEmail() {
-    try {
-        return await axiosInst.put("api/auth/resend");
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function switchState(eventId) {
-    try {
-        return await axiosInst.get(`api/auth/state/switch`, {
-            params: {
-                event: eventId,
+export const logout = clideInst
+    .makeDelete("auth/logout", {
+        in_pipeline: ()=>{
+            if (!clideInst.defaults.headers.common["Authorization"]) {
+                throw new Error("Not logged in");
             }
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+        },
+        out_pipeline: (res)=>{
+            clideInst.defaults.headers.common['Authorization'] = undefined;
+            return res;
+        }
+    });
+
+export const register = clideInst
+    .makePost("auth/register", {
+        data_validator: NewUserDto,
+        in_pipeline:(newUserDto)=>{
+            return {
+                data:newUserDto
+            }
+        },
+        out_pipeline:(res)=>{
+            localStorage.setItem('token', res.data.token);
+            clideInst.defaults.headers.common['Authorization'] = res.data.token;
+            return res;
+        }
+    });
+
+export const activate = clideInst
+    .makePut("auth/activate", {
+        // this may need its options to not allow empty in the clide...
+        // we would need to make a new clide config that gets input into code
+        //{allowEmpty: false}
+        data_validator: ActivationCodeDto, 
+    });
+
+export const resendEmail = clideInst.makePut("auth/resend");
+
+export const switchState = clideInst
+    .makeGet("auth/state/switch", {
+        param_validators: {
+            event: isId,
+        },
+        in_pipeline: (eventId)=>{
+            return {
+                params: {
+                    event: eventId,
+                }
+            }
+        }
+    });
 
 const AuthApi = {
     load,

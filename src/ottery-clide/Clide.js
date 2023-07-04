@@ -31,6 +31,13 @@ export class Clide {
     }
 
     /**
+     * gets the defaults of the axios instance as though it was Clides defaults
+     */
+    get defaults() {
+        return this.instance.defaults;
+    }
+
+    /**
      * @param {String} url 
      * @param {CLIDE_CONF} conf 
      * @returns 
@@ -53,6 +60,7 @@ export class Clide {
                         validator(data, {throw: true});
                     }
                 } catch (e) {
+                    console.log(validator, data)
                     throw e;
                 }
             }
