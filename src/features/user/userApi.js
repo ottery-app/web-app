@@ -1,59 +1,69 @@
-import { axiosInst } from "../../app/axiosInst";
-import {noId} from "ottery-dto";
+import {isId, noId} from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
-export async function getChildren(userId) {
-    try {
-        return await axiosInst.get("api/user/" + userId + "/children");
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-export async function getEvents(userId) {
-    try {
-        return await axiosInst.get(`api/user/${userId}/events`, {params:{
-            self: true,
-            children: true,
-        }});
-    } catch (e) {
-        throw e.response.data;
-    }
-}
-
-const clide_getInfo = clideInst.makeGet("user/info");
-export async function getInfo(userIds) {
-    if (!Array.isArray(userIds)) {
-        userIds = [userIds];
-    }
-
-    return await clide_getInfo({
-        params: {
-            users: userIds,
+export const getChildren = clideInst
+    .makeGet("user/:udserId/children", {
+        param_validators: {
+            userId: isId,
+        },
+        in_pipeline: (userId)=>{
+            return {
+                params: {
+                    userId: userId,
+                }
+            }
         }
     });
-}
 
-export async function getAvalableChildren(userId) {
-    try {
-        return await axiosInst.get(`api/user/${userId}/children`, {
-            params: {
-                at: noId,
+export const getEvents = clideInst
+    .makeGet("user/:userId/events", {
+        in_pipeline:(userId)=>{
+            return {
+                params: {
+                    userId: userId,
+                    self: true,
+                    children: true,
+                }
             }
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+        }
+    })
 
-export async function getDroppedOffChildren(userId) {
-    try {
-        return await axiosInst.get(`api/user/${userId}/children`, {
-            params: {
-                notat: noId,
+
+export const getInfo = clideInst
+    .makeGet("user/info", {
+        in_pipeline: (userIds)=>{
+            if (!Array.isArray(userIds)) {
+                userIds = [userIds];
             }
-        });
-    } catch (e) {
-        throw e.response.data;
-    }
-}
+
+            return {
+                params: {
+                    users: userIds,
+                }
+            }
+        }
+    });
+
+export const getAvalableChildren = clideInst
+    .makeGet("user/:userId/children", {
+        in_pipeline: (userId)=>{
+            return {
+                params: {
+                    userId: userId,
+                    at: noId,
+                }
+            }
+        }
+    });
+
+export const getDroppedOffChildren = clideInst
+    .makeGet("user/:userId/children", {
+        in_pipeline: (userId)=>{
+            return {
+                params: {
+                    userId: userId,
+                    notat: noId,
+                }
+            }
+        }
+    });

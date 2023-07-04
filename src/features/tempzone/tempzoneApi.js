@@ -1,138 +1,91 @@
 import { axiosInst } from "../../app/axiosInst";
-import { classifyWithDto, isRequestType } from "ottery-dto";
+import { classifyWithDto, isId, isRequestType } from "ottery-dto";
 import { ERR_USER } from "../../app/axiosInst";
 import { ChildRequestDto, requestStatus } from "ottery-dto";
 import {getChildren} from "../child/childApi";
+import { clideInst } from "../../app/clideInst";
+import { useValidatorAsArr } from "ottery-dto";
 
-export async function dropOffChildren(dropOffRequestForms) {
-    try {
-        for (let i = 0; i < dropOffRequestForms.length; i++) {
-            classifyWithDto(
-                ChildRequestDto,
-                dropOffRequestForms[i],
-                {throw: true}
-            );
-        }
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        return await axiosInst.post("api/tempzone/request/dropoff", dropOffRequestForms);
-    } catch (e) {
-        throw e;
-    }
-}
-
-export async function pickUpChildren(pickUpRequestForms) {
-    try {
-        for (let i = 0; i < pickUpRequestForms.length; i++) {
-            classifyWithDto(
-                ChildRequestDto,
-                pickUpRequestForms[i],
-                {throw: true}
-            );
-        }
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        return await axiosInst.post("api/tempzone/request/pickup", pickUpRequestForms);
-    } catch (e) {
-        throw e;
-    }
-}
-
-export async function checkRequestsStatus(childids) {
-    try {
-        return await axiosInst.get(`api/tempzone/request/status`, {
-            params: {
-                children: childids,
+export const dropOffChildren = clideInst
+    .makePost("tempzone/request/dropoff", {
+        data_validator: useValidatorAsArr(ChildRequestDto),
+        in_pipeline: (dropOffRequestForms) => {
+            return {
+                data:dropOffRequestForms
             }
-        });
-    } catch (e) {
-        throw e;
-    }
-}
-
-export async function getWatingChildrenFor(eventId, requestType) {
-    try {
-        isRequestType(requestType, {throw:true});
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
-
-    try {
-        const requests = await axiosInst.get(`api/tempzone/request/status`, {
-            params: {
-                event: eventId,
-                status: requestStatus.INPROGRESS,
-                type: requestType,
-            },
-        });
-        
-        if (requests.data.length) {
-            const children = await getChildren(requests.data.map(r=>r.child));
-            requests.data = requests.data.map((req, i)=>{
-                req.child = children.data[i];
-                return req;
-            });
         }
+    });
 
-        return requests;
-    } catch (e) {
-        throw e;
-    }
-}
+export const pickUpChildren = clideInst
+    .makePost("tempzone/request/pickup", {
+        data_validator: useValidatorAsArr(ChildRequestDto),
+        in_pipeline: (pickUpRequestForms) => {
+            return {
+                data:pickUpRequestForms
+            }
+        }
+    });
 
-export async function acceptChildRequest(request) {
-    try {
-        classifyWithDto(
-            ChildRequestDto,
-            request,
-            {throw: true}
-        );
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
+export const checkRequestsStatus = clideInst
+    .makeGet("tempzone/request/status", {
+        param_validators: {
+            children: useValidatorAsArr(isId),
+        },
+        in_pipeline: (childIds)=>{
+            return {
+                params: {
+                    children: childIds,
+                }
+            }
+        }
+    });
 
-    try {
-        return await axiosInst.patch("api/tempzone/request/accept", [request]);
-    } catch (e) {
-        throw e;
-    }
-}
+export const getWatingChildrenFor = clideInst
+    .makeGet("tempzone/request/status", {
+        param_validators: {
+            event: isId,
+            type: isRequestType,
+        },
+        in_pipeline: (eventId, requestType)=>{
+            return {
+                params: {
+                    event: eventId,
+                    status: requestStatus.INPROGRESS,
+                    type: requestType,
+                }
+            }
+        },
+        out_pipeline: async (res) => {
 
-export async function declineChildRequest(request) {
-    try {
-        classifyWithDto(
-            ChildRequestDto,
-            request,
-            {throw: true}
-        );
-    } catch (e) {
-        throw {
-            code: ERR_USER,
-            message: e.message,
-        };
-    }
+            if (res.data.length) {
+                const children = await getChildren(res.data.map(r=>r.child));
+                res.data = res.data.map((req, i)=>{
+                    req.child = children.data[i];
+                    return req;
+                });
+            }
 
-    try {
-        return await axiosInst.patch("api/tempzone/request/decline", [request]);
-    } catch (e) {
-        throw e;
-    }
-}
+            return res
+        }
+    });
+
+export const acceptChildRequest = clideInst
+    .makePatch("tempzone/request/accept", {
+        data_validator: useValidatorAsArr(ChildRequestDto),
+        in_pipeline: (request)=>{
+            return {
+                data: [request]
+            }
+        }
+    });
+
+export const acceptChildDecline = clideInst
+    .makePatch("tempzone/request/decline", {
+        data_validator: useValidatorAsArr(ChildRequestDto),
+        in_pipeline: (request)=>{
+            return {
+                data: [request]
+            }
+        }
+    });
+
