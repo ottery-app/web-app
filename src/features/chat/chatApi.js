@@ -30,15 +30,18 @@ export const getChat = clideInst
     })
 
 export const sendMessage = clideInst
-    .makePatch("message/chat/direct:chatId", {
+    .makePatch("message/chat/direct/:chatId", {
         param_validators: {
             chatId: isId,
         },
-        in_pipeline: (chatId) => {
+        in_pipeline: (chatId, message) => {
             return {
                 params: {
                     chatId: chatId,
-                }
+                },
+                data: {
+                    string: message
+                },
             }
         }
     })
