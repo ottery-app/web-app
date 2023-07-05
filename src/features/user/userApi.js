@@ -2,7 +2,7 @@ import {isId, noId} from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 export const getChildren = clideInst
-    .makeGet("user/:udserId/children", {
+    .makeGet("user/:userId/children", {
         param_validators: {
             userId: isId,
         },
