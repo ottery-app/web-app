@@ -1,6 +1,6 @@
 import {MultiFieldHeader} from "../../../ottery-ui/headers/MultiFieldHeader";
 import OrderedList from "../../../ottery-ui/lists/OrderedList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MarginlessMain } from "../../../components/Main";
 import { ProfileGuard } from "../../../guards/ProfileGuard";
 import Button, { BUTTON_TYPES } from "../../../ottery-ui/buttons/Button";
@@ -10,6 +10,8 @@ import { useRerenderer } from "../../../hooks/useRerenderer";
 import { socialLinkState } from "ottery-dto";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../hooks/useNavigator";
+import { getDirectChat } from "../../chat/chatApi";
+import { FriendRequest } from "../../social/FriendRequest";
 
 const Tabs = {
     posts: "posts",
@@ -19,12 +21,11 @@ const Tabs = {
 export default function UserOther({userInfo, userId, selfId}) {
     const [tab, setTab] = useState(Object.values(Tabs)[0]);
     const [data, setData] = useState({});
-    const rerender = useRerenderer();
     const navigator = useNavigator();
 
-    async function updateFriendStatus(to) {
-        await updateStatus(userId, to);
-        rerender();
+    async function getChatId() {
+        let {data} = await getDirectChat(selfId, userId)    
+        return data._id;
     }
 
     return(
@@ -50,67 +51,13 @@ export default function UserOther({userInfo, userId, selfId}) {
                             type={BUTTON_TYPES.filled}
                             primaryColor={colors.primaryLight}
                             secondaryColor={colors.textDark}
-                            onClick={()=>navigator(paths.social.chat, {userId:userId})}
+                            onClick={async ()=>{
+                                let chatId = await getChatId();
+                                navigator(paths.social.chat, {chatId:chatId});
+                            }}
                         >message</Button>
                     </ProfileGuard>,
-                    <ProfileGuard
-                        isFollowing={userId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={()=>updateFriendStatus(socialLinkState.NONE)}
-                        >UnFriend</Button>
-                    </ProfileGuard>,
-                    <ProfileGuard
-                        isNotFollowing={userId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={()=>updateFriendStatus(socialLinkState.REQUESTED)}
-                        >Friend</Button>
-                    </ProfileGuard>,
-                    <ProfileGuard
-                        isFollowReqeusted={userId}
-                        isActivator={selfId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={()=>updateFriendStatus(socialLinkState.NONE)}
-                        >Requested</Button>
-                    </ProfileGuard>,
-                    <ProfileGuard
-                        isFollowReqeusted={userId}
-                        isNotActivator={selfId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={()=>updateFriendStatus(socialLinkState.ACCEPTED)}
-                        >Accept</Button>
-                    </ProfileGuard>,
-                    <ProfileGuard
-                        isFollowReqeusted={userId}
-                        isNotActivator={selfId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={()=>updateFriendStatus(socialLinkState.NONE)}
-                        >Decline</Button>
-                    </ProfileGuard>,
+                    <FriendRequest userId={userId} />
                 ]}
             />
             <OrderedList 

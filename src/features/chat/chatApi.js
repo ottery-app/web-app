@@ -1,5 +1,15 @@
-import { MakeChatDto, isId } from "ottery-dto";
+import { MakeChatDto, isId, validateAsArr } from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
+
+export const makeChat = clideInst
+    .makePut("message/chat", {
+        data_validator: MakeChatDto,
+        in_pipeline: (makeChatDto) => {
+            return {
+                data: makeChatDto
+            }
+        }
+    });
 
 export const getChatsFor = clideInst
     .makeGet("message/user/:userId", {
@@ -15,6 +25,35 @@ export const getChatsFor = clideInst
         }
     });
 
+export const getDirectChat = clideInst
+    .makeGet("message/user/:userId", {
+        param_validators: {
+            requireUserIds: validateAsArr(isId)
+        },
+        in_pipeline: (userA, userB)=>{
+            return {
+                params: {
+                    userId: userA,
+                    requireUserIds: [userB],
+                    direct: true,
+                }
+            }
+        },
+        out_pipeline: async (res, config)=>{
+            res.data = res.data[0];
+
+            if (res.data) {
+                return res;
+            } else {
+                let newChat = new MakeChatDto();
+                newChat.users = [config.params.userId, ...config.params.requireUserIds];
+                res = await makeChat(newChat);
+            }
+
+            return res;
+        },
+    });
+
 export const getChat = clideInst
     .makeGet("message/chat/:chatId", {
         param_validators: {
@@ -27,7 +66,7 @@ export const getChat = clideInst
                 }
             }
         }
-    })
+    });
 
 export const sendMessage = clideInst
     .makePatch("message/chat/direct/:chatId", {
@@ -42,16 +81,6 @@ export const sendMessage = clideInst
                 data: {
                     string: message
                 },
-            }
-        }
-    })
-
-export const makeChat = clideInst
-    .makePut("message/chat", {
-        data_validator: MakeChatDto,
-        in_pipeline: (makeChatDto) => {
-            return {
-                data: makeChatDto
             }
         }
     });

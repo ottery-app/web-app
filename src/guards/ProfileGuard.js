@@ -74,7 +74,7 @@ export function ProfileGuard({
                         if (typeof isFollowing === typeof true) {
                             isFollowing = userId;
                         }
-
+                        
                         return (await friendStatus(isFollowing)).data.state.state;
                     },
         breach:     ()=>{navigator(paths[sesh.state].home)}

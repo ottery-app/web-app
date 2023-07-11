@@ -2,9 +2,7 @@ import axios, {AxiosInstance} from "axios";
 import { CLIDE_CONF } from "./clide.conf";
 import { isDuckDto, classifyWithDto } from "ottery-dto";
 import { makeUrl } from "../router/navigate";
-
-//TODO include AbortController for cancling
-//TODO include cashe for cashing
+// import { v4 as guid } from 'uuid';
 
 /**
  * this is a porting of axios with a few extra features to better support the needs of ottery
@@ -73,6 +71,9 @@ export class Clide {
                 validateWith(config.param_validators[key], config.params[key]);
             }
 
+            //need to store to reattach so that the request params dont get ruined and then
+            //the config pass through still has the needed info
+            const oldParams = config.params;
             config.url = makeUrl(config.url, config.params);
             config.params = undefined;
 
@@ -81,7 +82,8 @@ export class Clide {
                 return await that.instance.request(config);
             });
 
-            return await config.out_pipeline(res);
+            config.params = oldParams;
+            return await config.out_pipeline(res, config);
         }
     }
 

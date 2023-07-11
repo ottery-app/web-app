@@ -1,0 +1,82 @@
+import { useEffect, useState } from "react";
+import { useUserId } from "../../hooks/useUserId";
+import { friendStatus } from "./socialApi";
+import { socialLinkState } from "ottery-dto";
+import { BUTTON_TYPES } from "../../ottery-ui/buttons/Button";
+import Button from "../../ottery-ui/buttons/Button";
+import { colors } from "../../ottery-ui/styles/colors";
+import { updateStatus } from "./socialApi";
+import { useRerenderer } from "../../hooks/useRerenderer";
+
+export function FriendRequest({userId}) {
+    const selfId = useUserId();
+    const [status, setStatus] = useState();
+
+    async function updateFriendStatus(to) {
+        let {data} = await updateStatus(userId, to);
+        setStatus({...status, state:data});
+    }
+
+    async function getStatus() {
+        friendStatus(userId)
+            .then((res)=>{
+                setStatus(res.data);
+            })
+            .catch((e)=>{throw e});
+    }
+
+    useEffect(()=>{
+        getStatus();
+    }, [userId]);
+
+    console.log(status);
+
+    // they are following
+    if (status?.state.state === socialLinkState.ACCEPTED) {
+        return (
+            <Button
+                type={BUTTON_TYPES.filled}
+                primaryColor={colors.primaryLight}
+                secondaryColor={colors.textDark}
+                onClick={()=>updateFriendStatus(socialLinkState.NONE)}
+            >UnFriend</Button>
+        );
+    } else if (status?.state.state === socialLinkState.REQUESTED) {
+        if (status.state.activator === selfId) {
+            return (
+                <Button
+                    type={BUTTON_TYPES.filled}
+                    primaryColor={colors.primaryLight}
+                    secondaryColor={colors.textDark}
+                    onClick={()=>updateFriendStatus(socialLinkState.NONE)}
+                >Requested</Button>
+            );
+        } else {
+            return (
+                <>
+                    <Button
+                        type={BUTTON_TYPES.filled}
+                        primaryColor={colors.primaryLight}
+                        secondaryColor={colors.textDark}
+                        onClick={()=>updateFriendStatus(socialLinkState.NONE)}
+                    >Decline</Button>
+                    <Button
+                        type={BUTTON_TYPES.filled}
+                        primaryColor={colors.primaryLight}
+                        secondaryColor={colors.textDark}
+                        onClick={()=>updateFriendStatus(socialLinkState.ACCEPTED)}
+                    >Accept</Button>
+                </>
+            );
+        }
+    } else if (status?.state.state === socialLinkState.NONE) {
+        return (
+            <Button
+                type={BUTTON_TYPES.filled}
+                primaryColor={colors.primaryLight}
+                secondaryColor={colors.textDark}
+                onClick={()=>updateFriendStatus(socialLinkState.REQUESTED)}
+            >Friend</Button>
+        );
+    }
+}

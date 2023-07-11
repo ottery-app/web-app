@@ -9,5 +9,5 @@ export const API_ENV = {
      * how long before the request times out
      * @type {Number}
      */
-    timeout: 10000,
+    timeout: 100000000000,
 };

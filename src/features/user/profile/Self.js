@@ -30,11 +30,11 @@ export default function UserSelf({userInfo, userId}) {
     
             return res.data.map((kiddo)=>
                 <ImageButton 
-                    key={kiddo._id}
-                    content={kiddo.firstName}
-                    right={"pfp" && kiddo.pfp.src}
+                    key={kiddo?._id}
+                    content={kiddo?.firstName}
+                    right={"pfp" && kiddo?.pfp.src}
                     onClick={()=>{
-                        navigator(paths.child.profile, {childId:kiddo._id});
+                        navigator(paths.child.profile, {childId:kiddo?._id});
                     }}
                 />
             )
@@ -59,9 +59,9 @@ export default function UserSelf({userInfo, userId}) {
 
             return res.data.map((user)=>{
                 return <ImageButton 
-                    key={user._id}
-                    content={`${user.firstName} ${user.lastName}`}
-                    right={"pfp" && user.pfp.src}
+                    key={user?._id}
+                    content={`${user?.firstName} ${user?.lastName}`}
+                    right={"pfp" && user?.pfp.src}
                     onClick={()=>{
                         navigator(paths.user.profile, {userId:user._id});
                     }}
