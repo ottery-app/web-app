@@ -6,7 +6,6 @@ import { BUTTON_TYPES } from "../../ottery-ui/buttons/Button";
 import Button from "../../ottery-ui/buttons/Button";
 import { colors } from "../../ottery-ui/styles/colors";
 import { updateStatus } from "./socialApi";
-import { useRerenderer } from "../../hooks/useRerenderer";
 
 export function FriendRequest({userId}) {
     const selfId = useUserId();
@@ -26,10 +25,10 @@ export function FriendRequest({userId}) {
     }
 
     useEffect(()=>{
-        getStatus();
+        if (userId) {
+            getStatus();
+        }
     }, [userId]);
-
-    console.log(status);
 
     // they are following
     if (status?.state.state === socialLinkState.ACCEPTED) {

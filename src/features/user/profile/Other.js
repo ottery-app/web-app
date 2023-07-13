@@ -1,6 +1,6 @@
 import {MultiFieldHeader} from "../../../ottery-ui/headers/MultiFieldHeader";
 import OrderedList from "../../../ottery-ui/lists/OrderedList";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MarginlessMain } from "../../../components/Main";
 import { ProfileGuard } from "../../../guards/ProfileGuard";
 import Button, { BUTTON_TYPES } from "../../../ottery-ui/buttons/Button";
@@ -21,6 +21,7 @@ const Tabs = {
 export default function UserOther({userInfo, userId, selfId}) {
     const [tab, setTab] = useState(Object.values(Tabs)[0]);
     const [data, setData] = useState({});
+    const user = useMemo(()=>userInfo,[userInfo]);
     const navigator = useNavigator();
 
     async function getChatId() {
@@ -31,7 +32,7 @@ export default function UserOther({userInfo, userId, selfId}) {
     return(
         <MarginlessMain>
             <MultiFieldHeader
-                src={userInfo?.pfp?.src || "pfp"}
+                src={user?.pfp?.src || "pfp"}
                 alt={"profile photo"}
                 tab={tab}
                 onTab={(tab)=>{
@@ -42,21 +43,16 @@ export default function UserOther({userInfo, userId, selfId}) {
                 }}
                 tabs={Object.values(Tabs)}
                 title={[
-                    `${userInfo?.firstName} ${userInfo?.lastName}`,
-                    <ProfileGuard
-                        isFollowing={userId}
-                        hide
-                    >
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
-                            onClick={async ()=>{
-                                let chatId = await getChatId();
-                                navigator(paths.social.chat, {chatId:chatId});
-                            }}
-                        >message</Button>
-                    </ProfileGuard>,
+                    `${user?.firstName} ${user?.lastName}`,
+                    <Button
+                        type={BUTTON_TYPES.filled}
+                        primaryColor={colors.primaryLight}
+                        secondaryColor={colors.textDark}
+                        onClick={async ()=>{
+                            let chatId = await getChatId();
+                            navigator(paths.social.chat, {chatId:chatId});
+                        }}
+                    >message</Button>,
                     <FriendRequest userId={userId} />
                 ]}
             />
