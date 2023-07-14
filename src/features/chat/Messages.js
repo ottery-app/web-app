@@ -29,9 +29,12 @@ export function Messages() {
 export function Chat({chat}) {
     const selfId = useUserId();
     const navigator = useNavigator();
-    const message = useMemo(()=>chat.messages[chat.messages.length - 1], [])
+    const message = useMemo(()=>chat.messages[chat.messages.length - 1], [chat])
     const [users, setUsers] = useState('');
     const [image, setImage] = useState(DEFAULT_IMAGES.pfp);
+
+    console.log(chat);
+    console.log(message);
 
     useEffect(()=>{
         const users = chat.users.filter((id)=>id!==selfId);
@@ -45,14 +48,14 @@ export function Chat({chat}) {
         });
     }, []);
 
-    return ( 
+    return (
         <IconCard
             onClick={()=>navigator(paths.social.chat, {chatId:chat._id})}
             image={image}
             title={users}
-            time={message.date}
+            time={message?.date}
         >
-            {message.message}
+            {message?.message}
         </IconCard>
     );
 }
