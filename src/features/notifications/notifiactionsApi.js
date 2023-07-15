@@ -1,12 +1,23 @@
 import { clideInst } from "../../app/clideInst";
 
 export const getNotifications = clideInst
-    .makeGet("notifications/:id", {
+    .makeGet("notifications/:userId", {
         in_pipeline: (id)=>{
             return {
                 params: {
-                    id,
+                    userId:id,
                 }
             }
         }
     });
+
+export const readNotifications = clideInst
+    .makePatch("notifications/:userId", {
+        in_pipeline: (id)=>{
+            return {
+                params: {
+                    userId:id,
+                }
+            }
+        }
+    })
