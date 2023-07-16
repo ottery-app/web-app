@@ -1,5 +1,6 @@
 import { CreateEventDto } from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
+import { getChildren } from "../user/userApi";
 
 export const newEvent = clideInst
     .makePost("event", {
@@ -11,6 +12,18 @@ export const newEvent = clideInst
         }
     });
 
+export const getVolenteerStatus = async (eventId, userId)=>{
+    let {data:event} = await getInfo(eventId);
+    return {data:event.volenteers.includes(userId)};
+}
+
+export const getAttendeeStatus = async (eventId, userId)=>{
+    //let {data:event} = await getInfo(eventId);
+    let {data:children} = await getChildren(userId);
+    let events = children.reduce((arr,child)=>[...arr, ...child.events], []);
+    return {data:events.includes(eventId)};
+}
+
 export const getInfo = clideInst
     .makeGet("event/:id", {
         in_pipeline: (id)=>{
@@ -19,6 +32,10 @@ export const getInfo = clideInst
                     id,
                 }
             }
+        },
+        out_pipline: (res)=>{
+            console.log(res);
+            return res;
         }
     });
 

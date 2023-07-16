@@ -1,5 +1,6 @@
 import { MakeChatDto, isId, validateAsArr } from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
+import { DummyCache } from "../../ottery-cache/DummyCache";
 
 export const makeChat = clideInst
     .makePut("message/chat", {
@@ -27,6 +28,7 @@ export const getChatsFor = clideInst
 
 export const getDirectChat = clideInst
     .makeGet("message/user/:userId", {
+        cache: DummyCache,
         param_validators: {
             requireUserIds: validateAsArr(isId)
         },
