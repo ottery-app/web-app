@@ -90,29 +90,26 @@ export function EventInfo() {
                 {event.description}
                 <ButtonField>
                     <EventGuard
-                        isNotRegistered={eventId}
-                        hide
-                    >
-                        <Button
-                            onClick={()=>{
-                                navigator(paths.event.signup, {eventId});
-                            }}
-                        >
-                            Sign Up
-                        </Button>
-                    </EventGuard>
-                    <EventGuard
                         isRegistered={eventId}
-                        hide
-                    >
-                        <Button
-                            onClick={()=>{
-                                navigator(paths.event.dash, {eventId});
-                            }}
-                        >
-                            Dashboard
-                        </Button>
-                    </EventGuard>
+                        successHtml={
+                            <Button
+                                onClick={()=>{
+                                    navigator(paths.event.dash, {eventId});
+                                }}
+                            >
+                                Dashboard
+                            </Button>
+                        }
+                        errorHtml={
+                            <Button
+                                onClick={()=>{
+                                    navigator(paths.event.signup, {eventId});
+                                }}
+                            >
+                                Sign Up
+                            </Button>
+                        }
+                    />
                 </ButtonField>
             </Bod>
         </Main>

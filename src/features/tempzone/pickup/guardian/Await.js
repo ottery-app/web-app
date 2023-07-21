@@ -3,45 +3,41 @@ import Image from "../../../../ottery-ui/images/Image";
 import { roundOtterFullBody } from "../../../../assets/images/otters";
 import { Title } from "../../../../ottery-ui/text/Title";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
+import delay from "delay";
 
 export function Await({form, onDone, mainFlow}) {
-    const [requests, setRequests] = useState([]);
-    const children = new Map();
-    form.requests.forEach(({child})=>{
-        children.set(child._id, child);
-    });
+    const interval = useMemo(
+        ()=>setInterval(async ()=>{
+            const {data} = await checkRequestsStatus(form.requests.map(({child})=>child._id));
+            let dones = 0;
 
-    useEffect(()=>{
-        setRequests(form.requests);
-    }, [form]);
-    
-    useEffect(()=>{
-        if (requests.length) {
-            setTimeout(async ()=>{
-                const {data} = await checkRequestsStatus(requests.map(({child})=>child._id));
-                
-                let dones = 0;
+            if (dones === data.length) {
                 data.forEach((request)=>{
                     if (request.status !== requestStatus.INPROGRESS) {
                         dones++;
                     }
-                    request.child = children.get(request.child);
+
+                    for (let {child} of form.requests) {
+                        if (child._id === request.child) {
+                            request.child = child;
+                        }
+                    }
                 });
 
-                if (dones === data.length) {
-                    onDone(mainFlow, {
-                        requests: data,
-                    });
-                } else {
-                    setRequests([...data]);
-                }
-            }, API_ENV.query_delta);
-        }
-    },[requests]);
+
+                onDone(mainFlow, {
+                    requests: data,
+                });
+            }
+        },
+        API_ENV.query_delta,
+    ), [form]);
+
+    useEffect(()=>()=>clearInterval(interval), [interval]);
 
     return <Main>
         <Image
@@ -50,12 +46,15 @@ export function Await({form, onDone, mainFlow}) {
             animation={"spin"}
         />
         <Title>Getting your kids off the raft. Hold on.</Title>
-        {requests.map(({child})=>{
-            return <ImageButton
-                key={child._id}
-                content={child.firstName}
-                right={"pfp" && child.pfp.src}
-            />
+        {form.requests.map(({child})=>{
+            try {
+                return <ImageButton
+                    key={child._id}
+                    content={child.firstName}
+                    right={"pfp" && child.pfp.src}
+                />
+            } catch (e) {
+            }
         })}
     </Main>
 }

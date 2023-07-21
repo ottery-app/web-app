@@ -56,7 +56,6 @@ export class Clide {
                         validator(data, {throw: true});
                     }
                 } catch (e) {
-                    console.log(validator, data)
                     throw e;
                 }
             }

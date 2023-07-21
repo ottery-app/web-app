@@ -16,7 +16,7 @@ const Tabs = {
     events:"events",
     kids:"kids",
     friends:"friends",
-    cars:"cars",
+    //cars:"cars",
 }
 
 export default function UserSelf({userInfo, userId}) {
@@ -92,7 +92,7 @@ export default function UserSelf({userInfo, userId}) {
     } else if (tab===Tabs.events) {
         var addAction = ()=>navigator(paths.event.new);
     } else {
-        var addAction = ()=>Ping.alert("not set up yet...");
+        //var addAction = ()=>Ping.alert("not set up yet...");
     }
 
     return(
@@ -111,16 +111,16 @@ export default function UserSelf({userInfo, userId}) {
                 tabs={Object.values(Tabs)}
                 title={[
                     `${userInfo?.firstName} ${userInfo?.lastName}`,
-                    <Button
-                        type={BUTTON_TYPES.filled}
-                        primaryColor={colors.primaryLight}
-                        secondaryColor={colors.textDark}
-                        onClick={()=>{Ping.error("not yet done")}}
-                    >Edit Profile</Button>,
-                    <IconButton
-                        icon={ICON_NAMES.settings}
-                        onClick={()=>Ping.warn("not done yet")}
-                    />
+                    // <Button
+                    //     type={BUTTON_TYPES.filled}
+                    //     primaryColor={colors.primaryLight}
+                    //     secondaryColor={colors.textDark}
+                    //     onClick={()=>{Ping.error("not yet done")}}
+                    // >Edit Profile</Button>,
+                    // <IconButton
+                    //     icon={ICON_NAMES.settings}
+                    //     onClick={()=>Ping.warn("not done yet")}
+                    // />
                 ]}
             />
             <OrderedList 

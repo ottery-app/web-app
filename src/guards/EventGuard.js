@@ -18,16 +18,23 @@ export function EventGuard({
 
     //wait for this function to finish.
     after,
+
+    successHtml,
+    errorHtml,
 }) {
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
     const userId = useUserId();
 
     async function checkIfActiveUserIsRegistered(eventId) {
-
+        if (!userId) {
+            return false;
+        }
+        
         const res = await getEvents(userId);
 
         for (let i = 0 ; i < res.data.length; i++) {
+
             if (res.data[i]._id === eventId) {
                 return true;
             }
@@ -42,13 +49,15 @@ export function EventGuard({
         activate:   !!isRegistered,
         shall:      true,
         get:        async ()=>{
-                        return await checkIfActiveUserIsRegistered(isRegistered);
+                        const res = await checkIfActiveUserIsRegistered(isRegistered);
+                        console.log(res);
+                        return res;
                     },
         breach:     ()=>{console.error("this should be used with hide")}
     });
 
     useStrategy({
-        key:        "must be registeed for the event",
+        key:        "must not be registeed for the event",
         activate:   !!isNotRegistered,
         shall:      false,
         get:        async ()=>{
@@ -62,6 +71,8 @@ export function EventGuard({
             strategies={strategies}
             hide={hide}
             after={after}
+            successHtml={successHtml}
+            errorHtml={errorHtml}
         >
             {children}
         </Guard>

@@ -25,6 +25,9 @@ export function AuthGuard({
 
     //wait for this function to finish.
     after,
+
+    successHtml,
+    errorHtml,
 }) {
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
@@ -81,6 +84,8 @@ export function AuthGuard({
             strategies={strategies}
             hide={hide}
             after={after}
+            successHtml={successHtml}
+            errorHtml={errorHtml}
         >
             {children}
         </Guard>

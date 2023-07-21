@@ -8,6 +8,10 @@ export function useStrategyGenerator() {
     //this is to protect against infinate redirects and still allow many non navs to run
     //its only used internally before creating the strategy
     function makeNavBreach(func) {
+        if (!func) {
+            return;
+        }
+
         return function navBreach() {
             if (trigger.current) {
                 trigger.current = false;
