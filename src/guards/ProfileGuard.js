@@ -39,6 +39,9 @@ export function ProfileGuard({
 
     //wait for this function to finish.
     after,
+
+    successHtml,
+    failHtml,
 }) {
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
@@ -129,6 +132,8 @@ export function ProfileGuard({
             strategies={strategies}
             hide={hide}
             after={after}
+            successHtml={successHtml}
+            failHtml={failHtml}
         >
             {children}
         </Guard>

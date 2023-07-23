@@ -1,8 +1,7 @@
 import { Guard as Guarded } from "guarded-components";
 import { Await } from "./Await";
 
-export function Guard({strategies, hide, after, successHtml, errorHtml, children}) {
-    throw new Error("Event info is having an issue where for unregestered accounts it is still showing the dash option")
+export function Guard({strategies, hide, after, successHtml, failHtml, children}) {
     return(
         <Await
             after={after}
@@ -11,7 +10,8 @@ export function Guard({strategies, hide, after, successHtml, errorHtml, children
                 strategy={strategies}
                 hide={hide}
                 successHtml={successHtml}
-                errorHtml={errorHtml}
+                failHtml={failHtml}
+                //log
             >
                 {children}
             </Guarded>

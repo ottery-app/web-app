@@ -100,7 +100,7 @@ export function EventInfo() {
                                 Dashboard
                             </Button>
                         }
-                        errorHtml={
+                        failHtml={
                             <Button
                                 onClick={()=>{
                                     navigator(paths.event.signup, {eventId});
