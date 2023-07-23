@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { role } from "ottery-dto";
 import AuthApi from "./authApi";
 
 const initialState = {

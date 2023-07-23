@@ -7,9 +7,6 @@ import {getEvents, getChildren} from "../userApi";
 import { useNavigator } from "../../../hooks/useNavigator";
 import {Ping} from "../../../ottery-ping/Ping";
 import { MarginlessMain } from "../../../components/Main";
-import IconButton, { ICON_NAMES } from "../../../ottery-ui/buttons/IconButton";
-import Button, { BUTTON_TYPES } from "../../../ottery-ui/buttons/Button";
-import { colors } from "../../../ottery-ui/styles/colors";
 import { getFriends } from "../../social/socialApi";
 
 const Tabs = {

@@ -11,7 +11,6 @@ export function Guard({strategies, hide, after, successHtml, failHtml, children}
                 hide={hide}
                 successHtml={successHtml}
                 failHtml={failHtml}
-                //log
             >
                 {children}
             </Guarded>

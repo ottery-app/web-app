@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { MainSignUp } from "./signUp.styles";
 import { getVolenteerSignup, getAttendeeSignup } from "../eventApi";
 import { useParams } from "react-router-dom";
-import { getMissingDataByOwner, addDataByOwner } from "../../data/dataApi";
-import { useSelector } from "react-redux";
+import { getMissingDataByOwner } from "../../data/dataApi";
 import Input from "../../../ottery-ui/input/Input"; 
 import styled from "styled-components";
 import Button from "../../../ottery-ui/buttons/Button";
 import {v4 as uuid} from "uuid";
 import { Title } from "../../../ottery-ui/text/Title";
 import { Ping } from "../../../ottery-ping/Ping";
+import { useUserId } from "../../../hooks/useUserId";
 
 const FormBox = styled.div`
 `;
@@ -20,7 +20,7 @@ const FormTitle = styled(Title)`
 
 export function FillMissingData({form, onDone, mainFlow}) {
     const {eventId} = useParams();
-    const sesh = useSelector(store=>store.auth.sesh);
+    const userId = useUserId();
     const [missing, setMissing] = useState([]);
 
     let ran = false;
@@ -66,12 +66,12 @@ export function FillMissingData({form, onDone, mainFlow}) {
                 ran = true;
                 if (form.volenteering) {
                     const signups = await getVolenteerSignup(eventId);
-                    const missing = await getMissingDataByOwner(sesh.userId, signups.data);
+                    const missing = await getMissingDataByOwner(userId, signups.data);
                     if (missing.data.length) {
                         moveon = false;
                         setMissing((p)=>[...p, {
                             name: "you",
-                            id: sesh.userId,
+                            id: userId,
                             needed: missing.data,
                         }]);
                     }

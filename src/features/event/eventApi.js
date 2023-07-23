@@ -32,10 +32,6 @@ export const getInfo = clideInst
                     id,
                 }
             }
-        },
-        out_pipline: (res)=>{
-            console.log(res);
-            return res;
         }
     });
 
