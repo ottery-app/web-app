@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import Loading from "./Loading";
 import { AuthGuard } from '../guards/AuthGuard';
 import paths from './paths';
-import { load } from '../features/auth/authSlice';
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 import Website from '../features/website/Website';
@@ -29,8 +26,9 @@ import { EventDash } from '../features/event/EventDash';
 import { EventInfo } from '../features/event/EventInfo';
 import {Notifications} from "../features/notifications/notifications";
 import { Chat } from '../features/chat/Chat';
-import { ProfileGuard } from '../guards/ProfileGuard';
 import { Messages } from '../features/chat/Messages';
+import { useAuthClient } from '../features/auth/useAuthClient';
+import { AwaitLoad } from '../guards/AwaitLoad';
 
 //this is the router that is used to map the contents of the cite
 const router = createBrowserRouter([
@@ -204,16 +202,14 @@ const router = createBrowserRouter([
 
 //router yea
 function Router() {
-  const loading = useSelector(store=>store.auth.loading);
-  const dispatch = useDispatch();
+  const {useLoad} = useAuthClient();
+  const {status} = useLoad();
 
-  useEffect(()=>{
-    dispatch(load());
-  }, [dispatch]);
-
-  return (loading)
-    ?<Loading/>
-    :<RouterProvider router={router} />
+  return (
+    <AwaitLoad status={status}>
+      <RouterProvider router={router} />
+    </AwaitLoad>
+  );
 }
 
 export default Router;

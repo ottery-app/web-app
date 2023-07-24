@@ -17,7 +17,6 @@ export function Awaiting({form, mainFlow, onDone}) {
     useEffect(()=>{
         (async ()=>{
             try {
-                console.log(requests);
                 if (requests) {
                     await delay(API_ENV.query_delta);
                 }

@@ -7,32 +7,38 @@ import PasswordInput from "../../ottery-ui/input/PasswordInput";
 import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import Link from "../../ottery-ui/text/Link";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import paths from "../../router/paths";
 import {login} from "./authSlice";
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
-import useSwapState from "../../hooks/useSwapState";
+import { useAuthClient } from "./useAuthClient";
 
 export default function Login() {
     const navigator = useNavigator();
-    const dispatch = useDispatch();
+    const {useLogin} = useAuthClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    // const login = useLogin({
+    //     onSuccess: ()=>{
+
+    //     }
+    // });
 
     function submit() {
-        dispatch(login({
-            email: email,
-            password: password,
-        })).then((res)=>{
-            if (res.error) {
-                Ping.error(res.error.message);
-            }
+        //login()
+        // dispatch(login({
+        //     email: email,
+        //     password: password,
+        // })).then((res)=>{
+        //     if (res.error) {
+        //         Ping.error(res.error.message);
+        //     }
 
-            if (!res.error) {
-                navigator(paths[res.payload.state].home);
-            }
-        });
+        //     if (!res.error) {
+        //         navigator(paths[res.payload.state].home);
+        //     }
+        // });
     }
 
     return (

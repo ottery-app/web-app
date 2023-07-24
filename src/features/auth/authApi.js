@@ -1,9 +1,10 @@
 import { ActivationCodeDto, isId, LoginDto, NewUserDto } from "ottery-dto";
 import {setCookie, getCookie} from "../../functions/cookies";
 import { clideInst } from "../../app/clideInst";
+import { API_ENV } from "../../env/api.env";
 
 export const load = clideInst
-    .makeGet("auth/load", {
+    .makeGet(API_ENV.paths.auth.load, {
         in_pipeline: ()=>{
             clideInst.defaults.headers.common['Id'] = getCookie("Id");
             clideInst.defaults.headers.common['Authorization'] = localStorage.getItem('token');
@@ -16,7 +17,7 @@ export const load = clideInst
     });
 
 export const login = clideInst
-    .makePost("auth/login", {
+    .makePost(API_ENV.paths.auth.login, {
         data_validator: LoginDto,
         in_pipeline: (loginDto) => {
             return {
@@ -32,7 +33,7 @@ export const login = clideInst
     });
 
 export const logout = clideInst
-    .makeDelete("auth/logout", {
+    .makeDelete(API_ENV.paths.auth.logout, {
         in_pipeline: ()=>{
             if (!clideInst.defaults.headers.common["Authorization"]) {
                 throw new Error("Not logged in");
@@ -45,7 +46,7 @@ export const logout = clideInst
     });
 
 export const register = clideInst
-    .makePost("auth/register", {
+    .makePost(API_ENV.paths.auth.register, {
         data_validator: NewUserDto,
         in_pipeline:(newUserDto)=>{
             return {
@@ -60,17 +61,17 @@ export const register = clideInst
     });
 
 export const activate = clideInst
-    .makePut("auth/activate", {
+    .makePut(API_ENV.paths.auth.activate, {
         // this may need its options to not allow empty in the clide...
         // we would need to make a new clide config that gets input into code
         //{allowEmpty: false}
         data_validator: ActivationCodeDto, 
     });
 
-export const resendEmail = clideInst.makePut("auth/resend");
+export const resendEmail = clideInst.makePut(API_ENV.paths.auth.resend);
 
 export const switchState = clideInst
-    .makeGet("auth/state/switch", {
+    .makeGet(API_ENV.paths.auth.state.switch, {
         param_validators: {
             event: isId,
         },

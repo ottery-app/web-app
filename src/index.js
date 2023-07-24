@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import Router from './router/Router';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from "./app/queryClient";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,8 +20,10 @@ const root = createRoot(container);
  */
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

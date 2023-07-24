@@ -10,4 +10,19 @@ export const API_ENV = {
      * @type {Number}
      */
     timeout: 100000000000,
+
+    paths: {
+        auth: {
+            base: "auth",
+            load: "auth/load",
+            login: "auth/login",
+            logout: "auth/logout",
+            register: "auth/register",
+            activate: "auth/activate",
+            resend: "auth/resend",
+            state: {
+                switch: "auth/state/switch",
+            }
+        },
+    }
 };
