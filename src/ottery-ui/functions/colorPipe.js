@@ -12,7 +12,7 @@ export default function colorPipe(colors = {}, status="default") {
         if (status === "default") {
             return colors;
         } else if (status === BUTTON_STATES.success && colorLib[key.replace(defaultTail, successTail)]) {
-            colors[key] = colorLib[key.replace("Color", successTail)];
+            colors[key] = colorLib[key.replace(defaultTail, successTail)];
         } else if (status === BUTTON_STATES.error && colorLib[key.replace(defaultTail, errorTail)]) {
             colors[key] = colorLib[key.replace(defaultTail, errorTail)];
         } else if (status === BUTTON_STATES.disabled) {
