@@ -29,6 +29,10 @@ export const colors = {
     primarySuccess:  "#4BB543",
     secondarySuccess: "#008200",
 
+    //gray
+    primaryDisabled: "#c2c2c2",
+    secondaryDisabled: "#9c9c9c",
+
     textDark: "black",
     textPale: "#d4d4d4",
     textLight: "white",

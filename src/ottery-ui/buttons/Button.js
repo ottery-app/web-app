@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import styled from 'styled-components';
 
 import { radius as rad } from "../styles/radius";
 import { colors as cols } from "../styles/colors";
 import { clickable } from "../styles/clickable";
 import useColors from "../hooks/useColors";
+import { BUTTON_TYPES } from "./button.enum";
 
 const Butt = styled.button`
     border: ${props=>`${props.border} solid ${props.secondaryColor}`};
@@ -44,12 +45,6 @@ function pipeStyles(type, colors) {
             border: "1px",
         };
     }
-}
-
-export const BUTTON_TYPES = {
-    filled: "filled",
-    outline: "outline",
-    text: "text",
 }
 
 /**

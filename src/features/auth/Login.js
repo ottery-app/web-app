@@ -1,44 +1,39 @@
 import React, { useState } from "react";
 import Shadowbox from "../../ottery-ui/containers/Shadowbox";
-import Button from "../../ottery-ui/buttons/Button";
 import Image from "../../ottery-ui/images/Image";
 import TextInput from "../../ottery-ui/input/TextInput";
 import PasswordInput from "../../ottery-ui/input/PasswordInput";
 import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import Link from "../../ottery-ui/text/Link";
-import { useDispatch } from 'react-redux'
 import paths from "../../router/paths";
-import {login} from "./authSlice";
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import { useAuthClient } from "./useAuthClient";
+import { AwaitButton } from "../../guards/AwaitButton";
 
 export default function Login() {
     const navigator = useNavigator();
     const {useLogin} = useAuthClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const login = useLogin({
-    //     onSuccess: ()=>{
-
-    //     }
-    // });
+    const login = useLogin();
 
     function submit() {
-        //login()
-        // dispatch(login({
-        //     email: email,
-        //     password: password,
-        // })).then((res)=>{
-        //     if (res.error) {
-        //         Ping.error(res.error.message);
-        //     }
+        login.mutate({
+            email,
+            password
+        }, {
+            onSuccess: (data)=>{
+                if (data.error) {
+                    Ping.error("Invalid username or password");
+                }
 
-        //     if (!res.error) {
-        //         navigator(paths[res.payload.state].home);
-        //     }
-        // });
+                if (data.payload && !data.error) {
+                    navigator(paths[data.payload.state].home);
+                }
+            }
+        });
     }
 
     return (
@@ -56,11 +51,12 @@ export default function Login() {
                         value={password}
                         onChange={(e)=>{setPassword(e.target.value)}}
                     />
-                    <Button
+                    <AwaitButton
                         onClick={submit} 
                         width="100%" 
                         type="filled"
-                    >login</Button>
+                        status={login.status}
+                    >login</AwaitButton>
                 </Form>
             </Shadowbox>
             <Shadowbox>

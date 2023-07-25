@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useUserId } from "../../hooks/useUserId";
-import { friendStatus } from "./socialApi";
+import { useUserId } from "../hooks/useUserId";
+import { friendStatus } from "../features/social/socialApi";
 import { socialLinkState } from "ottery-dto";
-import { BUTTON_TYPES } from "../../ottery-ui/buttons/Button";
-import Button from "../../ottery-ui/buttons/Button";
-import { colors } from "../../ottery-ui/styles/colors";
-import { updateStatus } from "./socialApi";
+import { BUTTON_TYPES } from "../ottery-ui/buttons/button.enum";
+import Button from "../ottery-ui/buttons/Button";
+import { colors } from "../ottery-ui/styles/colors";
+import { updateStatus } from "../features/social/socialApi";
 
 export function FriendRequest({userId}) {
     const selfId = useUserId();

@@ -1,17 +1,14 @@
 import {MultiFieldHeader} from "../../../ottery-ui/headers/MultiFieldHeader";
 import OrderedList from "../../../ottery-ui/lists/OrderedList";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { MarginlessMain } from "../../../components/Main";
-import { ProfileGuard } from "../../../guards/ProfileGuard";
-import Button, { BUTTON_TYPES } from "../../../ottery-ui/buttons/Button";
+import Button from "../../../ottery-ui/buttons/Button";
 import { colors } from "../../../ottery-ui/styles/colors";
-import { updateStatus } from "../../social/socialApi";
-import { useRerenderer } from "../../../hooks/useRerenderer";
-import { socialLinkState } from "ottery-dto";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../hooks/useNavigator";
 import { getDirectChat } from "../../chat/chatApi";
-import { FriendRequest } from "../../social/FriendRequest";
+import { FriendRequest } from "../../../components/FriendRequest";
+import { BUTTON_TYPES } from "../../../ottery-ui/buttons/button.enum";
 
 const Tabs = {
     posts: "posts",
