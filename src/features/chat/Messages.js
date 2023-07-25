@@ -35,9 +35,6 @@ export function Chat({chat}) {
     const [users, setUsers] = useState('');
     const [image, setImage] = useState(DEFAULT_IMAGES.pfp);
 
-    console.log(chat);
-    console.log(message);
-
     useEffect(()=>{
         const users = chat.users.filter((id)=>id!==selfId);
         getInfo(users).then((res)=>{
