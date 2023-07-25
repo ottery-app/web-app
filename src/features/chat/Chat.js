@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { Main } from "../../components/Main";
-import { useUserId } from "../../hooks/useUserId";
 import { Message } from '../../ottery-ui/chat/Message';
 import { ChatBox } from "../../ottery-ui/chat/ChatBox";
 import { MessageInput } from "../../ottery-ui/chat/MessageInput";
@@ -11,6 +10,7 @@ import { colors } from "../../ottery-ui/styles/colors";
 import { NAV_HEIGHT } from "../../ottery-ui/footers/NavBar";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { API_ENV } from "../../env/api.env";
+import { useAuthClient } from "../auth/useAuthClient";
 
 const InputFiller = styled.div`
     height: ${NAV_HEIGHT};
@@ -24,6 +24,7 @@ const Input = styled(Main)`
 `;
 
 export function Chat() {
+    const {useUserId} = useAuthClient()
     const {chatId} = useParams();
     const selfId = useUserId();
     const [chat, setChat] = useState();

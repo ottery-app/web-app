@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { Main } from "../../../../components/Main";
-import { useUserId } from "../../../../hooks/useUserId";
 import { useState } from "react";
 import Faded from "../../../../ottery-ui/text/Faded";
 import { SelectChildren } from "../../../../components/SelectChildren";
 import {Title} from "../../../../ottery-ui/text/Title";
 import {getAvalableChildren} from "../../../user/userApi";
+import { useAuthClient } from "../../../auth/useAuthClient";
 
 export function Select({onDone, mainFlow}) {
+    const {useUserId} = useAuthClient();
     const userId = useUserId();
     const [children, setChildren] = useState([]);
     

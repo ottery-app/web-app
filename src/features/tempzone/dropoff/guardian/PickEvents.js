@@ -1,12 +1,12 @@
 import { noId } from "ottery-dto";
 import { useEffect, useState } from "react";
 import { Main } from "../../../../components/Main";
-import { useUserId } from "../../../../hooks/useUserId";
 import { getEvents } from "../../../event/eventApi";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import {Title} from "../../../../ottery-ui/text/Title";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import styled from "styled-components";
+import { useAuthClient } from "../../../auth/useAuthClient";
 
 const Events = styled.div`
     display:flex;
@@ -15,6 +15,7 @@ const Events = styled.div`
 `;
 
 export function PickEvents({form, mainFlow, subFlow, onDone}) {
+    const {useUserId} = useAuthClient()
     const userId = useUserId();
     const [events, setEvents] = useState([]);
     const [child, setChild] = useState({});

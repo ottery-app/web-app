@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Main } from "../../components/Main";
-import { useUserId } from "../../hooks/useUserId";
 import { Ping } from "../../ottery-ping/Ping";
 import { getNotifications, readNotifications } from "./notifiactionsApi";
 import {Notification} from './notificationTypes/notification';
+import { useAuthClient } from "../auth/useAuthClient";
 
 export function Notifications() {
+    const {useUserId} = useAuthClient()
     const userId = useUserId();
     const [notifications, setNotifications] = useState([]);
 

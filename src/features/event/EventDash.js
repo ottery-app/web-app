@@ -5,13 +5,14 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigator } from "../../hooks/useNavigator";
 import paths from "../../router/paths";
-import {useUserId} from "../../hooks/useUserId";
-import {getAttendeeStatus, getInfo, getVolenteerStatus} from "./eventApi";
+import {getAttendeeStatus, getVolenteerStatus} from "./eventApi";
+import { useAuthClient } from "../auth/useAuthClient";
 
 export function EventDash() {
     const [state, switchState] = useSwapState({goHome:false});
     const navigator = useNavigator();
     const {eventId} = useParams();
+    const {useUserId} = useAuthClient()
     const selfId = useUserId();
     const [buttons, setButtons] = useState([])
     

@@ -9,7 +9,7 @@ import Button from "../../../ottery-ui/buttons/Button";
 import {v4 as uuid} from "uuid";
 import { Title } from "../../../ottery-ui/text/Title";
 import { Ping } from "../../../ottery-ping/Ping";
-import { useUserId } from "../../../hooks/useUserId";
+import { useAuthClient } from "../../auth/useAuthClient";
 
 const FormBox = styled.div`
 `;
@@ -20,6 +20,7 @@ const FormTitle = styled(Title)`
 
 export function FillMissingData({form, onDone, mainFlow}) {
     const {eventId} = useParams();
+    const {useUserId} = useAuthClient()
     const userId = useUserId();
     const [missing, setMissing] = useState([]);
 

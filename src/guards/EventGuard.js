@@ -1,7 +1,7 @@
 import { useStrategyGenerator } from './useStrategyGenerator';
 import { Guard } from './Guard';
 import { getEvents } from '../features/user/userApi';
-import { useUserId } from '../hooks/useUserId';
+import { useAuthClient } from '../features/auth/useAuthClient';
 
 export function EventGuard({
     //the thing to display
@@ -24,6 +24,7 @@ export function EventGuard({
 }) {
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
+    const {useUserId} = useAuthClient()
     const userId = useUserId();
 
     async function checkIfActiveUserIsRegistered(eventId) {

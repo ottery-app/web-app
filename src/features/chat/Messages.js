@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react"
-import { useUserId } from "../../hooks/useUserId"
 import { getChatsFor } from "./chatApi"
 import { Main } from "../../components/Main";
 import { IconCard } from "../../ottery-ui/containers/IconCard";
@@ -7,8 +6,10 @@ import {DEFAULT_IMAGES} from '../../ottery-ui/images/Image';
 import {getInfo} from '../../features/user/userApi'
 import {useNavigator} from '../../hooks/useNavigator';
 import paths from "../../router/paths";
+import { useAuthClient } from "../auth/useAuthClient";
 
 export function Messages() {
+    const {useUserId} = useAuthClient()
     const userId = useUserId()
     const [chats, setChats] = useState([]);
 
@@ -27,6 +28,7 @@ export function Messages() {
 }
 
 export function Chat({chat}) {
+    const {useUserId} = useAuthClient()
     const selfId = useUserId();
     const navigator = useNavigator();
     const message = useMemo(()=>chat.messages[chat.messages.length - 1], [chat])

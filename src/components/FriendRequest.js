@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useUserId } from "../hooks/useUserId";
 import { friendStatus } from "../features/social/socialApi";
 import { socialLinkState } from "ottery-dto";
 import { BUTTON_TYPES } from "../ottery-ui/buttons/button.enum";
 import Button from "../ottery-ui/buttons/Button";
 import { colors } from "../ottery-ui/styles/colors";
 import { updateStatus } from "../features/social/socialApi";
+import { useAuthClient } from "../features/auth/useAuthClient";
 
 export function FriendRequest({userId}) {
+    const {useUserId} = useAuthClient();
     const selfId = useUserId();
     const [status, setStatus] = useState();
 
