@@ -1,43 +1,43 @@
 import React, { useState } from "react";
 import Shadowbox from "../../ottery-ui/containers/Shadowbox";
-import Button from "../../ottery-ui/buttons/Button";
 import Image from "../../ottery-ui/images/Image";
 import TextInput from "../../ottery-ui/input/TextInput";
 import PasswordInput from "../../ottery-ui/input/PasswordInput";
 import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
-import { useDispatch } from 'react-redux'
 import paths from "../../router/paths";
-import {register} from "./authSlice";
 import {isEmail, isPassword} from "ottery-dto"
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import Link from "../../ottery-ui/text/Link";
 import ImageInput from "../../ottery-ui/input/ImageInput";
+import {AwaitButton} from "../../guards/AwaitButton";
+import { useAuthClient } from "./useAuthClient";
 
 export default function Register() {
-    const dispatch = useDispatch();
     const navigator = useNavigator();
-
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [pfp, setPfp] = useState();
+    const {useRegister} = useAuthClient();
+    const register = useRegister();
 
     function submit() {
-        dispatch(register({
+        register.mutate({
             firstName: firstName,
             lastName: lastName,
             password: password,
             email: email,
             pfp: pfp,
-        })).then((res)=>{
-
-            if (res.error) {
-                Ping.error(res.error.message);
-            } else {
-                navigator(paths.auth.validate, {next: IGNORENEXT});
+        }, {
+            onSuccess: (res)=>{
+                if (res.error) {
+                    Ping.error(res.error.message);
+                } else {
+                    navigator(paths.auth.validate, {next: IGNORENEXT});
+                }
             }
         })
     }
@@ -75,11 +75,12 @@ export default function Register() {
                         validator={isPassword}
                         onChange={(e)=>{setPassword(e.target.value)}}
                     />
-                    <Button 
+                    <AwaitButton 
                         onClick={submit} 
                         width="100%" 
                         type="filled"
-                    >register</Button>
+                        status={register.status}
+                    >register</AwaitButton>
                 </Form>
             </Shadowbox>
             <Shadowbox>

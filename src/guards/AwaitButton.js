@@ -3,7 +3,7 @@ import Button from "../ottery-ui/buttons/Button";
 /**
  * this is a button with an extra status field for modifying state
  * it waits on the value passed in to be not loading or idol
- * @param {ButtonProps} props 
+ * @param {ButtonProps} props this now includes status 
  * @returns 
  */
 export function AwaitButton(props) {

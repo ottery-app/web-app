@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from "react-query";
-import { activate, logout, register, resendEmail } from "./authApi";
+import { activate, logout, resendEmail } from "./authApi";
 import { useDispatch } from "react-redux";
 import { API_ENV } from "../../env/api.env";
-import { load, login } from "./authSlice";
+import { load, login, register } from "./authSlice";
 import { useUserId } from "../../hooks/useUserId";
 
 export function useAuthClient() {
@@ -21,7 +21,10 @@ export function useAuthClient() {
 
     const useLogout = (options)=>useMutation(logout, options);
 
-    const useRegister = (options)=>useMutation(register, options);
+    const useRegister = (options)=>useMutation(
+        async (registerDto)=>await dispatch(register(registerDto)),
+        options
+    );
 
     const useActivate = (options)=>useMutation(activate, options);
 
@@ -31,5 +34,6 @@ export function useAuthClient() {
         useUserId,
         useLoad,
         useLogin,
+        useRegister,
     }
 }
