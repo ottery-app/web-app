@@ -29,10 +29,7 @@ export default function Link({
         <HyperLink
             id={id}
             className={className}
-            onClick={(e)=>{
-                console.log(e);
-                onClick(e);
-            }}
+            onClick={onClick}
             href={href}
         >
             {children}

@@ -65,7 +65,12 @@ export const activate = clideInst
         // this may need its options to not allow empty in the clide...
         // we would need to make a new clide config that gets input into code
         //{allowEmpty: false}
-        data_validator: ActivationCodeDto, 
+        data_validator: ActivationCodeDto,
+        in_pipeline: (activationCodeDto)=>{
+            return {
+                data: activationCodeDto,
+            }
+        }
     });
 
 export const resendEmail = clideInst.makePut(API_ENV.paths.auth.resend);
