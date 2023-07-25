@@ -40,6 +40,7 @@ export const logout = clideInst
             }
         },
         out_pipeline: (res)=>{
+            clideInst.defaults.headers.common['Id'] = undefined;
             clideInst.defaults.headers.common['Authorization'] = undefined;
             return res;
         }

@@ -1,5 +1,5 @@
 //These are all the paths
-const paths = {
+export const paths = {
     website: {
         home: "/",
     },
