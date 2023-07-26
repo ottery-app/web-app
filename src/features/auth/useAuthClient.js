@@ -1,30 +1,31 @@
 import { useMutation, useQuery } from "react-query";
 import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { API_ENV } from "../../env/api.env";
 import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate } from "./authSlice";
+
+const CLIENT_AUTH_TAG = 'auth';
 
 export function useAuthClient() {
     const dispatch = useDispatch();
 
     const useLoad = (options)=>useQuery(
-        [API_ENV.paths.auth.load.split("/")],
+        CLIENT_AUTH_TAG,
         async ()=>dispatch(load()),
         options
     )
 
     const useLogin = (options)=>useMutation(
-        async (loginDto)=>await dispatch(login(loginDto)),
+        async (loginDto)=>dispatch(login(loginDto)),
         options
     );
 
     const useLogout = (options)=>useMutation(
-        async ()=>await dispatch(logout()),
+        async ()=>dispatch(logout()),
         options
     );
 
     const useRegister = (options)=>useMutation(
-        async (registerDto)=>await dispatch(register(registerDto)),
+        async (registerDto)=>dispatch(register(registerDto)),
         options
     );
 

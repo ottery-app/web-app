@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react"
-import { getChatsFor } from "./chatApi"
 import { Main } from "../../components/Main";
 import { IconCard } from "../../ottery-ui/containers/IconCard";
 import {DEFAULT_IMAGES} from '../../ottery-ui/images/Image';
@@ -7,24 +6,27 @@ import {getInfo} from '../../features/user/userApi'
 import {useNavigator} from '../../hooks/useNavigator';
 import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
+import { useChatClient } from './useChatClient';
+import {AwaitLoad} from '../../guards/AwaitLoad';
+
+console.log('this has userApi.getInfo');
 
 export function Messages() {
     const {useUserId} = useAuthClient()
+    const {useGetChatsFor} = useChatClient();
     const userId = useUserId()
-    const [chats, setChats] = useState([]);
+    const chatsRes = useGetChatsFor(userId);
+    let chats = chatsRes?.data?.data;
 
-    useEffect(()=>{
-        getChatsFor(userId)
-            .then((res)=>{
-                setChats(res.data);
-            })
-    }, []);
-
-    return <Main>
-        {chats.map((chat)=>
-            <Chat chat={chat} />
-        )}
-    </Main>
+    return ( 
+        <AwaitLoad status={chatsRes.status}>
+            <Main>
+                {chats && chats.map((chat)=>
+                    <Chat chat={chat} />
+                )}
+            </Main>
+        </AwaitLoad>
+    );
 }
 
 export function Chat({chat}) {

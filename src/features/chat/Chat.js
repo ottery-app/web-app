@@ -3,14 +3,15 @@ import { Main } from "../../components/Main";
 import { Message } from '../../ottery-ui/chat/Message';
 import { ChatBox } from "../../ottery-ui/chat/ChatBox";
 import { MessageInput } from "../../ottery-ui/chat/MessageInput";
-import { useEffect, useState } from "react";
-import { getChat, sendMessage } from "./chatApi";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../ottery-ui/styles/colors";
 import { NAV_HEIGHT } from "../../ottery-ui/footers/NavBar";
 import { useScrollTo } from "../../hooks/useScrollTo";
-import { API_ENV } from "../../env/api.env";
 import { useAuthClient } from "../auth/useAuthClient";
+import { useChatClient } from './useChatClient';
+import {AwaitLoad} from '../../guards/AwaitLoad';
+import { API_ENV } from "../../env/api.env";
 
 const InputFiller = styled.div`
     height: ${NAV_HEIGHT};
@@ -24,54 +25,41 @@ const Input = styled(Main)`
 `;
 
 export function Chat() {
-    const {useUserId} = useAuthClient()
     const {chatId} = useParams();
-    const selfId = useUserId();
-    const [chat, setChat] = useState();
+    const {useGetChat, useSendMessage} = useChatClient();
     const [ref, scrollTo] = useScrollTo("instant");
+    const getChat = useGetChat(chatId, {
+        refetchInterval: API_ENV.query_delta,
+        refetchIntervalInBackground: true,
+    });
+    const sendMessage = useSendMessage();
+    const {useUserId} = useAuthClient()
+    const selfId = useUserId();
+    const messages = getChat.data?.data.messages
 
-    useEffect(()=>{
-        loadChat();
-        let interval = setInterval(loadChat, API_ENV.query_delta);
+    useEffect(scrollTo, [getChat]);
 
-        return ()=>{
-            clearInterval(interval);
-        }
-    }, []);
-
-    useEffect(()=>{
-        scrollTo();
-    }, [chat]);
-
-    async function loadChat() {
-        const newChat = (await getChat(chatId)).data;
-        setChat((oldChat)=>{
-            if (!oldChat || oldChat.__v !== newChat.__v) {
-                return newChat;
-            } else {
-                return oldChat;
-            }
-        });
+    function send(message) {
+        sendMessage.mutate([chatId, message]);
     }
 
-    async function send(message) {
-        await sendMessage(chatId, message);
-        await loadChat();
-    }
-
-    return <Main>
-        <ChatBox>
-            {chat?.messages.map((message, i)=>
-                <Message 
-                    self={message.sender === selfId}
-                    date={message.date}
-                    key={i}
-                > 
-                    {message.message}
-                </Message>
-            )}
-        </ChatBox>
-        <InputFiller ref={ref}/>
-        <Input><MessageInput onSend={send}/></Input>
-    </Main>
-} 
+    return (
+        <AwaitLoad status={getChat.status}>
+            <Main>
+                <ChatBox>
+                    {messages?.map((message, i)=>
+                        <Message 
+                            self={message.sender === selfId}
+                            date={message.date}
+                            key={i}
+                        > 
+                            {message.message}
+                        </Message>
+                    )}
+                </ChatBox>
+                <InputFiller ref={ref}/>
+                <Input><MessageInput onSend={send}/></Input>
+            </Main>
+        </AwaitLoad>
+    );
+}
