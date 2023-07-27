@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from "react"
 import { Main } from "../../components/Main";
 import { IconCard } from "../../ottery-ui/containers/IconCard";
 import {DEFAULT_IMAGES} from '../../ottery-ui/images/Image';
@@ -8,8 +7,7 @@ import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from './useChatClient';
 import {AwaitLoad} from '../../guards/AwaitLoad';
-
-console.log('this has userApi.getInfo');
+import { useUserClient } from "../user/useUserClient";
 
 export function Messages() {
     const {useUserId} = useAuthClient()
@@ -30,33 +28,26 @@ export function Messages() {
 }
 
 export function Chat({chat}) {
-    const {useUserId} = useAuthClient()
+    const {useUserId} = useAuthClient();
+    const {useGetUserInfo} = useUserClient();
+
     const selfId = useUserId();
     const navigator = useNavigator();
-    const message = useMemo(()=>chat.messages[chat.messages.length - 1], [chat])
-    const [users, setUsers] = useState('');
-    const [image, setImage] = useState(DEFAULT_IMAGES.pfp);
+    const flagUserLoad = useGetUserInfo(chat.users.filter((id)=>id!==selfId)[0]);
 
-    useEffect(()=>{
-        const users = chat.users.filter((id)=>id!==selfId);
-        getInfo(users).then((res)=>{
-            let names = res.data
-                .map((user)=>user.firstName + " " + user.lastName)
-                .join(',');
-
-            setImage(res.data[0].pfp.src);
-            setUsers(names);
-        });
-    }, []);
+    const flagUser = flagUserLoad?.data?.data[0];
+    const message = chat.messages[chat.messages.length - 1];
 
     return (
-        <IconCard
-            onClick={()=>navigator(paths.social.chat, {chatId:chat._id})}
-            image={image}
-            title={users}
-            time={message?.date}
-        >
-            {message?.message}
-        </IconCard>
+        <AwaitLoad status={flagUserLoad.status}>
+            <IconCard
+                onClick={()=>navigator(paths.social.chat, {chatId:chat._id})}
+                image={flagUser?.pfp.src || DEFAULT_IMAGES.pfp}
+                title={flagUser?.firstName + " " + flagUser?.lastName}
+                time={message?.date}
+            >
+                {message?.message}
+            </IconCard>
+        </AwaitLoad>
     );
 }

@@ -14,7 +14,7 @@ export const makeChat = clideInst
     });
 
 export const getChatsFor = clideInst
-    .makeGet("message/chat/:chatId", {
+    .makeGet("message/user/:userId", {
         param_validators: {
             userId: isId,
         },

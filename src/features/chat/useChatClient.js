@@ -8,19 +8,20 @@ export function useChatClient() {
     const queryClient = useQueryClient();
 
     const useGetChatsFor = (userId, options)=>useQuery(
-        CLIENT_CHAT_TAG,
-        async ()=>await getChatsFor(userId),
+        [CLIENT_CHAT_TAG, "userChats"],
+        async ()=>getChatsFor(userId),
         options,
     );
 
+    //not sure where this is used
     const useGetDirectChat = (options)=>useQuery(
-        CLIENT_CHAT_TAG,
+        [CLIENT_CHAT_TAG, "directChat"],
         getDirectChat,
         options,
     );
 
     const useGetChat = (chatId, options)=>useQuery(
-        CLIENT_CHAT_TAG,
+        [CLIENT_CHAT_TAG, 'chat'],
         async ()=>getChat(chatId),
         options
     );
@@ -44,7 +45,7 @@ export function useChatClient() {
     return {
         useGetChatsFor,
         useMakeChat,
-        useGetDirectChat,
+        //useGetDirectChat,
         useGetChat,
         useSendMessage,
     }
