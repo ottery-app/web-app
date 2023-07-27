@@ -9,6 +9,8 @@ import Button from "../../ottery-ui/buttons/Button";
 import { margin } from "../../ottery-ui/styles/margin";
 import { Ping } from "../../ottery-ping/Ping";
 import { useNavigator } from "../../hooks/useNavigator";
+import { useChildClient } from "./useChildClient";
+import {AwaitButton} from "../../guards/AwaitButton";
 
 const Main = styled.div`
     margin: ${margin.medium};
@@ -29,20 +31,21 @@ export default function NewChild() {
     const [dob, setDob] = useState();
     const [gender, setGender] = useState("");
     const [image, setImage] = useState({});
+    const {useNewChild} = useChildClient();
+    const newChild = useNewChild();
 
     function submit() {
-        ChildApi.newChild({
+        newChild.mutate({
             firstName: first,
             middleName: middle,
             lastName: last,
             dateOfBirth: dob,
             gender: gender,
             pfp: image,
-        }).then(()=>{
-            navigator(-1);
-        }).catch((e)=>{
-            Ping.error(e.message);
-        });
+        }, {
+            onSuccess: ()=>navigator(-1),
+            onError: (e)=>Ping.error(e.message),
+        })
     }
 
     return (
@@ -78,12 +81,13 @@ export default function NewChild() {
                     onChange={(e)=>setGender(e.target.value)}
                     options={["male", "female"]}
                 />
-                <Button
+                <AwaitButton
                     state="success"
                     onClick={submit}
+                    status={newChild.status}
                 >
                     submit
-                </Button>
+                </AwaitButton>
             </Form>
         </Main>
     );
