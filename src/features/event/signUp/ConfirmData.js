@@ -6,7 +6,6 @@ import Shadowbox from "../../../ottery-ui/containers/Shadowbox";
 import { useState } from "react";
 import { Title } from "../../../ottery-ui/text/Title";
 
-
 const States = {
     ACCEPT:"accept",
     DATA:"data",
@@ -36,7 +35,7 @@ export function ConfirmData({onDone, mainFlow}) {
             <Shadowbox>
                 <Title>We will give access to:</Title>
                 data
-                <Title>But don't worry it never leaves Ottery</Title>
+                <Title>But don't worry its safe</Title>
             </Shadowbox>
             <Button onClick={accept}>Sounds Good!</Button>
         </MainSignUp>

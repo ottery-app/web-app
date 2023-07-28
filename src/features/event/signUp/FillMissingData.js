@@ -11,6 +11,8 @@ import { Title } from "../../../ottery-ui/text/Title";
 import { Ping } from "../../../ottery-ping/Ping";
 import { useAuthClient } from "../../auth/useAuthClient";
 
+throw new Error("Working here");
+
 const FormBox = styled.div`
 `;
 

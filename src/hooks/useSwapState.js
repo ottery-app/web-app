@@ -3,6 +3,8 @@ import { switchState } from "../features/auth/authSlice";
 import paths from "../router/paths";
 import { useNavigator } from "./useNavigator";
 
+//TODO this export should be moved to authClient
+
 //I dont really like this
 export default function useSwapState(options = {
     goHome:true,

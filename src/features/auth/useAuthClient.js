@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate } from "./authSlice";
+import useSwapState from "../../hooks/useSwapState";
 
 const CLIENT_AUTH_TAG = 'auth';
 
@@ -51,5 +52,6 @@ export function useAuthClient() {
         useUserId,
         useUserEmail,
         useUserState,
+        useSwapState,
     }
 }

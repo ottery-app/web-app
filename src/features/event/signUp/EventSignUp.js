@@ -8,31 +8,45 @@ import { signUps } from "./signUp.enum";
 import { FillMissingData } from "./FillMissingData";
 import {addDataByOwner} from "../../data/dataApi";
 import { Ping } from "../../../ottery-ping/Ping";
-import { signUpAttendeesByIds, signUpVolenteersByIds, getInfo } from "../eventApi";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import paths from "../../../router/paths";
-import useSwapState from "../../../hooks/useSwapState";
 import { useNavigator } from "../../../hooks/useNavigator";
+import {useEventClient} from "../useEventClient";
+import {useAuthClient} from "../../auth/useAuthClient";
+import {useDataClient} from "../../data/useDataClient";
 
 export function EventSignUp() {
+    const {
+        useGetEventInfo,
+        useSignUpAttendeesByIds,
+        useSignUpVolenteersByIds
+    } = useEventClient();
+    const {
+        useUserId,
+        useSwapState,
+    } = useAuthClient();
+    const {
+        useAddDataByOwner
+    } = useDataClient();
+
     const {eventId} = useParams();
-    const userId = useSelector(store => store.auth.sesh.userId);
     const [state] = useSwapState();
     const navigator = useNavigator();
+    const userId = useUserId();
 
-    let run = 0;
-    useEffect(()=>{
-        run++;
-        if (!run) {
-            getInfo(eventId)
-            .catch(()=>{
-                Ping.error("this event does not exist anymore");
-                navigator(paths[state].home);
-            });
+    const [getEventInfo] = useGetEventInfo({
+        inputs:[eventId],
+        onError: ()=>{
+            Ping.error("this event does not exist anymore");
+            navigator(paths[state].home);
         }
-    }, []);
+    });
+
+    const signUpVolenteersByIds = useSignUpVolenteersByIds();
+    const signUpAttendeesByIds = useSignUpAttendeesByIds();
+    const addDataByOwner = useAddDataByOwner();
 
     return(
         <QueueForm
@@ -41,15 +55,15 @@ export function EventSignUp() {
                     const dataKeys = (form.data) ? Object.keys(form.data) : [];
 
                     for (let i = 0 ; i < dataKeys.length; i++) {
-                        await addDataByOwner(dataKeys[i], form.data[dataKeys[i]]);
+                        await addDataByOwner.mutate(dataKeys[i], form.data[dataKeys[i]]);
                     }
     
                     if (form.volenteering) {
-                        await signUpVolenteersByIds(eventId, [userId]);
+                        await signUpVolenteersByIds.mutate(eventId, [userId]);
                     }
     
                     if (form.children && form.children.length) {
-                        await signUpAttendeesByIds(eventId, form.children.map(c=>c._id));
+                        await signUpAttendeesByIds.mutate(eventId, form.children.map(c=>c._id));
                     }
                 } catch (e) {
                     Ping.error(e.message);
