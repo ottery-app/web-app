@@ -9,7 +9,7 @@ export function makeUseQuery({
         throw new Error("Must be an array")
     }
 
-    return function useUseQuery(options) {
+    return function useUseQuery(options={}) {
         const queryClient = useQueryClient();
 
         const queryKeyInternal = queryKey;
@@ -17,7 +17,7 @@ export function makeUseQuery({
         //     ? [...queryKey, ...options.inputs] 
         //     : queryKey;
 
-        const queryFnInternal = async ()=>queryFn(...options.inputs);
+        const queryFnInternal = async ()=>queryFn(...(options?.inputs) ? options.inputs: []);
 
         const queryInvalidator = ()=>queryClient.invalidateQueries(queryKeyInternal);
         

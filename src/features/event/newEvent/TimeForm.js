@@ -5,7 +5,7 @@ import OptionsInput from "../../../ottery-ui/input/OptionsInput";
 import DateInput from "../../../ottery-ui/input/DateInput";
 import TimeInput from "../../../ottery-ui/input/TimeInput";
 import NumberInput from "../../../ottery-ui/input/NumberInput";
-import { getDateName, getDay, getTimeZone, getWeekInMonth } from "../../../functions/time";
+import { getDateName, getDay, getWeekInMonth } from "../../../functions/time";
 import { setDate as setDateFields, formatTime, } from "../../../functions/time";
 import { rruleToObj, rruleMonthlyByDayFrom, rruleMonthlyByWeekFrom, objToRrule } from "../../../functions/ical";
 import RadioInputFields from "../../../ottery-ui/input/RadioInputFields";

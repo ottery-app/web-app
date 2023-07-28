@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { getTimeZone } from "../../../functions/time";
 import TimeForm from "./TimeForm";
 import BasicInfo from "./BasicInfo";
 import {Main} from "./newEventStyles";
 import { VolunteerSignUpOptions, AttendeeSignUpOptions } from "./SignUpOptions";
 import PaymentOptions from "./PaymentOptions";
 import MultiPageForm from "../../../ottery-ui/forms/MultiPageForm";
-import * as Event from "../eventApi";
 import { Ping } from "../../../ottery-ping/Ping";
 import { useNavigator } from "../../../hooks/useNavigator";
+import { useEventClient } from "../useEventClient";
 
 export default function NewEvent() {
+    const {useNewEvent} = useEventClient();
+    const newEvent = useNewEvent();
     const [eventForm, setEventForm] = useState({
         summary:"",
         org:"",
@@ -30,11 +31,10 @@ export default function NewEvent() {
         <Main>
             <MultiPageForm
                 submit={(form)=>{
-                    Event.newEvent(form).then(()=>{
-                        navigator(-1);
-                    }).catch((e)=>{
-                        Ping.error(e.message);
-                    });
+                    newEvent.mutate(form, {
+                        onSuccess: ()=>navigator(-1),
+                        onError: (e)=>Ping.error(e.message)
+                    })
                 }}
                 form={eventForm}
                 setForm={setEventForm}

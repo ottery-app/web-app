@@ -1,7 +1,5 @@
 import Faded from "../../../ottery-ui/text/Faded";
 import { useState, useEffect } from "react";
-import {getChildren} from "../../user/userApi";
-import {useSelector} from "react-redux";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../hooks/useNavigator";
 import { useLocation } from "react-router-dom";
@@ -9,18 +7,25 @@ import { Title } from "../../../ottery-ui/text/Title";
 import { SelectChildren } from "../../../components/SelectChildren";
 import { Main } from "../../../components/Main";
 import Button from "../../../ottery-ui/buttons/Button";
+import {useUserClient} from "../../user/useUserClient";
+import {useAuthClient} from "../../auth/useAuthClient";
+
+//throw new Error("working here");
 
 export function ChildSignUp({onDone, mainFlow}) {
-    const userId = useSelector(store=>store.auth.sesh.userId);
+    const {useGetUserChildren} = useUserClient();
+    const {useUserId} = useAuthClient();
+    const userId = useUserId();
+    const [childrenRes] = useGetUserChildren({inputs:[userId]});
     const [children, setChildren] = useState([]);
     const navigator = useNavigator();
     const {pathname} = useLocation();
 
     useEffect(()=>{
-        getChildren(userId).then((res)=>{
-            setChildren(res.data);
-        })
-    }, [userId]);
+        if (childrenRes?.data?.data) {
+            setChildren(childrenRes.data.data);
+        }
+    }, [childrenRes]);
 
     function navToAddChild() {
         navigator(paths.child.new, {next:pathname});

@@ -14,10 +14,10 @@ import { margin } from "../../../ottery-ui/styles/margin";
 import Error from "../../../ottery-ui/text/Error";
 import { useEffect } from "react";
 import { classifyWithDto, CustomFormFieldDto } from "ottery-dto";
-import { getAll } from "../../form/formApi";
 import Button from "../../../ottery-ui/buttons/Button";
 import EditButton from "../../../ottery-ui/buttons/actionButtons/EditButton";
 import AreaInput from "../../../ottery-ui/input/AreaInput";
+import { useFormClient } from "../../form/useFormClient";
 
 const Vertical = styled.div`
     width: 100%;
@@ -50,14 +50,10 @@ export default function CustomField({
     //setting this as true. This is returning a truth value and is only doing the 
     const [done, setDone] = useState(classifyWithDto(CustomFormFieldDto, data));
     const [error, setError] = useState();
-    const [fields, setFields] = useState([]);
-
-    useEffect(()=>{
-        getAll()
-            .then(res=>{
-                setFields(res.data);
-            })
-    }, [])
+    
+    const {useGetAllFormFields} = useFormClient();
+    const [fieldsData] = useGetAllFormFields();
+    const fields = fieldsData?.data?.data || []
 
     useEffect(()=>{
         setError("");

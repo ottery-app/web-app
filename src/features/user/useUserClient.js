@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getInfo } from "./userApi";
+import { getChildren, getInfo } from "./userApi";
+import { makeUseQuery } from "../../hooks/makeGetQuery";
 
 export const CLIENT_USER_TAG = 'user';
 
@@ -12,7 +13,13 @@ export function useUserClient() {
         options,
     );
 
+    const useGetUserChildren = makeUseQuery({
+        queryKey: [CLIENT_USER_TAG, "children"],
+        queryFn: getChildren,
+    })
+
     return {
         useGetUserInfo,
+        useGetUserChildren,
     }
 }

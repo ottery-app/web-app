@@ -1,10 +1,13 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getEvents } from "./eventApi";
+import { getEvents, newEvent } from "./eventApi";
+import {makeUseMutation} from "../../hooks/makeUseMutation";
 
 export const QUERY_EVENT_TAG = "event";
 
 export function useEventClient() {
-    const queryClient = useQueryClient();
+    const useNewEvent = makeUseMutation({
+        mutationFn: newEvent,
+    });
 
     const useGetEvent = (event, options)=>useQuery({
         queryKey: [QUERY_EVENT_TAG, event],
@@ -19,7 +22,6 @@ export function useEventClient() {
     const useGetEvents = (events, options)=>useQuery({
         queryKey: QUERY_EVENT_TAG,
         queryFn: async()=>{
-            console.log(events);
             return getEvents(events)
         },
         ...options,
@@ -28,5 +30,6 @@ export function useEventClient() {
     return {
         useGetEvent,
         useGetEvents,
+        useNewEvent,
     }
 }
