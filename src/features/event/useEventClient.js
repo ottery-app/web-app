@@ -1,10 +1,12 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { 
     getEvents, 
     newEvent,
     signUpAttendeesByIds,
     signUpVolenteersByIds,
     getInfo,
+    getAttendeeSignup,
+    getVolenteerSignup,
 } from "./eventApi";
 import {makeUseMutation} from "../../hooks/makeUseMutation";
 import {makeUseQuery} from "../../hooks/makeGetQuery";
@@ -24,16 +26,26 @@ export function useEventClient() {
     })
 
     const useGetEvents = (events, options)=>useQuery({
-        queryKey: QUERY_EVENT_TAG,
+        queryKey: [QUERY_EVENT_TAG],
         queryFn: async()=>{
             return getEvents(events)
         },
         ...options,
     });
 
+    const useGetAttendeeSignup = makeUseQuery({
+        queryKey: [QUERY_EVENT_TAG, "attendee", "signup"],
+        queryFn: getAttendeeSignup,
+    })
+
+    const useGetVolenteerSignup = makeUseQuery({
+        queryKey: [QUERY_EVENT_TAG, "volenteer", "signup"],
+        queryFn: getVolenteerSignup,
+    })
+
     const useGetEventInfo = makeUseQuery({
-        queryFn: [QUERY_EVENT_TAG, "eventInfo"],
-        queryKey: getInfo,
+        queryKey: [QUERY_EVENT_TAG, "eventInfo"],
+        queryFn: getInfo,
     });
 
     const useNewEvent = makeUseMutation({
@@ -55,5 +67,7 @@ export function useEventClient() {
         useGetEventInfo,
         useSignUpAttendeesByIds,
         useSignUpVolenteersByIds,
+        useGetAttendeeSignup,
+        useGetVolenteerSignup,
     }
 }

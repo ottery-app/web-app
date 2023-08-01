@@ -18,6 +18,7 @@ export const getMissingData = clideInst
 export const getMissingDataByOwner = clideInst
     .makeGet("data/owner/:ownerId/missing", {
         in_pipeline: (ownerId, desired)=>{
+            console.log(ownerId, desired);
             return {
                 params: {
                     ownerId: ownerId,

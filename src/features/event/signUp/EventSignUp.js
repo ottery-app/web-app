@@ -9,8 +9,6 @@ import { FillMissingData } from "./FillMissingData";
 import {addDataByOwner} from "../../data/dataApi";
 import { Ping } from "../../../ottery-ping/Ping";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../hooks/useNavigator";
 import {useEventClient} from "../useEventClient";
@@ -36,7 +34,7 @@ export function EventSignUp() {
     const navigator = useNavigator();
     const userId = useUserId();
 
-    const [getEventInfo] = useGetEventInfo({
+    useGetEventInfo({
         inputs:[eventId],
         onError: ()=>{
             Ping.error("this event does not exist anymore");

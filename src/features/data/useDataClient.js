@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
 import { addDataByOwner, getMissingData, getMissingDataByOwner } from "./dataApi";
-import { makeUseQuery } from "../../hooks/makeGetQuery";
+import { makeUseQuery, takeArray } from "../../hooks/makeGetQuery";
 import { makeUseMutation } from "../../hooks/makeUseMutation";
 
 export const DATA_CLIENT_TAG = "data";
@@ -21,7 +21,12 @@ export function useDataClient() {
         queryFn: getMissingDataByOwner,
     });
 
-    const addDataByOwner = makeUseMutation({
+    const useGetMissingDataByOwners = makeUseQuery({
+        queryKey: GET_MISSING_DATA_OWNER_KEY,
+        queryFn: takeArray(getMissingDataByOwner),
+    });
+
+    const useAddDataByOwner = makeUseMutation({
         mutationFn: addDataByOwner,
         onSuccessAlways: (data)=>{
             queryClient.invalidateQueries(
@@ -35,5 +40,7 @@ export function useDataClient() {
     return {
         useGetMissingData,
         useGetMissingDataByOwner,
+        useAddDataByOwner,
+        useGetMissingDataByOwners,
     }
 }

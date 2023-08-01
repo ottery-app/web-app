@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { MainSignUp } from "./signUp.styles";
-import { getVolenteerSignup, getAttendeeSignup } from "../eventApi";
 import { useParams } from "react-router-dom";
-import { getMissingDataByOwner } from "../../data/dataApi";
-import Input from "../../../ottery-ui/input/Input"; 
 import styled from "styled-components";
-import Button from "../../../ottery-ui/buttons/Button";
-import {v4 as uuid} from "uuid";
 import { Title } from "../../../ottery-ui/text/Title";
 import { Ping } from "../../../ottery-ping/Ping";
 import { useAuthClient } from "../../auth/useAuthClient";
-
-throw new Error("Working here");
+import { useEventClient } from "../useEventClient";
+import { useDataClient } from "../../data/useDataClient";
+import { MainSignUp } from "./signUp.styles";
+import {v4 as uuid} from "uuid";
+import Input from "../../../ottery-ui/input/Input"; 
+import Button from "../../../ottery-ui/buttons/Button";
 
 const FormBox = styled.div`
 `;
@@ -20,13 +18,59 @@ const FormTitle = styled(Title)`
     text-align: left;
 `;
 
+throw new Error("Working here");
+
 export function FillMissingData({form, onDone, mainFlow}) {
     const {eventId} = useParams();
     const {useUserId} = useAuthClient()
+
+    const {
+        useGetVolenteerSignup,
+        useGetAttendeeSignup
+    } = useEventClient();
+
+    const {
+        useGetMissingDataByOwner,
+        useGetMissingDataByOwners,
+    } = useDataClient();
+
     const userId = useUserId();
+    const {
+        data: volenteerSignup,
+        status: volenteerStatus,
+    } = useGetVolenteerSignup({
+        inputs:[eventId],
+        enabled: !!form.volenteering
+    });
+
+    const {
+        data: attendeeSignup,
+        status: attendeeStatus,
+    } = useGetAttendeeSignup({
+        inputs:[eventId],
+        enabled: !!form.children,
+    });
+
+    const {
+        data: missingVolenteerData,
+        status: missingVoletneerStatus,
+    } = useGetMissingDataByOwner({
+        inputs:[userId, volenteerSignup?.data],
+        enabled: !!(form.volenteering && volenteerSignup),
+    });
+
+    const childrenQueryArr = form.children.map((child)=>[child._id, ["6410cc1982ccad3a14aef202"]||attendeeSignup?.data||[]]);
+
+    const {
+        data: missingAttendeeData,
+        status: missingAttendeeStatus,
+    } = useGetMissingDataByOwners({
+        inputs: childrenQueryArr,
+        enabled: !!(form.children && attendeeSignup),
+    });
+
     const [missing, setMissing] = useState([]);
 
-    let ran = false;
 
     async function submit() {
         const data = {};
@@ -58,35 +102,36 @@ export function FillMissingData({form, onDone, mainFlow}) {
         });
 
         if (valid) {
-            onDone(mainFlow, {data:data});
+            //onDone(mainFlow, {data:data});
         }
     }
 
     useEffect(()=>{
-        if (ran === false) {
-            (async ()=>{
-                let moveon = true;
-                ran = true;
-                if (form.volenteering) {
-                    const signups = await getVolenteerSignup(eventId);
-                    const missing = await getMissingDataByOwner(userId, signups.data);
-                    if (missing.data.length) {
-                        moveon = false;
-                        setMissing((p)=>[...p, {
-                            name: "you",
-                            id: userId,
-                            needed: missing.data,
-                        }]);
-                    }
+            let moveon = false;
 
+            if (form.volenteering) {
+                if (missingVolenteerData?.data.length) {
+                    moveon = false;
+                    console.log("no moving on")
+                    setMissing((p)=>[...p, {
+                        name: "you",
+                        id: userId,
+                        needed: missing.data,
+                    }]);
+                } else if (missingVolenteerData?.data.length === 0) {
+                    console.log("you can move on")
+                    moveon = true;
                 }
-        
-                if (form.children) {
-                    const signups = await getAttendeeSignup(eventId)
-                    for (let i = 0 ; i < form.children.length; i++) {
-                        const child = form.children[i];
-                        const missing = await getMissingDataByOwner(child._id, signups.data);
-                        if (missing.data.length) {
+            }
+
+            //TODO this is not yet working
+            if (form.children) {
+                console.log(missingAttendeeData);
+                if (missingAttendeeData?.length) {
+                    for (let i = 0; i < missingAttendeeData.length; i++) {
+                        if (missingAttendeeData[i].data.length) {
+                            const child = form.children[i];
+                            console.log("no moving on")
                             moveon = false;
                             setMissing((p)=>[...p, {
                                 name: `${child.firstName} ${child.lastName}`,
@@ -95,14 +140,16 @@ export function FillMissingData({form, onDone, mainFlow}) {
                             }]);
                         }
                     }
+                } else if (missingAttendeeData?.data?.length === 0) {
+                    console.log("you can move on")
+                    moveon = true;
                 }
+            }
 
-                if (moveon) {
-                    onDone(mainFlow);
-                }
-            })()
-        }
-    },[]);
+            if (moveon) {
+                onDone(mainFlow);
+            }
+    }, [missingVolenteerData, missingAttendeeData]);
 
     return  <MainSignUp>
         <Title>Looks like we are missing some information for:</Title>

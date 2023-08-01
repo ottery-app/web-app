@@ -16,7 +16,7 @@ export function ChildSignUp({onDone, mainFlow}) {
     const {useGetUserChildren} = useUserClient();
     const {useUserId} = useAuthClient();
     const userId = useUserId();
-    const [childrenRes] = useGetUserChildren({inputs:[userId]});
+    const childrenRes = useGetUserChildren({inputs:[userId]});
     const [children, setChildren] = useState([]);
     const navigator = useNavigator();
     const {pathname} = useLocation();
