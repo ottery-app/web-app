@@ -3,16 +3,17 @@ import Image from "../../../../ottery-ui/images/Image";
 import { roundOtterFullBody } from "../../../../assets/images/otters";
 import { Title } from "../../../../ottery-ui/text/Title";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
-import { useEffect, useMemo, useState } from "react";
-import { checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
-import delay from "delay";
+import { useTempzoneClient } from "../../useTempzoneClient";
 
 export function Await({form, onDone, mainFlow}) {
-    const interval = useMemo(
-        ()=>setInterval(async ()=>{
-            const {data} = await checkRequestsStatus(form.requests.map(({child})=>child._id));
+    const {useCheckRequestStatus} = useTempzoneClient();
+    const {data:requestsRes} = useCheckRequestStatus({
+        inputs: [form.requests.map(({child})=>child._id)],
+        refetchInterval: API_ENV.query_delta,
+        refetchIntervalInBackground: true,
+        onSuccess: ({data})=>{
             let dones = 0;
 
             if (dones === data.length) {
@@ -33,11 +34,8 @@ export function Await({form, onDone, mainFlow}) {
                     requests: data,
                 });
             }
-        },
-        API_ENV.query_delta,
-    ), [form]);
-
-    useEffect(()=>()=>clearInterval(interval), [interval]);
+        }
+    });
 
     return <Main>
         <Image

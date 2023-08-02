@@ -1,8 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
 
-console.error("imported here");
-//TODO rename this to makeUseQuery and use that to find where this is used wrong.
-
 export function makeUseQuery({
     queryKey, 
     queryFn,
