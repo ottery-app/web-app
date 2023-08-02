@@ -1,37 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import * as UserApi from "../userApi";
-import { Ping } from "../../../ottery-ping/Ping";
 import UserSelf from "./Self";
 import UserOther from "./Other";
 import { useAuthClient } from "../../auth/useAuthClient";
+import {useUserClient} from "../useUserClient";
+import { AwaitLoad } from "../../../guards/AwaitLoad";
 
 export default function User() {
     const {userId} = useParams();
     const {useUserId} = useAuthClient()
     const selfId = useUserId();
     const [toggle, setToggle] = useState(false);
-    const [userInfo, setUserInfo] = useState();
+    const {useGetUserInfo} = useUserClient();
+    const {data: userRes, status} = useGetUserInfo({inputs:[userId]});
+    const userInfo = userRes?.data[0];
 
     function render() {
         setToggle(!toggle);
     }
-
-    async function loadUserData(userId) {
-        return (await UserApi.getInfo(userId)).data[0];
-    }
-
-    useEffect(()=>{
-        if (userId) {
-            loadUserData(userId)
-                .then(res=>{
-                    setUserInfo(res);
-                })
-                .catch(err=>{
-                    Ping.error(err.message);
-                })
-        }
-    },[userId]);
 
     const data = {
         userId: userId,
@@ -40,9 +26,12 @@ export default function User() {
         reRender: render,
     }
 
+    let body;
     if (selfId === userId) {
-        return <UserSelf {...data}/>
+        body = <UserSelf {...data}/>
     } else {
-        return <UserOther {...data}/>
+        body = <UserOther {...data}/>
     }
+
+    return <AwaitLoad status={status}>{body}</AwaitLoad>;
 }

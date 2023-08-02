@@ -2,12 +2,15 @@ import {MultiFieldHeader} from "../../../ottery-ui/headers/MultiFieldHeader";
 import OrderedList from "../../../ottery-ui/lists/OrderedList";
 import ImageButton from "../../../ottery-ui/buttons/ImageButton";
 import paths from "../../../router/paths";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {getEvents, getChildren} from "../userApi";
 import { useNavigator } from "../../../hooks/useNavigator";
 import {Ping} from "../../../ottery-ping/Ping";
 import { MarginlessMain } from "../../../components/Main";
 import { getFriends } from "../../social/socialApi";
+import { useUserClient } from "../useUserClient";
+import { useSocialClient } from "../../social/useSocialClient";
+import { AwaitLoad } from "../../../guards/AwaitLoad";
 
 const Tabs = {
     events:"events",
@@ -19,14 +22,14 @@ const Tabs = {
 export default function UserSelf({userInfo, userId}) {
     const navigator = useNavigator();
     const [tab, setTab] = useState(Tabs.events);
-    const [data, setData] = useState({});
+    const {useGetUserEvents, useGetUserChildren} = useUserClient();
+    const {useGetFriends} = useSocialClient();
+    const {data: eventsRes, status:eventStatus} = useGetUserEvents({inputs:[userId]});
+    const {data: childrenRes, status:childrenStatus} = useGetUserChildren({inputs:[userId]});
+    const {data: friendsRes, status:friendsStatus} = useGetFriends({inputs:[userId]});
 
-    async function loadAllButtons() {
-        async function loadChildrenButtons() {
-            const res = await getChildren(userId)
-    
-            return res.data.map((kiddo)=>
-                <ImageButton 
+    function formatChildrenButton(kiddo) {
+        return <ImageButton 
                     key={kiddo?._id}
                     content={kiddo?.firstName}
                     right={"pfp" && kiddo?.pfp.src}
@@ -34,28 +37,20 @@ export default function UserSelf({userInfo, userId}) {
                         navigator(paths.child.profile, {childId:kiddo?._id});
                     }}
                 />
-            )
-        }
-    
-        async function loadEventButtons() {
-            const res = await getEvents(userId);
-    
-            return res.data.map((event)=>
-                <ImageButton 
+    }
+
+    function formatEventButton(event) {
+        return <ImageButton 
                     key={event._id}
                     content={event.summary}
                     onClick={()=>{
                         navigator(paths.event.dash, {eventId:event._id});
                     }}
                 />
-            );
-        }
+    }
 
-        async function loadFriendButtons() {
-            const res = await getFriends(userId);
-
-            return res.data.map((user)=>{
-                return <ImageButton 
+    function formatFriendButton(user) {
+        return <ImageButton 
                     key={user?._id}
                     content={`${user?.firstName} ${user?.lastName}`}
                     right={"pfp" && user?.pfp.src}
@@ -63,25 +58,18 @@ export default function UserSelf({userInfo, userId}) {
                         navigator(paths.user.profile, {userId:user._id});
                     }}
                 />
-            })
-        }
-
-        const data = {};
-        data[Tabs.kids] = await loadChildrenButtons();
-        data[Tabs.events] = await loadEventButtons();
-        data[Tabs.friends] = await loadFriendButtons();
-        return data;
     }
 
-    useEffect(()=>{
-        loadAllButtons()
-            .then(res=>{
-                setData(res);
-            })
-            .catch(err=>{
-                Ping.error(err.message);
-            })
-    }, []);
+    const kidsButtons = useMemo(()=>childrenRes?.data.map(formatChildrenButton), [childrenRes]);
+    const eventsButtons = useMemo(()=>eventsRes?.data.map(formatEventButton), [eventsRes]);
+    const friendsButtons = useMemo(()=>eventsRes?.data.map(formatFriendButton), [friendsRes]);
+    const data = useMemo(()=>{
+        const data = {};
+        data[Tabs.kids] = kidsButtons;
+        data[Tabs.events] = eventsButtons;
+        data[Tabs.friends] = friendsButtons;
+        return data;
+    }, [kidsButtons, eventsButtons, friendsButtons]);
 
 
     if (tab===Tabs.kids) {
@@ -93,40 +81,39 @@ export default function UserSelf({userInfo, userId}) {
     }
 
     return(
-        <MarginlessMain>
-            <MultiFieldHeader
-                src={userInfo?.pfp?.src || "pfp"}
-                alt={"profile photo"}
+        <AwaitLoad status={[childrenStatus, eventStatus, friendsStatus]}>
+                <MarginlessMain>
+                <MultiFieldHeader
+                    src={userInfo?.pfp?.src || "pfp"}
+                    alt={"profile photo"}
 
-                tab={tab}
-                onTab={(tab)=>{
-                    setTab(tab);
-                    setData({
-                        ...data
-                    });
-                }}
-                tabs={Object.values(Tabs)}
-                title={[
-                    `${userInfo?.firstName} ${userInfo?.lastName}`,
-                    // <Button
-                    //     type={BUTTON_TYPES.filled}
-                    //     primaryColor={colors.primaryLight}
-                    //     secondaryColor={colors.textDark}
-                    //     onClick={()=>{Ping.error("not yet done")}}
-                    // >Edit Profile</Button>,
-                    // <IconButton
-                    //     icon={ICON_NAMES.settings}
-                    //     onClick={()=>Ping.warn("not done yet")}
-                    // />
-                ]}
-            />
-            <OrderedList 
-                title={tab}
-                onClick={addAction}
-                sort={(a,b)=>a.key > b.key}
-            >
-                {data[tab]}
-            </OrderedList>
-        </MarginlessMain>
+                    tab={tab}
+                    onTab={(tab)=>{
+                        setTab(tab);
+                    }}
+                    tabs={Object.values(Tabs)}
+                    title={[
+                        `${userInfo?.firstName} ${userInfo?.lastName}`,
+                        // <Button
+                        //     type={BUTTON_TYPES.filled}
+                        //     primaryColor={colors.primaryLight}
+                        //     secondaryColor={colors.textDark}
+                        //     onClick={()=>{Ping.error("not yet done")}}
+                        // >Edit Profile</Button>,
+                        // <IconButton
+                        //     icon={ICON_NAMES.settings}
+                        //     onClick={()=>Ping.warn("not done yet")}
+                        // />
+                    ]}
+                />
+                <OrderedList 
+                    title={tab}
+                    onClick={addAction}
+                    sort={(a,b)=>a.key > b.key}
+                >
+                    {data[tab]}
+                </OrderedList>
+            </MarginlessMain>
+        </AwaitLoad>
     );
 }

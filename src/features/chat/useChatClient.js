@@ -13,12 +13,10 @@ export function useChatClient() {
         queryKey: [CLIENT_CHAT_TAG, "userChats"],
     });
 
-    //not sure where this is used
-    // const useGetDirectChat = (options)=>useQuery(
-    //     [CLIENT_CHAT_TAG, "directChat"],
-    //     getDirectChat,
-    //     options,
-    // );
+    const useGetDirectChat = makeUseQuery({
+        queryKey: [CLIENT_CHAT_TAG, "directChat"],
+        queryFn: getDirectChat,
+    });
 
     const useGetChat = makeUseQuery({
         queryKey: [CLIENT_CHAT_TAG, 'chat'],
@@ -44,7 +42,7 @@ export function useChatClient() {
     return {
         useGetChatsFor,
         useMakeChat,
-        //useGetDirectChat,
+        useGetDirectChat,
         useGetChat,
         useSendMessage,
     }
