@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
 import { Main } from "../../../../components/Main";
 import { Title } from "../../../../ottery-ui/text/Title";
-import { getInfo } from "../../../user/userApi";
+//import { getInfo } from "../../../user/userApi";
 import Image from "../../../../ottery-ui/images/Image";
 import { image } from "../../../../ottery-ui/styles/image";
 import ButtonField from "../../../../ottery-ui/buttons/ButtonField";
 import Button from "../../../../ottery-ui/buttons/Button";
 import styled from "styled-components";
-import { acceptChildRequest, declineChildRequest } from "../../tempzoneApi";
+//import { acceptChildRequest, declineChildRequest } from "../../tempzoneApi";
 import {Ping} from "../../../../ottery-ping/Ping";
+import { useTempzoneClient } from "../../useTempzoneClient";
+import { useUserClient } from "../../../user/useUserClient";
 
 const Spread = styled.div`
     display:flex;
@@ -20,43 +21,38 @@ const Spread = styled.div`
 `;
 
 export function Accept({form, onDone, mainFlow, subFlow}) {
-    const [guardian, setGuardian] = useState({});
+    const {useAcceptChildRequest, useDeclineChildRequest} = useTempzoneClient();
+    const {useGetInfo} = useUserClient();
+    const acceptChildRequest = useAcceptChildRequest();
+    const declineChildRequest = useDeclineChildRequest();
+    const {data:guardian} = useGetInfo(form.request.guardian);
 
     function getChild() {
         return form.request.child;
     }
 
     function accept() {
-        acceptChildRequest({
+        acceptChildRequest.mutate({
             ...form.request,
             child: form.request.child._id,
-        }).then((res)=>{
-            onDone(mainFlow, {});
-        }).catch(err=>{
-            Ping.error()
+        }, {
+            onSuccess: ()=>onDone(mainFlow, {}),
+            onError: (err)=>Ping.error(err.message)
         });
     }
 
     function decline() {
-        declineChildRequest({
+        declineChildRequest.mutate({
             ...form.request,
             child: form.request.child._id,
-        }).then((res)=>{
-            onDone(subFlow, {
+        }, {
+            onSuccess: ()=>onDone(subFlow, {
                 ...form,
                 guardian: guardian,
-            });
-        }).catch(err=>{
-            Ping.error(err.message);
+            }),
+            onError: (err)=>Ping.error(err.message)
         });
     }
-
-    useEffect(()=>{
-        getInfo(form.request.guardian)
-            .then(res=>{
-                setGuardian(res.data[0]);
-            });
-    }, []);
     
     return <Main>
         <Spread>

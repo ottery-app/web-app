@@ -18,8 +18,6 @@ const FormTitle = styled(Title)`
     text-align: left;
 `;
 
-throw new Error("Working here");
-
 export function FillMissingData({form, onDone, mainFlow}) {
     const {eventId} = useParams();
     const {useUserId} = useAuthClient()
@@ -109,29 +107,26 @@ export function FillMissingData({form, onDone, mainFlow}) {
     useEffect(()=>{
             let moveon = false;
 
+            
             if (form.volenteering) {
                 if (missingVolenteerData?.data.length) {
                     moveon = false;
-                    console.log("no moving on")
                     setMissing((p)=>[...p, {
                         name: "you",
                         id: userId,
                         needed: missing.data,
                     }]);
                 } else if (missingVolenteerData?.data.length === 0) {
-                    console.log("you can move on")
                     moveon = true;
                 }
             }
 
-            //TODO this is not yet working
             if (form.children) {
-                console.log(missingAttendeeData);
                 if (missingAttendeeData?.length) {
+                    moveon = true;
                     for (let i = 0; i < missingAttendeeData.length; i++) {
                         if (missingAttendeeData[i].data.length) {
                             const child = form.children[i];
-                            console.log("no moving on")
                             moveon = false;
                             setMissing((p)=>[...p, {
                                 name: `${child.firstName} ${child.lastName}`,
@@ -141,7 +136,6 @@ export function FillMissingData({form, onDone, mainFlow}) {
                         }
                     }
                 } else if (missingAttendeeData?.data?.length === 0) {
-                    console.log("you can move on")
                     moveon = true;
                 }
             }
@@ -149,7 +143,7 @@ export function FillMissingData({form, onDone, mainFlow}) {
             if (moveon) {
                 onDone(mainFlow);
             }
-    }, [missingVolenteerData, missingAttendeeData]);
+    }, [missingVolenteerData, missingAttendeeData, form]);
 
     return  <MainSignUp>
         <Title>Looks like we are missing some information for:</Title>

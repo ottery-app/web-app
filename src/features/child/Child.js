@@ -22,14 +22,17 @@ export function Child() {
     const {useGetEvents} = useEventClient();
     const {useGetUserInfo} = useUserClient();
     const {childId} = useParams();
-    const children = useGetChildren([childId]);
+    const children = useGetChildren({inputs:[childId]});
+    console.log(children);
     const child = children?.data?.data[0];
-    const eventsQuery = useGetEvents(child?.events, {
+    const eventsQuery = useGetEvents({
+        inputs: [child?.events],
         enabled: !!child,
     });
     const events = eventsQuery?.data?.data;
     let guardians = child?.perms.map(item=>item.owner.id);
-    const userQuery = useGetUserInfo(guardians, {
+    const userQuery = useGetUserInfo({
+        inputs: [guardians],
         enabled: !!guardians,
     });
     guardians = userQuery?.data?.data;
@@ -65,7 +68,7 @@ export function Child() {
             );
         })
     }
-
+    
     return(
         <MarginlessMain>
             <MultiFieldHeader

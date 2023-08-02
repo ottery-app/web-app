@@ -9,8 +9,8 @@ export function Done({form}) {
     let title = "Your kids all got on the raft!";
 
     for (let i = 0; i < form.responces.length; i++) {
-        if (form.responces[i].status === requestStatus.ACCEPTED) {
-            title = "Looks like we had some trouble getting kids on the raft. Please reach out to a caretaker"
+        if (form.responces[i].status === requestStatus.REJECTED) {
+            title = "Oops, we ran into an issue!"
         }
     }
 

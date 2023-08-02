@@ -123,5 +123,6 @@ export const authSlice = createSlice({
 export const selectUserId = store=>store.auth.sesh.userId;
 export const selectUserEmail = store=>store.auth.sesh.email;
 export const selectUserState = store=>store.auth.sesh.state;
+export const selectUserEventId = store=>store.auth.sesh.event;
 
 export default authSlice.reducer

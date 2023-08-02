@@ -13,7 +13,7 @@ export function Messages() {
     const {useUserId} = useAuthClient()
     const {useGetChatsFor} = useChatClient();
     const userId = useUserId()
-    const chatsRes = useGetChatsFor(userId);
+    const chatsRes = useGetChatsFor({inputs:[userId]});
     let chats = chatsRes?.data?.data;
 
     return ( 

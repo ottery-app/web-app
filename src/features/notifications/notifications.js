@@ -4,33 +4,22 @@ import { Ping } from "../../ottery-ping/Ping";
 import { getNotifications, readNotifications } from "./notifiactionsApi";
 import {Notification} from './notificationTypes/notification';
 import { useAuthClient } from "../auth/useAuthClient";
+import { useNotificationClient } from "./useNotificationsClient";
+import { AwaitLoad } from "../../guards/AwaitLoad";
 
 export function Notifications() {
     const {useUserId} = useAuthClient()
     const userId = useUserId();
-    const [notifications, setNotifications] = useState([]);
+    const {useGetNotifications} = useNotificationClient();
+    const {data:notifications, status: status} = useGetNotifications({inputs:[userId]});
 
-    useEffect(()=>{
-        if (userId) {
-            getNotifications(userId)
-                .then((res)=>{
-                    setNotifications(res.data);
-                    readNotifications(userId)
-                        .then(()=>{
-                            console.log("notifications marked as read");
-                        }).catch((e)=>{
-                            throw e
-                        });
-                })
-                .catch(err=>{
-                    Ping.error(err.message);
-                })
-        }
-    }, [userId]);
-
-    return <Main>
-        {notifications.map(((notif, i)=>{
-            return <Notification key={i} raw={notif} />
-        }))}
-    </Main>;
+    return (
+        <Main>
+            <AwaitLoad status={status}>
+                {notifications?.data.map(((notif, i)=>{
+                    return <Notification key={i} raw={notif} />
+                }))}
+            </AwaitLoad>
+        </Main>
+    );  
 }

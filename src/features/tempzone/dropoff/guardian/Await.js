@@ -8,79 +8,60 @@ import {Ping} from "../../../../ottery-ping/Ping";
 import { dropOffChildren, checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
+import { useTempzoneClient } from "../../useTempzoneClient";
+
+function formatRequest(request) {
+    return {
+        ...request,
+        child: request.child._id
+    }
+}
+
+function getIdsFromRequests(requests) {
+    return requests
+        .filter((request)=>request.status === requestStatus.INPROGRESS)
+        .map((request)=>request.child); 
+}
 
 export function Await({form, onDone, mainFlow}) {
-    const [requests, setRequests] = useState([]);
-    let run = 0;
+    const [requests, setRequests] = useState(form.requests.map(formatRequest));
+    const {useDropOffChildren, useCheckRequestsStatus} = useTempzoneClient();
+    const {mutate:dropOffChildren} = useDropOffChildren();
+    useCheckRequestsStatus({
+        inputs:[getIdsFromRequests(requests)],
+        refetchInterval: API_ENV.query_delta,
+        refetchIntervalInBackground: true,
+        onSuccess: (res)=>{
+            setRequests(res.data);
 
-    useEffect(()=>{
-        const requests = form.requests.map((request)=>{
-            return {
-                ...request,
-                child: request.child._id
-            }
-        })
+            let dones = res.data.map((request)=>request.status === requestStatus.ACCEPTED || request.status === requestStatus.REJECTED);
 
-        if (run === 0) {
-            dropOffChildren(requests)
-                .then(res=>{
-                    setRequests(res.data);
-                }).catch(err=>{
-                    Ping.error(err.message)
+            if (dones.length && dones.every(s=>s)) {
+                const responces = res.data.map((responce)=>{
+                    for (let i = 0; i < form.requests.length; i++) {
+                        if (responce.child === form.requests[i].child._id) {
+                            return {
+                                ...responce,
+                                child: form.requests[i].child,
+                            }
+                        }
+                    }
                 });
 
-            run++;
-        }
-    },[]);
+                onDone(mainFlow, {
+                    requests: [],
+                    responces: responces,
+                })
+            }
+        },
+    })
 
     useEffect(()=>{
-        if (requests.length) {
-            setTimeout(()=>{
-                const ids = requests
-                    .filter((request)=>request.status === requestStatus.INPROGRESS)
-                    .map((request)=>request.child); 
-
-                if (ids.length) {
-                    checkRequestsStatus(ids)
-                        .then((res)=>{
-                            let droppedOff = 0;
-                            let update = res.data.map((request)=>{
-                                if (request.status === requestStatus.ACCEPTED) {
-                                    droppedOff++;
-                                }
-
-                                for (let i = 0 ; i < res.data.length; i++) {
-                                    if (res.data[i].child === request.child) {
-                                        return res.data[i];
-                                    }
-                                }
-                                return request;
-                            });
-
-                            if (droppedOff === requests.length) {
-                                update = update.map((responce)=>{
-                                    for (let i = 0; i < form.requests.length; i++) {
-                                        if (responce.child === form.requests[i].child._id) {
-                                            return {
-                                                ...responce,
-                                                child: form.requests[i].child,
-                                            }
-                                        }
-                                    }
-                                })
-
-                                onDone(mainFlow, {
-                                    requests: [],
-                                    responces: update,
-                                })
-                            }
-
-                            setRequests(update);
-                        });
-                }
-            }, API_ENV.query_delta);
-        }
-    }, [requests]);
+        dropOffChildren(requests, {
+            onSuccess: (res)=>setRequests(res.data),
+            onError: (err)=>Ping.error(err.message)
+        });
+    },[]);
 
     return <Main>
         <Image

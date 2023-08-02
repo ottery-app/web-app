@@ -52,7 +52,7 @@ export default function CustomField({
     const [error, setError] = useState();
     
     const {useGetAllFormFields} = useFormClient();
-    const [fieldsData] = useGetAllFormFields();
+    const fieldsData = useGetAllFormFields();
     const fields = fieldsData?.data?.data || []
 
     useEffect(()=>{

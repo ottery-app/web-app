@@ -28,14 +28,15 @@ export function Chat() {
     const {chatId} = useParams();
     const {useGetChat, useSendMessage} = useChatClient();
     const [ref, scrollTo] = useScrollTo("instant");
-    const getChat = useGetChat(chatId, {
+    const getChat = useGetChat({
+        inputs: [chatId],
         refetchInterval: API_ENV.query_delta,
         refetchIntervalInBackground: true,
     });
     const sendMessage = useSendMessage();
     const {useUserId} = useAuthClient()
     const selfId = useUserId();
-    const messages = getChat.data?.data.messages
+    const messages = getChat?.data?.data.messages
 
     useEffect(scrollTo, [getChat]);
 

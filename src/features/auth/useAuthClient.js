@@ -1,45 +1,44 @@
-import { useMutation, useQuery } from "react-query";
 import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate } from "./authSlice";
+import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate, selectUserEventId } from "./authSlice";
 import useSwapState from "../../hooks/useSwapState";
+import { makeUseQuery } from "../../hooks/makeGetQuery";
+import { makeUseMutation } from "../../hooks/makeUseMutation";
 
 const CLIENT_AUTH_TAG = 'auth';
 
 export function useAuthClient() {
     const dispatch = useDispatch();
 
-    const useLoad = (options)=>useQuery(
-        CLIENT_AUTH_TAG,
-        async ()=>dispatch(load()),
-        options
-    )
+    const useLoad = makeUseQuery({
+        queryKey: [CLIENT_AUTH_TAG],
+        queryFn: async ()=>dispatch(load())
+    });
 
-    const useLogin = (options)=>useMutation(
-        async (loginDto)=>dispatch(login(loginDto)),
-        options
-    );
+    const useLogin = makeUseMutation({
+        mutationFn: async (loginDto)=>dispatch(login(loginDto)),
+    });
 
-    const useLogout = (options)=>useMutation(
-        async ()=>dispatch(logout()),
-        options
-    );
+    const useLogout = makeUseMutation({
+        mutationFn: async ()=>dispatch(logout()),
+    });
 
-    const useRegister = (options)=>useMutation(
-        async (registerDto)=>dispatch(register(registerDto)),
-        options
-    );
+    const useRegister = makeUseMutation({
+        mutationFn: async (registerDto)=>dispatch(register(registerDto)),
+    });
 
-    const useActivate = (options)=>useMutation(
-        async (activateDto)=>dispatch(activate(activateDto)),
-        options
-    );
+    const useActivate = makeUseMutation({
+        mutationFn: async (activateDto)=>dispatch(activate(activateDto)),
+    });
 
-    const useResendEmail = (options)=>useMutation(resendEmail, options);
+    const useResendEmail = makeUseMutation({
+        mutationFn: resendEmail,
+    })
 
     const useUserId = ()=>useSelector(selectUserId);
     const useUserEmail = ()=>useSelector(selectUserEmail);
     const useUserState = ()=>useSelector(selectUserState);
+    const useEventId = ()=>useSelector(selectUserEventId);
 
     return {
         useLoad,
@@ -53,5 +52,6 @@ export function useAuthClient() {
         useUserEmail,
         useUserState,
         useSwapState,
+        useEventId,
     }
 }

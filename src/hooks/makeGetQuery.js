@@ -15,10 +15,10 @@ export function makeUseQuery({
     return function useUseQuery(options={}) {
         const queryClient = useQueryClient();
 
-        const queryKeyInternal = queryKey;
-        // const queryKeyInternal = (options.inputs) 
-        //     ? [...queryKey, ...options.inputs] 
-        //     : queryKey;
+        //const queryKeyInternal = queryKey;
+        const queryKeyInternal = (options.inputs) 
+            ? [...queryKey, ...options.inputs] 
+            : queryKey;
 
         const queryFnInternal = async ()=>queryFn(...(options?.inputs) ? options.inputs: []);
 

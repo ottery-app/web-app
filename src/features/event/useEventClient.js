@@ -15,22 +15,20 @@ export const QUERY_EVENT_TAG = "event";
 
 export function useEventClient() {
 
-    const useGetEvent = (event, options)=>useQuery({
-        queryKey: [QUERY_EVENT_TAG, event],
-        queryFn: async ()=>{
+    const useGetEvent = makeUseQuery({
+        queryKey: [QUERY_EVENT_TAG, "event"],
+        queryFn: async (event)=>{
             let res = await getEvents([event]);
             res.data = res.data[0];
             return res;
-        },
-        ...options,
-    })
+        }
+    });
 
-    const useGetEvents = (events, options)=>useQuery({
+    const useGetEvents = makeUseQuery({
         queryKey: [QUERY_EVENT_TAG],
-        queryFn: async()=>{
+        queryFn: async(events)=>{
             return getEvents(events)
         },
-        ...options,
     });
 
     const useGetAttendeeSignup = makeUseQuery({
