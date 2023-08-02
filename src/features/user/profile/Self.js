@@ -53,7 +53,7 @@ export default function UserSelf({userInfo, userId}) {
         return <ImageButton 
                     key={user?._id}
                     content={`${user?.firstName} ${user?.lastName}`}
-                    right={"pfp" && user?.pfp.src}
+                    right={"pfp" && user?.pfp?.src}
                     onClick={()=>{
                         navigator(paths.user.profile, {userId:user._id});
                     }}
@@ -62,15 +62,12 @@ export default function UserSelf({userInfo, userId}) {
 
     const kidsButtons = useMemo(()=>childrenRes?.data.map(formatChildrenButton), [childrenRes]);
     const eventsButtons = useMemo(()=>eventsRes?.data.map(formatEventButton), [eventsRes]);
-    const friendsButtons = useMemo(()=>eventsRes?.data.map(formatFriendButton), [friendsRes]);
-    const data = useMemo(()=>{
-        const data = {};
-        data[Tabs.kids] = kidsButtons;
-        data[Tabs.events] = eventsButtons;
-        data[Tabs.friends] = friendsButtons;
-        return data;
-    }, [kidsButtons, eventsButtons, friendsButtons]);
+    const friendsButtons = useMemo(()=>friendsRes?.data.map(formatFriendButton), [friendsRes]);
 
+    const data = {};
+    data[Tabs.kids] = kidsButtons;
+    data[Tabs.events] = eventsButtons;
+    data[Tabs.friends] = friendsButtons;
 
     if (tab===Tabs.kids) {
         var addAction = ()=>navigator(paths.child.new);

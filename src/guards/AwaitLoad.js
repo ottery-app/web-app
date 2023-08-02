@@ -1,30 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Loading } from "../router/Loading";
 import { Error } from "../router/Error";
 
-export function AwaitLoad(props) {
-    let status = [];
-
-    if (!Array.isArray(props.status)) {
-        status = [props.status];
-    } else {
-        status = props.status;
-    }
-
-    let topStatus = status.pop();
-
-    if (status.length) {
-        return (
-            <AwaitLoadSingle {...props} status={topStatus}>
-                <AwaitLoad {...props} />
-            </AwaitLoadSingle>
-        );
-    } else {
-        return <AwaitLoadSingle {...props} status={topStatus}/>
-    }
-}
-
-function AwaitLoadSingle({
+export function AwaitLoad({
     status,
     loadingHtml = <Loading/>,
     errorHtml = <Error/>,
@@ -32,28 +10,29 @@ function AwaitLoadSingle({
     onLoading,
     onError,
     onSuccess,
-    children
+    children,
 }) {
+    const statusArr = useMemo(()=>(Array.isArray(status)) ? status : [status], [status])
+
     useEffect(()=>{
-        switch (status) {
-            case "loading":
-                onLoading && onLoading();
-                break;
-            case "error":
-                onError && onError();
-                break;
-            case "success":
-                onSuccess && onSuccess();
-                break;
+        if (statusArr.includes("error")) {
+            onError && onError();
+        } else if (statusArr.includes("loading")) {
+            onLoading && onLoading();
+        } else if (statusArr.every(val=>val==="success" || val==="idle")) {
+            onSuccess && onSuccess();
+        } else {
+            console.error("Something unsupported occured");
         }
     }, [status]);
 
-    switch (status) {
-        case "loading":
-            return loadingHtml;
-        case "error":
-            return errorHtml;
-        case "success":
-            return successHtml || children;
+    if (statusArr.includes("error")) {
+        return errorHtml;
+    } else if (statusArr.includes("loading")) {
+        return loadingHtml;
+    } else if (statusArr.every(val=>val==="success" || val==="idle")) {
+        return successHtml || children;
+    } else {
+        console.error("Something unsupported occured");
     }
 }

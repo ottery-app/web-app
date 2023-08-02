@@ -1,6 +1,3 @@
-import { socialLinkState, UpdateLinkDto } from "ottery-dto";
-import { clideInst } from "../../app/clideInst";
-import { DummyCache } from "../../ottery-cache/DummyCache";
 import { makeUseQuery } from "../../hooks/makeGetQuery";
 import { friendStatus, getFriends, updateStatus } from "./socialApi";
 import { makeUseMutation } from "../../hooks/makeUseMutation";
@@ -17,8 +14,9 @@ export function useSocialClient() {
         mutationFn: updateStatus,
     })
 
-    const useGetFriends = makeUseMutation({
-        mutationFn: getFriends,
+    const useGetFriends = makeUseQuery({
+        queryKey: [QUERY_SOCIAL_KEY, "friends"],
+        queryFn: getFriends,
     });
 
     return {
