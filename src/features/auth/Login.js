@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Shadowbox from "../../ottery-ui/containers/Shadowbox";
-import Image from "../../ottery-ui/images/Image";
-import TextInput from "../../ottery-ui/input/TextInput";
-import PasswordInput from "../../ottery-ui/input/PasswordInput";
+import {Shadowbox} from "../../ottery-ui-new/containers/Shadowbox";
+import {Image} from "../../ottery-ui-new/images/Image";
+import {TextInput} from "../../ottery-ui-new/input/TextInput";
+import {PasswordInput} from "../../ottery-ui-new/input/PasswordInput";
 import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
-import Link from "../../ottery-ui/text/Link";
+import {Link} from "../../ottery-ui-new/text/Link";
 import paths from "../../router/paths";
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
@@ -42,12 +42,11 @@ export default function Login() {
                 <Form>
                     <Image src={logoDefault} alt="logo" width={"100%"}/>
                     <TextInput
-                        label="email"
+                        label="Email"
                         value={email}
                         onChange={(e)=>{setEmail(e.target.value)}}
                     />
                     <PasswordInput
-                        label="password"
                         value={password}
                         onChange={(e)=>{setPassword(e.target.value)}}
                     />

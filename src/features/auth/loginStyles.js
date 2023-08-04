@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { margin } from "../../ottery-ui/styles/margin";
 
 export const Main = styled.div`
     position: absolute;
@@ -7,6 +8,9 @@ export const Main = styled.div`
     transform: translate(-50%, -50%);
     max-width: 500px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${margin.medium};
 `;
 
 export const Form = styled.form`

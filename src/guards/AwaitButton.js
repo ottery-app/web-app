@@ -1,4 +1,4 @@
-import Button from "../ottery-ui/buttons/Button";
+import {Button} from "../ottery-ui-new/buttons/Button";
 
 /**
  * this is a button with an extra status field for modifying state

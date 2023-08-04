@@ -1,12 +1,11 @@
-import Shadowbox from "../../ottery-ui/containers/Shadowbox";
-import Image from "../../ottery-ui/images/Image";
-import TextInput from "../../ottery-ui/input/TextInput";
-import OtteryLink from "../../ottery-ui/text/Link";
+import {Shadowbox} from "../../ottery-ui-new/containers/Shadowbox";
+import {Image} from "../../ottery-ui-new/images/Image";
+import {TextInput} from "../../ottery-ui-new/input/TextInput";
 import {image} from "../../ottery-ui/styles/image";
 import React, {useState} from "react";
 import {Main, Form} from "./loginStyles";
 import {closedMailWithHalo} from "../../assets/images/icons"
-import Link from "../../ottery-ui/text/Link";
+import {Link} from "../../ottery-ui-new/text/Link";
 import paths from "../../router/paths";
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
@@ -73,9 +72,9 @@ export default function Validate() {
                         {email}
                     </div>
 
-                    <OtteryLink onClick={resend}>
+                    <Link onClick={resend}>
                         Resend it?
-                    </OtteryLink>
+                    </Link>
 
                     <TextInput 
                         type = "text"

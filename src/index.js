@@ -5,6 +5,7 @@ import { store } from './app/store';
 import Router from './router/Router';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from "./app/queryClient";
+import { ThemeProvider } from './ottery-ui-new/styles/ThemeProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -20,10 +21,12 @@ const root = createRoot(container);
  */
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Router />
-      </Provider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Router />
+        </Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
