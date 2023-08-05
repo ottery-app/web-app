@@ -11,6 +11,7 @@ import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import { useAuthClient } from "./useAuthClient";
 import { AwaitButton } from "../../guards/AwaitButton";
+import { Text } from "../../ottery-ui-new/text/Text";
 
 export default function Login() {
     const navigator = useNavigator();
@@ -59,9 +60,9 @@ export default function Login() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <div>
+                <Text>
                     Don't have an account? <Link onClick={()=>navigator(paths.auth.register, {next: IGNORENEXT})}>Sign up!</Link>
-                </div>
+                </Text>
             </Shadowbox>
         </Main>
     );

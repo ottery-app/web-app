@@ -11,6 +11,8 @@ import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import {useAuthClient} from "./useAuthClient";
 import {AwaitButton} from "../../guards/AwaitButton";
+import { Title } from "../../ottery-ui-new/text/Title";
+import { Text } from "../../ottery-ui-new/text/Text";
 
 export default function Validate() {
     const [code, setCode] = useState("");
@@ -62,15 +64,15 @@ export default function Validate() {
             <Shadowbox>
                 <Form>
                     <Image src={closedMailWithHalo} alt="mail" width={image.largeProfile}/>
-                    <h4>
+                    <Title h="h4">
                         Enter confirmation code
-                    </h4>
-                    <div>
+                    </Title>
+                    <Text>
                         We sent it to:
-                    </div>
-                    <div>
+                    </Text>
+                    <Text>
                         {email}
-                    </div>
+                    </Text>
 
                     <Link onClick={resend}>
                         Resend it?
@@ -91,9 +93,9 @@ export default function Validate() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <div>
+                <Text>
                     Have an account? <Link onClick={logoutAction}>Log in!</Link>
-                </div>
+                </Text>
             </Shadowbox>
         </Main>
     );

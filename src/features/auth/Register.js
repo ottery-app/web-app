@@ -13,6 +13,7 @@ import {Link} from "../../ottery-ui-new/text/Link";
 import {ImageInput} from "../../ottery-ui-new/input/ImageInput";
 import {AwaitButton} from "../../guards/AwaitButton";
 import { useAuthClient } from "./useAuthClient";
+import { Text } from "../../ottery-ui-new/text/Text";
 
 export default function Register() {
     const navigator = useNavigator();
@@ -83,9 +84,9 @@ export default function Register() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <div>
+                <Text>
                     Have an account? <Link onClick={()=>navigator(paths.auth.login, {next:IGNORENEXT})}>Log in!</Link>
-                </div>
+                </Text>
             </Shadowbox>
         </Main>
     );

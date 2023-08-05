@@ -1,14 +1,5 @@
-import styled from "styled-components";
 import React from "react";
-import {colors} from "../styles/colors";
-
-const HyperLink = styled.a`
-    color: ${colors.text.hyperlink};
-    display: inline;
-    &:hover {
-        cursor: pointer;
-    }
-`;
+import { Link as LinkMui} from "@mui/material";
 
 /**
  * 
@@ -19,20 +10,16 @@ const HyperLink = styled.a`
  * @param onClick is the on click callback 
  */
 export function Link({
-    id,
-    className = "oui-link",
     children,
     href,
     onClick,
 }) {
     return (
-        <HyperLink
-            id={id}
-            className={className}
+        <LinkMui
             onClick={onClick}
             href={href}
         >
             {children}
-        </HyperLink>
+        </LinkMui>
     )
 }

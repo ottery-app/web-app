@@ -26,5 +26,7 @@ export function AwaitButton(props) {
             state = "default";
     }
 
-    return <Button {...props} state={state} onClick={onClick} />
+    const disabled = (state === "disabled") ? true : false;
+
+    return <Button {...props} color={state} disabled={disabled} onClick={onClick} />
 }

@@ -4,6 +4,7 @@ export const TIME = {
     md: 'month-day',
 };
 
+//Probably should use a library...
 export function Time({time, type}) {
     time = new Date(time);
 

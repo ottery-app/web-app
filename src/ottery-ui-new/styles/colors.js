@@ -10,6 +10,7 @@ export const colors = {
         light: "#89CFF0",
         main: "#89CFF0",
         dark: "#71abc7",
+        contrastText: "#ffffff",
     },
 
     secondary: {
@@ -40,22 +41,13 @@ export const colors = {
         light: "#4caf50",
         main: "#2e7d32",
         dark: "#1b5e20",
+        contrastText: "#ffffff",
     },
 
     text: {
-        primary: '#ffffff',
-        secondary: '#000000',
-        //tertiary: '#6B7A90',
-        disabled: 'rgba(0, 0, 0, 0.38)',
-        hyperlink: "#0000ff",
+        disabled: "rgba(0, 0, 0, 0.38)",
+        primary: "#1C2025",
+        secondary: "#434D5B",
+        tertiary: "#6B7A90",
     }
-}
-
-/**
- * This is used to update the color reference for a specific name to a given hex
- * @param {*} name the name of the color to update
- * @param {*} hex the hex color
- */
-export function updateColors(name, hex) {
-    colors[name] = hex;
 }

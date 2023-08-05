@@ -1,17 +1,27 @@
 import { radius } from "../styles/radius";
-import { Button } from "./Button";
-import { Title } from "../text/Title";
-import { clickable } from "../styles/clickable";
+import { ICON_NAMES, IconButton } from "./IconButton";
+import { useTheme } from "@mui/material";
+
+console.warn("AddButton needs work");
 
 export function AddButton({
     onClick
 }) {
+    const {palette} = useTheme();
+
     return (
-        <Button
-            color="success"
+        <IconButton
+            icon={ICON_NAMES.pluss}
+            palette={{
+                primary: {
+                    main: palette.success.main 
+                },
+                text: {
+                    primary: palette.success.contrastText
+                }
+            }}
             onClick={onClick}
-            width={clickable.minWidth}
-            height={"60px"}
-        ><Title h="2" margin={0}>+</Title></Button>
+            radius={radius.default}
+        />
     );
 }

@@ -49,6 +49,7 @@ import addPx from "../functions/addPx";
 import { radius as rad } from "../styles/radius";
 import {clickable} from "../styles/clickable";
 import {colors} from "../styles/colors";
+import { useTheme } from "@mui/material";
 
 const icons = {
     bell: <AiOutlineBell/>,
@@ -138,19 +139,33 @@ const Icon = styled.div`
     }
 `
 
+console.warn("this needs work");
+
+/**
+ * This is the IconButton. It is a large set of buttons that the user is able to chose from
+ * and modify. These images were found in react-icons
+ * @param {string} type - The type of button. Can be outline, filled, or text.
+ * @param {string} secondaryTextColor - the secondary text color of the button. This can be either a hex code or a color name. The secondary text color is used to modify the text color of the button.
+ * @param {string} primaryTextColor - The primary text color of the button. This can be either a hex code or a color name. The primary text color is used to modify the text color of the button.
+ * @param {string} fontSize - The font size of the button. Should be in any css size format.
+ * @param {Object} onClick - The function that is called when the button is clicked.
+ * @returns {React.Component} The button component.
+ */
 export function IconButton({
     icon="forward",
     onClick,
+    palette,
     fontSize = clickable.minHeight,
     radius = rad.round,
 }) {
-    const primaryColor = "white";
-    const secondaryColor = "black";
-    const primaryTextColor = colors.text.main;
+    const {palette:defaultPalette} = useTheme();
 
+    const primaryColor = palette?.primary?.main || defaultPalette.primary.main;
+    const secondaryColor = palette?.secondary?.main || defaultPalette.secondary.main;
+    const primaryTextColor = palette?.text?.primary || defaultPalette.text.primary;
 
     return (
-        <Backdrop 
+        <Backdrop
             onClick={onClick}
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
