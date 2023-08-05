@@ -8,7 +8,6 @@ export const paths = {
         login: "/auth/login",
         validate: "/auth/validate",
     },
-    //DO THESE SOCIAL
     social: {
         notifications: "/social/notifications",
         messages: "/social/messages",
@@ -21,7 +20,7 @@ export const paths = {
     },
     caretaker: {
         home : "/caretaker",
-        orgs: "/caretaker/events&orgs/:userId",
+        //orgs: "/caretaker/events&orgs/:userId",
         dropoff: "/caretaker/dropoff",
         pickup: "/caretaker/pickup",
     },
