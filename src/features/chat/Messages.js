@@ -1,7 +1,6 @@
 import { Main } from "../../components/Main";
-import { IconCard } from "../../ottery-ui/containers/IconCard";
+import { IconCard } from "../../ottery-ui-new/containers/IconCard";
 import {DEFAULT_IMAGES} from '../../ottery-ui/images/Image';
-import {getInfo} from '../../features/user/userApi'
 import {useNavigator} from '../../hooks/useNavigator';
 import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -33,7 +32,7 @@ export function Chat({chat}) {
 
     const selfId = useUserId();
     const navigator = useNavigator();
-    const flagUserLoad = useGetUserInfo(chat.users.filter((id)=>id!==selfId)[0]);
+    const flagUserLoad = useGetUserInfo({inputs:[chat.users.filter((id)=>id!==selfId)[0]]});
 
     const flagUser = flagUserLoad?.data?.data[0];
     const message = chat.messages[chat.messages.length - 1];

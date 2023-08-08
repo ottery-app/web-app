@@ -6,6 +6,16 @@
  * 30% will be the tertiary color
  */
 export const colors = {
+    background: {
+        default: "#fff"
+    },
+
+    disabled: {
+        light: "#eee",
+        main: "#ddd",
+        dark: "#ccc",
+    },
+
     primary: {
         light: "#89CFF0",
         main: "#89CFF0",

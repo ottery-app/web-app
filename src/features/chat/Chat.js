@@ -1,27 +1,28 @@
 import { useParams } from "react-router-dom";
 import { Main } from "../../components/Main";
-import { Message } from '../../ottery-ui/chat/Message';
-import { ChatBox } from "../../ottery-ui/chat/ChatBox";
-import { MessageInput } from "../../ottery-ui/chat/MessageInput";
+import { Message } from '../../ottery-ui-new/chat/Message';
+import { ChatBox } from "../../ottery-ui-new/chat/ChatBox";
+import { MessageInput } from "../../ottery-ui-new/input/MessageInput";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { colors } from "../../ottery-ui/styles/colors";
-import { NAV_HEIGHT } from "../../ottery-ui/footers/NavBar";
+import { NAV_HEIGHT } from "../../ottery-ui-new/footers/NavBar";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from './useChatClient';
 import {AwaitLoad} from '../../guards/AwaitLoad';
 import { API_ENV } from "../../env/api.env";
+import { margin } from "../../ottery-ui-new/styles/margin";
 
 const InputFiller = styled.div`
+    padding: ${margin.small};
     height: ${NAV_HEIGHT};
 `;
 
-const Input = styled(Main)`
+const InputBackdrop = styled(Main)`
     position: fixed;
     left: 0;
     bottom: ${NAV_HEIGHT};
-    background: ${colors.primary};
+    background: white;
 `;
 
 export function Chat() {
@@ -38,7 +39,7 @@ export function Chat() {
     const selfId = useUserId();
     const messages = getChat?.data?.data.messages
 
-    useEffect(scrollTo, [getChat]);
+    useEffect(scrollTo, [getChat.dataUpdatedAt]);
 
     function send(message) {
         sendMessage.mutate([chatId, message]);
@@ -59,7 +60,7 @@ export function Chat() {
                     )}
                 </ChatBox>
                 <InputFiller ref={ref}/>
-                <Input><MessageInput onSend={send}/></Input>
+                <InputBackdrop><MessageInput onSend={send}/></InputBackdrop>
             </Main>
         </AwaitLoad>
     );

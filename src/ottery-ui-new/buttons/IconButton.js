@@ -139,7 +139,7 @@ const Icon = styled.div`
     }
 `
 
-console.warn("this needs work");
+console.warn("this needs work maube replace with mui icons if there are enough options");
 
 /**
  * This is the IconButton. It is a large set of buttons that the user is able to chose from
