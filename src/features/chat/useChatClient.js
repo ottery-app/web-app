@@ -9,7 +9,7 @@ export function useChatClient() {
     const queryClient = useQueryClient();
 
     const useGetChatsFor = makeUseQuery({
-        queryFn: getChatsFor,
+        queryFn: async (userId)=>getChatsFor(userId),
         queryKey: [CLIENT_CHAT_TAG, "userChats"],
     });
 

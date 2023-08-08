@@ -1,4 +1,4 @@
-import {Button} from "../ottery-ui-new/buttons/Button";
+import Button from "../ottery-ui/buttons/Button";
 
 /**
  * this is a button with an extra status field for modifying state
@@ -26,7 +26,5 @@ export function AwaitButton(props) {
             state = "default";
     }
 
-    const disabled = (state === "disabled") ? true : false;
-
-    return <Button {...props} color={state} disabled={disabled} onClick={onClick} />
+    return <Button {...props} state={state} onClick={onClick} />
 }

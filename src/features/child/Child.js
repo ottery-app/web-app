@@ -1,5 +1,5 @@
-import {UnorderedList} from "../../ottery-ui-new/lists/UnorderedList";
-import {MultiFieldHeader} from "../../ottery-ui-new/headers/MultiFieldHeader";
+import UnorderedList from "../../ottery-ui/lists/UnorderedList";
+import {MultiFieldHeader} from "../../ottery-ui/headers/MultiFieldHeader";
 import {MarginlessMain, Main} from "../../components/Main";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
@@ -23,6 +23,7 @@ export function Child() {
     const {useGetUserInfo} = useUserClient();
     const {childId} = useParams();
     const children = useGetChildren({inputs:[childId]});
+    console.log(children);
     const child = children?.data?.data[0];
     const eventsQuery = useGetEvents({
         inputs: [child?.events],

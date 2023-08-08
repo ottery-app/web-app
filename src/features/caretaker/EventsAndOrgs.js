@@ -14,9 +14,6 @@ const Center = styled.div`
     width: 100%;
 `;
 
-/**
- * @deprecated
- */
 export default function EventsAndOrgs() {
     const [current, setCurrent] = useState("Events");
     const {userId} = useParams();

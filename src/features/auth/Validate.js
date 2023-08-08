@@ -1,18 +1,17 @@
-import {Shadowbox} from "../../ottery-ui-new/containers/Shadowbox";
-import {Image} from "../../ottery-ui-new/images/Image";
-import {TextInput} from "../../ottery-ui-new/input/TextInput";
+import Shadowbox from "../../ottery-ui/containers/Shadowbox";
+import Image from "../../ottery-ui/images/Image";
+import TextInput from "../../ottery-ui/input/TextInput";
+import OtteryLink from "../../ottery-ui/text/Link";
 import {image} from "../../ottery-ui/styles/image";
 import React, {useState} from "react";
 import {Main, Form} from "./loginStyles";
 import {closedMailWithHalo} from "../../assets/images/icons"
-import {Link} from "../../ottery-ui-new/text/Link";
+import Link from "../../ottery-ui/text/Link";
 import paths from "../../router/paths";
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import {useAuthClient} from "./useAuthClient";
 import {AwaitButton} from "../../guards/AwaitButton";
-import { Title } from "../../ottery-ui-new/text/Title";
-import { Text } from "../../ottery-ui-new/text/Text";
 
 export default function Validate() {
     const [code, setCode] = useState("");
@@ -64,19 +63,19 @@ export default function Validate() {
             <Shadowbox>
                 <Form>
                     <Image src={closedMailWithHalo} alt="mail" width={image.largeProfile}/>
-                    <Title h="h4">
+                    <h4>
                         Enter confirmation code
-                    </Title>
-                    <Text>
+                    </h4>
+                    <div>
                         We sent it to:
-                    </Text>
-                    <Text>
+                    </div>
+                    <div>
                         {email}
-                    </Text>
+                    </div>
 
-                    <Link onClick={resend}>
+                    <OtteryLink onClick={resend}>
                         Resend it?
-                    </Link>
+                    </OtteryLink>
 
                     <TextInput 
                         type = "text"
@@ -93,9 +92,9 @@ export default function Validate() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <Text>
+                <div>
                     Have an account? <Link onClick={logoutAction}>Log in!</Link>
-                </Text>
+                </div>
             </Shadowbox>
         </Main>
     );

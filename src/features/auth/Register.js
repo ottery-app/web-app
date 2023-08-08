@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import {Shadowbox} from "../../ottery-ui-new/containers/Shadowbox";
-//import {Image} from "../../ottery-ui-new/images/Image";
-import {TextInput} from "../../ottery-ui-new/input/TextInput";
-import {PasswordInput} from "../../ottery-ui-new/input/PasswordInput";
-//import {logoDefault} from "../../assets/images/logos";
+import Shadowbox from "../../ottery-ui/containers/Shadowbox";
+import Image from "../../ottery-ui/images/Image";
+import TextInput from "../../ottery-ui/input/TextInput";
+import PasswordInput from "../../ottery-ui/input/PasswordInput";
+import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import paths from "../../router/paths";
 import {isEmail, isPassword} from "ottery-dto"
 import { Ping } from "../../ottery-ping/Ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
-import {Link} from "../../ottery-ui-new/text/Link";
-import {ImageInput} from "../../ottery-ui-new/input/ImageInput";
+import Link from "../../ottery-ui/text/Link";
+import ImageInput from "../../ottery-ui/input/ImageInput";
 import {AwaitButton} from "../../guards/AwaitButton";
 import { useAuthClient } from "./useAuthClient";
-import { Text } from "../../ottery-ui-new/text/Text";
 
 export default function Register() {
     const navigator = useNavigator();
@@ -46,8 +45,8 @@ export default function Register() {
     return (
         <Main>
             <Shadowbox>
-                <Form>
-                    {/* <Image src={logoDefault} alt="logo" width={"100%"}/> */}
+            <Form>
+                    <Image src={logoDefault} alt="logo" width={"100%"}/>
                     <ImageInput 
                         value={pfp}
                         onChange={(e)=>{setPfp(e.target.value)}}
@@ -71,6 +70,7 @@ export default function Register() {
                         onChange={(e)=>{setLastName(e.target.value)}}
                     />
                     <PasswordInput
+                        label="password"
                         value={password}
                         validator={isPassword}
                         onChange={(e)=>{setPassword(e.target.value)}}
@@ -84,9 +84,9 @@ export default function Register() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <Text>
+                <div>
                     Have an account? <Link onClick={()=>navigator(paths.auth.login, {next:IGNORENEXT})}>Log in!</Link>
-                </Text>
+                </div>
             </Shadowbox>
         </Main>
     );

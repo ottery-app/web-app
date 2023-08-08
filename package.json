@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.3",
-    "@mui/material": "^5.14.3",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "browser-image-compression": "^2.0.0",

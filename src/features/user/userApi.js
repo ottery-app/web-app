@@ -35,7 +35,7 @@ export const getInfo = clideInst
             if (!Array.isArray(userIds)) {
                 userIds = [userIds];
             }
-            
+
             return {
                 params: {
                     users: userIds,

@@ -14,6 +14,7 @@ import User from '../features/user/profile/User';
 import NewChild from '../features/child/NewChild';
 import Wrap from "../components/Wrap";
 import Home from '../components/Home';
+import EventsAndOrgs from '../features/caretaker/EventsAndOrgs';
 import NewEvent from '../features/event/newEvent/NewEvent';
 import { EventSignUp } from '../features/event/signUp/EventSignUp';
 import { DropOffGuardian } from '../features/tempzone/dropoff/guardian/DropOffGuardian';
@@ -83,14 +84,14 @@ const router = createBrowserRouter([
               </Wrap>
             </AuthGuard>
   },
-  // {
-  //   path: paths.caretaker.orgs,
-  //   element: <AuthGuard loggedin activated caretaker>
-  //             <Wrap title="Events & Orgs">
-  //               <EventsAndOrgs/>
-  //             </Wrap>
-  //           </AuthGuard>
-  // },
+  {
+    path: paths.caretaker.orgs,
+    element: <AuthGuard loggedin activated caretaker>
+              <Wrap title="Events & Orgs">
+                <EventsAndOrgs/>
+              </Wrap>
+            </AuthGuard>
+  },
   {
     path: paths.caretaker.dropoff,
     element: <AuthGuard loggedin activated caretaker>
