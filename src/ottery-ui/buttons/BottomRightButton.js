@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 import AddButton from "./AddButton";
-
-import {colors} from "../styles/colors";
 import {clickable} from "../styles/clickable";
 
 const Button = styled.div`
@@ -13,17 +11,10 @@ const Button = styled.div`
 `;
 
 export default function BottomRightButton(props) {
-    //no idea how strongly done this is
-    const [dto] = useState({
-        primaryTextColor: "white",
-        secondaryColor: "white",
-        ...props,
-    });
-
     //add icons later if needed.
     return (
         <Button>
-            <AddButton {...dto} />
+            <AddButton {...props} />
         </Button>
     );
 }

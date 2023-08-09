@@ -4,8 +4,10 @@ import {radius as rad} from "../styles/radius";
 import { clickable } from "../styles/clickable";
 import useValidator, { makeValidator } from "./hooks/useValidator";
 import useColors from "../hooks/useColors";
+import { zindex } from "../styles/zindex";
+import { capitalizeFirstLetter } from "../../functions/capitalizeFirstLetter";
 
-const border = "2px";
+const border = "1px";
 
 function isTimeType(type) {
     return type==="date" || type==="time";
@@ -18,17 +20,17 @@ export function makeInputStyle(props) {
         height: ${clickable.minHeight};
         outline: none !important;
         border: 0px solid white;
-        box-shadow: 0 0 0 ${border} ${props.colors.primaryColor} inset;
+        box-shadow: 0 0 0 ${border} ${"#ccc"} inset;
         border-radius: ${rad.default};
         font-size: 16px;
-        background: ${colors.primary};
+        background: ${color.background.primary};
 
         &:focus {
-            box-shadow: 0 0 0 ${border} ${props.colors.secondaryColor} inset;
+            box-shadow: 0 0 0 ${border} ${props.color.dark} inset;
         }
 
         &:hover {
-            box-shadow: 0 0 0 ${border} ${props.colors.secondaryColor} inset;
+            box-shadow: 0 0 0 ${border} ${props.color.dark} inset;
         }
     `
 }
@@ -37,9 +39,20 @@ const Label = styled.label`
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    color: ${props=>props.colors.primaryTextColor};
-    background: ${colors.primary};
+    color: ${props=>props.color.text};
     white-space: nowrap;
+    z-index: ${zindex.front};
+
+    :after {
+        content: "";
+        position: absolute;
+        bottom: 41%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: ${colors.background.primary};
+        z-index: -1;
+      }
 `;
 
 const C = styled.div`
@@ -68,14 +81,12 @@ function toBool(val) {
 }
 
 export function FloatingLabel({colors, title, watch}) {
-    return watch && <C><Label colors={colors}>{title}</Label></C>
+    return watch && <C><Label color={colors}>{title}</Label></C>
 }
 
 export default function BaseInput({
     type="text", //this is just here to make making other types of input easier
-    primaryColor = colors.secondary,
-    secondaryColor = colors.secondaryDark,
-    primaryTextColor = colors.textDark,
+    color=color.primary,
     value = "",
     label,
     placeholder, //used if you only want a placeholder
@@ -87,21 +98,19 @@ export default function BaseInput({
     const status = useValidator(validator, value, delay);
     const colors = useColors({
         status,
-        primaryColor,
-        secondaryColor,
-        primaryTextColor,
+        color,
     });
 
     return(
         <Main>
             <FloatingLabel 
-                colors={colors}
-                title={label}
+                color={colors}
+                title={capitalizeFirstLetter(label)}
                 watch={isTimeType(type) || toBool(value)}
             />
             <I
                 list={list}
-                colors={colors}
+                color={colors}
                 value={value}
                 onChange={onChange}
                 type={type}

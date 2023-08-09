@@ -6,7 +6,6 @@ import {clickable} from '../styles/clickable';
 import {colors} from "../styles/colors";
 
 import removeProps from "../functions/removeProps";
-import { useMemo } from "react";
 
 function generateAutos(length) {
     let auto = "";
@@ -47,18 +46,7 @@ const Field = styled.div`
 `;
 
 /**
- * Tab buttons are buttons that are in a line. They work the same was that the tabs on your
- * browser work. They are infact modeled after radio buttons. You can only have one selected
- * at a time. They are used to toggle between views and pages. It is important to note that
- * the children of this element are the ones that should have the onClick. Not the tabBar.
- * @props {string} id - The id of the button. Used in css to style the button.
- * @props {string} className - The class name of the button. Used in css to style the button.
- * @props {string} primaryColor - The primary color of the button. This can be either a hex code or a color name. The primary color is used to modify the background color of the button.
- * @props {string} secondaryColor - The secondary color of the button. This can be either a hex code or a color name. The secondary color is used to modify the border color of the button.
- * @props {string} primaryTextColor - The primary text color of the button. This can be either a hex code or a color name. The primary text color is used to modify the text color of the button.
- * @props {string} secondaryTextColor - The secondary text color of the button. This can be either a hex code or a color name. The secondary text color is used to modify the text color of the button.
- * @props {React.ReactNode} children - The children of the button. This is the text that will be displayed on the button.
- * @returns {React.ReactNode} - The tab buttons.
+ * @deprecated
  */
 export default function TabButtons({
     id,

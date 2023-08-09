@@ -1,4 +1,4 @@
-import { useRef, useState, setTimeout, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export function makeValidator(state) {
     return ()=>{

@@ -8,8 +8,7 @@ export default function EditButton({
     return (
         <IconButton 
             icon={ICON_NAMES.edit}
-            primaryColor={colors.secondary}
-            primaryTextColor={colors.textLight}
+            color={colors.info}
             onClick={onClick}
             radius={radius.default}
         />

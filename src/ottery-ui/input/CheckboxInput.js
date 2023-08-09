@@ -8,6 +8,8 @@ import { margin } from "../styles/margin";
 import { useEffect } from "react";
 import { inputType } from "ottery-dto/lib/types/input/input.enums";
 
+throw new Error("Working here");
+
 const Container = styled.div`
     display: block;
     height: 35px;

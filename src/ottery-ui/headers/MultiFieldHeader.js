@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import TabButtons from "../buttons/TabButtons";
 import Image from "../images/Image";
 import { image } from "../styles/image"
-import { colors } from "../styles/colors.js";
+import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import multPx from "../functions/multPx";
+import useColors from "../hooks/useColors";
 
 const IMAGE_RAD = image.mediumProfile;
 
@@ -24,7 +25,7 @@ const Header = styled.div`
     
     gap: ${margin.medium};
     width: 100%;
-    background-color: ${props=>props.backgroundColor};
+    background-color: ${colors.background.primary};
     border-radius: ${props=>props.radius} ${props=>props.radius} 0 0;
 `;
 
@@ -66,16 +67,13 @@ export function MultiFieldHeader({
     onTab=()=>{},
 
     //style
-    primaryColor=colors.primaryDark,
-    secondaryColor=colors.tertiaryDark,
-    tertiaryColor=colors.tertiary,
     radius=rad.square,
 }) {
     const head = (Array.isArray(title)) ? title : [title];
+    //color=useColors({color});
 
     return (
         <Header
-            backgroundColor = {primaryColor}
             radius = {radius}
         >
             <Left>
@@ -92,8 +90,8 @@ export function MultiFieldHeader({
                     {head}
                 </Title>
                 <TabButtons 
-                    primaryColor={secondaryColor}
-                    secondaryColor={tertiaryColor}
+                    // primaryColor={secondaryColor}
+                    // secondaryColor={tertiaryColor}
                     value={tab}
                     onTab={onTab}
                 >

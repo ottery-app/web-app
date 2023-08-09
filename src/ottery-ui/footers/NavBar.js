@@ -5,6 +5,7 @@ import { clickable } from "../styles/clickable";
 
 import addPx from "../functions/addPx";
 import { margin } from "../styles/margin";
+import { colors } from "../styles/colors";
 
 export const NAV_HEIGHT = addPx(clickable.minHeight, margin.medium);
 
@@ -15,7 +16,7 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: ${props=>props.primaryColor};
+    background-color: ${colors.background.primary};
 
     position: fixed;
     left: 0;
@@ -36,29 +37,13 @@ const Filler = styled.div`
     height: ${NAV_HEIGHT};
 `
 
-/**
- * The nav bar is designed for the use of phone apps specifically at the bottom of the sreen.
- * It takes the children passed into the component and displays them in the nav bar style.
- * All items in the nav are displaced evenly regardless of how many elements there are in it.
- * @param {string} id - The id of the nav bar.
- * @param {string} className - The class name of the nav bar.
- * @param {Object} children - an array of react elements to be displayed in the nav bar.
- * @returns {ReactElement} - The nav bar.
- */
 export default function NavBar({
-    id,
-    className,
     children,
-    primaryColor="white",
 }) {
     return (
         <>
             <Filler/>
-            <Nav 
-                id={id}
-                className={className | "oui-nav-footer"}
-                primaryColor={primaryColor}
-            >
+            <Nav>
                 {((children && children.length) ? children.map(child => {
                     return child;
                 }) : (()=>{

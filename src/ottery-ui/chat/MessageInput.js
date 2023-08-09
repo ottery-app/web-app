@@ -26,7 +26,7 @@ export function MessageInput({onSend}) {
                 onSend(message);
             }}
             icon={ICON_NAMES.send}
-            primaryTextColor={colors.textPrimary}
+            color={colors.primary}
         />
     </Main>
 }

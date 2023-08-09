@@ -9,13 +9,12 @@ import { TIME, Time } from "../text/Time";
 import {colors} from '../styles/colors';
 import { border } from "../styles/border";
 
-
 const Main = styled.div`
     width: 100%;
     display: flex;
     gap: ${margin.small};
     background: ${colors.primary};
-    border: ${border.thin} solid ${colors.primaryDark};
+    border: ${border.thin} solid ${colors.background.secondary};
     &:hover {
         ${clickable.onHover}
     }

@@ -1,19 +1,17 @@
 import Button from "./Button";
 import { colors } from "../styles/colors";
 import { clickable } from "../styles/clickable";
+import useColors from "../hooks/useColors";
 
 export default function SquareButton(props, {
-    primaryColor=colors.tertiary,
-    secondaryColor=colors.textDark,
-    primaryTextColor=colors.textDark,
+    color=colors.secondary,
     height=clickable.maxHeight,
 }) {
+    color = useColors({color})
     return (
         <Button 
             height = {height}
-            primaryColor = {primaryColor}
-            secondaryColor = {secondaryColor}
-            primaryTextColor = {primaryTextColor}
+            color={color}
             {...props}
         >{props.children}</Button>
     );

@@ -8,8 +8,7 @@ export default function DelButton({
     return (
         <IconButton 
             icon={ICON_NAMES.x}
-            primaryColor={colors.primaryError}
-            primaryTextColor={colors.textLight}
+            color={colors.error}
             onClick={onClick}
             radius={radius.default}
         />

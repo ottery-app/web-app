@@ -6,44 +6,53 @@
  * 30% will be the tertiary color
  */
 export const colors = {
-    //white
-    primaryLight: "white",
-    primary: "white",
-    primaryDark: "#eeeeee",
-
     //blue
-    secondaryLight: undefined,
-    secondary: "#89CFF0",
-    secondaryDark: "#71abc7",
+    primary: {
+        light: undefined,
+        main: "#89CFF0",
+        dark: "#71abc7",
+        contrastText: "white",
+    },
 
     //brown
-    tertiaryLight: "#e3c69a",
-    tertiary: "#DFB87E",
-    tertiaryDark: "#b89767",
+    secondary: {
+        light: "#e3c69a",
+        main: "#DFB87E",
+        dark: "#b89767",
+        contrastText: "black",
+    },
 
     //red
-    primaryError: "#ff5269",
-    secondaryError: "#cf0000",
+    error: {
+        light: undefined,
+        main: "#ff5269",
+        dark: "#cf0000",
+        contrastText: "black",
+    },
     
     //green
-    primarySuccess:  "#4BB543",
-    secondarySuccess: "#008200",
+    success: {
+        light: undefined,
+        main: "#4BB543",
+        dark: "#008200",
+        contrastText: "white",
+    },
 
-    //gray
-    primaryDisabled: "#c2c2c2",
-    secondaryDisabled: "#9c9c9c",
+    disabled: {
+        light: "#c2c2c2",
+        main: "#9c9c9c",
+        dark: "black",
+        contrastText: "black",
+    },
 
-    textDark: "black",
-    textPale: "#d4d4d4",
-    textLight: "white",
-    textLink: "#0078ff",
-}
+    text: {
+        primary: "black",
+        secondary: "white",
+        hyperlink: "#0078ff",
+    },
 
-/**
- * This is used to update the color reference for a specific name to a given hex
- * @param {*} name the name of the color to update
- * @param {*} hex the hex color
- */
-export function updateColors(name, hex) {
-    colors[name] = hex;
+    background: {
+        primary: "white",
+        secondary: "c4c4c4",
+    }
 }

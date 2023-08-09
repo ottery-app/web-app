@@ -25,6 +25,9 @@ const Window = styled.div`
     display:inline-block;
 `;
 
+/**
+ * @deprecated
+ */
 export default function Popup({
     on = false,
     primaryColor = colors.primary,

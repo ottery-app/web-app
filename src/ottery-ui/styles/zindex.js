@@ -2,9 +2,9 @@
  * the style options for shadows
  */
  export const zindex = {
-    front: 1,
+    front: 100,
     mid: 0,
-    back: -1,
+    back: -100,
     absolute: 1000000000,
 }
 

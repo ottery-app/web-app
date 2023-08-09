@@ -21,9 +21,7 @@ export const AREA = inputType.AREA;
 
 export default function AreaInput({
     type="text", //this is just here to make making other types of input easier
-    primaryColor = colors.secondary,
-    secondaryColor = colors.secondaryDark,
-    primaryTextColor = colors.textDark,
+    color=colors.primary,
     value = "",
     label,
     onChange,
@@ -31,17 +29,12 @@ export default function AreaInput({
     validator=makeValidator("default"),
 }) {
     const status = useValidator(validator, value, delay);
-    const colors = useColors({
-        status,
-        primaryColor,
-        secondaryColor,
-        primaryTextColor,
-    });
+    const colors = useColors({status, color,});
 
     return(
         <Main>
             <I
-                colors={colors}
+                color={colors}
                 value={value}
                 onChange={onChange}
                 type={type}

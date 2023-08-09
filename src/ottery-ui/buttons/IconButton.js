@@ -42,13 +42,14 @@ import {
     BsClock,
 } from "react-icons/bs";
 
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import addPx from "../functions/addPx";
 import { radius as rad } from "../styles/radius";
 import {clickable} from "../styles/clickable";
 import {colors} from "../styles/colors";
+import useColors from "../hooks/useColors";
 
 const icons = {
     bell: <AiOutlineBell/>,
@@ -116,8 +117,8 @@ for (let i = 0; i < names.length; i++) {
 }
 
 const Backdrop = styled.div`
-    background-color: ${props=>props.primaryColor};
-    border: ${props => "1px solid" + props.secondaryColor};
+    background-color: ${colors.background.primary};
+    border: ${props => "1px solid" + props.color.main};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -130,7 +131,7 @@ const Backdrop = styled.div`
 const Icon = styled.div`
     max-width: ${props=>addPx(props.fontSize, -8)};
     font-size: ${props=>addPx(props.fontSize, -8)};
-    color: ${props=>props.primaryTextColor};
+    color: ${props=>props.color.main};
     position: relative;
     top: 4.5px;
     &:hover {
@@ -138,37 +139,26 @@ const Icon = styled.div`
     }
 `
 
-/**
- * This is the IconButton. It is a large set of buttons that the user is able to chose from
- * and modify. These images were found in react-icons
- * @param {string} type - The type of button. Can be outline, filled, or text.
- * @param {string} secondaryTextColor - the secondary text color of the button. This can be either a hex code or a color name. The secondary text color is used to modify the text color of the button.
- * @param {string} primaryTextColor - The primary text color of the button. This can be either a hex code or a color name. The primary text color is used to modify the text color of the button.
- * @param {string} fontSize - The font size of the button. Should be in any css size format.
- * @param {Object} onClick - The function that is called when the button is clicked.
- * @returns {React.Component} The button component.
- */
 export default function IconButton({
     icon="forward",
     onClick,
-    primaryColor,
-    secondaryColor = primaryColor,
-    primaryTextColor = colors.textDark,
+    color=colors.primary,
     fontSize = clickable.minHeight,
     radius = rad.round,
 }) {
+    color = useColors({color});
+
     return (
         <Backdrop 
             onClick={onClick}
-            primaryColor={primaryColor}
-            secondaryColor={secondaryColor}
+            color={color}
             fontSize={fontSize}
             radius={radius}
         >
             <Icon 
                 className="oui-icon-button" 
                 fontSize={fontSize}
-                primaryTextColor={primaryTextColor}
+                color={color}
             >
                 {icons[icon] || icon}
             </Icon>

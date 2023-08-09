@@ -17,8 +17,8 @@ const Bubble = styled.div`
     box-sizing: border-box;
     padding: ${margin.medium};
     background: ${(props)=>(props.self)
-        ? colors.tertiaryLight
-        : colors.primaryDark
+        ? colors.secondary.light
+        : colors.background.secondary
     };
     border-radius: ${radius.default};
     max-width: ${window.innerWidth / 2.5}px;

@@ -1,3 +1,4 @@
+import useColors from "../../hooks/useColors";
 import { colors } from "../../styles/colors";
 import TabButton from "./TabButton";
 import { useState } from "react";
@@ -12,7 +13,6 @@ function generateAutos(length) {
 }
 
 const Main = styled.div`
-    background: ${props=>props.primaryColor};
     position: relative;
     width: 100%;
     display: grid;
@@ -21,26 +21,22 @@ const Main = styled.div`
 `;
 
 export default function TabField({
-    primaryColor,
-    secondaryColor,
-    tertiaryColor = colors.primary,
-    textColor = colors.textDark,
+    color=colors.secondary,
     type = "default",
     tabs=[],
     active=tabs[0],
     onTab=()=>{},
 }) {
     const [current, setCurrent] = useState(active);
+    color = useColors({color});
 
     return(
         <Main
-            primaryColor={tertiaryColor}
+            color={color}
         >
             {tabs.map((tab)=>
                 <TabButton
-                    primaryColor={primaryColor}
-                    secondaryColor={secondaryColor}
-                    textColor={textColor}
+                    color={color}
                     key={tab}
                     onClick={()=>{
                         setCurrent(tab);

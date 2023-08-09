@@ -1,18 +1,8 @@
-import { useMemo } from "react";
-import colorPipe from "../functions/colorPipe";
+import { colors } from "../styles/colors";
 
 export default function useColors({
     status,
-    primaryColor,
-    secondaryColor,
-    primaryTextColor,
+    color,
 }) {
-    return useMemo(()=>{
-        const colors = colorPipe({
-            primaryColor,
-            secondaryColor,
-            primaryTextColor,
-        }, status);
-        return colors;
-    }, [status, primaryColor, secondaryColor, primaryTextColor]);
+    return colors[status] || colors[color] || color;
 }

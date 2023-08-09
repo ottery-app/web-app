@@ -3,7 +3,7 @@ import { colors } from "../ottery-ui/styles/colors";
 import styled from "styled-components";
 
 const Main = styled.div`
-    background: ${colors.secondary};
+    background: ${colors.primary.main};
     width: 100%;
     height: 100vh;
     display: grid;

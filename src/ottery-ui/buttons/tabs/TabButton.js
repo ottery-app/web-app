@@ -2,15 +2,16 @@ import styled from "styled-components";
 import { clickable } from "../../styles/clickable";
 import { colors } from "../../styles/colors";
 import { radius } from "../../styles/radius";
+import useColors from "../../hooks/useColors";
 
 const lineThickness = "3px";
 
 const Tab = styled.div`
     background: ${props=>{
         if (props.active) {
-            return props.secondaryColor;
+            return props.color.main;
         } else {
-            return props.primaryColor;
+            return "green";
         }
     }};
 
@@ -20,7 +21,7 @@ const Tab = styled.div`
     align-items: center;
     min-width: ${clickable.minWidth};
     height: ${clickable.minHeight};
-    color: ${props=>props.textColor};
+    color: ${props=>props.color.contrastText};
     &:hover {
         ${clickable.onHover}
     }
@@ -30,14 +31,14 @@ const Default = Tab;
 
 const Hanging = styled(Tab)`
     border-radius: 0 0 ${radius.default} ${radius.default};
-    border: 0px solid ${props=>props.secondaryColor};
-    border-top: ${lineThickness} solid ${props=>props.secondaryColor};
+    border: 0px solid ${props=>props.color.dark};
+    border-top: ${lineThickness} solid ${props=>props.color.dark};
 `;
 
 const Upright = styled(Tab)`
     border-radius: ${radius.default} ${radius.default} 0 0;
-    border: 0px solid ${props=>props.secondaryColor};
-    border-bottom: ${lineThickness} solid ${props=>props.secondaryColor};
+    border: 0px solid ${props=>props.color.dark};
+    border-bottom: ${lineThickness} solid ${props=>props.color.dark};
 `;
 
 const Line = styled(Tab)`
@@ -45,26 +46,24 @@ const Line = styled(Tab)`
     border-radius: 0 0 0 0;
     border-bottom: ${lineThickness} solid ${props=>
         (props.active)
-            ?props.secondaryColor
-            :props.primaryColor
+            ?props.color.main
+            :"green"
     };
 `;
 
 export default function TabButton({
-    primaryColor = "inherit",
-    secondaryColor = colors.tertiary,
-    textColor = "black",
+    color=colors.secondary,
     onClick=()=>{},
     active=false,
     type="default",
     children
 }) {
+    const col = useColors({color:color})
+
     if (type === "hanging") {
         return (
             <Hanging
-                primaryColor={primaryColor}
-                secondaryColor={secondaryColor}
-                textColor={textColor}
+                color={col}
                 onClick={onClick}
                 active={active}
             >
@@ -74,9 +73,7 @@ export default function TabButton({
     } else if (type === "upright") {
         return (
             <Upright
-                primaryColor={primaryColor}
-                secondaryColor={secondaryColor}
-                textColor={textColor}
+                color={col}
                 onClick={onClick}
                 active={active}
             >
@@ -86,9 +83,7 @@ export default function TabButton({
     } else if (type === "line") {
         return (
             <Line
-                primaryColor={primaryColor}
-                secondaryColor={secondaryColor}
-                textColor={textColor}
+                color={col}
                 onClick={onClick}
                 active={active}
             >
@@ -98,9 +93,7 @@ export default function TabButton({
     } else {
         return(
             <Default
-                primaryColor={primaryColor}
-                secondaryColor={secondaryColor}
-                textColor={textColor}
+                color={col}
                 onClick={onClick}
                 active={active}
             >
