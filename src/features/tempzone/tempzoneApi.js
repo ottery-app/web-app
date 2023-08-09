@@ -21,7 +21,7 @@ export const pickUpChildren = clideInst
             return {
                 data:pickUpRequestForms
             }
-        }
+        },
     });
 
 export const checkRequestsStatus = clideInst

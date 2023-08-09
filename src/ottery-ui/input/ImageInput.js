@@ -78,9 +78,7 @@ export default function ImageInput({
             >
                 <Edit>
                     <AddButton
-                        primaryColor={colors.primary}
-                        secondaryColor={colors.textDark}
-                        primaryTextColor={colors.textDark}
+                        color={colors.primary}
                         diameter="40px"
                         type="filled"
                         icon="edit"

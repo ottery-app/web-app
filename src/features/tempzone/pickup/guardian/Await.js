@@ -8,28 +8,28 @@ import { API_ENV } from "../../../../env/api.env";
 import { useTempzoneClient } from "../../useTempzoneClient";
 
 export function Await({form, onDone, mainFlow}) {
-    const {useCheckRequestStatus} = useTempzoneClient();
-    const {data:requestsRes} = useCheckRequestStatus({
+    const {useCheckRequestsStatus} = useTempzoneClient();
+    useCheckRequestsStatus({
         inputs: [form.requests.map(({child})=>child._id)],
         refetchInterval: API_ENV.query_delta,
         refetchIntervalInBackground: true,
         onSuccess: ({data})=>{
             let dones = 0;
 
+
+            data.forEach((request)=>{
+                if (request.status !== requestStatus.INPROGRESS) {
+                    dones++;
+                }
+
+                for (let {child} of form.requests) {
+                    if (child._id === request.child) {
+                        request.child = child;
+                    }
+                }
+            });
+
             if (dones === data.length) {
-                data.forEach((request)=>{
-                    if (request.status !== requestStatus.INPROGRESS) {
-                        dones++;
-                    }
-
-                    for (let {child} of form.requests) {
-                        if (child._id === request.child) {
-                            request.child = child;
-                        }
-                    }
-                });
-
-
                 onDone(mainFlow, {
                     requests: data,
                 });

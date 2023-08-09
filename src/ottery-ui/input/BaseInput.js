@@ -23,7 +23,7 @@ export function makeInputStyle(props) {
         box-shadow: 0 0 0 ${border} ${"#ccc"} inset;
         border-radius: ${rad.default};
         font-size: 16px;
-        background: ${color.background.primary};
+        background: ${colors.background.primary};
 
         &:focus {
             box-shadow: 0 0 0 ${border} ${props.color.dark} inset;
@@ -80,13 +80,13 @@ function toBool(val) {
     }
 }
 
-export function FloatingLabel({colors, title, watch}) {
-    return watch && <C><Label color={colors}>{title}</Label></C>
+export function FloatingLabel({color, title, watch}) {
+    return watch && <C><Label color={color}>{title}</Label></C>
 }
 
 export default function BaseInput({
     type="text", //this is just here to make making other types of input easier
-    color=color.primary,
+    color=colors.primary,
     value = "",
     label,
     placeholder, //used if you only want a placeholder
@@ -96,21 +96,18 @@ export default function BaseInput({
     list, //for the datalist
 }) {
     const status = useValidator(validator, value, delay);
-    const colors = useColors({
-        status,
-        color,
-    });
+    color = useColors({status,color});
 
     return(
         <Main>
             <FloatingLabel 
-                color={colors}
+                color={color}
                 title={capitalizeFirstLetter(label)}
                 watch={isTimeType(type) || toBool(value)}
             />
             <I
                 list={list}
-                color={colors}
+                color={color}
                 value={value}
                 onChange={onChange}
                 type={type}

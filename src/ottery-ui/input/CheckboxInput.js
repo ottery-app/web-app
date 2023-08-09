@@ -8,8 +8,6 @@ import { margin } from "../styles/margin";
 import { useEffect } from "react";
 import { inputType } from "ottery-dto/lib/types/input/input.enums";
 
-throw new Error("Working here");
-
 const Container = styled.div`
     display: block;
     height: 35px;
@@ -30,9 +28,9 @@ const Container = styled.div`
 `;
 
 const Checked = styled.div`
-    color: ${colors.textLight};
+    color: ${colors.text.primary};
     font-weight:bold;
-    background: ${colors.secondary};
+    background: ${colors.secondary.main};
 `;
 
 const UnChecked = styled.div`

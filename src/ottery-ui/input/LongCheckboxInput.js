@@ -22,13 +22,13 @@ const Main = styled.div`
     ${props=>{
         if (props.checked) {
             return `
-                background: ${colors.primarySuccess};
-                color: ${colors.textLight};
+                background: ${colors.success.main};
+                color: ${colors.success.contrastText};
             `;
         } else {
             return `
-                background: ${colors.primaryDark};
-                color: ${colors.textDark}; 
+                background: ${colors.background.secondary};
+                color: ${colors.text.primary}; 
             `;
         }
     }}

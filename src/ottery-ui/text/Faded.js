@@ -1,5 +1,4 @@
 import { colors } from "../styles/colors";
-import React from "react";
 import styled from "styled-components";
 
 const Faded = styled.div`
@@ -11,7 +10,7 @@ const Faded = styled.div`
     font-size: 30px;
     text-align: center;
     line-height: 80px;
-    color: ${colors.textPale}
+    color: ${colors.text.tertiary}
 `;
 
 //litterally me

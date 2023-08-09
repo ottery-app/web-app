@@ -49,7 +49,7 @@ export default function MainHeader({
     left,
     right,
     height=MainHeaderHeight,
-    color={color}
+    color=colors.primary
 }) {
     return (
         <Header

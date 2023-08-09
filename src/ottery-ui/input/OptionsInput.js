@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { makeInputStyle, FloatingLabel } from "./BaseInput";
 import { makeDuck } from "ducktyper/";
 import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import useColors from "../hooks/useColors";
 
 const Main = styled.div`
     width:100%;
@@ -19,22 +20,14 @@ const isKeyValArray = makeDuck([String, String]);
 export const OPTIONS = inputType.OPTIONS;
 
 export default function OptionsInput({
-    primaryColor = colors.secondary,
-    secondaryColor = colors.secondaryDark,
-    primaryTextColor = colors.textDark,
+    color=colors.primary,
     value = "",
     options=[], //this can either be an array of strings or an array of key value arrays
     label,
     placeholder,
     onChange,
 }) {
-    const colors = useMemo(()=>{
-        return {
-            primaryColor,
-            secondaryColor,
-            primaryTextColor,
-        }
-    }, [primaryColor, secondaryColor, primaryTextColor]);
+    const colors = useColors({color});
 
     return (
         <Main>

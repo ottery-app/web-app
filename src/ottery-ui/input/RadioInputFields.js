@@ -21,10 +21,10 @@ const Label = styled.div`
 `;
 
 const RowBox = styled.div`
-    border-bottom: 2px solid ${props=>(props.current)?colors.secondaryDark:colors.primary};
+    border-bottom: 2px solid ${props=>(props.current)?colors.primary.dark : colors.background.primary};
 
     &:hover {
-        border-bottom: 2px solid ${props=>(props.current)?colors.secondaryDark:colors.secondary};;
+        border-bottom: 2px solid ${props=>(props.current)?colors.primary.dark:colors.background.primary};
     }
 `;
 

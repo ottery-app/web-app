@@ -3,7 +3,7 @@ import React from "react";
 import {colors} from "../styles/colors";
 
 const HyperLink = styled.a`
-    color: ${colors.textLink};
+    color: ${colors.text.hyperlink};
     display: inline;
     &:hover {
         cursor: pointer;
@@ -19,16 +19,12 @@ const HyperLink = styled.a`
  * @param onClick is the on click callback 
  */
 export default function Link({
-    id,
-    className = "oui-link",
     children,
     href,
     onClick,
 }) {
     return (
         <HyperLink
-            id={id}
-            className={className}
             onClick={onClick}
             href={href}
         >

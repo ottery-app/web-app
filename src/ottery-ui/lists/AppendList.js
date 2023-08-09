@@ -39,7 +39,7 @@ function Item({
             <div>{children}</div>
             <DelButton
                 onClick={()=>{onDelete(children)}}
-                primaryColor={colors.primaryError}
+                color={colors.error}
                 radius={rad}
             />
         </ItemField>
@@ -60,7 +60,7 @@ export default function AppendList({
                 <Text>Add New Field</Text>
                 <AddButton
                     onClick={onAdd}
-                    primaryColor={colors.primarySuccess}
+                    color={colors.primary}
                     radius={rad}
                 />
             </ItemField>

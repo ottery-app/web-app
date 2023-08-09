@@ -23,7 +23,8 @@ export function Select({onDone, mainFlow}) {
                 <Title>Select children to drop off</Title>
                 <SelectChildren
                     onDone={(children)=>{
-                        onDone(mainFlow, {children})
+                        debugger;
+                        onDone(mainFlow, {children:[...children]})
                     }}
                     children={children}
                     setChildren={setChildren}

@@ -18,28 +18,22 @@ const ProgressBar = styled.div`
 `;
 
 const Bar = styled.div`
-    background-color: ${props=>props.primaryColor};
+    background-color: ${props=>props.color.main};
     height: 3.5px;
     transform: translate(0, ${addPx(clickable.minHeight, -17)});
     z-index: ${zindex.back};
 `;
 
 const Circle = styled.div`
-    background-color: ${colors.primary};
+    background-color: ${colors.background.primary};
     border: 3px solid ${props=>{
         if (props.active) {
-            return props.primaryColor;
+            return colors.background.secondary;
         } else {
-            return props.secondaryColor;
+            return colors.primary.main;
         }
     }};
-    color: ${props=>{
-        if (props.active) {
-            return props.textColor;
-        } else {
-            return props.secondaryTextColor;
-        }
-    }};
+    color: ${colors.text.main};
     z-index: ${zindex.front};
     border-radius: ${radius.round};
     height: ${clickable.minHeight};  
@@ -64,25 +58,17 @@ const Circle = styled.div`
  * @param {function} onClick - The callback function that is called when a field is clicked on. That value of the field is passed into the function.
  */
 export default function StepBar({
-    primaryColor = colors.secondary,
-    secondaryColor = colors.primaryDark,
-    textColor = colors.textDark,
-    secondaryTextColor = colors.textPale,
     numFields,
     current,
     onClick=()=>{},
 }) {
     return(
         <Main>
-            <Bar primaryColor={secondaryColor}/>
+            <Bar/>
             <ProgressBar>
                 {[...Array(numFields).keys()].map((n)=>
                     <Field
                         key={n+1}
-                        primaryTextColor={textColor}
-                        secondaryTextColor={secondaryTextColor}
-                        primaryColor={primaryColor}
-                        secondaryColor={secondaryColor}
                         active={current === n+1}
                         onClick={onClick}
                     >
@@ -97,19 +83,11 @@ export default function StepBar({
 function Field({
     children,
     active,
-    primaryColor,
-    secondaryColor,
-    primaryTextColor,
-    secondaryTextColor,
     onClick
 }) {
     return(
         <Circle
             active={active}
-            primaryColor={primaryColor}
-            secondaryColor={secondaryColor}
-            primaryTextColor={primaryTextColor}
-            secondaryTextColor={secondaryTextColor}
             onClick={()=>onClick(children)}
         > 
             {children}

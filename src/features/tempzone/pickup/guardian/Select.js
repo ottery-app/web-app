@@ -30,7 +30,7 @@ export function Select({onDone, mainFlow}) {
             });
         }
 
-        const {data} = await pickupChildren.mutate(requests)
+        const {data} = await pickupChildren.mutateAsync(requests);
         requests = data.map((request)=>{
             for (let i = 0; i < children.length; i++) {
                 if (children[i]._id === request.child) {
