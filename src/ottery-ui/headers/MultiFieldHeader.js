@@ -8,6 +8,7 @@ import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import multPx from "../functions/multPx";
 import useColors from "../hooks/useColors";
+import TabField from "../buttons/tabs/TabField";
 
 const IMAGE_RAD = image.mediumProfile;
 
@@ -89,14 +90,11 @@ export function MultiFieldHeader({
                 <Title>
                     {head}
                 </Title>
-                <TabButtons 
-                    // primaryColor={secondaryColor}
-                    // secondaryColor={tertiaryColor}
-                    value={tab}
+                <TabField
+                    tabs={tabs}
+                    active={tab}
                     onTab={onTab}
-                >
-                    {tabs.map((tab)=><span key={tab} onClick={()=>{onTab(tab)}}>{tab}</span>)}
-                </TabButtons>
+                />
             </Right>
         </Header>
     );

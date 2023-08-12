@@ -117,7 +117,7 @@ for (let i = 0; i < names.length; i++) {
 }
 
 const Backdrop = styled.div`
-    background-color: ${colors.background.primary};
+    background-color: ${props=>props.color.main};
     border: ${props => "1px solid" + props.color.main};
     display: flex;
     align-items: center;
@@ -131,7 +131,7 @@ const Backdrop = styled.div`
 const Icon = styled.div`
     max-width: ${props=>addPx(props.fontSize, -8)};
     font-size: ${props=>addPx(props.fontSize, -8)};
-    color: ${props=>props.color.main};
+    color: ${props=>props.color.contrastText};
     position: relative;
     top: 4.5px;
     &:hover {
@@ -142,11 +142,12 @@ const Icon = styled.div`
 export default function IconButton({
     icon="forward",
     onClick,
-    color=colors.primary,
+    color={
+        contrastText: colors.text.primary,
+    },
     fontSize = clickable.minHeight,
     radius = rad.round,
 }) {
-    color = useColors({color});
 
     return (
         <Backdrop 

@@ -8,7 +8,7 @@ export default function AddButton({
     return (
         <IconButton 
             icon={ICON_NAMES.pluss}
-            color={colors.primary}
+            color={colors.success}
             onClick={onClick}
             radius={radius.default}
         />

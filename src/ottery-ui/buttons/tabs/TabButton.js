@@ -9,7 +9,7 @@ const lineThickness = "3px";
 const Tab = styled.div`
     background: ${props=>{
         if (props.active) {
-            return props.color.main;
+            return "green";
         } else {
             return "green";
         }
