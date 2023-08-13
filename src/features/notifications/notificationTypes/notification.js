@@ -30,6 +30,7 @@ const From = styled.div`
 export function Notification({raw}) {
     const [user, setUser] = useState();
     const [err, setError] = useState(false);
+    const [callback, setCallback] = useState(()=>{})
     const notif = useMemo(() => dtoAssign(NotificationDto, raw), [raw]);
 
     useEffect(()=>{
@@ -46,7 +47,7 @@ export function Notification({raw}) {
 
     let body = undefined;
     if (notif.type === notification.friendrequest) {
-        body =  <FriendReqeust notif={notif} />;
+        body =  <FriendReqeust setCallback={setCallback} notif={notif} />;
     } else {
         console.error("notification type is not yet supported");
         return;
@@ -65,6 +66,7 @@ export function Notification({raw}) {
                     dark: colors.background.primary,
                     contrastText:colors.text.primary,
                 }}
+                onClick={callback}
                 content={
                     <MainNotif>
                         <Head>
