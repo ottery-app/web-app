@@ -9,9 +9,9 @@ const lineThickness = "3px";
 const Tab = styled.div`
     background: ${props=>{
         if (props.active) {
-            return "green";
+            return props.color.dark;
         } else {
-            return "green";
+            return props.color.main;
         }
     }};
 
@@ -51,6 +51,13 @@ const Line = styled(Tab)`
     };
 `;
 
+export const TabButtonTypes = {
+    hanging: "hanging",
+    upright: "upright",
+    line: "line",
+
+}
+
 export default function TabButton({
     color=colors.secondary,
     onClick=()=>{},
@@ -60,7 +67,7 @@ export default function TabButton({
 }) {
     const col = useColors({color:color})
 
-    if (type === "hanging") {
+    if (type === TabButtonTypes.hanging) {
         return (
             <Hanging
                 color={col}
@@ -70,7 +77,7 @@ export default function TabButton({
                 {children}
             </Hanging>
         );
-    } else if (type === "upright") {
+    } else if (type === TabButtonTypes.upright) {
         return (
             <Upright
                 color={col}
@@ -80,7 +87,7 @@ export default function TabButton({
                 {children}
             </Upright>
         );
-    } else if (type === "line") {
+    } else if (type === TabButtonTypes.line) {
         return (
             <Line
                 color={col}

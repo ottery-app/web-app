@@ -5,6 +5,7 @@ import { colors } from "../styles/colors";
 import { clickable } from "../styles/clickable";
 import { radius as rad } from "../styles/radius";
 import { image } from "../styles/image";
+import {shadows} from "../styles/shadow";
 import useColors from "../hooks/useColors";
 
 const Button = styled.button`
@@ -15,9 +16,10 @@ const Button = styled.button`
     min-width: ${clickable.minWidth};
     width:100%;
     border-radius: ${props=>props.radius};
-    background-color: ${colors.background.primary};
+    background-color: ${props=>props.color.main};
     color: ${props => props.color.contrastText};
-    border: 2px solid ${props => props.color.main};
+    border: 2px solid ${props => props.color.dark};
+    ${shadows.default}
     &:hover {
         ${clickable.onHover}
     }

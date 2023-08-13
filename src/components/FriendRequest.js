@@ -36,8 +36,7 @@ export function FriendRequest({userId}) {
         return (
             <Button
                 type={BUTTON_TYPES.filled}
-                primaryColor={colors.primaryLight}
-                secondaryColor={colors.textDark}
+                color={colors.secondary}
                 onClick={()=>updateFriendStatus(socialLinkState.NONE)}
             >UnFriend</Button>
         );
@@ -46,8 +45,7 @@ export function FriendRequest({userId}) {
             return (
                 <Button
                     type={BUTTON_TYPES.filled}
-                    primaryColor={colors.primaryLight}
-                    secondaryColor={colors.textDark}
+                    color={colors.secondary}
                     onClick={()=>updateFriendStatus(socialLinkState.NONE)}
                 >Requested</Button>
             );
@@ -56,14 +54,12 @@ export function FriendRequest({userId}) {
                 <>
                     <Button
                         type={BUTTON_TYPES.filled}
-                        primaryColor={colors.primaryLight}
-                        secondaryColor={colors.textDark}
+                        color={colors.secondary}
                         onClick={()=>updateFriendStatus(socialLinkState.NONE)}
                     >Decline</Button>
                     <Button
                         type={BUTTON_TYPES.filled}
-                        primaryColor={colors.primaryLight}
-                        secondaryColor={colors.textDark}
+                        color={colors.secondary}
                         onClick={()=>updateFriendStatus(socialLinkState.ACCEPTED)}
                     >Accept</Button>
                 </>
@@ -73,8 +69,7 @@ export function FriendRequest({userId}) {
         return (
             <Button
                 type={BUTTON_TYPES.filled}
-                primaryColor={colors.primaryLight}
-                secondaryColor={colors.textDark}
+                color={colors.secondary}
                 onClick={()=>updateFriendStatus(socialLinkState.REQUESTED)}
             >Friend</Button>
         );

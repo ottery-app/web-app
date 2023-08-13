@@ -7,8 +7,8 @@ import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import multPx from "../functions/multPx";
-import useColors from "../hooks/useColors";
 import TabField from "../buttons/tabs/TabField";
+import { TabButtonTypes } from "../buttons/tabs/TabButton";
 
 const IMAGE_RAD = image.mediumProfile;
 
@@ -91,6 +91,7 @@ export function MultiFieldHeader({
                     {head}
                 </Title>
                 <TabField
+                    type={TabButtonTypes.upright}
                     tabs={tabs}
                     active={tab}
                     onTab={onTab}

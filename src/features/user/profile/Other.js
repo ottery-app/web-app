@@ -46,8 +46,7 @@ export default function UserOther({userInfo, userId, selfId}) {
                         `${user?.firstName} ${user?.lastName}`,
                         <Button
                             type={BUTTON_TYPES.filled}
-                            primaryColor={colors.primaryLight}
-                            secondaryColor={colors.textDark}
+                            color={colors.secondary}
                             onClick={async ()=>{
                                 let chatId = await getChatId();
                                 navigator(paths.social.chat, {chatId:chatId});
