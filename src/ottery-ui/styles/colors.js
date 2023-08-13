@@ -38,14 +38,6 @@ export const colors = {
         contrastText: "white",
     },
 
-    //trim
-    // trim: {
-    //     light:
-    //     main:
-    //     bark:
-    //     contrastText: "black"
-    // }
-
     disabled: {
         light: "#c2c2c2",
         main: "#9c9c9c",
@@ -61,6 +53,6 @@ export const colors = {
 
     background: {
         primary: "white",
-        secondary: "c4c4c4",
+        secondary: "#eee",
     }
 }

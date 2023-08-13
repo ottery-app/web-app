@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import Input from '../input/Input'
 import IconButton, { ICON_NAMES } from '../buttons/IconButton';
-import { colors } from '../styles/colors';
 import { useState } from 'react';
 import { margin } from '../styles/margin';
 
@@ -26,7 +25,6 @@ export function MessageInput({onSend}) {
                 onSend(message);
             }}
             icon={ICON_NAMES.send}
-            color={colors.primary}
         />
     </Main>
 }

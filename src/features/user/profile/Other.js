@@ -16,6 +16,13 @@ const Tabs = {
     shared: "shared kids",
 }
 
+const color = {
+    main: colors.background.primary,
+    light: colors.background.primary,
+    dark: colors.background.secondary,
+    contrastText: colors.text.primary,
+}
+
 export default function UserOther({userInfo, userId, selfId}) {
     const [tab, setTab] = useState(Object.values(Tabs)[0]);
     const [data, setData] = useState({});
@@ -46,13 +53,16 @@ export default function UserOther({userInfo, userId, selfId}) {
                         `${user?.firstName} ${user?.lastName}`,
                         <Button
                             type={BUTTON_TYPES.filled}
-                            color={colors.secondary}
+                            color={color}
                             onClick={async ()=>{
                                 let chatId = await getChatId();
                                 navigator(paths.social.chat, {chatId:chatId});
                             }}
                         >message</Button>,
-                        <FriendRequest userId={userId} />
+                        <FriendRequest
+                            color={color}
+                            userId={userId} 
+                        />
                     ]}
                 />
                 <OrderedList 

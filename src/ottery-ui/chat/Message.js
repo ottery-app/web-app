@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {radius} from '../styles/radius';
 import {colors} from '../styles/colors';
 import { margin } from "../styles/margin";
+import { shadows } from "../styles/shadow";
 
 const Spread = styled.div`
     width: 100%;
@@ -23,6 +24,7 @@ const Bubble = styled.div`
     border-radius: ${radius.default};
     max-width: ${window.innerWidth / 2.5}px;
     overflow-wrap: break-word;
+    ${shadows.default}
 `;
 
 export function Message({

@@ -21,7 +21,7 @@ const Input = styled(Main)`
     position: fixed;
     left: 0;
     bottom: ${NAV_HEIGHT};
-    background: ${colors.primary};
+    background: ${colors.background.primary};
 `;
 
 export function Chat() {
