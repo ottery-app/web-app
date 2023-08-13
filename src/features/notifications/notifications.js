@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
 import { Main } from "../../components/Main";
-import { Ping } from "../../ottery-ping/Ping";
-import { getNotifications, readNotifications } from "./notifiactionsApi";
-import {Notification} from './notificationTypes/notification';
+import {Notification} from './notificationTypes/Notification';
 import { useAuthClient } from "../auth/useAuthClient";
 import { useNotificationClient } from "./useNotificationsClient";
 import { AwaitLoad } from "../../guards/AwaitLoad";

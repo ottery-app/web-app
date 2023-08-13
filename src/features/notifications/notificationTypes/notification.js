@@ -1,13 +1,13 @@
-import { dtoAssign, notification, NotificationDto, classifyWithDto } from "ottery-dto";
+import { dtoAssign, notification, NotificationDto } from "ottery-dto";
 import ImageButton from "../../../ottery-ui/buttons/ImageButton";
 import { FriendReqeust } from "./FriendRequest";
 import styled from "styled-components";
-import { colors } from "../../../ottery-ui/styles/colors";
 import { radius } from "../../../ottery-ui/styles/radius";
 import { useEffect, useMemo, useState } from "react";
 import {getInfo} from "../../user/userApi";
 import { margin } from "../../../ottery-ui/styles/margin";
 import {Time} from "../../../ottery-ui/text/Time";
+import { colors } from "../../../ottery-ui/styles/colors";
 
 const MainNotif = styled.div`
     display: flex;
@@ -60,8 +60,11 @@ export function Notification({raw}) {
             <ImageButton
                 left={user?.pfp?.src}
                 radius={radius.square}
-                primaryColor={colors.primary}
-                secondaryColor={colors.primary}
+                color={{
+                    main:colors.background.primary, 
+                    dark: colors.background.primary,
+                    contrastText:colors.text.primary,
+                }}
                 content={
                     <MainNotif>
                         <Head>
