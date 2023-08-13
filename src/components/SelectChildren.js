@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Faded from "../ottery-ui/text/Faded";
 import { Main } from "./Main";
 import OrderedList from "../ottery-ui/lists/OrderedList";
@@ -7,6 +7,7 @@ import ImageButton from "../ottery-ui/buttons/ImageButton";
 import { Ping } from "../ottery-ping/Ping";
 import styled from "styled-components";
 import { margin } from "../ottery-ui/styles/margin";
+import { BUTTON_STATES } from "../ottery-ui/buttons/button.enum";
 
 const Flex = styled.div`
     display: flex;
@@ -23,27 +24,36 @@ export function SelectChildren({
     onDone=()=>{},
     onAdd,
 }) {
-    const [count, setCount] = useState(0);
+    //we could log this but this adds the possibility of a bug and since the number of
+    //items in the array will usually be smaller then 5 it doesnt need to be fast.
+    const count = useMemo(()=>{
+        return children.reduce((count, child)=>{
+            if (child.state === BUTTON_STATES.success) {
+                return count + 1;
+            } else {
+                return count;
+            }
+        }, 0);
+    }, [children]);
 
     function updateChild(kiddo) {
         return ()=>{
-            if (kiddo.state === "success") {
+            if (kiddo.state === BUTTON_STATES.success) {
                 setChildren(children.map((child)=>{
                     if (child._id === kiddo._id) {
-                        child.state = "defualt";
-                        return child;
-                    }
-                }));
-                setCount(p=>p-1);
-            } else {
-                setChildren(children.map((child)=>{
-                    if (child._id === kiddo._id) {
-                        child.state = "success";
+                        child.state = BUTTON_STATES.default;
                     }
 
                     return child;
                 }));
-                setCount(p=>p+1);
+            } else {
+                setChildren(children.map((child)=>{
+                    if (child._id === kiddo._id) {
+                        child.state = BUTTON_STATES.success;
+                    }
+
+                    return child;
+                }));
             }
         }
     }
