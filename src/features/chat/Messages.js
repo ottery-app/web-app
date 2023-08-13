@@ -33,7 +33,7 @@ export function Chat({chat}) {
 
     const selfId = useUserId();
     const navigator = useNavigator();
-    const flagUserLoad = useGetUserInfo(chat.users.filter((id)=>id!==selfId)[0]);
+    const flagUserLoad = useGetUserInfo({inputs:[chat.users.filter((id)=>id!==selfId)[0]]});
 
     const flagUser = flagUserLoad?.data?.data[0];
     const message = chat.messages[chat.messages.length - 1];

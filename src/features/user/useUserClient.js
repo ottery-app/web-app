@@ -7,7 +7,7 @@ export function useUserClient() {
 
     const useGetUserInfo = makeUseQuery({
         queryKey: [CLIENT_USER_TAG],
-        queryFn: async (userIds)=>getInfo(userIds),
+        queryFn: getInfo,
     });
 
     const useGetUserChildren = makeUseQuery({

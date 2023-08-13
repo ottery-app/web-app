@@ -24,8 +24,6 @@ function getIdsFromRequests(requests) {
 }
 
 export function Await({form, onDone, mainFlow}) {
-    console.log(form);
-    debugger;
     const [requests, setRequests] = useState(form.requests.map(formatRequest));
     const {useDropOffChildren, useCheckRequestsStatus} = useTempzoneClient();
     const {mutate:dropOffChildren} = useDropOffChildren();

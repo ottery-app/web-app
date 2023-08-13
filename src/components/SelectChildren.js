@@ -72,7 +72,6 @@ export function SelectChildren({
                     onClick={onAdd}
                 >
                     {children.map((kiddo)=>{
-                        console.log(kiddo)
                         return <ImageButton
                             state={kiddo.state}
                             key={kiddo._id}
