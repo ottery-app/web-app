@@ -24,13 +24,13 @@ export function useTempzoneClient() {
     })
 
     const useAcceptChildRequest = makeUseMutation({
-        queryKey: [QUERY_TEMPZONE_TAG, "request", "accept"],
-        queryFn: acceptChildRequest,
+        //queryKey: [QUERY_TEMPZONE_TAG, "request", "accept"],
+        mutationFn: acceptChildRequest,
     });
 
     const useDeclineChildRequest = makeUseMutation({
-        queryKey: [QUERY_TEMPZONE_TAG, "request", "decline"],
-        queryFn: declineChildRequest,
+        //queryKey: [QUERY_TEMPZONE_TAG, "request", "decline"],
+        mutationFn: declineChildRequest,
     })
 
     return {

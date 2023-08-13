@@ -15,8 +15,6 @@ export function Await({form, onDone, mainFlow}) {
         refetchIntervalInBackground: true,
         onSuccess: ({data})=>{
             let dones = 0;
-
-
             data.forEach((request)=>{
                 if (request.status !== requestStatus.INPROGRESS) {
                     dones++;

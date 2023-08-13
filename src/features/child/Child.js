@@ -23,7 +23,6 @@ export function Child() {
     const {useGetUserInfo} = useUserClient();
     const {childId} = useParams();
     const children = useGetChildren({inputs:[childId]});
-    console.log(children);
     const child = children?.data?.data[0];
     const eventsQuery = useGetEvents({
         inputs: [child?.events],

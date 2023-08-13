@@ -23,15 +23,17 @@ export function Awaiting({form, mainFlow, onDone}) {
             ? <Title>Waiting to get dropped off</Title>
             : <Faded>No kids waiting to be dropped of</Faded>
         }
-        {requests && requests.map((request,i)=>
-            <ImageButton 
-                key={i}
-                right={"pfp" && request.child.pfp.src}
-                content={request.child.firstName}
-                onClick={()=>{
-                    onDone(mainFlow, {...form, request});
-                }}
-            />
-        )}
+        {requests && requests.map((request,i)=>{
+            if (request.child) {
+                return <ImageButton 
+                    key={i}
+                    right={"pfp" && request.child.pfp.src}
+                    content={request.child.firstName}
+                    onClick={()=>{
+                        onDone(mainFlow, {...form, request});
+                    }}
+                />
+            }
+        })}
     </Main>
 }

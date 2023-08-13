@@ -48,6 +48,7 @@ export const colors = {
     text: {
         primary: "black",
         secondary: "white",
+        tertiary: "#ddd",
         hyperlink: "#0078ff",
     },
 

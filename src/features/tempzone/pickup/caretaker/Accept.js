@@ -15,7 +15,6 @@ const Spread = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 75vh;
     width: 100%;
 `;
 
@@ -24,7 +23,7 @@ export function Accept({form, onDone, mainFlow, subFlow}) {
     const {useGetUserInfo} = useUserClient();
     const acceptChildRequest = useAcceptChildRequest();
     const declineChildRequest = useDeclineChildRequest();
-    const {data:userInfoRes} = useGetUserInfo({inputs:[form.request.guardian]});
+    const {data:userInfoRes, status:userInfoStatus} = useGetUserInfo({inputs:[form.request.guardian]});
     const guardian = userInfoRes?.data[0] || {}
 
     function getChild() {
@@ -55,26 +54,25 @@ export function Accept({form, onDone, mainFlow, subFlow}) {
     }
 
     return (
-        <AwaitLoad status={userInfoRes.status}>
+        <AwaitLoad status={userInfoStatus}>
             <Main>
                 <Spread>
-                    <div>
-                        <Title>{getChild().firstName + " " + getChild().lastName}</Title>
-                        <Image 
-                            src={form.request.child.pfp.src}
-                            radius={"100%"}
-                            height={image.largeProfile}
-                            width={image.largeProfile}
-                        />
-                        <Title>Requested by:</Title>
-                        <Title>{guardian.firstName + " " + guardian.lastName}</Title>
-                        <Image 
-                            src={guardian.pfp && guardian.pfp.src || "pfp"}
-                            radius={"100%"}
-                            height={image.largeProfile}
-                            width={image.largeProfile}
-                        />
-                    </div>
+                    <Title>{getChild().firstName + " " + getChild().lastName}</Title>
+                    <Image 
+                        src={form.request.child.pfp.src}
+                        radius={"100%"}
+                        height={image.largeProfile}
+                        width={image.largeProfile}
+                    />
+                    <Title>Requested by:</Title>
+                    <Title>{guardian.firstName + " " + guardian.lastName}</Title>
+                    <Image 
+                        src={guardian.pfp && guardian.pfp.src || "pfp"}
+                        radius={"100%"}
+                        height={image.largeProfile}
+                        width={image.largeProfile}
+                    />
+                    <br></br>
                     <ButtonField>
                         <Button
                             onClick={decline}

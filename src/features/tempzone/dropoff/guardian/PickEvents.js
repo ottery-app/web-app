@@ -56,8 +56,6 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
         }
     }, []);
 
-    console.log(events);
-
     return <Main>
         <Title>Which event are you dropping {child.firstName + " " + child.lastName} off at?</Title>
         <Events>

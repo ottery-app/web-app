@@ -10,9 +10,9 @@ import { AwaitLoad } from "../../../../guards/AwaitLoad";
 
 export function Awaiting({form, mainFlow, onDone}) {
     const {useEventId} = useAuthClient();
-    const {useGetWatingChildrenFor} = useTempzoneClient();
+    const {useGetWaitingChildrenFor} = useTempzoneClient();
     const eventId = useEventId();
-    const {data: requestsRes, status} = useGetWatingChildrenFor({
+    const {data: requestsRes, status} = useGetWaitingChildrenFor({
         inputs: [eventId, requestType.PICKUP],
         refetchInterval: API_ENV.query_delta,
         refetchIntervalInBackground: true,
