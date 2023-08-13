@@ -40,7 +40,7 @@ function ImageButton({
 }) {
     const [leftImg, setLeftImg] = useState();
     const [rightImg, setRightImg] = useState();
-    color = useColors({color})
+    color = useColors({color, status:state})
 
     useEffect(()=>{
         let link = left;
