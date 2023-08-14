@@ -7,6 +7,7 @@ import {
     getInfo,
     getAttendeeSignup,
     getVolenteerSignup,
+    getOwner,
 } from "./eventApi";
 import {makeUseMutation} from "../../hooks/makeUseMutation";
 import {makeUseQuery} from "../../hooks/makeGetQuery";
@@ -26,10 +27,13 @@ export function useEventClient() {
 
     const useGetEvents = makeUseQuery({
         queryKey: [QUERY_EVENT_TAG],
-        queryFn: async(events)=>{
-            return getEvents(events)
-        },
+        queryFn: getEvents,
     });
+
+    const useGetEventOwner = makeUseQuery({
+        queryKey: [QUERY_EVENT_TAG, "owner"],
+        queryFn: getOwner,
+    })
 
     const useGetAttendeeSignup = makeUseQuery({
         queryKey: [QUERY_EVENT_TAG, "attendee", "signup"],
@@ -67,5 +71,6 @@ export function useEventClient() {
         useSignUpVolenteersByIds,
         useGetAttendeeSignup,
         useGetVolenteerSignup,
+        useGetEventOwner,
     }
 }

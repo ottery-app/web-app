@@ -28,13 +28,13 @@ const Container = styled.div`
 `;
 
 const Checked = styled.div`
-    color: ${colors.text.primary};
+    color: ${colors.success.contrastText};
     font-weight:bold;
-    background: ${colors.secondary.main};
+    background: ${colors.success.main};
 `;
 
 const UnChecked = styled.div`
-    background: ${colors.primaryDark};
+    background: ${colors.error.main};
 `;
 
 const Label = styled.div`

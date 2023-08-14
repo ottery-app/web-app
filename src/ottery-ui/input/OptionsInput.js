@@ -38,7 +38,7 @@ export default function OptionsInput({
             />
             <Select
                 name={label}
-                colors={colors}
+                color={colors}
                 onChange={onChange}
                 value={value} //used to change from gray to black
             >

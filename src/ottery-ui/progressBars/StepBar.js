@@ -18,7 +18,7 @@ const ProgressBar = styled.div`
 `;
 
 const Bar = styled.div`
-    background-color: ${props=>props.color.main};
+    background-color: ${colors.background.secondary};
     height: 3.5px;
     transform: translate(0, ${addPx(clickable.minHeight, -17)});
     z-index: ${zindex.back};
@@ -28,9 +28,9 @@ const Circle = styled.div`
     background-color: ${colors.background.primary};
     border: 3px solid ${props=>{
         if (props.active) {
-            return colors.background.secondary;
-        } else {
             return colors.primary.main;
+        } else {
+            return colors.background.secondary;
         }
     }};
     color: ${colors.text.main};
@@ -46,17 +46,6 @@ const Circle = styled.div`
     }
 `;
 
-/**
- * The step bar is designed to be used in multifield forms allowing quick on click access to a page of 
- * the form an clear denotation of your location in the form. It starts counting at 1.
- * @param {int} numFields - The number of fields in the step bar. This can be any quantity of fields.
- * @param {int} current - The current field that the user is on.
- * @param {string} primaryColor - The primary color of the step bar. Can be a hex value or a color name.
- * @param {string} secondaryColor - The secondary color of the step bar. Can be a hex value or a color name.
- * @param {string} textColor - The primary text color of the step bar. Can be a hex value or a color name.
- * @param {string} secondaryTextColor - The secondary text color of the step bar. Can be a hex value or a color name.
- * @param {function} onClick - The callback function that is called when a field is clicked on. That value of the field is passed into the function.
- */
 export default function StepBar({
     numFields,
     current,

@@ -32,35 +32,35 @@ export default function Home() {
         if (sesh.state === "guardian") {
             setButtons([
                 ...both,
-                {
-                    icon: "calendar",
-                    title: "calendar",
-                    onClick: ()=>{navigator("./tbd")}
-                },
-                {
-                    icon: "search",
-                    title: "explore",
-                    onClick: ()=>{navigator("./tbd")}
-                },
+                // {
+                //     icon: "calendar",
+                //     title: "calendar",
+                //     onClick: ()=>{navigator("./tbd")}
+                // },
+                // {
+                //     icon: "search",
+                //     title: "explore",
+                //     onClick: ()=>{navigator("./tbd")}
+                // },
             ]);
         } else if (sesh.state === "caretaker") {
             setButtons([
                 ...both,
-                {
-                    icon: "search",
-                    title: "class info",
-                    onClick: ()=>{navigator("./tbd")}
-                },
-                {
-                    icon: "calendar",
-                    title: "schedule",
-                    onClick: ()=>{navigator("./tbd")}
-                },
-                {
-                    icon: "team",
-                    title: "members",
-                    onClick: ()=>{navigator("./tbd")}
-                },
+                // {
+                //     icon: "search",
+                //     title: "class info",
+                //     onClick: ()=>{navigator("./tbd")}
+                // },
+                // {
+                //     icon: "calendar",
+                //     title: "schedule",
+                //     onClick: ()=>{navigator("./tbd")}
+                // },
+                // {
+                //     icon: "team",
+                //     title: "members",
+                //     onClick: ()=>{navigator("./tbd")}
+                // },
             ]);
         }
     }, [sesh]);

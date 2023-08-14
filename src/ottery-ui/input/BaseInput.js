@@ -39,17 +39,17 @@ const Label = styled.label`
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    color: ${props=>props.color.text};
+    color: ${colors.text.primary};
     white-space: nowrap;
     z-index: ${zindex.front};
 
     :after {
         content: "";
         position: absolute;
-        bottom: 41%;
+        bottom: 40%;
         left: 0;
         width: 100%;
-        height: 1px;
+        height: 2px;
         background-color: ${colors.background.primary};
         z-index: -1;
       }

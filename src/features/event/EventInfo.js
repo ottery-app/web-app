@@ -1,6 +1,4 @@
-import {useEffect, useState} from "react"
 import { useParams } from "react-router-dom";
-import * as EventApi from './eventApi';
 import styled from "styled-components";
 import {margin} from "../../ottery-ui/styles/margin";
 import { font } from "../../ottery-ui/styles/font";
@@ -8,12 +6,12 @@ import Button from "../../ottery-ui/buttons/Button";
 import { copyText } from "../../functions/clipboard";
 import IconButton from "../../ottery-ui/buttons/IconButton";
 import ButtonField from "../../ottery-ui/buttons/ButtonField";
-import { useSelector } from "react-redux";
 import paths from "../../router/paths";
 import { SubHeader } from "../../ottery-ui/headers/SubHeader";
-import { noId } from "ottery-dto";
 import { useNavigator } from "../../hooks/useNavigator";
 import { EventGuard } from "../../guards/EventGuard";
+import { useEventClient } from "./useEventClient";
+import {AwaitLoad} from "../../guards/AwaitLoad";
 
 const Main = styled.div`
     display: flex;
@@ -51,67 +49,58 @@ const Bod = styled.div`
 
 export function EventInfo() {
     const {eventId} = useParams();
-    const [event, setEvent] = useState({});
-    const [org, setOrg] = useState({});
-    const [owner, setOwner] = useState({});
-    const userId = useSelector(store=>store.auth.sesh.userId);
+    const {useGetEventInfo, useGetEventOwner} = useEventClient();
+    const eventRes = useGetEventInfo({inputs:[eventId]});
+    const ownerRes = useGetEventOwner({inputs:[eventId]});
+    const event = eventRes?.data?.data;
+    const org = eventRes?.data?.data.org;
+    const owner = ownerRes?.data?.data;
     const navigator = useNavigator();
-    
-    useEffect(()=>{
-        (async ()=>{
-            const event = (await EventApi.getInfo(eventId)).data;
-            setEvent(event);
-            setOrg(event.org);
-
-            if (event.org === noId) {
-                const owner = (await EventApi.getOwner(eventId)).data;
-                setOwner(owner);
-            }
-        })()
-    },[eventId]);
 
     return(
-        <Main>
-            <SubHeader>
-                <HeaderInfo>
-                    <Summary>{event.summary}</Summary>
-                    <Affiliate>{org.name || `${owner.firstName} ${owner.lastName}`}</Affiliate>
-                </HeaderInfo>
-                    <IconButton 
-                        icon="share"
-                        onClick={()=>copyText(
-                            window.location.href,
-                            "Link coppied to clipboard",
-                            "Looks like we are having trouble with this right now"
-                        )}
-                    />
-            </SubHeader>
-            <Bod>
-                {event.description}
-                <ButtonField>
-                    <EventGuard
-                        isRegistered={eventId}
-                        successHtml={
-                            <Button
-                                onClick={()=>{
-                                    navigator(paths.event.dash, {eventId});
-                                }}
-                            >
-                                Dashboard
-                            </Button>
-                        }
-                        failHtml={
-                            <Button
-                                onClick={()=>{
-                                    navigator(paths.event.signup, {eventId});
-                                }}
-                            >
-                                Sign Up
-                            </Button>
-                        }
-                    />
-                </ButtonField>
-            </Bod>
-        </Main>
+        <AwaitLoad status={[eventRes.status, ownerRes.status]}>
+            <Main>
+                <SubHeader>
+                    <HeaderInfo>
+                        <Summary>{event?.summary}</Summary>
+                        <Affiliate>{org?.name || `${owner?.firstName} ${owner?.lastName}`}</Affiliate>
+                    </HeaderInfo>
+                        <IconButton 
+                            icon="share"
+                            onClick={()=>copyText(
+                                window.location.href,
+                                "Link coppied to clipboard",
+                                "Looks like we are having trouble with this right now"
+                            )}
+                        />
+                </SubHeader>
+                <Bod>
+                    {event?.description}
+                    <ButtonField>
+                        <EventGuard
+                            isRegistered={eventId}
+                            successHtml={
+                                <Button
+                                    onClick={()=>{
+                                        navigator(paths.event.dash, {eventId});
+                                    }}
+                                >
+                                    Dashboard
+                                </Button>
+                            }
+                            failHtml={
+                                <Button
+                                    onClick={()=>{
+                                        navigator(paths.event.signup, {eventId});
+                                    }}
+                                >
+                                    Sign Up
+                                </Button>
+                            }
+                        />
+                    </ButtonField>
+                </Bod>
+            </Main>
+        </AwaitLoad>
     );
 }
