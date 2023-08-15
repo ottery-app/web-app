@@ -20,13 +20,16 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
     const [events, setEvents] = useState([]);
     const [child, setChild] = useState({});
 
-    function helperOnDone(request) {
-        const requests = form.requests || [];
+    const helperOnDone = (request) => {
+        const updatedForm = {
+            ...form,
+            requests:[...form.requests || [], request],
+        }
 
-        if (request && !form.children.length) {
-            onDone(mainFlow, {requests:[...requests, request]});
+        if (request && !updatedForm.children.length) {
+            onDone(mainFlow, updatedForm);
         } else if (request) {
-            onDone(subFlow, {requests:[...requests, request]});
+            onDone(subFlow, updatedForm);
         }
     }
 
@@ -52,7 +55,7 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
                 getEvents(child.events).then(res=>{setEvents(res.data)});
             }
 
-            helperOnDone(request);
+            //helperOnDone(request);
         }
     }, []);
 

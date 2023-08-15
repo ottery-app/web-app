@@ -15,7 +15,7 @@ export function Awaiting({form, mainFlow, onDone}) {
         inputs: [eventId, requestType.DROPOFF],
         refetchInterval: API_ENV.query_delta,
         refetchIntervalInBackground: true,
-    })
+    });
     const requests = children?.data;
 
     return <Main>

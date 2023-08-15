@@ -5,7 +5,6 @@ import { Title } from "../../../../ottery-ui/text/Title";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import { useEffect, useState } from "react";
 import {Ping} from "../../../../ottery-ping/Ping";
-import { dropOffChildren, checkRequestsStatus } from "../../tempzoneApi";
 import { requestStatus } from "ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
 import { useTempzoneClient } from "../../useTempzoneClient";
