@@ -28,13 +28,9 @@ const Container = styled.div`
 `;
 
 const Checked = styled.div`
-    color: ${colors.success.contrastText};
+    color: ${props=>props.color.contrastText};
     font-weight:bold;
-    background: ${colors.success.main};
-`;
-
-const UnChecked = styled.div`
-    background: ${colors.error.main};
+    background: ${props=>props.color.main};
 `;
 
 const Label = styled.div`
@@ -74,18 +70,13 @@ export default function CheckboxInput({
         });
     }
 
-    return (status
-        ? <FitLabel 
+    return (
+        <FitLabel 
             onChange={handleChange}
             component={Checked}
             label={label}
             position={position}
-        />
-        : <FitLabel 
-            onChange={handleChange}
-            component={UnChecked}
-            label={label}
-            position={position}
+            status={status}
         />
     )
 }
@@ -95,11 +86,13 @@ function FitLabel({
     label,
     position,
     onChange,
+    status,
 }) {
     if (position===ABRCHECKBOX) {
         return(
             <Container onClick={onChange}>
                 {createElement(component, {
+                    color:  (status) ? colors.primary : colors.disabled,
                     children: label,
                 })}
             </Container>
@@ -107,12 +100,13 @@ function FitLabel({
     } else {
         return (
             <Label onClick={onChange}>
+                {label}
                 <Container>
                     {createElement(component, {
-                        children: <>&#10004;</>,
+                        color:  (status) ? colors.success : colors.error,
+                        children: (status) ? <>&#10004;</> : <>&#x2716;</>,
                     })}
                 </Container>
-                {label}
             </Label>
         );
     }

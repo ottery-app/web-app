@@ -7,7 +7,7 @@ import LocationInput from "../../../ottery-ui/input/LocationInput";
 import { Main, Form, Head } from "./newEventStyles";
 import CheckboxInput from "../../../ottery-ui/input/CheckboxInput";
 import { noId } from "ottery-dto";
-
+import styled from "styled-components";
 
 export default function BasicInfo({
     form,
@@ -62,7 +62,7 @@ export default function BasicInfo({
             <Form>
                 <Head>Basic Info</Head>
                 <CheckboxInput
-                    label="Mark as public?"
+                    label="Make public?"
                     checked={pub}
                     onChange={(e)=>{setPublic(e.target.value)}}
                 />
