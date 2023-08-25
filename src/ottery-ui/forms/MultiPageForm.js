@@ -96,7 +96,6 @@ function Buttons({current, count, next, back, submit}) {
             <ButtonField>
                 <Button
                     onClick={back}
-                    type="outline"
                 >
                     Back
                 </Button>
@@ -123,7 +122,6 @@ function Buttons({current, count, next, back, submit}) {
             <ButtonField>
                 <Button
                     onClick={back}
-                    type="outline"
                 >
                     Back
                 </Button>
