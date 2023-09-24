@@ -46,7 +46,6 @@ export function Accept({form, onDone, mainFlow, subFlow}) {
             child: form.request.child._id,
         }, {
             onSuccess: ()=>{
-                console.log("success");
                 onDone(subFlow, {
                     ...form,
                     guardian: guardian,

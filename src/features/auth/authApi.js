@@ -25,7 +25,7 @@ export const login = clideInst
         },
         out_pipeline: (res)=>{
             localStorage.setItem("token", res.data.token);
-            clideInst.defaults.headers.common['seshId'] = res.data.seshId;
+            clideInst.defaults.headers.common['Id'] = res.data.seshId;
             clideInst.defaults.headers.common['Authorization'] = res.data.token;
             return res;
         },
