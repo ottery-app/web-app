@@ -9,8 +9,8 @@ export const load = clideInst
             clideInst.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         },
         out_pipeline: (res)=>{
-            clideInst.defaults.headers.common['Id'] = res.data.seshId;
-            setCookie('Id', res.data.seshId, 1); //set to 1 day for no real reason
+            clideInst.defaults.headers.common['Id'] = res.data._id;
+            setCookie('Id', res.data._id, 1); //set to 1 day for no real reason
             return res;
         },
     });
@@ -25,7 +25,7 @@ export const login = clideInst
         },
         out_pipeline: (res)=>{
             localStorage.setItem("token", res.data.token);
-            clideInst.defaults.headers.common['Id'] = res.data.seshId;
+            clideInst.defaults.headers.common['Id'] = res.data._id;
             clideInst.defaults.headers.common['Authorization'] = res.data.token;
             return res;
         },
