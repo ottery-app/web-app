@@ -41,7 +41,6 @@ export class Clide {
     makeRequest(url, conf={}) { 
         conf.url = url;
         conf = Object.assign({}, this.conf, conf);
-        const cache = new conf.cache(conf.cache_conf);
 
         const that = this;
         return async function request(...props) {
@@ -77,9 +76,7 @@ export class Clide {
             config.params = undefined;
 
             //make request
-            let res = await cache.retrieveUsing(config.url, async ()=>{
-                return await that.instance.request(config);
-            });
+            let res = await that.instance.request(config);
 
             config.params = oldParams;
             return await config.out_pipeline(res, config);
@@ -123,26 +120,3 @@ export class Clide {
         throw new Error('not yet supported');
     }
 }
-
-// const clideInst = new Clide({
-//     baseURL: "http://localhost:8080/api/",
-//     //this is longer due to some backend apis being long ones
-//     timeout: 1000000,
-//     cache: TimeCache,
-// });
-
-// const getChatsForHelper = clideInst.makeGet("message/user/:userId/:clientId", {
-//     param_validators: {
-//         userId: isId,
-//     },
-//     data_validator: IdDto,
-// });
-
-// getChatsForHelper({
-//     params: {
-//         userId: "userId",
-//         clientId: "clientId",
-//         tootId: "tootId",
-//     },
-//     data: {id:"id"}
-// })

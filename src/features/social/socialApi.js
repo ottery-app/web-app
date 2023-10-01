@@ -1,6 +1,5 @@
 import { socialLinkState, UpdateLinkDto } from "ottery-dto";
 import { clideInst } from "../../app/clideInst";
-import { DummyCache } from "../../ottery-cache/DummyCache";
 
 export const friendStatus = clideInst
     .makeGet("social/status", {
@@ -15,7 +14,6 @@ export const friendStatus = clideInst
             res.data = res.data[0];
             return res;
         },
-        cache: DummyCache
     });
 
 export const updateStatus = clideInst
