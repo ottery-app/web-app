@@ -1,6 +1,6 @@
 import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate, selectUserEventId } from "./authSlice";
+import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate, selectUserEventId, selectSesh } from "./authSlice";
 import useSwapState from "../../hooks/useSwapState";
 import { makeUseQuery } from "../../hooks/makeGetQuery";
 import { makeUseMutation } from "../../hooks/makeUseMutation";
@@ -39,6 +39,7 @@ export function useAuthClient() {
     const useUserEmail = ()=>useSelector(selectUserEmail);
     const useUserState = ()=>useSelector(selectUserState);
     const useEventId = ()=>useSelector(selectUserEventId);
+    const useSesh = ()=>useSelector(selectSesh);
 
     return {
         useLoad,
@@ -47,6 +48,7 @@ export function useAuthClient() {
         useRegister,
         useResendEmail,
         useActivate,
+        useSesh,
 
         useUserId,
         useUserEmail,

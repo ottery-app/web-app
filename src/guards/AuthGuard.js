@@ -4,6 +4,7 @@ import paths from '../router/paths';
 import { useNavigator } from '../hooks/useNavigator';
 import { useStrategyGenerator } from './useStrategyGenerator';
 import { Guard } from './Guard';
+import { selectSesh } from '../features/auth/authSlice';
 
 export function AuthGuard({
     //the thing to display
@@ -35,7 +36,7 @@ export function AuthGuard({
     //contracts
     const navigator = useNavigator();
     const {pathname} = useLocation();
-    const sesh = useSelector(store=>store.auth.sesh);
+    const sesh = useSelector(selectSesh);
 
     //they keys arent really comments but they act as them since why not.
     useStrategy({

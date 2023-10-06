@@ -1,9 +1,11 @@
 import Snackbar from '@mui/material/Snackbar';
-import { createContext, useCallback, forwardRef, useContext, useState } from "react";
+import { createContext, useCallback, forwardRef, useContext, useState, useMemo } from "react";
 import MuiAlert from '@mui/material/Alert';
+import { MainHeaderHeight } from '../ottery-ui/headers/MainHeader';
+import { useAuthClient } from '../features/auth/useAuthClient';
 
 const Alert = forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert sx={{ width: '100%' }} elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const PingContext = createContext();
@@ -23,7 +25,16 @@ const BASE_OPTIONS = {
 }
 
 export function PingProvider({children}) {
+    const sesh = useAuthClient().useSesh();
     const [options, setOptions] = useState(BASE_OPTIONS);
+
+    const margin = useMemo(()=>{
+        if (sesh.loggedin && sesh.activated) {
+            return MainHeaderHeight;
+        } else {
+            return 0;
+        }
+    }, [sesh]);
 
     const success = useCallback((message) => {
         console.log(message);
@@ -94,8 +105,12 @@ export function PingProvider({children}) {
                 open={options.open} 
                 autoHideDuration={options.autoHideDuration}
                 onClose={handleClose}
+                style={{ marginTop: margin }}
             >
-                <Alert onClose={handleClose} severity={options.severity} sx={{ width: '100%' }}>
+                <Alert 
+                    onClose={handleClose}
+                    severity={options.severity} 
+                >
                     {options.message}
                 </Alert>
             </Snackbar>
@@ -106,4 +121,8 @@ export function PingProvider({children}) {
 
 export function usePing() {
     return useContext(PingContext);
+}
+
+export function useUpdateMargin() {
+    return useContext(PingContext).setMargin;
 }

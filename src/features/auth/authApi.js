@@ -10,7 +10,7 @@ export const load = clideInst
         },
         out_pipeline: (res)=>{
             clideInst.defaults.headers.common['Id'] = res.data._id;
-            setCookie('Id', res.data._id, 1); //set to 1 day for no real reason
+            setCookie('Id', res.data._id, 86400000); //set to 1 day for no real reason
             return res;
         },
     });
@@ -41,6 +41,8 @@ export const logout = clideInst
         out_pipeline: (res)=>{
             clideInst.defaults.headers.common['Id'] = undefined;
             clideInst.defaults.headers.common['Authorization'] = undefined;
+            setCookie('Id', "-1", -1);
+            load();
             return res;
         }
     });
