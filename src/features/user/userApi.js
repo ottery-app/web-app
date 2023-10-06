@@ -51,6 +51,7 @@ export const getAvalableChildren = clideInst
                 params: {
                     userId: userId,
                     at: noId,
+                    hasEvent: true,
                 }
             }
         }
@@ -63,7 +64,12 @@ export const getDroppedOffChildren = clideInst
                 params: {
                     userId: userId,
                     notat: noId,
+                    hasEvent: true,
                 }
             }
+        },
+        out_pipeline:(res)=>{
+            console.log(res);
+            return res;
         }
     });
