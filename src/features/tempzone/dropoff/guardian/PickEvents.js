@@ -1,12 +1,14 @@
 import { noId } from "ottery-dto";
 import { useEffect, useState } from "react";
 import { Main } from "../../../../components/Main";
-import { getEvents } from "../../../event/eventApi";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import {Title} from "../../../../ottery-ui/text/Title";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import styled from "styled-components";
 import { useAuthClient } from "../../../auth/useAuthClient";
+import { useEventClient } from "../../../event/useEventClient";
+import { AwaitLoad } from "../../../../guards/AwaitLoad";
+import {Ping} from "../../../../ottery-ping/Ping";
 
 const Events = styled.div`
     display:flex;
@@ -16,17 +18,25 @@ const Events = styled.div`
 
 export function PickEvents({form, mainFlow, subFlow, onDone}) {
     const {useUserId} = useAuthClient()
+    const {useGetEvents} = useEventClient();
     const userId = useUserId();
-    const [events, setEvents] = useState([]);
-    const [child, setChild] = useState({});
+    const [child, setChild] = useState();
+
+    const {data:events, status} = useGetEvents({
+        inputs: [child?._id],
+        enabled: !!child,
+    });
 
     const helperOnDone = (request) => {
-        const updatedForm = {
-            ...form,
-            requests:[...form.requests || [], request],
+        let requests = form.requests || [];
+       
+        if (request.event !== noId) {
+            requests.push(request);
         }
 
-        if (request && !updatedForm.children.length) {
+        const updatedForm = {...form, requests}
+
+        if (request && updatedForm.children.length === 0) {
             onDone(mainFlow, updatedForm);
         } else if (request) {
             onDone(subFlow, updatedForm);
@@ -36,10 +46,13 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
     useEffect(()=>{
         if (form.children.length) {
             const child = form.children.pop();
+            
             setChild(child);
-            let request;
 
+            let request;
             if (child.events.length === 0) { //the child is not enrolled...
+                Ping.error(`${child.firstName} is not enrolled in any events`);
+                
                 request = {
                     event: noId,
                     child: child,
@@ -51,30 +64,32 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
                     child: child,
                     guardian: userId,
                 };           
-            } else {
-                getEvents(child.events).then(res=>{setEvents(res.data)});
             }
 
-            //helperOnDone(request);
+            helperOnDone(request);
         }
     }, []);
 
-    return <Main>
-        <Title>Which event are you dropping {child.firstName + " " + child.lastName} off at?</Title>
-        <Events>
-            {events.map((event, i)=>{
-                return <ImageButton 
-                    key={i}
-                    content={event.summary}
-                    onClick={()=>{
-                        helperOnDone({
-                            child: child,
-                            guardian: userId,
-                            event: event._id,
-                        })
-                    }}
-                />
-            })}
-        </Events>
-    </Main>
+    return (
+        <AwaitLoad status={status}>
+            <Main>
+                <Title>Which event are you dropping {child?.firstName + " " + child?.lastName} off at?</Title>
+                <Events>
+                    {events?.map((event, i)=>{
+                        return <ImageButton 
+                            key={i}
+                            content={event.summary}
+                            onClick={()=>{
+                                helperOnDone({
+                                    child: child,
+                                    guardian: userId,
+                                    event: event?._id,
+                                })
+                            }}
+                        />
+                    })}
+                </Events>
+            </Main>
+        </AwaitLoad>
+    );
 }
