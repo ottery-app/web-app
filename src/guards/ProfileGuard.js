@@ -37,9 +37,6 @@ export function ProfileGuard({
     //this is used to trigger the hide instead of the breach
     hide,
 
-    //wait for this function to finish.
-    after,
-
     successHtml,
     failHtml,
 }) {
@@ -131,7 +128,6 @@ export function ProfileGuard({
         <Guard
             strategies={strategies}
             hide={hide}
-            after={after}
             successHtml={successHtml}
             failHtml={failHtml}
         >

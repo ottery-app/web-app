@@ -8,7 +8,8 @@ import Button from "../ottery-ui/buttons/Button";
  */
 export function AwaitButton(props) {
     let onClick = props.onClick;
-    let state ;
+    let state;
+    
     switch (props.status) {
         //case "idle":
         case "paused":
