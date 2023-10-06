@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import paths from "../router/paths";
 import SquareButtonList from "../ottery-ui/lists/SquareButtonList";
 import { useNavigator } from "../hooks/useNavigator";
+import { useAuthClient } from "../features/auth/useAuthClient";
 
 export default function Home() {
-    const sesh = useSelector(store=>store.auth.sesh);
+    const {useSesh} = useAuthClient();
+    const sesh = useSesh();
     const navigator = useNavigator();
     const [buttons, setButtons] = useState([]);
 
