@@ -30,10 +30,7 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
 
     const helperOnDone = (request) => {
         let requests = form.requests || [];
-       
-        if (request.event !== noId) {
-            requests.push(request);
-        }
+        requests.push(request);
 
         const updatedForm = {...form, requests}
 
