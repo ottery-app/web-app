@@ -1,4 +1,3 @@
-import { copyText } from "../../functions/clipboard";
 import SquareButtonList from "../../ottery-ui/lists/SquareButtonList";
 import useSwapState from "../../hooks/useSwapState";
 import { useParams } from "react-router-dom";
@@ -7,8 +6,10 @@ import { useNavigator } from "../../hooks/useNavigator";
 import paths from "../../router/paths";
 import {getAttendeeStatus, getVolenteerStatus} from "./eventApi";
 import { useAuthClient } from "../auth/useAuthClient";
+import { useClipboard } from "../../hooks/useClipboard";
 
 export function EventDash() {
+    const copyText = useClipboard();
     const [state, switchState] = useSwapState({goHome:false});
     const navigator = useNavigator();
     const {eventId} = useParams();
@@ -32,8 +33,8 @@ export function EventDash() {
                     onClick: ()=>{
                         copyText(
                             window.location.href,
-                            "link coppied",
-                            "unable to copy link"
+                            "Link coppied",
+                            "Unable to copy link"
                         );
                     }
                 },

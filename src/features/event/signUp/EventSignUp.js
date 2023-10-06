@@ -6,8 +6,7 @@ import { ChildSignUp } from "./ChildSignUp";
 import { DoneSignUp } from "./DoneSignUp";
 import { signUps } from "./signUp.enum";
 import { FillMissingData } from "./FillMissingData";
-import {addDataByOwner} from "../../data/dataApi";
-import { Ping } from "../../../ottery-ping/Ping";
+import { usePing } from "../../../ottery-ping";
 import { useParams } from "react-router-dom";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../hooks/useNavigator";
@@ -33,6 +32,7 @@ export function EventSignUp() {
     const [state] = useSwapState();
     const navigator = useNavigator();
     const userId = useUserId();
+    const Ping = usePing();
 
     useGetEventInfo({
         inputs:[eventId],

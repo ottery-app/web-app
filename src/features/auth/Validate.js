@@ -8,12 +8,13 @@ import {Main, Form} from "./loginStyles";
 import {closedMailWithHalo} from "../../assets/images/icons"
 import Link from "../../ottery-ui/text/Link";
 import paths from "../../router/paths";
-import { Ping } from "../../ottery-ping/Ping";
+import { usePing } from "../../ottery-ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import {useAuthClient} from "./useAuthClient";
 import {AwaitButton} from "../../guards/AwaitButton";
 
 export default function Validate() {
+    const Ping = usePing();
     const [code, setCode] = useState("");
     const navigator = useNavigator();
     const {useResendEmail, useActivate, useLogout, useUserEmail, useUserState} = useAuthClient();

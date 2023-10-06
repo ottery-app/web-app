@@ -5,11 +5,12 @@ import {Main} from "./newEventStyles";
 import { VolunteerSignUpOptions, AttendeeSignUpOptions } from "./SignUpOptions";
 import PaymentOptions from "./PaymentOptions";
 import MultiPageForm from "../../../ottery-ui/forms/MultiPageForm";
-import { Ping } from "../../../ottery-ping/Ping";
+import { usePing } from "../../../ottery-ping";
 import { useNavigator } from "../../../hooks/useNavigator";
 import { useEventClient } from "../useEventClient";
 
 export default function NewEvent() {
+    const Ping = usePing();
     const {useNewEvent} = useEventClient();
     const newEvent = useNewEvent();
     const [eventForm, setEventForm] = useState({

@@ -7,12 +7,13 @@ import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import Link from "../../ottery-ui/text/Link";
 import paths from "../../router/paths";
-import { Ping } from "../../ottery-ping/Ping";
+import { usePing } from "../../ottery-ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import { useAuthClient } from "./useAuthClient";
 import { AwaitButton } from "../../guards/AwaitButton";
 
 export default function Login() {
+    const Ping = usePing();
     const navigator = useNavigator();
     const {useLogin} = useAuthClient();
     const [email, setEmail] = useState("");

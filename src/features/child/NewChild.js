@@ -6,7 +6,7 @@ import * as ChildApi from "./childApi";
 import styled from "styled-components";
 import { useState } from "react";
 import { margin } from "../../ottery-ui/styles/margin";
-import { Ping } from "../../ottery-ping/Ping";
+import { usePing } from "../../ottery-ping";
 import { useNavigator } from "../../hooks/useNavigator";
 import { useChildClient } from "./useChildClient";
 import {AwaitButton} from "../../guards/AwaitButton";
@@ -23,6 +23,7 @@ const Form = styled.div`
 `;
 
 export default function NewChild() {
+    const Ping = usePing();
     const navigator = useNavigator();
     const [first, setFirst] = useState("");
     const [middle, setMiddle] = useState("");

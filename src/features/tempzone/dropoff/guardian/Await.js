@@ -4,7 +4,7 @@ import { roundOtterFullBody } from "../../../../assets/images/otters";
 import { Title } from "../../../../ottery-ui/text/Title";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import { useEffect, useState } from "react";
-import {Ping} from "../../../../ottery-ping/Ping";
+import {usePing} from "../../../../ottery-ping";
 import { requestStatus } from "ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
 import { useTempzoneClient } from "../../useTempzoneClient";
@@ -23,6 +23,7 @@ function getIdsFromRequests(requests) {
 }
 
 export function Await({form, onDone, mainFlow}) {
+    const Ping = usePing();
     const [requests, setRequests] = useState(form.requests.map(formatRequest));
     const {useDropOffChildren, useCheckRequestsStatus} = useTempzoneClient();
     const {mutate:dropOffChildren} = useDropOffChildren();

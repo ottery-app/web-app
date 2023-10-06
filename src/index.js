@@ -5,6 +5,7 @@ import { store } from './app/store';
 import Router from './router/Router';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from "./app/queryClient";
+import { PingProvider } from './ottery-ping';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -22,7 +23,9 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <Router />
+        <PingProvider>
+          <Router />
+        </PingProvider>
       </Provider>
     </QueryClientProvider>
   </React.StrictMode>

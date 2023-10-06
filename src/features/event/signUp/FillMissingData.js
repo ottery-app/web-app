@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Title } from "../../../ottery-ui/text/Title";
-import { Ping } from "../../../ottery-ping/Ping";
+import { usePing } from "../../../ottery-ping";
 import { useAuthClient } from "../../auth/useAuthClient";
 import { useEventClient } from "../useEventClient";
 import { useDataClient } from "../../data/useDataClient";
@@ -19,6 +19,7 @@ const FormTitle = styled(Title)`
 `;
 
 export function FillMissingData({form, onDone, mainFlow}) {
+    const Ping = usePing();
     const {eventId} = useParams();
     const {useUserId} = useAuthClient()
 

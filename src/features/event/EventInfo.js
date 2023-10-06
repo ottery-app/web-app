@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {margin} from "../../ottery-ui/styles/margin";
 import { font } from "../../ottery-ui/styles/font";
 import Button from "../../ottery-ui/buttons/Button";
-import { copyText } from "../../functions/clipboard";
+import { useClipboard } from "../../hooks/useClipboard";
 import IconButton from "../../ottery-ui/buttons/IconButton";
 import ButtonField from "../../ottery-ui/buttons/ButtonField";
 import paths from "../../router/paths";
@@ -48,6 +48,7 @@ const Bod = styled.div`
 `;
 
 export function EventInfo() {
+    const copyText = useClipboard();
     const {eventId} = useParams();
     const {useGetEventInfo, useGetEventOwner} = useEventClient();
     const eventRes = useGetEventInfo({inputs:[eventId]});

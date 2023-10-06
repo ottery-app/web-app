@@ -5,7 +5,7 @@ import { image } from "../../../../ottery-ui/styles/image";
 import ButtonField from "../../../../ottery-ui/buttons/ButtonField";
 import Button from "../../../../ottery-ui/buttons/Button";
 import styled from "styled-components";
-import {Ping} from "../../../../ottery-ping/Ping";
+import {usePing} from "../../../../ottery-ping";
 import { useTempzoneClient } from "../../useTempzoneClient";
 import { useUserClient } from "../../../user/useUserClient";
 import { AwaitLoad } from "../../../../guards/AwaitLoad";
@@ -19,6 +19,7 @@ const Spread = styled.div`
 `;
 
 export function Accept({form, onDone, mainFlow, subFlow}) {
+    const Ping = usePing();
     const {useAcceptChildRequest, useDeclineChildRequest} = useTempzoneClient();
     const {useGetUserInfo} = useUserClient();
     const acceptChildRequest = useAcceptChildRequest();

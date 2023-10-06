@@ -7,7 +7,7 @@ import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import paths from "../../router/paths";
 import {isEmail, isPassword} from "ottery-dto"
-import { Ping } from "../../ottery-ping/Ping";
+import { usePing } from "../../ottery-ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import Link from "../../ottery-ui/text/Link";
 import ImageInput from "../../ottery-ui/input/ImageInput";
@@ -15,6 +15,7 @@ import {AwaitButton} from "../../guards/AwaitButton";
 import { useAuthClient } from "./useAuthClient";
 
 export default function Register() {
+    const Ping = usePing();
     const navigator = useNavigator();
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");

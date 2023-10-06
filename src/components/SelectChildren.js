@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Faded from "../ottery-ui/text/Faded";
 import { Main } from "./Main";
 import OrderedList from "../ottery-ui/lists/OrderedList";
 import SelectionButton from "../ottery-ui/buttons/SelectionButton";
 import ImageButton from "../ottery-ui/buttons/ImageButton";
-import { Ping } from "../ottery-ping/Ping";
+import { usePing } from "../ottery-ping";
 import styled from "styled-components";
 import { margin } from "../ottery-ui/styles/margin";
 import { BUTTON_STATES } from "../ottery-ui/buttons/button.enum";
@@ -24,6 +24,7 @@ export function SelectChildren({
     onDone=()=>{},
     onAdd,
 }) {
+    const Ping = usePing();
     //we could log this but this adds the possibility of a bug and since the number of
     //items in the array will usually be smaller then 5 it doesnt need to be fast.
     const count = useMemo(()=>{

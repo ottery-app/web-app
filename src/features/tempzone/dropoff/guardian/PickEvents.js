@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useEventClient } from "../../../event/useEventClient";
 import { AwaitLoad } from "../../../../guards/AwaitLoad";
-import {Ping} from "../../../../ottery-ping/Ping";
+import {usePing} from "../../../../ottery-ping";
 
 const Events = styled.div`
     display:flex;
@@ -17,6 +17,7 @@ const Events = styled.div`
 `;
 
 export function PickEvents({form, mainFlow, subFlow, onDone}) {
+    const Ping = usePing();
     const {useUserId} = useAuthClient()
     const {useGetEvents} = useEventClient();
     const userId = useUserId();
