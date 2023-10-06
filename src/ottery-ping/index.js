@@ -1,13 +1,10 @@
 import Snackbar from '@mui/material/Snackbar';
 import { createContext, useCallback, forwardRef, useContext, useState } from "react";
-//import Alert from '@mui/material/Alert';
 import MuiAlert from '@mui/material/Alert';
+import useColors from "../ottery-ui/hooks/useColors"
 
-const Alert = forwardRef(function Alert(
-  props,
-  ref,
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const PingContext = createContext();

@@ -6,6 +6,7 @@ import Router from './router/Router';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from "./app/queryClient";
 import { PingProvider } from './ottery-ping';
+import { ThemeProvider } from './ottery-ui/styles/ThemeProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -21,12 +22,14 @@ const root = createRoot(container);
  */
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PingProvider>
-          <Router />
-        </PingProvider>
-      </Provider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PingProvider>
+            <Router />
+          </PingProvider>
+        </Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
