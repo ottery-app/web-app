@@ -24,11 +24,13 @@ import {PickUpCaretaker} from "../features/tempzone/pickup/caretaker/PickUpCaret
 import { Child } from '../features/child/Child';
 import { EventDash } from '../features/event/EventDash';
 import { EventInfo } from '../features/event/EventInfo';
-import {Notifications} from "../features/notifications/Notifications";
 import { Chat } from '../features/chat/Chat';
 import { Messages } from '../features/chat/Messages';
 import { useAuthClient } from '../features/auth/useAuthClient';
 import { AwaitLoad } from '../guards/AwaitLoad';
+import {Notifications} from "../features/notifications/notifications";
+
+
 
 //this is the router that is used to map the contents of the cite
 const router = createBrowserRouter([
