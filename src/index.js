@@ -7,7 +7,6 @@ import { QueryClientProvider } from 'react-query';
 import { queryClient } from "./app/queryClient";
 import { PingProvider } from './ottery-ping';
 import { ThemeProvider } from './ottery-ui/styles/ThemeProvider';
-import { QueryStatusProvider } from './guards/QueryStatusProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -27,9 +26,7 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <PingProvider>
-            <QueryStatusProvider>
-              <Router />
-            </QueryStatusProvider>
+            <Router />
           </PingProvider>
         </Provider>
       </QueryClientProvider>

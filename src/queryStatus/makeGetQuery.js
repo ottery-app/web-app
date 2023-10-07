@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-import { useQueryStatus } from "../guards/QueryStatusProvider";
+import { useQueryStatus } from "./queryStatusSlice";
 
 export function makeUseQuery({
     queryKey, 

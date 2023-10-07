@@ -2,8 +2,8 @@ import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate, selectUserEventId, selectSesh } from "./authSlice";
 import useSwapState from "../../hooks/useSwapState";
-import { makeUseQuery } from "../../hooks/makeGetQuery";
-import { makeUseMutation } from "../../hooks/makeUseMutation";
+import { makeUseQuery } from "../../queryStatus/makeGetQuery";
+import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
 const CLIENT_AUTH_TAG = 'auth';
 

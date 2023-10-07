@@ -1,6 +1,6 @@
-import { makeUseQuery } from "../../hooks/makeGetQuery";
 import { friendStatus, getFriends, updateStatus } from "./socialApi";
-import { makeUseMutation } from "../../hooks/makeUseMutation";
+import {makeUseMutation} from "../../queryStatus/makeUseMutation";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 
 const QUERY_SOCIAL_KEY = "social";
 

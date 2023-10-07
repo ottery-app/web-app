@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Loading } from "../router/Loading";
 import { Error } from "../router/Error";
-import { useQueryStatus } from "./QueryStatusProvider";
 
 /**
  * This can be used with react Query

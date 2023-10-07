@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { addDataByOwner, getMissingData, getMissingDataByOwner } from "./dataApi";
-import { makeUseQuery, takeArray } from "../../hooks/makeGetQuery";
-import { makeUseMutation } from "../../hooks/makeUseMutation";
+import { makeUseQuery, takeArray } from "../../queryStatus/makeGetQuery";
+import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
 export const DATA_CLIENT_TAG = "data";
 

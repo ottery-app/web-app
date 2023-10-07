@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { getChildren, newChild } from "./childApi";
-import { makeUseMutation } from "../../hooks/makeUseMutation";
-import { makeUseQuery } from "../../hooks/makeGetQuery";
+import { makeUseQuery } from "../../queryStatus/makeGetQuery";
+import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
 const QUERY_CHILD_TAG = "child";
 

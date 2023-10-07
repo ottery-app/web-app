@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { AwaitLoad } from "./AwaitLoad";
-import { useQueryStatus } from "./QueryStatusProvider";
+import { useQueryStatus } from "../queryStatus/queryStatusSlice";
 
 const ScrollLock = styled.div`
     ${({ scroll }) => !scroll && css`
@@ -17,6 +17,8 @@ export function AwaitGlobalLoad({children}) {
     const {status} = useQueryStatus();
 
     const done = status.every(stat=>stat==="success");
+
+    console.log(status);
 
     return (
         <ScrollLock scroll={done} >
