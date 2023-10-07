@@ -11,7 +11,7 @@ export default function User() {
     const selfId = useUserId();
     const [toggle, setToggle] = useState(false);
     const {useGetUserInfo} = useUserClient();
-    const {data: userRes, status} = useGetUserInfo({inputs:[userId]});
+    const {data: userRes} = useGetUserInfo({inputs:[userId]});
     const userInfo = userRes?.data[0];
 
     function render() {
@@ -25,7 +25,6 @@ export default function User() {
         reRender: render,
     }
 
-    let body;
     if (selfId === userId) {
         return <UserSelf {...data}/>
     } else {

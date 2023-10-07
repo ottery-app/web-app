@@ -32,7 +32,7 @@ export const getEvents = clideInst
 export const getInfo = clideInst
     .makeGet("user/info", {
         in_pipeline: (userIds)=>{
-            if (!Array.isArray(userIds)) {
+            if (userIds && !Array.isArray(userIds)) {
                 userIds = [userIds];
             }
 
