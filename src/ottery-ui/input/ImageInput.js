@@ -5,7 +5,7 @@ import AddButton from "../buttons/actionButtons/AddButton";
 import { radius as rad } from "../styles/radius";
 import { colors } from "../styles/colors";
 import { image } from "../styles/image"
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 const Main = styled.div`
     position: relative;

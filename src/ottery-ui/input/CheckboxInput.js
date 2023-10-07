@@ -6,7 +6,7 @@ import { useState, createElement } from "react";
 import { ABRCHECKBOX } from "./AbrCheckBoxInput";
 import { margin } from "../styles/margin";
 import { useEffect } from "react";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 const Container = styled.div`
     display: block;

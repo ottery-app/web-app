@@ -1,7 +1,7 @@
 import Input from "./BaseInput";
 import { formatTime } from "../../functions/time";
-import { isDateObj } from "ottery-dto";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { isDateObj } from "@ottery/ottery-dto";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 export const TIME = inputType.TIME;
 

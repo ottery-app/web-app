@@ -1,4 +1,4 @@
-import { requestStatus } from "ottery-dto"
+import { requestStatus } from "@ottery/ottery-dto";
 import { raft } from "../../../../assets/images/rafts"
 import { Main } from "../../../../components/Main"
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton"

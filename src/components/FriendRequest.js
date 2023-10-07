@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { friendStatus } from "../features/social/socialApi";
-import { socialLinkState } from "ottery-dto";
+import { socialLinkState } from "@ottery/ottery-dto";
 import { BUTTON_TYPES } from "../ottery-ui/buttons/button.enum";
 import Button from "../ottery-ui/buttons/Button";
-import { colors } from "../ottery-ui/styles/colors";
 import { updateStatus } from "../features/social/socialApi";
 import { useAuthClient } from "../features/auth/useAuthClient";
 

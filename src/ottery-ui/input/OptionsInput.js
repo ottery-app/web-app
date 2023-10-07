@@ -1,9 +1,8 @@
 import { colors } from "../styles/colors";
-import { useMemo } from "react";
 import styled from "styled-components";
 import { makeInputStyle, FloatingLabel } from "./BaseInput";
-import { makeDuck } from "ducktyper/";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { makeDuck } from "ducktyper";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 import useColors from "../hooks/useColors";
 
 const Main = styled.div`

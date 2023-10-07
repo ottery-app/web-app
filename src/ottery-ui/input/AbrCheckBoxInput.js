@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import CheckboxInput from "./CheckboxInput";
 import { useEffect } from "react";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 const Main = styled.div`
     display: flex;

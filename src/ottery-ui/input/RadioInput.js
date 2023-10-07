@@ -1,7 +1,7 @@
 import { makeDuck } from "ducktyper";
 import styled from "styled-components";
 import { useState } from "react";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 const Radio = styled.input.attrs({type:'radio'})`
 `;

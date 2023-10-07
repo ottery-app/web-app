@@ -13,7 +13,7 @@ import DatalistInput from "../../../ottery-ui/input/DatalistInput";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Error from "../../../ottery-ui/text/Error";
 import { useEffect } from "react";
-import { classifyWithDto, CustomFormFieldDto } from "ottery-dto";
+import { classifyWithDto, CustomFormFieldDto } from "@ottery/ottery-dto";
 import Button from "../../../ottery-ui/buttons/Button";
 import EditButton from "../../../ottery-ui/buttons/actionButtons/EditButton";
 import AreaInput from "../../../ottery-ui/input/AreaInput";

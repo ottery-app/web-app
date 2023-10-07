@@ -1,4 +1,4 @@
-import { CreateChildDto } from "ottery-dto";
+import { CreateChildDto } from "@ottery/ottery-dto";
 import { formatForApi } from "../../functions/images";
 import { clideInst } from "../../app/clideInst";
 

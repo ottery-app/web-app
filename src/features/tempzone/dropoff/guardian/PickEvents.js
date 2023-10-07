@@ -1,4 +1,4 @@
-import { noId } from "ottery-dto";
+import { noId } from "@ottery/ottery-dto";
 import { useEffect, useState } from "react";
 import { Main } from "../../../../components/Main";
 import ImageButton from "../../../../ottery-ui/buttons/ImageButton";

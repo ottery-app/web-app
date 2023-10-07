@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from "axios";
 import { CLIDE_CONF } from "./clide.conf";
-import { isDuckDto, classifyWithDto } from "ottery-dto";
+import { isDuckDto, classifyWithDto } from "@ottery/ottery-dto";
 import { makeUrl } from "../router/navigate";
 // import { v4 as guid } from 'uuid';
 
