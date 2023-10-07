@@ -2,7 +2,6 @@ import { Main } from "../../components/Main";
 import {Notification} from './notificationTypes/Notification';
 import { useAuthClient } from "../auth/useAuthClient";
 import { useNotificationClient } from "./useNotificationsClient";
-import { AwaitLoad } from "../../guards/AwaitLoad";
 
 export function Notifications() {
     const {useUserId} = useAuthClient()
