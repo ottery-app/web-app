@@ -15,10 +15,6 @@ const dropOffs = {
 export function DropOffGuardian() {
     return <Main>
         <QueueForm
-            //this is async so done can use the waiting wrapper
-            onSubmit={async (form)=>{
-                console.log(form);
-            }}
             initTodo={[dropOffs.SELECTING]}
             pages={[
                 {

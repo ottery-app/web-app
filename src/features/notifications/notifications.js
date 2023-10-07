@@ -12,11 +12,9 @@ export function Notifications() {
 
     return (
         <Main>
-            <AwaitLoad status={status}>
-                {notifications?.data.map(((notif, i)=>{
-                    return <Notification key={i} raw={notif} />
-                }))}
-            </AwaitLoad>
+            {notifications?.data.map(((notif, i)=>{
+                return <Notification key={i} raw={notif} />
+            }))}
         </Main>
     );  
 }

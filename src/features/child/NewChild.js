@@ -2,7 +2,6 @@ import EditImage from "../../ottery-ui/input/ImageInput";
 import TextInput from "../../ottery-ui/input/TextInput";
 import DateInput from "../../ottery-ui/input/DateInput";
 import OptionsInput from "../../ottery-ui/input/OptionsInput";
-import * as ChildApi from "./childApi";
 import styled from "styled-components";
 import { useState } from "react";
 import { margin } from "../../ottery-ui/styles/margin";

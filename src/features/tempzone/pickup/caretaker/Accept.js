@@ -8,7 +8,6 @@ import styled from "styled-components";
 import {usePing} from "../../../../ottery-ping";
 import { useTempzoneClient } from "../../useTempzoneClient";
 import { useUserClient } from "../../../user/useUserClient";
-import { AwaitLoad } from "../../../../guards/AwaitLoad";
 
 const Spread = styled.div`
     display:flex;
@@ -24,7 +23,7 @@ export function Accept({form, onDone, mainFlow, subFlow}) {
     const {useGetUserInfo} = useUserClient();
     const acceptChildRequest = useAcceptChildRequest();
     const declineChildRequest = useDeclineChildRequest();
-    const {data:userInfoRes, status:userInfoStatus} = useGetUserInfo({inputs:[form.request.guardian]});
+    const {data:userInfoRes} = useGetUserInfo({inputs:[form.request.guardian]});
     const guardian = userInfoRes?.data[0] || {}
 
     function getChild() {
@@ -55,41 +54,39 @@ export function Accept({form, onDone, mainFlow, subFlow}) {
     }
 
     return (
-        <AwaitLoad status={userInfoStatus}>
-            <Main>
-                <Spread>
-                    <Title>{getChild().firstName + " " + getChild().lastName}</Title>
-                    <Image 
-                        src={form.request.child.pfp.src}
-                        radius={"100%"}
-                        height={image.largeProfile}
-                        width={image.largeProfile}
-                    />
-                    <Title>Requested by:</Title>
-                    <Title>{guardian.firstName + " " + guardian.lastName}</Title>
-                    <Image 
-                        src={guardian.pfp && guardian.pfp.src || "pfp"}
-                        radius={"100%"}
-                        height={image.largeProfile}
-                        width={image.largeProfile}
-                    />
-                    <br></br>
-                    <ButtonField>
-                        <Button
-                            onClick={decline}
-                            state={"error"}
-                        >
-                            decline
-                        </Button>
-                        <Button
-                            onClick={accept}
-                            state={"success"}
-                        >
-                            accept
-                        </Button>
-                    </ButtonField>
-                </Spread>
-            </Main>
-        </AwaitLoad>
+        <Main>
+            <Spread>
+                <Title>{getChild().firstName + " " + getChild().lastName}</Title>
+                <Image 
+                    src={form.request.child.pfp.src}
+                    radius={"100%"}
+                    height={image.largeProfile}
+                    width={image.largeProfile}
+                />
+                <Title>Requested by:</Title>
+                <Title>{guardian.firstName + " " + guardian.lastName}</Title>
+                <Image 
+                    src={guardian.pfp && guardian.pfp.src || "pfp"}
+                    radius={"100%"}
+                    height={image.largeProfile}
+                    width={image.largeProfile}
+                />
+                <br></br>
+                <ButtonField>
+                    <Button
+                        onClick={decline}
+                        state={"error"}
+                    >
+                        decline
+                    </Button>
+                    <Button
+                        onClick={accept}
+                        state={"success"}
+                    >
+                        accept
+                    </Button>
+                </ButtonField>
+            </Spread>
+        </Main>
     );
 }

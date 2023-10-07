@@ -4,7 +4,6 @@ import UserSelf from "./Self";
 import UserOther from "./Other";
 import { useAuthClient } from "../../auth/useAuthClient";
 import {useUserClient} from "../useUserClient";
-import { AwaitLoad } from "../../../guards/AwaitLoad";
 
 export default function User() {
     const {userId} = useParams();
@@ -28,10 +27,8 @@ export default function User() {
 
     let body;
     if (selfId === userId) {
-        body = <UserSelf {...data}/>
+        return <UserSelf {...data}/>
     } else {
-        body = <UserOther {...data}/>
+        return <UserOther {...data}/>
     }
-
-    return <AwaitLoad status={status}>{body}</AwaitLoad>;
 }

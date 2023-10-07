@@ -7,7 +7,6 @@ import { margin } from "../../../../ottery-ui/styles/margin";
 import styled from "styled-components";
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useEventClient } from "../../../event/useEventClient";
-import { AwaitLoad } from "../../../../guards/AwaitLoad";
 import {usePing} from "../../../../ottery-ping";
 
 const Events = styled.div`
@@ -23,7 +22,7 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
     const userId = useUserId();
     const [child, setChild] = useState();
 
-    const {data:events, status} = useGetEvents({
+    const {data:events} = useGetEvents({
         inputs: [child?._id],
         enabled: !!child,
     });
@@ -69,25 +68,23 @@ export function PickEvents({form, mainFlow, subFlow, onDone}) {
     }, []);
 
     return (
-        <AwaitLoad status={status}>
-            <Main>
-                <Title>Which event are you dropping {child?.firstName + " " + child?.lastName} off at?</Title>
-                <Events>
-                    {events?.map((event, i)=>{
-                        return <ImageButton 
-                            key={i}
-                            content={event.summary}
-                            onClick={()=>{
-                                helperOnDone({
-                                    child: child,
-                                    guardian: userId,
-                                    event: event?._id,
-                                })
-                            }}
-                        />
-                    })}
-                </Events>
-            </Main>
-        </AwaitLoad>
+        <Main>
+            <Title>Which event are you dropping {child?.firstName + " " + child?.lastName} off at?</Title>
+            <Events>
+                {events?.map((event, i)=>{
+                    return <ImageButton 
+                        key={i}
+                        content={event.summary}
+                        onClick={()=>{
+                            helperOnDone({
+                                child: child,
+                                guardian: userId,
+                                event: event?._id,
+                            })
+                        }}
+                    />
+                })}
+            </Events>
+        </Main>
     );
 }

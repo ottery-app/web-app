@@ -10,7 +10,6 @@ import { NAV_HEIGHT } from "../../ottery-ui/footers/NavBar";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from './useChatClient';
-import {AwaitLoad} from '../../guards/AwaitLoad';
 import { API_ENV } from "../../env/api.env";
 
 const InputFiller = styled.div`
@@ -45,22 +44,20 @@ export function Chat() {
     }
 
     return (
-        <AwaitLoad status={getChat.status}>
-            <Main>
-                <ChatBox>
-                    {messages?.map((message, i)=>
-                        <Message 
-                            self={message.sender === selfId}
-                            date={message.date}
-                            key={i}
-                        > 
-                            {message.message}
-                        </Message>
-                    )}
-                </ChatBox>
-                <InputFiller ref={ref}/>
-                <Input><MessageInput onSend={send}/></Input>
-            </Main>
-        </AwaitLoad>
+        <Main>
+            <ChatBox>
+                {messages?.map((message, i)=>
+                    <Message 
+                        self={message.sender === selfId}
+                        date={message.date}
+                        key={i}
+                    > 
+                        {message.message}
+                    </Message>
+                )}
+            </ChatBox>
+            <InputFiller ref={ref}/>
+            <Input><MessageInput onSend={send}/></Input>
+        </Main>
     );
 }

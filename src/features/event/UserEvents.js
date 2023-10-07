@@ -3,7 +3,6 @@ import OrderedList from "../../ottery-ui/lists/OrderedList";
 import ImageButton from "../../ottery-ui/buttons/ImageButton";
 import paths from "../../router/paths";
 import {getEvents} from "../user/userApi";
-import { makeUrl } from "../../router/navigate";
 import { useNavigator } from "../../hooks/useNavigator";
 
 export default function UserEvents({

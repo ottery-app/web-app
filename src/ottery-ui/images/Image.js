@@ -18,6 +18,8 @@ const Container = styled.div`
 const I = styled.img`
     border-radius: ${props=>props.radius};
     object-fit: cover;
+    filter: grayscale(${({grayscale})=>grayscale});
+    opacity: ${({opacity})=>opacity};
     ${props=>props.animation}
 `;
 
@@ -52,10 +54,10 @@ function Image({
     radius,
     width = radius,
     height = radius,
-    id,
-    className = "oui-image",
     onClick,
     animation,
+    opacity=1,
+    grayscale="0%"
 }) {
     const [anime, setAnime] = useState();
 
@@ -80,16 +82,16 @@ function Image({
             height={height}
             widht={width}
         >
-            <I 
-                id={id}
+            <I
                 src={(DEFAULT_IMAGES[src]) ? DEFAULT_IMAGES[src] : src} 
                 alt={alt} 
                 width={width} 
                 height={height}
                 onClick={onClick}
-                className={className}
                 radius={radius}
                 animation={anime}
+                opacity={opacity}
+                grayscale={grayscale}
             />
         </Container>
     );
