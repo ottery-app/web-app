@@ -1,7 +1,7 @@
 import Input from "./BaseInput";
 import { formatDate } from "../../functions/time";
 import { updateTargetValue } from "../../functions/event";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 export const DATE = inputType.DATE;
 

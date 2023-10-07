@@ -1,4 +1,4 @@
-import { socialLinkState, UpdateLinkDto } from "ottery-dto";
+import { socialLinkState, UpdateLinkDto } from "@ottery/ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 export const friendStatus = clideInst

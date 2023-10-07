@@ -1,5 +1,5 @@
 import imageCompression from 'browser-image-compression';
-import { ImageDto, classifyWithDto } from 'ottery-dto';
+import { ImageDto, classifyWithDto } from "@ottery/ottery-dto";
 
 export async function formatForApi(imageFile) {
     if (!classifyWithDto(ImageDto, imageFile)) {

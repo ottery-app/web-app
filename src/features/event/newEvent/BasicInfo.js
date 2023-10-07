@@ -6,8 +6,7 @@ import AreaInput from "../../../ottery-ui/input/AreaInput";
 import LocationInput from "../../../ottery-ui/input/LocationInput";
 import { Main, Form, Head } from "./newEventStyles";
 import CheckboxInput from "../../../ottery-ui/input/CheckboxInput";
-import { noId } from "ottery-dto";
-import styled from "styled-components";
+import { noId } from "@ottery/ottery-dto";
 
 export default function BasicInfo({
     form,

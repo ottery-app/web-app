@@ -1,4 +1,4 @@
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 import Input from "./BaseInput";
 
 export const PASSWORD = inputType.PASSWORD;

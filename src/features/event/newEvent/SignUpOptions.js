@@ -4,7 +4,7 @@ import {useState} from "react";
 import CustomField from "./CustomField";
 import { useEffect } from "react";
 import Hint from "../../../ottery-ui/containers/Hint";
-import { classifyWithDto, CustomFormFieldDto } from "ottery-dto";
+import { classifyWithDto, CustomFormFieldDto } from "@ottery/ottery-dto";
 
 function makeHandleDone(setForm, listFieldName) {
     return function handleDone(list) {

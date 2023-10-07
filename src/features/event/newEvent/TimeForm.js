@@ -11,7 +11,7 @@ import { rruleToObj, rruleMonthlyByDayFrom, rruleMonthlyByWeekFrom, objToRrule }
 import RadioInputFields from "../../../ottery-ui/input/RadioInputFields";
 import AbrCheckBoxInput from "../../../ottery-ui/input/AbrCheckBoxInput";
 import {Main,Head, Form} from "./newEventStyles";
-import {isDate, isRecurrence} from "ottery-dto";
+import {isDate, isRecurrence} from "@ottery/ottery-dto";
 
 const TimeRow = styled.div`
     display: grid;

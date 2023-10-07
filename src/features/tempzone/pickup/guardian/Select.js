@@ -13,11 +13,8 @@ export function Select({onDone, mainFlow}) {
     const {useGetDroppedOffChildren} = useUserClient();
     const {usePickupChildren} = useTempzoneClient();
     const pickupChildren = usePickupChildren();
-    const [children, setChildren] = useState([]);
-    const {status} = useGetDroppedOffChildren({
-        inputs:[userId],
-        onSuccess: (res)=>setChildren(res.data),
-    });
+    const {data} = useGetDroppedOffChildren({inputs:[userId]});
+    const children = data?.data 
 
     async function makePickupRequest(children) {
         let requests = [];
@@ -55,7 +52,6 @@ export function Select({onDone, mainFlow}) {
                         });
                 }}
                 children={children}
-                setChildren={setChildren}
                 //later we can offer the search for event tool
                 htmlForNone={<Faded>You don't have any children to pick up</Faded>}
             />

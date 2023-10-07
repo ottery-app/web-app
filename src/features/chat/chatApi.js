@@ -1,4 +1,4 @@
-import { MakeChatDto, isId, validateAsArr } from "ottery-dto";
+import { MakeChatDto, isId, validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 export const makeChat = clideInst

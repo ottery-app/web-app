@@ -6,7 +6,7 @@ import PasswordInput from "../../ottery-ui/input/PasswordInput";
 import {logoDefault} from "../../assets/images/logos";
 import {Main, Form} from "./loginStyles";
 import paths from "../../router/paths";
-import {isEmail, isPassword} from "ottery-dto"
+import {isEmail, isPassword} from "@ottery/ottery-dto";
 import { usePing } from "../../ottery-ping";
 import { IGNORENEXT, useNavigator } from "../../hooks/useNavigator";
 import Link from "../../ottery-ui/text/Link";

@@ -1,4 +1,4 @@
-import { CreateEventDto } from "ottery-dto";
+import { CreateEventDto } from "@ottery/ottery-dto";
 import { clideInst } from "../../app/clideInst";
 import { getChildren } from "../user/userApi";
 

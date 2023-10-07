@@ -1,8 +1,8 @@
-import { isId, isRequestType } from "ottery-dto";
-import { ChildRequestDto, requestStatus } from "ottery-dto";
+import { isId, isRequestType } from "@ottery/ottery-dto";
+import { ChildRequestDto, requestStatus } from "@ottery/ottery-dto";
 import {getChildren} from "../child/childApi";
 import { clideInst } from "../../app/clideInst";
-import { validateAsArr } from "ottery-dto";
+import { validateAsArr } from "@ottery/ottery-dto";
 
 export const dropOffChildren = clideInst
     .makePost("tempzone/request/dropoff", {

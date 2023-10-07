@@ -1,4 +1,4 @@
-import { DataFieldDto } from "ottery-dto";
+import { DataFieldDto } from "@ottery/ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 //TODO this sucks why do i have an api called DATA??? like whata that even do? everything is data

@@ -1,4 +1,4 @@
-import { dtoAssign, notification, NotificationDto } from "ottery-dto";
+import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
 import ImageButton from "../../../ottery-ui/buttons/ImageButton";
 import { FriendReqeust } from "./FriendRequest";
 import styled from "styled-components";

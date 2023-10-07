@@ -5,7 +5,7 @@ import { makeValidator } from "./hooks/useValidator";
 import useValidator from "./hooks/useValidator";
 import useColors from "../hooks/useColors";
 import { clickable } from "../styles/clickable";
-import { inputType } from "ottery-dto/lib/types/input/input.enums";
+import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 
 const I = styled.textarea`
     ${props=>makeInputStyle(props)}

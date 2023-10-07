@@ -8,6 +8,7 @@ import { usePing } from "../ottery-ping";
 import styled from "styled-components";
 import { margin } from "../ottery-ui/styles/margin";
 import { BUTTON_STATES } from "../ottery-ui/buttons/button.enum";
+import { useInternalState } from "../hooks/useInternalState";
 
 const Flex = styled.div`
     display: flex;
@@ -20,27 +21,27 @@ export function SelectChildren({
     doneTitle = "Done",
     htmlForNone = <Faded>no children</Faded>,
     children=[],
-    setChildren=()=>{},
     onDone=()=>{},
     onAdd,
 }) {
+    const [internalChildren, setChildren] = useInternalState(children);
     const Ping = usePing();
     //we could log this but this adds the possibility of a bug and since the number of
     //items in the array will usually be smaller then 5 it doesnt need to be fast.
     const count = useMemo(()=>{
-        return children.reduce((count, child)=>{
+        return internalChildren.reduce((count, child)=>{
             if (child.state === BUTTON_STATES.success) {
                 return count + 1;
             } else {
                 return count;
             }
         }, 0);
-    }, [children]);
+    }, [internalChildren]);
 
     function updateChild(kiddo) {
         return ()=>{
             if (kiddo.state === BUTTON_STATES.success) {
-                setChildren(children.map((child)=>{
+                setChildren(internalChildren.map((child)=>{
                     if (child._id === kiddo._id) {
                         child.state = BUTTON_STATES.default;
                     }
@@ -48,7 +49,7 @@ export function SelectChildren({
                     return child;
                 }));
             } else {
-                setChildren(children.map((child)=>{
+                setChildren(internalChildren.map((child)=>{
                     if (child._id === kiddo._id) {
                         child.state = BUTTON_STATES.success;
                     }
@@ -66,7 +67,7 @@ export function SelectChildren({
                 itemTitle={["child", "children"]}
                 buttonTitle={doneTitle}
                 onClick={()=>{
-                    const chillins = children
+                    const chillins = internalChildren
                         .filter((c)=>c.state==="success")
                         //its good to wipe : )
                         .map((c)=>delete c.state && c);
@@ -78,11 +79,11 @@ export function SelectChildren({
                     }
                 }}
             />
-            {children.length 
+            {internalChildren.length 
                 ? <OrderedList
                     onClick={onAdd}
                 >
-                    {children.map((kiddo)=>{
+                    {internalChildren.map((kiddo)=>{
                         return <ImageButton
                             state={kiddo.state}
                             key={kiddo._id}

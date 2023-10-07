@@ -1,4 +1,4 @@
-import {isId, noId} from "ottery-dto";
+import {isId, noId} from "@ottery/ottery-dto";
 import { clideInst } from "../../app/clideInst";
 
 export const getChildren = clideInst
