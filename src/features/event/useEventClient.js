@@ -1,4 +1,3 @@
-import { useQuery } from "react-query";
 import { 
     getEvents, 
     newEvent,
@@ -9,8 +8,8 @@ import {
     getVolenteerSignup,
     getOwner,
 } from "./eventApi";
-import {makeUseMutation} from "../../hooks/makeUseMutation";
-import {makeUseQuery} from "../../hooks/makeGetQuery";
+import {makeUseMutation} from "../../queryStatus/makeUseMutation";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 
 export const QUERY_EVENT_TAG = "event";
 

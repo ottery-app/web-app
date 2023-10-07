@@ -7,7 +7,6 @@ import { useNavigator } from "../../../hooks/useNavigator";
 import { MarginlessMain } from "../../../components/Main";
 import { useUserClient } from "../useUserClient";
 import { useSocialClient } from "../../social/useSocialClient";
-import { AwaitLoad } from "../../../guards/AwaitLoad";
 
 const Tabs = {
     events:"events",
@@ -75,39 +74,37 @@ export default function UserSelf({userInfo, userId}) {
     }
 
     return(
-        <AwaitLoad status={[childrenStatus, eventStatus, friendsStatus]}>
-                <MarginlessMain>
-                <MultiFieldHeader
-                    src={userInfo?.pfp?.src || "pfp"}
-                    alt={"profile photo"}
+        <MarginlessMain>
+            <MultiFieldHeader
+                src={userInfo?.pfp?.src || "pfp"}
+                alt={"profile photo"}
 
-                    tab={tab}
-                    onTab={(tab)=>{
-                        setTab(tab);
-                    }}
-                    tabs={Object.values(Tabs)}
-                    title={[
-                        `${userInfo?.firstName} ${userInfo?.lastName}`,
-                        // <Button
-                        //     type={BUTTON_TYPES.filled}
-                        //     primaryColor={colors.primaryLight}
-                        //     secondaryColor={colors.textDark}
-                        //     onClick={()=>{Ping.error("not yet done")}}
-                        // >Edit Profile</Button>,
-                        // <IconButton
-                        //     icon={ICON_NAMES.settings}
-                        //     onClick={()=>Ping.warn("not done yet")}
-                        // />
-                    ]}
-                />
-                <OrderedList 
-                    title={tab}
-                    onClick={addAction}
-                    sort={(a,b)=>a.key > b.key}
-                >
-                    {data[tab]}
-                </OrderedList>
-            </MarginlessMain>
-        </AwaitLoad>
+                tab={tab}
+                onTab={(tab)=>{
+                    setTab(tab);
+                }}
+                tabs={Object.values(Tabs)}
+                title={[
+                    `${userInfo?.firstName} ${userInfo?.lastName}`,
+                    // <Button
+                    //     type={BUTTON_TYPES.filled}
+                    //     primaryColor={colors.primaryLight}
+                    //     secondaryColor={colors.textDark}
+                    //     onClick={()=>{Ping.error("not yet done")}}
+                    // >Edit Profile</Button>,
+                    // <IconButton
+                    //     icon={ICON_NAMES.settings}
+                    //     onClick={()=>Ping.warn("not done yet")}
+                    // />
+                ]}
+            />
+            <OrderedList 
+                title={tab}
+                onClick={addAction}
+                sort={(a,b)=>a.key > b.key}
+            >
+                {data[tab]}
+            </OrderedList>
+        </MarginlessMain>
     );
 }

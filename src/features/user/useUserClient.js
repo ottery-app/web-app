@@ -1,5 +1,5 @@
 import { getAvalableChildren, getChildren, getDroppedOffChildren, getEvents, getInfo } from "./userApi";
-import { makeUseQuery } from "../../hooks/makeGetQuery";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 
 export const CLIENT_USER_TAG = 'user';
 

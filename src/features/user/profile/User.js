@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import UserSelf from "./Self";
 import UserOther from "./Other";
 import { useAuthClient } from "../../auth/useAuthClient";
 import {useUserClient} from "../useUserClient";
-import { AwaitLoad } from "../../../guards/AwaitLoad";
 
 export default function User() {
     const {userId} = useParams();
@@ -12,7 +11,7 @@ export default function User() {
     const selfId = useUserId();
     const [toggle, setToggle] = useState(false);
     const {useGetUserInfo} = useUserClient();
-    const {data: userRes, status} = useGetUserInfo({inputs:[userId]});
+    const {data: userRes} = useGetUserInfo({inputs:[userId]});
     const userInfo = userRes?.data[0];
 
     function render() {
@@ -26,12 +25,11 @@ export default function User() {
         reRender: render,
     }
 
-    let body;
     if (selfId === userId) {
-        body = <UserSelf {...data}/>
+        return <UserSelf {...data}/>
+    } else if (userId) {
+        return <UserOther {...data}/>
     } else {
-        body = <UserOther {...data}/>
+        return null;
     }
-
-    return <AwaitLoad status={status}>{body}</AwaitLoad>;
 }

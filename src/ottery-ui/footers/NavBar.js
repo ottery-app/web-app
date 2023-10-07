@@ -6,6 +6,7 @@ import { clickable } from "../styles/clickable";
 import addPx from "../functions/addPx";
 import { margin } from "../styles/margin";
 import { colors } from "../styles/colors";
+import { zindex } from "../styles/zindex";
 
 export const NAV_HEIGHT = addPx(clickable.minHeight, margin.medium);
 
@@ -22,6 +23,8 @@ const Nav = styled.nav`
     left: 0;
     bottom: 0;
     width: 100%;
+
+    z-index: ${zindex.absolute};
 `;
 
 const Link = styled.div`

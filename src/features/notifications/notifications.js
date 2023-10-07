@@ -2,7 +2,6 @@ import { Main } from "../../components/Main";
 import {Notification} from './notificationTypes/Notification';
 import { useAuthClient } from "../auth/useAuthClient";
 import { useNotificationClient } from "./useNotificationsClient";
-import { AwaitLoad } from "../../guards/AwaitLoad";
 
 export function Notifications() {
     const {useUserId} = useAuthClient()
@@ -12,11 +11,9 @@ export function Notifications() {
 
     return (
         <Main>
-            <AwaitLoad status={status}>
-                {notifications?.data.map(((notif, i)=>{
-                    return <Notification key={i} raw={notif} />
-                }))}
-            </AwaitLoad>
+            {notifications?.data.map(((notif, i)=>{
+                return <Notification key={i} raw={notif} />
+            }))}
         </Main>
     );  
 }

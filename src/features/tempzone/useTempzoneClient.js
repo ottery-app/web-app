@@ -1,5 +1,5 @@
-import { makeUseQuery } from "../../hooks/makeGetQuery";
-import { makeUseMutation } from "../../hooks/makeUseMutation";
+import {makeUseMutation} from "../../queryStatus/makeUseMutation";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 import { acceptChildRequest, checkRequestsStatus, declineChildRequest, dropOffChildren, getWatingChildrenFor, pickUpChildren } from "./tempzoneApi";
 
 const QUERY_TEMPZONE_TAG = "tempzone";

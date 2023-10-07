@@ -35,22 +35,24 @@ export function Await({form, onDone, mainFlow}) {
         }
     });
 
-    return <Main>
-        <Image
-            src={roundOtterFullBody}
-            width={"100%"}
-            animation={"spin"}
-        />
-        <Title>Getting your kids off the raft. Hold on.</Title>
-        {form.requests.map(({child})=>{
-            try {
-                return <ImageButton
-                    key={child._id}
-                    content={child.firstName}
-                    right={"pfp" && child.pfp.src}
-                />
-            } catch (e) {
-            }
-        })}
-    </Main>
+    return (
+        <Main>
+            <Image
+                src={roundOtterFullBody}
+                width={"100%"}
+                animation={"spin"}
+            />
+            <Title>Getting your kids off the raft. Hold on.</Title>
+            {form.requests.map(({child})=>{
+                try {
+                    return <ImageButton
+                        key={child._id}
+                        content={child.firstName}
+                        right={"pfp" && child.pfp.src}
+                    />
+                } catch (e) {
+                }
+            })}
+        </Main>
+    );
 }

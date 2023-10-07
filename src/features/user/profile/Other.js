@@ -9,7 +9,6 @@ import { useNavigator } from "../../../hooks/useNavigator";
 import { FriendRequest } from "../../../components/FriendRequest";
 import { BUTTON_TYPES } from "../../../ottery-ui/buttons/button.enum";
 import { useChatClient } from "../../chat/useChatClient";
-import {AwaitLoad} from "../../../guards/AwaitLoad";
 
 const Tabs = {
     posts: "posts",
@@ -36,43 +35,41 @@ export default function UserOther({userInfo, userId, selfId}) {
     }
 
     return(
-        <AwaitLoad status={status}>
-            <MarginlessMain>
-                <MultiFieldHeader
-                    src={user?.pfp?.src || "pfp"}
-                    alt={"profile photo"}
-                    tab={tab}
-                    onTab={(tab)=>{
-                        setTab(tab);
-                        setData({
-                            ...data
-                        });
-                    }}
-                    tabs={Object.values(Tabs)}
-                    title={[
-                        `${user?.firstName} ${user?.lastName}`,
-                        <Button
-                            type={BUTTON_TYPES.filled}
-                            color={color}
-                            onClick={async ()=>{
-                                let chatId = await getChatId();
-                                navigator(paths.social.chat, {chatId:chatId});
-                            }}
-                        >message</Button>,
-                        <FriendRequest
-                            color={color}
-                            userId={userId} 
-                        />
-                    ]}
-                />
-                <OrderedList 
-                    title={tab}
-                    //onClick={addAction}
-                    sort={(a,b)=>a.key > b.key}
-                >
-                    {data[tab]}
-                </OrderedList>
-            </MarginlessMain>
-        </AwaitLoad>
+        <MarginlessMain>
+            <MultiFieldHeader
+                src={user?.pfp?.src || "pfp"}
+                alt={"profile photo"}
+                tab={tab}
+                onTab={(tab)=>{
+                    setTab(tab);
+                    setData({
+                        ...data
+                    });
+                }}
+                tabs={Object.values(Tabs)}
+                title={[
+                    `${user?.firstName} ${user?.lastName}`,
+                    <Button
+                        type={BUTTON_TYPES.filled}
+                        color={color}
+                        onClick={async ()=>{
+                            let chatId = await getChatId();
+                            navigator(paths.social.chat, {chatId:chatId});
+                        }}
+                    >message</Button>,
+                    <FriendRequest
+                        color={color}
+                        userId={userId} 
+                    />
+                ]}
+            />
+            <OrderedList 
+                title={tab}
+                //onClick={addAction}
+                sort={(a,b)=>a.key > b.key}
+            >
+                {data[tab]}
+            </OrderedList>
+        </MarginlessMain>
     );
 }

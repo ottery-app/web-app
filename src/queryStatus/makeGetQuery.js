@@ -10,9 +10,11 @@ export function makeUseQuery({
     }
 
     return function useUseQuery(options={}) {
+        //custom options include:
+            //global: Boolean
+            //inputs: []
         const queryClient = useQueryClient();
 
-        //const queryKeyInternal = queryKey;
         const queryKeyInternal = (options.inputs) 
             ? [...queryKey, ...options.inputs] 
             : queryKey;
@@ -27,11 +29,13 @@ export function makeUseQuery({
             ...options,
         });
 
-        return {
+        const res = {
             data: queryRes?.data?.data,
             invalidator: queryInvalidator,
             ...queryRes
         }
+
+        return res;
     }
 }
 

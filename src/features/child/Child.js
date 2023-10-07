@@ -9,7 +9,6 @@ import { useNavigator } from "../../hooks/useNavigator";
 import { useChildClient } from "./useChildClient";
 import { useEventClient } from "../event/useEventClient";
 import { useUserClient } from "../user/useUserClient";
-import { AwaitLoad } from "../../guards/AwaitLoad";
 
 const Tabs = {
     events:"events",
@@ -87,9 +86,7 @@ export function Child() {
                 >
                     {display?.map((disp)=>{
                         return (
-                            <AwaitLoad status={status}>
-                                {disp}
-                            </AwaitLoad>
+                            {disp}
                         );
                     })}
                 </UnorderedList>

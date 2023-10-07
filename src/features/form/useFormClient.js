@@ -1,4 +1,4 @@
-import { makeUseQuery } from "../../hooks/makeGetQuery";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 import { getAll } from "./formApi";
 
 export const CLIENT_FORM_TAG = "form";

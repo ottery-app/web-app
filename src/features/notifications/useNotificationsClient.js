@@ -1,5 +1,5 @@
-import {makeUseMutation} from "../../hooks/makeUseMutation";
-import {makeUseQuery} from "../../hooks/makeGetQuery";
+import {makeUseMutation} from "../../queryStatus/makeUseMutation";
+import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 import { getNotifications, readNotifications } from "./notifiactionsApi";
 
 export const QUERY_NOTIFICATION_TAG = "event";

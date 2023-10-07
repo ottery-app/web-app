@@ -11,7 +11,6 @@ import { SubHeader } from "../../ottery-ui/headers/SubHeader";
 import { useNavigator } from "../../hooks/useNavigator";
 import { EventGuard } from "../../guards/EventGuard";
 import { useEventClient } from "./useEventClient";
-import {AwaitLoad} from "../../guards/AwaitLoad";
 
 const Main = styled.div`
     display: flex;
@@ -59,49 +58,47 @@ export function EventInfo() {
     const navigator = useNavigator();
 
     return(
-        <AwaitLoad status={[eventRes.status, ownerRes.status]}>
-            <Main>
-                <SubHeader>
-                    <HeaderInfo>
-                        <Summary>{event?.summary}</Summary>
-                        <Affiliate>{org?.name || `${owner?.firstName} ${owner?.lastName}`}</Affiliate>
-                    </HeaderInfo>
-                        <IconButton 
-                            icon="share"
-                            onClick={()=>copyText(
-                                window.location.href,
-                                "Link coppied to clipboard",
-                                "Looks like we are having trouble with this right now"
-                            )}
-                        />
-                </SubHeader>
-                <Bod>
-                    {event?.description}
-                    <ButtonField>
-                        <EventGuard
-                            isRegistered={eventId}
-                            successHtml={
-                                <Button
-                                    onClick={()=>{
-                                        navigator(paths.event.dash, {eventId});
-                                    }}
-                                >
-                                    Dashboard
-                                </Button>
-                            }
-                            failHtml={
-                                <Button
-                                    onClick={()=>{
-                                        navigator(paths.event.signup, {eventId});
-                                    }}
-                                >
-                                    Sign Up
-                                </Button>
-                            }
-                        />
-                    </ButtonField>
-                </Bod>
-            </Main>
-        </AwaitLoad>
+        <Main>
+            <SubHeader>
+                <HeaderInfo>
+                    <Summary>{event?.summary}</Summary>
+                    <Affiliate>{org?.name || `${owner?.firstName} ${owner?.lastName}`}</Affiliate>
+                </HeaderInfo>
+                    <IconButton 
+                        icon="share"
+                        onClick={()=>copyText(
+                            window.location.href,
+                            "Link coppied to clipboard",
+                            "Looks like we are having trouble with this right now"
+                        )}
+                    />
+            </SubHeader>
+            <Bod>
+                {event?.description}
+                <ButtonField>
+                    <EventGuard
+                        isRegistered={eventId}
+                        successHtml={
+                            <Button
+                                onClick={()=>{
+                                    navigator(paths.event.dash, {eventId});
+                                }}
+                            >
+                                Dashboard
+                            </Button>
+                        }
+                        failHtml={
+                            <Button
+                                onClick={()=>{
+                                    navigator(paths.event.signup, {eventId});
+                                }}
+                            >
+                                Sign Up
+                            </Button>
+                        }
+                    />
+                </ButtonField>
+            </Bod>
+        </Main>
     );
 }

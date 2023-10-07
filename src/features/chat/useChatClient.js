@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient  } from "react-query";
+import { useQueryClient  } from "react-query";
 import {makeChat, getChatsFor, getDirectChat, getChat, sendMessage} from './chatApi';
-import {makeUseMutation} from '../../hooks/makeUseMutation';
-import { makeUseQuery } from "../../hooks/makeGetQuery";
+import { makeUseQuery } from "../../queryStatus/makeGetQuery";
+import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
 export const CLIENT_CHAT_TAG = 'chat';
 
