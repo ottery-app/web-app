@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from "react-query";
-import { useQueryStatus } from "./queryStatusSlice";
 
 export function makeUseQuery({
     queryKey, 
@@ -14,8 +13,6 @@ export function makeUseQuery({
         //custom options include:
             //global: Boolean
             //inputs: []
-
-        const {updateStatus} = useQueryStatus();
         const queryClient = useQueryClient();
 
         const queryKeyInternal = (options.inputs) 
@@ -36,10 +33,6 @@ export function makeUseQuery({
             data: queryRes?.data?.data,
             invalidator: queryInvalidator,
             ...queryRes
-        }
-
-        if (options.global !== false) {
-            updateStatus(queryKeyInternal, res.status);
         }
 
         return res;
