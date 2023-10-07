@@ -68,8 +68,4 @@ export const getDroppedOffChildren = clideInst
                 }
             }
         },
-        out_pipeline:(res)=>{
-            console.log(res);
-            return res;
-        }
     });
