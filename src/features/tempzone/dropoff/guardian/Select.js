@@ -1,5 +1,4 @@
 import { Main } from "../../../../components/Main";
-import { useState } from "react";
 import Faded from "../../../../ottery-ui/text/Faded";
 import { SelectChildren } from "../../../../components/SelectChildren";
 import {Title} from "../../../../ottery-ui/text/Title";
@@ -10,12 +9,8 @@ export function Select({onDone, mainFlow}) {
     const {useUserId} = useAuthClient();
     const userId = useUserId();
     const {useGetAvalableChildren} = useUserClient();
-    const [children, setChildren] = useState([]);
-
-    const {status} = useGetAvalableChildren({
-        inputs:[userId],
-        onSuccess: (res)=>setChildren(res.data)
-    });
+    const {data} = useGetAvalableChildren({inputs:[userId]});
+    const children = data?.data || [];
 
     return (
         <Main>
@@ -25,8 +20,6 @@ export function Select({onDone, mainFlow}) {
                     onDone(mainFlow, {children:[...children]})
                 }}
                 children={children}
-                setChildren={setChildren}
-                //later we can offer the search for event tool
                 htmlForNone={<Faded>You don't have any children to drop off</Faded>}
             />
         </Main>
