@@ -10,7 +10,6 @@ const ScrollLock = styled.div`
         width: 100%;
         height: 100%;
         overflow: hidden;
-        z-index: 9999; /* Set a high z-index to ensure it covers other content */
     `}
 `;
 

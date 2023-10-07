@@ -11,6 +11,10 @@ export function makeUseQuery({
     }
 
     return function useUseQuery(options={}) {
+        //custom options include:
+            //global: Boolean
+            //inputs: []
+
         const {updateStatus} = useQueryStatus();
         const queryClient = useQueryClient();
 
@@ -34,7 +38,9 @@ export function makeUseQuery({
             ...queryRes
         }
 
-        updateStatus(queryKeyInternal, res.status);
+        if (options.global !== false) {
+            updateStatus(queryKeyInternal, res.status);
+        }
 
         return res;
     }
