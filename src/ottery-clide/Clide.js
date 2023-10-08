@@ -50,22 +50,27 @@ export class Clide {
             function validateWith(validator, data) {
                 try {
                     if (isDuckDto(validator)) {
+                        console.log("true");
                         classifyWithDto(validator, data, {throw: true})
                     } else {
+                        console.log(validator);
                         validator(data, {throw: true});
                     }
                 } catch (e) {
-                    throw e;
+                    console.error(e);
+                    //throw e;
                 }
             }
 
             //validate data
             if (config.data_validator) {
+                console.warn("data_validator is currently disabled due to ducktyper problems");
                 validateWith(config.data_validator, config.data);
             }
 
             //validate params
             for (let key in config.param_validators) {
+                console.warn("param_validator is currently disabled due to ducktyper problems");
                 validateWith(config.param_validators[key], config.params[key]);
             }
 
