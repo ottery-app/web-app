@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from "axios";
 import { CLIDE_CONF } from "./clide.conf";
-import { isDuckDto, classifyWithDto } from "@ottery/ottery-dto";
+import { isDto, classifyWithDto } from "@ottery/ottery-dto";
 import { makeUrl } from "../router/navigate";
 // import { v4 as guid } from 'uuid';
 
@@ -49,7 +49,7 @@ export class Clide {
 
             function validateWith(validator, data) {
                 try {
-                    if (isDuckDto(validator)) {
+                    if (isDto(validator)) {
                         classifyWithDto(validator, data, {throw: true})
                     } else {
                         validator(data, {throw: true});
