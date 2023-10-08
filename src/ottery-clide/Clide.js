@@ -61,13 +61,11 @@ export class Clide {
 
             //validate data
             if (config.data_validator) {
-                console.warn("data_validator is currently disabled due to ducktyper problems");
                 validateWith(config.data_validator, config.data);
             }
 
             //validate params
             for (let key in config.param_validators) {
-                console.warn("param_validator is currently disabled due to ducktyper problems");
                 validateWith(config.param_validators[key], config.params[key]);
             }
 
