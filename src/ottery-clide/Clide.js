@@ -49,18 +49,13 @@ export class Clide {
 
             function validateWith(validator, data) {
                 try {
-                    console.warn("validating:");
-                    console.log(validator);
                     if (isDto(validator)) {
-                        console.log("marked as DTO")
                         classifyWithDto(validator, data, {throw: true})
                     } else {
-                        console.log("marked as function");
                         validator(data, {throw: true});
                     }
                 } catch (e) {
-                    console.error(e);
-                    //throw e;
+                    throw e;
                 }
             }
 
