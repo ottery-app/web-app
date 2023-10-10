@@ -2,9 +2,10 @@ import styled, { css } from "styled-components";
 import { AwaitLoad } from "./AwaitLoad";
 import { useQueryStatus } from "../queryStatus/useQueryInfo";
 
+        // position: fixed;
+
 const ScrollLock = styled.div`
     ${({ scroll }) => !scroll && css`
-        position: fixed;
         top: 0;
         left: 0;
         width: 100%;

@@ -34,7 +34,7 @@ export default function Header({title, right}) {
     
     useEffect(()=>{
         if (state === "caretaker") {
-            setAlert("clocked in");
+            setAlert("clocked-in");
         } else {
             setAlert();
         }
@@ -50,7 +50,7 @@ export default function Header({title, right}) {
             right={
                 <>
                     <State>{alert}</State>
-                    <AwaitButton state={logoutStatus} onClick={logout}>logout</AwaitButton>
+                    {/* <AwaitButton state={logoutStatus} onClick={logout}>logout</AwaitButton> */}
                 </>
             }
         />

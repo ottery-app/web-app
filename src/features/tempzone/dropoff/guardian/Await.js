@@ -66,7 +66,7 @@ export function Await({form, onDone, mainFlow}) {
     return <Main>
         <Image
             src={roundOtterFullBody}
-            width={"100%"}
+            width={"200px"}
             animation={"spin"}
         />
         <Title>Getting your kids on the raft. Hold on.</Title>

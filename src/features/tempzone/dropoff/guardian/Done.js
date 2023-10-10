@@ -18,7 +18,7 @@ export function Done({form}) {
         <Title>{title}</Title>
         <Image 
             src={raft}
-            width={"100%"}
+            width={"200px"}
         />
         {form.responces.map(({child, status})=>{
             const state = (status === requestStatus.ACCEPTED) ? "success" : "error"; 

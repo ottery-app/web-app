@@ -27,7 +27,7 @@ export const colors = {
         light: undefined,
         main: "#ff5269",
         dark: "#cf0000",
-        contrastText: "black",
+        contrastText: "white",
     },
     
     //green
