@@ -37,8 +37,7 @@ const Hanging = styled(Tab)`
 
 const Upright = styled(Tab)`
     border-radius: ${radius.default} ${radius.default} 0 0;
-    border: 0px solid ${props=>props.color.dark};
-    border-bottom: ${lineThickness} solid ${props=>props.color.dark};
+    border: 1px solid ${props=>props.color.contrastText};
 `;
 
 const Line = styled(Tab)`

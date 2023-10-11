@@ -1,3 +1,3 @@
-export default function multPx(original, px) {
-    return (+original.replace("px", "") * px) + "px";
+export default function multPx(original, multiplier) {
+    return (+original.replace("px", "") * multiplier) + "px";
 }
