@@ -2,15 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import TabButtons from "../buttons/TabButtons";
 import Image from "../images/Image";
-import { image } from "../styles/image";
+import { image, styles } from "../styles/image";
 import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import multPx from "../functions/multPx";
 import TabField from "../buttons/tabs/TabField";
 import { TabButtonTypes } from "../buttons/tabs/TabButton";
+import IconButton from "../buttons/IconButton";
 
-const IMAGE_RAD = image.mediumProfile;
+const IMAGE_RAD = styles.clickable.minHeight;
 
 const Header = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const Title = styled.div`
 const Settings = styled.div`
   display: flex;
   width: 100%;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: ${margin.medium};
 `;
 
@@ -64,8 +65,7 @@ export function MultiFieldHeader({
   tabs = [],
   tab = tabs[0],
   onTab = () => {},
-
-  settings = null,
+  onSettings = null,
 
   //style
   radius = rad.square,
@@ -94,15 +94,13 @@ export function MultiFieldHeader({
             </Title>
           </UserDetails>
 
-          {settings && (
+          {onSettings && (
             <Settings>
               <MarginRight>
-                <Image
-                  src="gear"
-                  alt={alt}
-                  width={image.extraSmallProfile}
-                  height={image.extraSmallProfile}
-                  radius={rad.round}
+                <IconButton // Use IconButton for settings
+                  icon="gear"
+                  onClick={onSettings}
+                  size={image.extraSmallProfile}
                 />
               </MarginRight>
             </Settings>
