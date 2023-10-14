@@ -26,7 +26,7 @@ const Button = styled.button`
 `;
 
 const Canvas = styled.div`
-  margin-top: 2px;
+  margin-top: 0px;
 `;
 
 function ImageButton({

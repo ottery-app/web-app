@@ -28,7 +28,7 @@ import { Chat } from '../features/chat/Chat';
 import { Messages } from '../features/chat/Messages';
 import { useAuthClient } from '../features/auth/useAuthClient';
 import { AwaitLoad } from '../guards/AwaitLoad';
-import {Notifications} from "../features/notifications/notifications";
+import {Notifications} from "../features/notifications/Notifications";
 
 
 

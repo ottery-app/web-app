@@ -55,7 +55,7 @@ export default function UserSelf({ userInfo, userId }) {
       <ImageButton
         key={event._id}
         content={event.summary}
-        right={"userphoto"}
+        //right={"pfp" || event?.pfp?.src}
         onClick={() => {
           navigator(paths.event.dash, { eventId: event._id });
         }}

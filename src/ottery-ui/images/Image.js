@@ -7,7 +7,6 @@ import check from "./check.svg";
 import alert from "./alert.svg";
 import plus from "./plus.svg";
 import search from "./search.svg";
-import userphoto from "./userphoto.svg";
 import x from "./x.svg";
 import { useState } from "react";
 import { spinSlow } from "../animations/spinning";
@@ -35,7 +34,6 @@ export const DEFAULT_IMAGES = {
   x,
   plus,
   search,
-  userphoto,
 };
 
 export const DEFAULT_ANIMATIONS = {
