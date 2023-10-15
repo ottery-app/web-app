@@ -1,6 +1,6 @@
 import { ActivationCodeDto, isId, LoginDto, NewUserDto } from "@ottery/ottery-dto";
 import {setCookie, getCookie} from "../../functions/cookies";
-import { clideInst } from "../../app/clideInst";
+import { clideInst } from "../../provider/clideInst";
 
 export const load = clideInst
     .makeGet("auth/load", {

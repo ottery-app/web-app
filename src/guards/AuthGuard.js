@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import paths from '../router/paths';
-import { useNavigator } from '../hooks/useNavigator';
 import { useStrategyGenerator } from './useStrategyGenerator';
 import { Guard } from './Guard';
 import { selectSesh } from '../features/auth/authSlice';
+import { useNavigator } from '../router/useNavigator';
 
 export function AuthGuard({
     //the thing to display
@@ -29,10 +28,7 @@ export function AuthGuard({
 }) {
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
-
-    //contracts
-    const navigator = useNavigator();
-    const {pathname} = useLocation();
+    const navigate = useNavigator();
     const sesh = useSelector(selectSesh);
 
     //they keys arent really comments but they act as them since why not.
@@ -41,7 +37,7 @@ export function AuthGuard({
         activate:   loggedin,
         shall:      true,
         get:        ()=>sesh.loggedin,
-        breach:     ()=>navigator(paths.auth.login, {next:pathname})
+        breach:     ()=>navigate(paths.auth.login)
     });
 
     useStrategy({
@@ -49,7 +45,7 @@ export function AuthGuard({
         activate:   activated,
         shall:      true,
         get:        ()=>sesh.activated,
-        breach:     ()=>navigator(paths.auth.validate, {next:pathname})
+        breach:     ()=>navigate(paths.auth.validate)
     });
 
     useStrategy({
@@ -57,7 +53,7 @@ export function AuthGuard({
         activate:   notLoggedin,
         shall:      false,
         get:        ()=>sesh.activated,
-        breach:     ()=>navigator(paths[sesh.state].home, {next:pathname})
+        breach:     ()=>navigate(paths.main.home)
     });
 
     useStrategy({
@@ -65,7 +61,7 @@ export function AuthGuard({
         activate:   guardian,
         shall:      "guardian",
         get:        ()=>sesh.state,
-        breach:     ()=>navigator(paths[sesh.state].home, {next:pathname})
+        breach:     ()=>navigator(paths.main.home)
     });
 
     useStrategy({
@@ -73,7 +69,7 @@ export function AuthGuard({
         activate:   caretaker,
         shall:      "caretaker",
         get:        ()=>sesh.state,
-        breach:     ()=>navigator(paths[sesh.state].home, {next:pathname})
+        breach:     ()=>navigator(paths.main.home)
     });
     
 
