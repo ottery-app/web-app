@@ -1,102 +1,118 @@
 import React from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 import TabButtons from "../buttons/TabButtons";
 import Image from "../images/Image";
-import { image } from "../styles/image"
+import { image, styles } from "../styles/image";
 import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import multPx from "../functions/multPx";
 import TabField from "../buttons/tabs/TabField";
 import { TabButtonTypes } from "../buttons/tabs/TabButton";
+import IconButton from "../buttons/IconButton";
 
-const IMAGE_RAD = image.mediumProfile;
-
-const HEADER_PADDING = margin.medium;
+const IMAGE_RAD = styles.clickable.minHeight;
 
 const Header = styled.div`
-    padding-top: ${HEADER_PADDING};
-    padding-left: ${HEADER_PADDING};
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
-    gap: ${margin.medium};
-    width: 100%;
-    background-color: ${colors.background.primary};
-    border-radius: ${props=>props.radius} ${props=>props.radius} 0 0;
+  gap: ${margin.medium};
+  width: 100%;
+  background-color: ${colors.background.primary};
+  border-radius: ${(props) => props.radius} ${(props) => props.radius} 0 0;
 `;
 
-const Left = styled.div`
-    flex: 0 0 ${IMAGE_RAD};
-    position: relative;
-    top: -${multPx(HEADER_PADDING, 0.5)};
+const Top = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
 `;
 
-const Right = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    justify-content: end;
-    gap: ${margin.large};
+const UserDetails = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: start;
+  justify-content: center;
+  flex-direction: row;
+  gap: ${margin.large};
+  margin: ${margin.medium};
 `;
 
 const Title = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-right: ${HEADER_PADDING};
-    justify-content: space-around;
-    gap: ${margin.small};
+  display: flex;
+`;
+const Settings = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: ${margin.medium};
 `;
 
+const MarginRight = styled.div`
+  margin-right: ${margin.large};
+`;
 
 export function MultiFieldHeader({
-    //top row
-    title="title", //can be an array
+  //top row
+  title = "title", //can be an array
 
-    //image
-    src="pfp",
-    alt="profile photo",
+  //image
+  src = "pfp",
+  alt = "profile photo",
 
-    //tabs
-    tabs=[],
-    tab=tabs[0],
-    onTab=()=>{},
+  //tabs
+  tabs = [],
+  tab = tabs[0],
+  onTab = () => {},
+  onSettings = null,
 
-    //style
-    radius=rad.square,
+  //style
+  radius = rad.square,
 }) {
-    const head = (Array.isArray(title)) ? title : [title];
-    //color=useColors({color});
+  const head = Array.isArray(title) ? title : [title];
+  const name = head[0].split(" ");
 
-    return (
-        <Header
-            radius = {radius}
-        >
-            <Left>
-                <Image 
-                    src={src}
-                    alt={alt}
-                    width={IMAGE_RAD}
-                    height={IMAGE_RAD}
-                    radius={rad.round}
+  //color=useColors({color});
+
+  return (
+    <>
+      <Header radius={radius}>
+        <Top>
+          <UserDetails>
+            <Image
+              src={src}
+              alt={alt}
+              width={IMAGE_RAD}
+              height={IMAGE_RAD}
+              radius={rad.round}
+            />
+            <Title>
+              {name[0].charAt(0).toUpperCase() + name[0].slice(1)}
+              <br />
+              {name.splice(1)}
+            </Title>
+          </UserDetails>
+
+          {onSettings && (
+            <Settings>
+              <MarginRight>
+                <IconButton // Use IconButton for settings
+                  icon="gear"
+                  onClick={onSettings}
+                  size={image.extraSmallProfile}
                 />
-            </Left>
-            <Right>
-                <Title>
-                    {head}
-                </Title>
-                <TabField
-                    type={TabButtonTypes.upright}
-                    tabs={tabs}
-                    active={tab}
-                    onTab={onTab}
-                />
-            </Right>
-        </Header>
-    );
+              </MarginRight>
+            </Settings>
+          )}
+        </Top>
+        <TabField
+          type={TabButtonTypes.upright}
+          tabs={tabs}
+          active={tab}
+          onTab={onTab}
+        />
+      </Header>
+    </>
+  );
 }
