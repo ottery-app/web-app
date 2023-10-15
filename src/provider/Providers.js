@@ -2,10 +2,11 @@ import { Provider } from "react-redux"
 import { store } from "./store"
 import { queryClient } from "./queryClient"
 import { QueryClientProvider } from "react-query"
+import { ThemeProvider } from '../../ottery-ui/styles/ThemeProvider';
 
 export default function Providers({children}) {
     return(
-        // <ThemeProvider>
+        <ThemeProvider>
             <QueryClientProvider client={queryClient}>
                 <Provider store={store}>
         {/* //         <PingProvider> */}
@@ -13,6 +14,6 @@ export default function Providers({children}) {
         {/* //         </PingProvider> */}
                  </Provider>
             </QueryClientProvider>
-        // </ThemeProvider>
+        </ThemeProvider>
     )
 }
