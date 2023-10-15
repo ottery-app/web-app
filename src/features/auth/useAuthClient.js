@@ -1,7 +1,7 @@
 import { resendEmail } from "./authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { load, login, register, logout, selectUserEmail, selectUserId, selectUserState, activate, selectUserEventId, selectSesh } from "./authSlice";
-import useSwapState from "../../hooks/useSwapState";
+import useSwapState from "./useSwapState";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
