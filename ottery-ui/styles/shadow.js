@@ -1,8 +1,16 @@
+import { radius } from "./radius";
+
 /**
  * the style options for shadows
  */
 export const shadows = {
-    default: "box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;",
+    default: {
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: radius.default,
+        elevation: 3,
+    },
 }
 
 /**

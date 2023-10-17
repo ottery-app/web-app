@@ -3,16 +3,17 @@ import { store } from "./store"
 import { queryClient } from "./queryClient"
 import { QueryClientProvider } from "react-query"
 import { ThemeProvider } from '../../ottery-ui/styles/ThemeProvider';
+import { PingProvider } from "../../ottery-ping";
 
 export default function Providers({children}) {
     return(
         <ThemeProvider>
             <QueryClientProvider client={queryClient}>
                 <Provider store={store}>
-        {/* //         <PingProvider> */}
-                    {children}
-        {/* //         </PingProvider> */}
-                 </Provider>
+                    <PingProvider>
+                        {children}
+                    </PingProvider>
+                </Provider>
             </QueryClientProvider>
         </ThemeProvider>
     )

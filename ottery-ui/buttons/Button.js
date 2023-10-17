@@ -1,31 +1,76 @@
+import React from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { margin } from '../styles/margin';
+import { clickable } from '../styles/clickable';
+import { shadows } from '../styles/shadow';
+import useColors from '../hooks/useColors';
+import { BUTTON_STATES, BUTTON_TYPES } from './Button.enum';
+import { colors } from '../styles/colors';
+import { radius as rad } from '../styles/radius';
+import { Text } from '../text/Text';
 
+const style = StyleSheet.create({})
 
-
-const styles = StyleSheet.create({
+const styles = props => StyleSheet.create({
     button: {
-        borderWidth: (props) => props.border, // React Native uses borderWidth for borders
-        borderColor: (props)=>props.colors.primary.dark, // Specify the border color
-        backgroundColor: (props)=>props.colors.primary.main,
-        color: (props)=>props.colors.primary.contrastText,
-        borderRadius: rad.default, // Use the desired radius value
-        minHeight: clickable.minHeight,
-        width: '100%',
-        maxWidth: (props) => props.width || clickable.maxWidth,
-        textTransform: 'uppercase',
+        borderColor: props.color.dark,
+        backgroundColor: props.color.main,
+        borderRadius: props.radius,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: margin.small,
+        minHeight: props.height,
+        minWidth: props.height,
+        width: "100%",
+        maxWidth: (props.width !== undefined)?props.width:clickable.maxWidth,
+        ...shadows.default,
     },
-});
+    text: {
+        color: props.color.contrastText,
+        fontWeight: "bold", 
+    }
+})
 
-export function Button({
+function pipeStyles(type, color) {
+    if (type==="outline") {
+        return {
+            color: color,
+            border: 2,
+        };
+    } else if (type === "text") {
+        return {
+            color: color,
+            border: 0,
+        };
+    } else if (type === "filled") {
+        return {
+            color: color,
+            border: 1,
+        };
+    }
+}
+
+export const Button = ({ 
     color=colors.primary,
     radius=rad.default,
     type=BUTTON_TYPES.filled,
-    children,
     width,
     height=clickable.minHeight,
     onClick,
-    state="default"
-}) {
-    <Butt styles={styles.button}>
-        {children}
-    </Butt>
-}
+    onPress = onClick,
+    state=BUTTON_STATES.default,
+    children 
+}) => {
+    color = useColors({color, status:state});
+    const style = styles({radius, width, height, ...pipeStyles(type, color)})
+
+
+    return (
+        <TouchableOpacity style={style.button} onPress={onPress}>
+            <Text color={color.contrastText}>{children}</Text>
+        </TouchableOpacity>
+    );
+};
+
+export default Button;

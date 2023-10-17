@@ -3,6 +3,7 @@ import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
 import Login from "../../features/auth/Login";
+import Register from "../../features/auth/Register";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ export function AuthStack() {
         >
             {props => 
                 <AuthGuard notLoggedin>
-                    <View><Text>temp</Text></View>
+                    <Register/>
                 </AuthGuard>
             }
         </Stack.Screen>

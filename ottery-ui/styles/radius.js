@@ -4,9 +4,9 @@ console.warn("oui: radius is depreciated -> moved to border");
  * the radius options
  */
 export const radius = {
-    default: "10px",
-    round: "100000px",
-    square: "0px",
+    default: 10,
+    round: 100000,
+    square: 0,
 }
 
 /**
