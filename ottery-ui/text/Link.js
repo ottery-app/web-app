@@ -1,6 +1,6 @@
 import { colors } from "../styles/colors"
-import { Text } from "./Text"
+import { Text } from "react-native-paper";
 
-export function Link({children, onPress}) {
-    return <Text color={colors.text.hyperlink} onPress={onPress}>{children}</Text>;
+export function Link({children, onPress, variant}) {
+    return <Text variant={variant} style={{color:colors.text.hyperlink}} onPress={onPress}>{children}</Text>;
 }

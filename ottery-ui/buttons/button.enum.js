@@ -1,5 +1,5 @@
 export const BUTTON_TYPES = {
-    filled: "filled",
+    filled: "contained",
     outline: "outline",
     text: "text",
 }

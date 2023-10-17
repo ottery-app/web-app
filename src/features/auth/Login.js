@@ -7,11 +7,10 @@ import { useAuthClient } from "./useAuthClient";
 import {useState} from "react";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { Link } from "../../../ottery-ui/text/Link";
-import { Text } from "../../../ottery-ui/text/Text";
-import { TextField } from "../../../ottery-ui/text/TextField";
 import { logoDefault } from "../../../assets/logos";
 import Image from "../../../ottery-ui/image/Image";
 import paths from "../../router/paths";
+import { Text } from "react-native-paper";
 
 export default function Login() {
     const Ping = usePing();
@@ -33,7 +32,7 @@ export default function Login() {
                 }
 
                 if (data.payload && !data.error) {
-                    navigator(paths.main.home);
+                    navigator(paths.auth.validate);
                 }
             }
         });
@@ -42,8 +41,8 @@ export default function Login() {
     return (
         <Main>
             <Shadowbox>
+                <Image src={logoDefault} alt="logo" width={"100%"} />
                 <Form>
-                    <Image src={logoDefault} alt="logo" width={"100%"} />
                     <TextInput
                         label="Email"
                         value={email}
@@ -55,20 +54,17 @@ export default function Login() {
                         value={password}
                         status={login.status}
                         onChange={(text)=>{setPassword(text)}}
+                        password
                     />
                     <AwaitButton
                         onPress={submit} 
-                        width="100%" 
-                        type="filled"
+                        width="100%"
                         status={login.status}
                     >Login</AwaitButton>
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <TextField>
-                    <Text>Don't have an account?</Text>
-                    <Link onPress={()=>navigator(paths.auth.register)}>Sign up!</Link>
-                </TextField>
+                <Text>Don't have an account? <Link onPress={()=>navigator(paths.auth.register)}>Sign up!</Link></Text>
             </Shadowbox>
         </Main>
     );

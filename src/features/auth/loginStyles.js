@@ -1,4 +1,5 @@
 import {View} from "react-native";
+import { margin } from "../../../ottery-ui/styles/margin";
 
 export const Main = ({children}) => (
     <View style={{
@@ -19,7 +20,8 @@ export const Form = ({children}) => (
       flexDirection: 'column',
       justifyContent: 'space-evenly',
       alignItems: 'center',
-      rowGap: 10,
+      width: "100%",
+      rowGap: margin.medium,
     }}>
       {children}
     </View>

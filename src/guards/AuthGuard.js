@@ -4,6 +4,7 @@ import { useStrategyGenerator } from './useStrategyGenerator';
 import { Guard } from './Guard';
 import { selectSesh } from '../features/auth/authSlice';
 import { useNavigator } from '../router/useNavigator';
+import { useAuthClient } from '../features/auth/useAuthClient';
 
 export function AuthGuard({
     //the thing to display
@@ -29,7 +30,10 @@ export function AuthGuard({
     //strats
     const [strategies, useStrategy] = useStrategyGenerator();
     const navigate = useNavigator();
-    const sesh = useSelector(selectSesh);
+    const {useSesh} = useAuthClient();
+    const sesh = useSesh();
+
+    console.warn("sesh is outdated for some reason?");
 
     //they keys arent really comments but they act as them since why not.
     useStrategy({
@@ -52,8 +56,8 @@ export function AuthGuard({
         key:        "must not be loggedin",
         activate:   notLoggedin,
         shall:      false,
-        get:        ()=>sesh.activated,
-        breach:     ()=>navigate(paths.main.home)
+        get:        ()=>sesh.loggedin,
+        breach:     ()=>navigate(paths.auth.validate)
     });
 
     useStrategy({

@@ -70,7 +70,6 @@ export default class Clide {
             //make request
             let res = await that.instance.request(config);
 
-            config.params = oldParams;
             return await config.out_pipeline(res, config);
         }
     }

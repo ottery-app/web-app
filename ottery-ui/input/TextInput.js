@@ -1,16 +1,8 @@
 import * as React from 'react';
 import { TextInput as InternalTextInput } from 'react-native-paper';
 import { colors } from '../styles/colors';
-import useColors from '../hooks/useColors';
-import { StyleSheet, View } from 'react-native';
 import { makeValidator, useValidator } from './useValidator';
-
-const styles = props=>StyleSheet.create({
-    container: {
-      width: '100%',
-      transform: [{ translateX: -2 }],
-    },
-});
+import { Color } from '../styles/Color';
 
 export default function TextInput({
     color=colors.primary,
@@ -18,33 +10,24 @@ export default function TextInput({
     label,
     placeholder, //used if you only want a placeholder
     onChange,
-    delay = 0,
+    delay,
     mode="outlined",
     password,
     status,
     validator=makeValidator(status),
 }) {
-    const validatorStatus = useValidator(validator, value);
-    
-    color = useColors({
-        status:status || validatorStatus,
-        color:color
-    });
-
-    const style = styles();
+    const validatorStatus = useValidator(validator, value, delay);
 
     return(
-        <View style={style.container}>
+        <Color primary={color} status={status||validatorStatus}>
             <InternalTextInput
                 secureTextEntry={!!password}
                 mode={mode}
                 placeholder={placeholder}
                 label={label}
                 value={value}
-                outlineColor={color.main}
-                activeOutlineColor={color.dark}
                 onChangeText={text => onChange(text)}
             />
-        </View>
+        </Color>
     );
 }

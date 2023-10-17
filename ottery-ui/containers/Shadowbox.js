@@ -4,6 +4,7 @@ import { shadows } from '../styles/shadow';
 import { radius } from '../styles/radius';
 import { margin } from "../styles/margin"
 import { colors } from '../styles/colors';
+import { Card } from 'react-native-paper';
 
 const styles = (props) => StyleSheet.create({
     innner: {
@@ -14,6 +15,7 @@ const styles = (props) => StyleSheet.create({
       padding: margin.medium,
       flex: 1, // Take up all available space
       justifyContent: 'center', // Center content vertically
+      alignItems: 'center',
       ...shadows.default
     },
     outer: {

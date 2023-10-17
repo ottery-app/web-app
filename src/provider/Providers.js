@@ -2,7 +2,7 @@ import { Provider } from "react-redux"
 import { store } from "./store"
 import { queryClient } from "./queryClient"
 import { QueryClientProvider } from "react-query"
-import { ThemeProvider } from '../../ottery-ui/styles/ThemeProvider';
+import { ThemeProvider } from '../../ottery-ui/styles/Color';
 import { PingProvider } from "../../ottery-ping";
 
 export default function Providers({children}) {

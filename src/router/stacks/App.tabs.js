@@ -8,9 +8,13 @@ import { PickUpStack } from './PickUp.stack';
 const Tab = createBottomTabNavigator();
 
 export function AppTabs() {
-    <Tab.Navigator>
-        <Tab.Screen name={paths.dropoff.name} component={DropoffStack}/>
-        <Tab.Screen name={paths.main.name} component={HomeStack}/>
-        <Tab.Screen name={paths.pickup.name} component={PickUpStack}/>
-    </Tab.Navigator>
+    return (
+        <Tab.Navigator
+            screenOptions={{ headerShown: false }}
+        >
+            <Tab.Screen name={paths.dropoff.name} component={DropoffStack}/>
+            <Tab.Screen name={paths.main.name} component={HomeStack}/>
+            <Tab.Screen name={paths.pickup.name} component={PickUpStack}/>
+        </Tab.Navigator>
+    );
 }

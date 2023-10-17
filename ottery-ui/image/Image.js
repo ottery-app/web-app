@@ -1,23 +1,13 @@
 import React, { useMemo } from 'react';
 import { Image as RNImage, View } from 'react-native';
 
-// export const DEFAULT_IMAGES = {
-//   gear: require('./gear.svg'),
-//   pfp: require("./pfp.svg"),
-//   dice: require("./dice.svg"),
-//   check: require("./gear.svg"),
-//   alert: require("./alert.svg"),
-//   x: require("./x.svg"),
-//   plus: require("./plus.svg"),
-//   search: require("./search.svg"),
-// };
-
 const Image = ({
   src,
   alt,
   radius,
   width=radius,
   height=radius,
+  maxWidth,
   onClick,
   animation,
   opacity = 1,
@@ -39,7 +29,8 @@ const Image = ({
           filter: { grayscale },
           width: width,
           height: height,
-          aspectRatio: aspectRatio || imgAspect
+          aspectRatio: aspectRatio || imgAspect,
+          maxWidth,
         }}
       onClick={onClick}
     />
