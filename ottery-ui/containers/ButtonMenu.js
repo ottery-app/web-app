@@ -16,21 +16,21 @@ export function ButtonMenu({buttons = []}) {
         >
             {buttons.map(button=>
                 <View>
-                    <MenuButton 
+                    <IconButton 
                         width={width}
                         key={button.title}
                         onPress={button.onPress}
                         icon={button.icon}
                     >
                         {button.title}
-                    </MenuButton>
+                    </IconButton>
                 </View>
             )}
         </View>
     );
 }
 
-function MenuButton({icon, width, onPress, children}) {
+function IconButton({icon, width, onPress, children}) {
     const MAX_SIZE = 200;
     const ICON_SCALE = 0.5;
 
