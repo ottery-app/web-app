@@ -12,15 +12,33 @@ export const Button = ({
     state=BUTTON_STATES.default,
     children,
     width,
+    maxWidth,
+    minWidth,
+    height,
+    maxHeight,
+    minHeight,
 }) => {
     return (
         <Color primary={color} status={state}>
             <ButtonPaper
                 borderRadius={rad.default}
                 onPress={onPress}
+                contentStyle={{
+                    width: width,
+                    maxWidth: maxWidth,
+                    minWidth: minWidth,
+                    height: height,
+                    maxHeight: maxHeight,
+                    minHeight: minHeight,
+                }}
                 style={{
                     borderRadius: radius.default, 
-                    width: width
+                    width: width,
+                    maxWidth: maxWidth,
+                    minWidth: minWidth,
+                    height: height,
+                    maxHeight: maxHeight,
+                    minHeight: minHeight,
                 }}
                 mode={type}
             >{children}</ButtonPaper>

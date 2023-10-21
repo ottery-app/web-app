@@ -11,6 +11,7 @@ export function AppTabs() {
     return (
         <Tab.Navigator
             screenOptions={{ headerShown: false }}
+            initialRouteName={paths.main.name}
         >
             <Tab.Screen name={paths.dropoff.name} component={DropoffStack}/>
             <Tab.Screen name={paths.main.name} component={HomeStack}/>
