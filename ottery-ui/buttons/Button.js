@@ -4,6 +4,7 @@ import { radius as rad, radius } from '../styles/radius';
 import { Button as ButtonPaper } from 'react-native-paper';
 import { BUTTON_STATES, BUTTON_TYPES } from './button.enum';
 import { Color } from '../styles/Color';
+import { shadows } from '../styles/shadow';
 
 export const Button = ({ 
     color=colors.primary,
@@ -17,10 +18,12 @@ export const Button = ({
     height,
     maxHeight,
     minHeight,
+    shadow,
 }) => {
     return (
         <Color primary={color} status={state}>
             <ButtonPaper
+                styles={shadows.default}
                 borderRadius={rad.default}
                 onPress={onPress}
                 contentStyle={{
@@ -31,15 +34,18 @@ export const Button = ({
                     maxHeight: maxHeight,
                     minHeight: minHeight,
                 }}
-                style={{
-                    borderRadius: radius.default, 
-                    width: width,
-                    maxWidth: maxWidth,
-                    minWidth: minWidth,
-                    height: height,
-                    maxHeight: maxHeight,
-                    minHeight: minHeight,
-                }}
+                style={[
+                    shadow && shadows.default,
+                    {
+                        borderRadius: radius.default, 
+                        width: width,
+                        maxWidth: maxWidth,
+                        minWidth: minWidth,
+                        height: height,
+                        maxHeight: maxHeight,
+                        minHeight: minHeight,
+                    }
+                ]}
                 mode={type}
             >{children}</ButtonPaper>
         </Color>

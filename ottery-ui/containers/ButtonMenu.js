@@ -42,13 +42,14 @@ function MenuButton({icon, width, onPress, children}) {
             height={width}
             maxHeight={MAX_SIZE}
             maxWidth={MAX_SIZE}
+            shadow
         >
             <View style={styles.innerButton}>
                 <Icon
                     source={icon}
                     size={(width <= MAX_SIZE) ? width * ICON_SCALE : MAX_SIZE * ICON_SCALE}
                 />
-                <Text>{children}</Text>
+                <Text variant={"titleMedium"} style={{fontWeight:"bold"}}>{children}</Text>
             </View>
         </Button>
     )

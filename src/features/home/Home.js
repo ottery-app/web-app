@@ -16,12 +16,12 @@ export function Home() {
             {
                 icon: "account",
                 title: "Account",
-                onPress: ()=>{navigator(paths.user.profile)}
+                onPress: ()=>{console.log("goto account")}
             },
             {
                 icon: "message",
                 title: "Messages",
-                onPress: ()=>{navigator(paths.social.messages)}
+                onPress: ()=>{console.log("goto messages")}
             }
         ];
 
