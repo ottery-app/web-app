@@ -2,6 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
+import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
+import { pfp } from "../../../assets/icons";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +18,11 @@ export function HomeStack() {
         >
           {props => 
             <AuthGuard loggedin activated>
-              <View><Text>temp</Text></View>
+              <View>
+                <ImageButton
+                  right={pfp}
+                ><Text>asdf</Text></ImageButton>
+              </View>
             </AuthGuard>
           }
       </Stack.Screen>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { colors } from '../styles/colors';
-import { radius as rad, radius } from '../styles/radius';
+import { radius as rad } from '../styles/radius';
 import { Button as ButtonPaper } from 'react-native-paper';
 import { BUTTON_STATES, BUTTON_TYPES } from './button.enum';
 import { Color } from '../styles/Color';
+import { clickable } from '../styles/clickable';
 
 export const Button = ({ 
     color=colors.primary,
@@ -11,6 +12,7 @@ export const Button = ({
     onPress,
     state=BUTTON_STATES.default,
     children,
+    radius=rad.default,
     width,
 }) => {
     return (
@@ -19,8 +21,10 @@ export const Button = ({
                 borderRadius={rad.default}
                 onPress={onPress}
                 style={{
-                    borderRadius: radius.default, 
-                    width: width
+                    borderRadius: radius, 
+                    width: width,
+                    padding: 0,
+                    margin: 0,
                 }}
                 mode={type}
             >{children}</ButtonPaper>
