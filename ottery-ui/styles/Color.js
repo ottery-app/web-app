@@ -1,11 +1,39 @@
-import { DefaultTheme, Provider as PaperProvider, useTheme } from 'react-native-paper';
+import { Button, DefaultTheme, Provider as PaperProvider, useTheme } from 'react-native-paper';
 import useColors from './useColors';
 import {View} from "react-native";
+import { colors } from './colors';
 
 const theme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
+        primary: colors.primary.main,
+        onPrimary: colors.primary.contrastText,
+        primaryContainer: colors.primary.dark,
+        onPrimaryContainer: colors.primary.contrastText,
+        secondary: colors.secondary.main,
+        onSecondary: colors.secondary.contrastText,
+        secondaryContainer: colors.secondary.dark,
+        onSecondaryContainer: colors.secondary.contrastText,
+        tertiary: colors.tertiary.main,
+        onTertiary: colors.tertiary.contrastText,
+        tertiaryContainer: colors.tertiary.dark,
+        onTertiaryContainer: colors.tertiary.contrastText,
+        error: colors.error.main,
+        onError: colors.error.contrastText,
+        errorContainer: colors.error.dark,
+        onErrorContainer: colors.error.contrastText,
+        background: colors.background.primary,
+        onBackground: colors.text.primary,
+        surface: colors.background.primary,
+        onSurface: colors.text.primary,
+        surfaceVariant: colors.background.secondary,
+        onSurfaceVariant: colors.text.primary,
+        outline: colors.primary.dark,
+        outlineVariant: colors.secondary.dark,
+        // inverseSurface: "rgb(50, 47, 51)",
+        // inverseOnSurface: "rgb(245, 239, 244)",
+        // inversePrimary: "rgb(220, 184, 255)",
     }
 }
 
