@@ -2,17 +2,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
+import { screenOptions } from "./screenOptions";
 
 const Stack = createNativeStackNavigator();
 
 export function DropoffStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         name={paths.dropoff.caretaker}
         options={{ 
-          title: 'Ottery',
-        }} //switch to logo at some point
+          title: 'Drop off',
+        }}
         >
           {props => 
             <AuthGuard loggedin activated caretaker>
@@ -23,8 +24,8 @@ export function DropoffStack() {
       <Stack.Screen
         name={paths.dropoff.guardian}
         options={{ 
-          title: 'Ottery',
-        }} //switch to logo at some point
+          title: 'Drop off',
+        }}
         >
           {props => 
             <AuthGuard loggedin activated guardian>

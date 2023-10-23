@@ -2,17 +2,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
-import { Home } from "../../features/home/home";
+import { screenOptions } from "./screenOptions";
+import { LogoTitle } from "./LogoTitle";
+import { Home } from "../../features/home/Home";
 
 const Stack = createNativeStackNavigator();
 
 export function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         name={paths.main.home}
         options={{ 
-          title: 'Ottery',
+          headerTitle: props=><LogoTitle {...props}/>,
         }} //switch to logo at some point
         >
           {props => 
