@@ -1,6 +1,6 @@
 import React from 'react';
 import { colors } from '../styles/colors';
-import { radius as rad, radius } from '../styles/radius';
+import { radius as rad } from '../styles/radius';
 import { Button as ButtonPaper } from 'react-native-paper';
 import { BUTTON_STATES, BUTTON_TYPES } from './button.enum';
 import { Color } from '../styles/Color';
@@ -12,6 +12,7 @@ export const Button = ({
     onPress,
     state=BUTTON_STATES.default,
     children,
+    radius=rad.default,
     width,
     maxWidth,
     minWidth,
@@ -20,33 +21,27 @@ export const Button = ({
     minHeight,
     shadow,
 }) => {
+    const BUTTON_STYLE = {
+        width: width,
+        maxWidth: maxWidth,
+        minWidth: minWidth,
+        height: height,
+        maxHeight: maxHeight,
+        minHeight: minHeight,
+        borderRadius: radius,
+    }
+
     return (
         <Color primary={color} status={state}>
             <ButtonPaper
                 styles={shadows.default}
                 borderRadius={rad.default}
                 onPress={onPress}
-                contentStyle={{
-                    width: width,
-                    maxWidth: maxWidth,
-                    minWidth: minWidth,
-                    height: height,
-                    maxHeight: maxHeight,
-                    minHeight: minHeight,
-                }}
-                style={[
-                    shadow && shadows.default,
-                    {
-                        borderRadius: radius.default, 
-                        width: width,
-                        maxWidth: maxWidth,
-                        minWidth: minWidth,
-                        height: height,
-                        maxHeight: maxHeight,
-                        minHeight: minHeight,
-                    }
-                ]}
+                contentStyle={BUTTON_STYLE}
+                labelStyle={BUTTON_STATES}
+                style={[shadow && shadows.default, BUTTON_STYLE]}
                 mode={type}
+                compact={true}
             >{children}</ButtonPaper>
         </Color>
     );

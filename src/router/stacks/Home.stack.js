@@ -2,6 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
+import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
+import { pfp } from "../../../assets/icons";
 import { screenOptions } from "./screenOptions";
 import { LogoTitle } from "./LogoTitle";
 import { Home } from "../../features/home/Home";
