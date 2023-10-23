@@ -65,7 +65,7 @@ export function AuthGuard({
         activate:   guardian,
         shall:      "guardian",
         get:        ()=>sesh.state,
-        breach:     ()=>navigator(paths.main.home)
+        breach:     ()=>navigate(paths.main.home)
     });
 
     useStrategy({
@@ -73,7 +73,7 @@ export function AuthGuard({
         activate:   caretaker,
         shall:      "caretaker",
         get:        ()=>sesh.state,
-        breach:     ()=>navigator(paths.main.home)
+        breach:     ()=>navigate(paths.main.home)
     });
     
 
