@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
+import { Home } from "../../features/home/home";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ export function HomeStack() {
         >
           {props => 
             <AuthGuard loggedin activated>
-              <View><Text>temp</Text></View>
+              <Home/>
             </AuthGuard>
           }
       </Stack.Screen>
