@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
 import { screenOptions } from "./screenOptions";
 import { LogoTitle } from "./LogoTitle";
+import { Home } from "../../features/home/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +19,7 @@ export function HomeStack() {
         >
           {props => 
             <AuthGuard loggedin activated>
-              <View><Text>temp</Text></View>
+              <Home/>
             </AuthGuard>
           }
       </Stack.Screen>
