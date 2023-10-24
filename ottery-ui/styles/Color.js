@@ -51,8 +51,6 @@ export function useThemeMaker({primary, status}) {
 
     primary = useColors({color: primary, status});
 
-    console.log(primary, status)
-
     return useMemo(()=>{
         if (primary) {
             primary = {
