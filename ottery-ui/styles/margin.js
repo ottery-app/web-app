@@ -2,9 +2,9 @@
  * the margin options
  */
  export const  margin = {
-    medium: "10px",
-    small: "5px",
-    large: "20px",
+    medium: 10,
+    small: 5,
+    large: 20,
 }
 
 /**

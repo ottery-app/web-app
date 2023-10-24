@@ -1,18 +1,12 @@
-import {zindex} from "./zindex"
 
 /**
  * these are generic styles for clickable components
  */
 export const clickable = {
-    minWidth: "44px",
-    maxWidth: "150px",
-    minHeight: "44px",
-    maxHeight: "150px",
-    onHover: `
-        cursor: pointer;
-        filter: brightness(90%);
-        z-index: ${zindex.mid};
-    `,
+    minWidth: 35,
+    maxWidth: 150,
+    minHeight: 35,
+    maxHeight: 150,
 }
 //removed from buttons since it caused the flow to change
 // transform: scale(1.03);
