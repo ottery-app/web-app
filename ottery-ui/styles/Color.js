@@ -2,6 +2,7 @@ import { Button, DefaultTheme, Provider as PaperProvider, useTheme } from 'react
 import useColors from './useColors';
 import {View} from "react-native";
 import { colors } from './colors';
+import { useMemo } from 'react';
 
 const theme = {
     ...DefaultTheme,
@@ -45,34 +46,61 @@ export function ThemeProvider({children}) {
     );
 }
 
-//to be used internally
-export function Color({children, primary, status}) {
-    const theme = useTheme();
-    //If you need a second color then add secondary
+export function useThemeMaker({primary, status}) {
+    let theme = useTheme();
+
     primary = useColors({color: primary, status});
 
-    if (primary) {
-        primary = {
-            primary: primary?.main, // Your primary color
-            onPrimary: primary?.contrastText, // Text color on the primary background
-            primaryContainer: primary?.dark, // Background color for primary container
-            onPrimaryContainer: primary?.contrastText, // Text color on the primary container background
-        }
-    }
+    console.log(primary, status)
 
-    return(
-        <View style={{width:"100%", height:"100%"}}>
-            <PaperProvider
-                theme={{
-                    ...theme,
-                    colors: {
-                        ...theme.colors,
-                        ...primary,
-                    }
-                }}
-            >
-                {children}
-            </PaperProvider>
-        </View>
-    );
+    return useMemo(()=>{
+        if (primary) {
+            primary = {
+                primary: primary?.main, // Your primary color
+                onPrimary: primary?.contrastText, // Text color on the primary background
+                primaryContainer: primary?.dark, // Background color for primary container
+                onPrimaryContainer: primary?.contrastText, // Text color on the primary container background
+            }
+        }
+
+        return {
+            ...theme,
+            colors: {
+                ...theme.colors,
+                ...primary,
+            }
+        }
+    }, [theme, primary]);
 }
+
+//to be used internally
+// export function Color({children, primary, status}) {
+//     const theme = useTheme();
+//     //If you need a second color then add secondary
+//     primary = useColors({color: primary, status});
+
+//     if (primary) {
+//         primary = {
+//             primary: primary?.main, // Your primary color
+//             onPrimary: primary?.contrastText, // Text color on the primary background
+//             primaryContainer: primary?.dark, // Background color for primary container
+//             onPrimaryContainer: primary?.contrastText, // Text color on the primary container background
+//         }
+//     }
+
+//     return(
+//         <View style={{width:"100%", height:"100%"}}>
+//             <PaperProvider
+//                 theme={{
+//                     ...theme,
+//                     colors: {
+//                         ...theme.colors,
+//                         ...primary,
+//                     }
+//                 }}
+//             >
+//                 {children}
+//             </PaperProvider>
+//         </View>
+//     );
+// }
