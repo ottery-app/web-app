@@ -17,3 +17,8 @@ export const check = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/check.svg",
     aspectRatio: 1,
 }
+
+export const message = {
+    src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/message.svg",
+    aspectRatio: 1,
+}

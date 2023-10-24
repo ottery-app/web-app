@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import Providers from "./provider/Providers"; 
 import Router from "./router/Router";
 

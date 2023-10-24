@@ -5,6 +5,7 @@ import { HomeStack } from './Home.stack';
 import { DropoffStack } from './DropOff.stack';
 import { PickUpStack } from './PickUp.stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from '../../../ottery-ui/styles/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +26,8 @@ export function AppTabs() {
       
                   return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                // tabBarActiveTintColor: 'tomato',
-                // tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: colors.primary.main,
+                tabBarInactiveTintColor: colors.disabled.main,
                 headerShown: false
               })}
             initialRouteName={paths.main.name}

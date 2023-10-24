@@ -1,6 +1,7 @@
 import { DefaultTheme, Provider as PaperProvider, useTheme } from 'react-native-paper';
 import useColors from './useColors';
 import {View} from "react-native";
+import { colors } from './colors';
 
 const theme = {
     ...DefaultTheme,
