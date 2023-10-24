@@ -1,1 +1,0 @@
-export const raft = "https://github.com/ottery-app/global-data/blob/main/images/rafts/raft.jpg?raw=true";

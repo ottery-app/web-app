@@ -2,16 +2,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
+import { screenOptions } from "./screenOptions";
 
 const Stack = createNativeStackNavigator();
 
 export function PickUpStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         name={paths.pickup.caretaker}
         options={{ 
-          title: 'Ottery',
+          title: 'Pick up',
         }} //switch to logo at some point
         >
           {props => 
@@ -23,7 +24,7 @@ export function PickUpStack() {
       <Stack.Screen
         name={paths.pickup.guardian}
         options={{ 
-          title: 'Ottery',
+          title: 'Pick up',
         }} //switch to logo at some point
         >
           {props => 

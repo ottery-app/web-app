@@ -2,4 +2,18 @@ export const closedMailWithHalo = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg",
     aspectRatio: 1,
 };
-export const checkMarkHappy = "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/happyCheck.PNG";
+
+export const pfp = {
+    src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/pfp.svg",
+    aspectRatio: 1,
+}
+
+export const x = {
+    src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/x.svg",
+    aspectRatio: 1,
+}
+
+export const check = {
+    src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/check.svg",
+    aspectRatio: 1,
+}
