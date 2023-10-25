@@ -5,14 +5,14 @@ import { useMutation } from "react-query";
  * onSuccessIn
  */
 export function makeUseMutation(defaultOptions) {
-    return (options=defaultOptions)=>{
-        if (defaultOptions.onSuccessAlways) {
-            const oldOnSuccess = options.onSuccess;
-            options.onSuccess = (data)=>{
-                defaultOptions.onSuccessAlways(data);
-                return (oldOnSuccess) ? oldOnSuccess(data) : data;
-            }
-        }
-        return useMutation(defaultOptions.mutationFn, options)
-    };
+  return (options = defaultOptions) => {
+    if (defaultOptions.onSuccessAlways) {
+      const oldOnSuccess = options.onSuccess;
+      options.onSuccess = (data) => {
+        defaultOptions.onSuccessAlways(data);
+        return oldOnSuccess ? oldOnSuccess(data) : data;
+      };
+    }
+    return useMutation(defaultOptions.mutationFn, options);
+  };
 }

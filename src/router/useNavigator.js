@@ -1,9 +1,9 @@
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native";
 
 export function useNavigator() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    return function navigator(path, params) {
-        navigation.navigate(path);
-    }
+  return function navigator(path, params) {
+    navigation.navigate(path, params);
+  };
 }
