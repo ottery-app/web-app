@@ -2,31 +2,26 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
-import { useNavigator } from "../useNavigator";
-import Button from "../../../ottery-ui/buttons/Button";
-import Messages from "../../features/chat/Messages";
+import { screenOptions } from "./screenOptions";
+import { LogoTitle } from "./LogoTitle";
+import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
+import Messages from "../../features/chat/Messages";
 
 const Stack = createNativeStackNavigator();
 
 export function HomeStack() {
-  const navigator = useNavigator();
-
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         name={paths.main.home}
         options={{
-          title: "Ottery",
+          headerTitle: (props) => <LogoTitle {...props} />,
         }} //switch to logo at some point
       >
         {(props) => (
           <AuthGuard loggedin activated>
-            <View>
-              <Button onPress={() => navigator(paths.main.social.messages)}>
-                Messages
-              </Button>
-            </View>
+            <Home />
           </AuthGuard>
         )}
       </Stack.Screen>
