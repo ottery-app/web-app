@@ -1,17 +1,14 @@
-// import { Main } from "../../components/Main";
-// import { IconCard } from "../../../ottery-ui/containers/IconCard";
 import { DEFAULT_IMAGES } from "../../../ottery-ui/image/Image";
-// import { getInfo } from "../../features/user/userApi";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "./useChatClient";
 import { useUserClient } from "../user/useUserClient";
 import ChatListItem from "../../../ottery-ui/chat/ChatListItem";
-import type { Chat } from "../../../ottery-ui/chat/types/chat";
+import { Chat as ChatDto } from "../../../ottery-ui/chat/types/chat";
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 
-function Chat({ chat }: { chat: Chat }) {
+function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   const { useUserId } = useAuthClient();
   const { useGetUserInfo } = useUserClient();
 
@@ -50,7 +47,7 @@ function Messages() {
 
   return (
     <ScreenWrapper>
-      {chats && chats.map((chat: Chat) => <Chat key={chat._id} chat={chat} />)}
+      {chats && chats.map((chat: InstanceType<typeof ChatDto>) => <Chat key={chat._id} chat={chat} />)}
     </ScreenWrapper>
   );
 }

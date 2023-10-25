@@ -1,19 +1,4 @@
-export interface Message {
-  date: number;
-  message: string;
-  sender: string;
-}
+import { MessageDto, ChatDto } from "@ottery/ottery-dto";
 
-export interface Chat {
-  _id: string;
-  name: string;
-  users: string[];
-  messages: Message[];
-  __v: number;
-}
-
-export enum DateFormat {
-  date = "date",
-  time = "time",
-  md = "month-day",
-}
+export const Message = MessageDto;
+export const Chat = ChatDto;

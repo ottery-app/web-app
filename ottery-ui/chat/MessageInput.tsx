@@ -1,14 +1,16 @@
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
-import { IconButton, TextInput } from "react-native-paper";
+import { IconButton } from "react-native-paper";
+import TextInput from "../input/TextInput";
 
 import { margin } from "../styles/margin";
+import { clickable } from "../styles/clickable";
 
 export function MessageInput({ onSend }) {
   const [message, setMessage] = useState("");
 
-  function handleTextInputChange(e) {
-    setMessage(e.target.value);
+  function handleTextInputChange(text) {
+    setMessage(text);
   }
 
   function handleSendMessage() {
@@ -25,7 +27,7 @@ export function MessageInput({ onSend }) {
       />
       <IconButton
         icon="send"
-        size={24}
+        size={clickable.minHeight}
         onPress={handleSendMessage}
         style={styles.sendButton}
       />
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    gap: margin.medium,
+    gap: margin.small,
   },
   textInput: {
     flex: 9,

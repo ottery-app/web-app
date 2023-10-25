@@ -1,8 +1,6 @@
 import { GestureResponderEvent } from "react-native";
 import { Avatar, List } from "react-native-paper";
-
-import { DateFormat } from "./types/chat";
-import { Time } from "../text/Time";
+import { Time, DateFormat } from "../text/Time";
 
 export interface ChatListItemProps {
   onPress: (e: GestureResponderEvent) => void;

@@ -1,8 +1,10 @@
-export const TIME = {
-  date: "date",
-  time: "time",
-  md: "month-day",
-};
+import {Text} from "react-native-paper";
+
+export enum DateFormat {
+  date = "date",
+  time = "time",
+  md = "month-day",
+}
 
 export function Time({ time, type }) {
   time = new Date(time);
@@ -15,13 +17,15 @@ export function Time({ time, type }) {
   const minute = String(time.getMinutes()).padStart(2, "0");
   const second = String(time.getSeconds()).padStart(2, "0");
 
-  if (type === TIME.date) {
-    return `${year}-${month}-${day}`;
-  } else if (type === TIME.time) {
-    return `${hour}:${minute}:${second}`;
-  } else if (type === TIME.md) {
-    return `${month}-${day}`;
+  if (type === DateFormat.date) {
+    time = `${year}-${month}-${day}`;
+  } else if (type === DateFormat.time) {
+    time = `${hour}:${minute}:${second}`;
+  } else if (type === DateFormat.md) {
+    time = `${month}-${day}`;
   } else {
-    return time.toString();
+    time = time.toString();
   }
+
+  return <Text>{time}</Text>
 }
