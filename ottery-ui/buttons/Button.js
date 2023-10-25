@@ -3,7 +3,7 @@ import { colors } from '../styles/colors';
 import { radius as rad } from '../styles/radius';
 import { Button as ButtonPaper } from 'react-native-paper';
 import { BUTTON_STATES, BUTTON_TYPES } from './button.enum';
-import { Color } from '../styles/Color';
+import { useThemeMaker } from '../styles/Color';
 import { shadows } from '../styles/shadow';
 
 export const Button = ({ 
@@ -21,6 +21,8 @@ export const Button = ({
     minHeight,
     shadow,
 }) => {
+    const theme = useThemeMaker({primary:color, status:state})
+
     const BUTTON_STYLE = {
         width: width,
         maxWidth: maxWidth,
@@ -32,18 +34,17 @@ export const Button = ({
     }
 
     return (
-        <Color primary={color} status={state}>
-            <ButtonPaper
-                styles={shadows.default}
-                borderRadius={rad.default}
-                onPress={onPress}
-                contentStyle={BUTTON_STYLE}
-                labelStyle={BUTTON_STATES}
-                style={[shadow && shadows.default, BUTTON_STYLE]}
-                mode={type}
-                compact={true}
-            >{children}</ButtonPaper>
-        </Color>
+        <ButtonPaper
+            theme={theme}
+            styles={shadows.default}
+            borderRadius={rad.default}
+            onPress={onPress}
+            contentStyle={BUTTON_STYLE}
+            labelStyle={BUTTON_STATES}
+            style={[shadow && shadows.default, BUTTON_STYLE]}
+            mode={type}
+            compact={true}
+        >{children}</ButtonPaper>
     );
 };
 
