@@ -1,13 +1,13 @@
 import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
-import ImageButton from "../../../ottery-ui/buttons/ImageButton";
+import ImageButton from "../../../../ottery-ui/buttons/ImageButton";
 import { FriendReqeust } from "./FriendRequest";
 import styled from "styled-components";
-import { radius } from "../../../ottery-ui/styles/radius";
+import { radius } from "../../../../ottery-ui/styles/radius";
 import { useEffect, useMemo, useState } from "react";
 import {getInfo} from "../../user/userApi";
-import { margin } from "../../../ottery-ui/styles/margin";
+import { margin } from "../../../../ottery-ui/styles/margin";
 import {Time} from "../../../ottery-ui/text/Time";
-import { colors } from "../../../ottery-ui/styles/colors";
+import { colors } from "../../../../ottery-ui/styles/colors";
 
 const MainNotif = styled.div`
     display: flex;
