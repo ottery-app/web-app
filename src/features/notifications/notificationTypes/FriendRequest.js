@@ -1,5 +1,5 @@
 import { Main } from "../../../components/Main";
-import Link from "../../../ottery-ui/text/Link";
+import Link from "../../../../ottery-ui/text/Link";
 import paths from "../../../router/paths";
 import {useNavigator} from "../../../router/useNavigator";
 import { useEffect } from "react";
