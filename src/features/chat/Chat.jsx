@@ -2,7 +2,7 @@
 import { StyleSheet, View } from "react-native";
 
 import MessageBox from "../../../ottery-ui/chat/MessageBox";
-import { MessageInput } from "../../../ottery-ui/chat/MessageInput";
+import { MessageInput } from "../../../ottery-ui/input/MessageInput";
 import { colors } from "../../../ottery-ui/styles/colors";
 // import { useScrollTo } from "../../hooks/useScrollTo";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -33,7 +33,7 @@ function Chat({ route }) {
   }
 
   return (
-    <ScreenWrapper withScrollView={false} style={styles.container}>
+    <ScreenWrapper withScrollView={false}>
       <ScreenWrapper>
         <ChatBox>
           {messages?.map((message, i) => (
@@ -55,14 +55,10 @@ function Chat({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: margin.large,
-    paddingRight: margin.large,
-    paddingTop: margin.large,
-    paddingBottom: margin.large,
-  },
   inputContainer: {
-    marginTop: margin.large,
+    marginBottom: margin.small,
+    marginRight: margin.small,
+    marginLeft: margin.small,
     background: colors.background.primary,
   },
 });

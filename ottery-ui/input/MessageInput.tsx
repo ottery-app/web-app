@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { IconButton } from "react-native-paper";
-import TextInput from "../input/TextInput";
+import TextInput from "./TextInput";
 
 import { margin } from "../styles/margin";
 import { clickable } from "../styles/clickable";

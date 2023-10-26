@@ -1,4 +1,3 @@
-import { DEFAULT_IMAGES } from "../../../ottery-ui/image/Image";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -7,6 +6,7 @@ import { useUserClient } from "../user/useUserClient";
 import ChatListItem from "../../../ottery-ui/chat/ChatListItem";
 import { Chat as ChatDto } from "../../../ottery-ui/chat/types/chat";
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
+import { pfp } from "../../../assets/icons";
 
 function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   const { useUserId } = useAuthClient();
@@ -28,7 +28,7 @@ function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   return (
     <ChatListItem
       onPress={selectChat}
-      senderImage={flagUser?.pfp.src || DEFAULT_IMAGES.pfp}
+      senderImage={flagUser?.pfp.src || pfp.src}
       senderName={
         flagUser ? `${flagUser.firstName} ${flagUser.lastName}` : undefined
       }

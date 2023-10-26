@@ -16,15 +16,15 @@ interface MessageBoxProps {
 function MessageBox({ self = false, date, content }: MessageBoxProps) {
   return (
     <View style={[styles.container, self && { alignItems: "flex-end" }]}>
-      <Time time={date} type={DateFormat.time} />
       <View
         style={[
           styles.content,
-          self && { backgroundColor: colors.secondary.light },
+          self && { backgroundColor: colors.secondary.main },
         ]}
       >
         <Text>{content}</Text>
       </View>
+      <Time color={colors.text.tertiary} time={date} type={DateFormat.time} />
     </View>
   );
 }
@@ -32,7 +32,7 @@ function MessageBox({ self = false, date, content }: MessageBoxProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 10,
+    gap: margin.small
   },
   content: {
     padding: margin.medium,

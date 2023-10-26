@@ -13,7 +13,7 @@ function ChatBox({ children }: ChatBoxProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: margin.small,
+    margin: margin.small
   },
 });
 

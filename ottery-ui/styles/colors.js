@@ -8,7 +8,6 @@
 export const colors = {
   //blue
   primary: {
-    light: undefined,
     main: "#89CFF0",
     dark: "#71abc7",
     contrastText: "white",
@@ -16,38 +15,33 @@ export const colors = {
 
   //brown
   secondary: {
-    light: "#e3c69a",
     main: "#DFB87E",
     dark: "#b89767",
     contrastText: "black",
   },
 
-  //NavyBlue
+  //white
   tertiary: {
-    light: "#1974D2",
-    main: "#1357BE",
-    dark: "#000080",
-    contrastText: "white",
+    main: "#ffffff",
+    dark: "#cccccc",
+    contrastText: "black",
   },
 
   //red
   error: {
-    light: undefined,
     main: "#ff5269",
     dark: "#cf0000",
-    contrastText: "black",
+    contrastText: "white",
   },
 
   //green
   success: {
-    light: undefined,
     main: "#4BB543",
     dark: "#008200",
     contrastText: "white",
   },
 
   disabled: {
-    light: "#c2c2c2",
     main: "#9c9c9c",
     dark: "black",
     contrastText: "black",

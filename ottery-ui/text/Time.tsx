@@ -6,7 +6,7 @@ export enum DateFormat {
   md = "month-day",
 }
 
-export function Time({ time, type }) {
+export function Time({ time, type, color=undefined }) {
   time = new Date(time);
 
   const year = time.getFullYear();
@@ -27,5 +27,5 @@ export function Time({ time, type }) {
     time = time.toString();
   }
 
-  return <Text>{time}</Text>
+  return <Text style={{color:color}}>{time}</Text>
 }
