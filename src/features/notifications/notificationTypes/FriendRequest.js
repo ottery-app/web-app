@@ -4,7 +4,7 @@ import paths from "../../../router/paths";
 import {useNavigator} from "../../../router/useNavigator";
 import { useEffect } from "react";
 
-export function FriendReqeust({notif, setCallback}) {
+export function FriendRequest({notif, setCallback}) {
     const navigator = useNavigator();
 
     useEffect(()=>{
