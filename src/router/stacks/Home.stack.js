@@ -7,6 +7,7 @@ import { pfp } from "../../../assets/icons";
 import { screenOptions } from "./screenOptions";
 import { LogoTitle } from "./LogoTitle";
 import { Home } from "../../features/home/Home";
+import {Notifications} from "../../features/notifications/notifications";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,7 @@ export function HomeStack() {
         >
           {props => 
             <AuthGuard loggedin activated>
-              <View><Text>temp</Text></View>
+              <Notifications/>
             </AuthGuard>
           }
       </Stack.Screen>

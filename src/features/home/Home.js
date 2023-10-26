@@ -22,7 +22,12 @@ export function Home() {
                 icon: "message",
                 title: "Messages",
                 onPress: ()=>{console.log("goto messages")}
-            }
+            },
+            {
+                icon: "NONE",
+                title: "Notifications",
+                onPress: ()=>{navigator(paths.main.social.notifications)}
+            },
         ];
 
         if (userState === role.GUARDIAN) {
