@@ -3,8 +3,8 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { getInfo } from "../../user/userApi";
 import { FriendRequest } from "./FriendRequest";
-import { margin } from "../../../ottery-ui/styles/margin";
-import { Time } from "../../../ottery-ui/text/Time";
+import { margin } from "../../../../ottery-ui/styles/margin";
+import { Time } from "../../../../ottery-ui/text/Time";
 import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
 import { Colors } from "react-native-paper";
 

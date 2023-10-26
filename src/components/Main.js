@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
-import { margin } from "../ottery-ui/styles/margin";
+import { margin } from "../../ottery-ui/styles/margin";
 
 const styles = StyleSheet.create({
   base: {
