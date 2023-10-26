@@ -6,7 +6,7 @@ import { radius } from "../../../../ottery-ui/styles/radius";
 import { useEffect, useMemo, useState } from "react";
 import {getInfo} from "../../user/userApi";
 import { margin } from "../../../../ottery-ui/styles/margin";
-import {Time} from "../../../ottery-ui/text/Time";
+import {Time} from "../../../../ottery-ui/text/Time";
 import { colors } from "../../../../ottery-ui/styles/colors";
 
 const MainNotif = styled.div`
