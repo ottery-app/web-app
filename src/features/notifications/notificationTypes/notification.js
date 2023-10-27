@@ -6,8 +6,7 @@ import { FriendRequest } from "./FriendRequest";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import { Time } from "../../../../ottery-ui/text/Time";
 import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
-import { Colors } from "react-native-paper";
-
+import { colors } from "../../../../ottery-ui/styles/colors";
 const styles = StyleSheet.create({
   mainNotif: {
     flex: 1,
@@ -66,7 +65,11 @@ export function Notification({ raw }) {
             style={{ width: size, height: size, borderRadius: size / 2 }}
           />
         )}
-        contentStyle={{ backgroundColor: Colors.lightBlue500 }}
+        contentStyle={{
+          main: colors.background.primary,
+          dark: colors.background.primary,
+          contrastText: colors.text.primary,
+        }}
         style={{ borderRadius: 0 }}
         onPress={callback}
       >

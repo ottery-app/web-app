@@ -12,6 +12,8 @@ const MultiFieldHeader = ({
   radius = 0,
   centerComponent = null,
 }) => {
+  console.log(tabs);
+  console.log("Selected tab:", tab);
   const head = Array.isArray(title) ? title : [title];
   const name = head[0].split(" ");
 
