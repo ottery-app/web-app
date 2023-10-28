@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import MultiFieldHeader from "../../../ottery-ui/headers/MultiFieldHeader"; // Make sure to import the MultiFieldHeader component
+import { MultiFieldHeader } from "../../../ottery-ui/headers/MultiFieldHeader"; // Make sure to import the MultiFieldHeader component
 
 const DummyPage = () => {
   const [selectedTab, setSelectedTab] = useState("Tab 1");
@@ -15,15 +15,14 @@ const DummyPage = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 10 }}>
       <MultiFieldHeader
         title="John Doe"
         src="pfp"
         tabs={["dumm", "Tab 2", "Tab 3"]}
         tab={selectedTab}
         onTab={handleTabChange}
-        radius={100}
-        centerComponent={<Text>This is the of the page.</Text>}
+        radius={0}
       />
 
       {/* The rest of your page content goes here */}
