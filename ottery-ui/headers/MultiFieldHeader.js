@@ -7,6 +7,9 @@ import { margin } from "../styles/margin";
 import TabField from "../buttons/tabs/TabField";
 import { TabButtonTypes } from "../buttons/tabs/TabButton";
 import { IconButton } from "react-native-paper";
+import Image from "../image/Image";
+
+
 const IMAGE_RAD = styles.clickable.minHeight;
 
 const Header = styled.div`
@@ -66,7 +69,7 @@ export function MultiFieldHeader({
   //style
   radius = rad.square,
 }) {
-  console.log(tabs)
+  console.log(tabs);
   const head = Array.isArray(title) ? title : [title];
   const name = head[0].split(" ");
   return (
@@ -74,13 +77,13 @@ export function MultiFieldHeader({
       <Header radius={radius}>
         <Top>
           <UserDetails>
-            {/* <Image
+            <Image
               src={src}
               alt={alt}
               width={IMAGE_RAD}
               height={IMAGE_RAD}
               radius={rad.round}
-            /> */}
+            />
             <Title>
               {name[0].charAt(0).toUpperCase() + name[0].slice(1)}
               <br />
