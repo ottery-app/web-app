@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { getInfo } from "../../user/userApi";
 import { FriendRequest } from "./FriendRequest";
@@ -7,6 +7,10 @@ import { margin } from "../../../../ottery-ui/styles/margin";
 import { Time } from "../../../../ottery-ui/text/Time";
 import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
 import { colors } from "../../../../ottery-ui/styles/colors";
+import Image from "../../../../ottery-ui/image/Image";
+import { image } from "../../../../ottery-ui/styles/image";
+import { radius } from "../../../../ottery-ui/styles/radius";
+
 const styles = StyleSheet.create({
   mainNotif: {
     flex: 1,
@@ -53,6 +57,8 @@ export function Notification({ raw }) {
     return null;
   }
 
+  console.log(user?.pfp)
+
   if (err) {
     console.error(err);
     return null;
@@ -61,8 +67,8 @@ export function Notification({ raw }) {
       <Button
         icon={({ color, size }) => (
           <Image
-            source={{ uri: user?.pfp?.src }}
-            style={{ width: size, height: size, borderRadius: size / 2 }}
+            src = {{src : user?.pfp?.src, aspectRatio:user?.pfp?.aspectRatio || 1 }}
+            width={image.smallProfile}
           />
         )}
         contentStyle={{

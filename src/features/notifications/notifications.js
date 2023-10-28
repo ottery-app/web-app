@@ -9,8 +9,6 @@ export function Notifications() {
     const {useGetNotifications} = useNotificationClient();
     const {data:notifications, status: status} = useGetNotifications({inputs:[userId]});
 
-    console.log(notifications)
-
     return (
         <Main>
             {notifications?.data.map(((notif, i)=>{

@@ -19,21 +19,28 @@ const Image = ({
   }, [src]);
 
   return (
-    <RNImage
-      source={imgSrc}
-      alt={alt}
-      style={{ 
-          resizeMode: "cover",
-          borderRadius: radius, 
-          opacity, 
-          filter: { grayscale },
-          width: width,
-          height: height,
-          aspectRatio: aspectRatio || imgAspect,
-          maxWidth,
-        }}
-      onClick={onClick}
-    />
+    <View
+      style={{
+        overflow: 'hidden',
+        borderRadius: radius,
+      }}
+    >
+      <RNImage
+        source={imgSrc}
+        alt={alt}
+        style={{ 
+            resizeMode: "cover",
+            borderRadius: radius, 
+            opacity, 
+            filter: { grayscale },
+            width: width,
+            height: height,
+            aspectRatio: aspectRatio || imgAspect,
+            maxWidth,
+          }}
+        onClick={onClick}
+      />
+    </View>
   );
 };
 
