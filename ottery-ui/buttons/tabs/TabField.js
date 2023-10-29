@@ -2,7 +2,7 @@ import useColors from "../../styles/useColors";
 import { colors } from "../../styles/colors";
 import { TabButton } from "./TabButton";
 import { useState } from "react";
-import styled from "styled-components";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 function generateAutos(length) {
   let auto = "";
@@ -12,13 +12,14 @@ function generateAutos(length) {
   return auto;
 }
 
-const Main = styled.div`
-  position: relative;
-  width: 100%;
-  display: grid;
-  grid-template-columns: ${(props) => generateAutos(props.children.length)};
-  grid-template-rows: auto;
-`;
+const styles = StyleSheet.create({
+  main: {
+    position: "relative",
+    width: "100%",
+    display: "grid",
+    gridTemplateRows: "auto",
+  },
+});
 
 export default function TabField({
   color = colors.secondary,
@@ -31,12 +32,14 @@ export default function TabField({
   color = useColors({ color });
 
   return (
-    <Main color={color}>
+    <View
+      style={[styles.main, { gridTemplateColumns: generateAutos(tabs.length) }]}
+    >
       {tabs.map((tab) => (
         <TabButton
           color={color}
           key={tab}
-          onClick={() => {
+          onTab={() => {
             setCurrent(tab);
             onTab(tab);
           }}
@@ -46,6 +49,6 @@ export default function TabField({
           {tab}
         </TabButton>
       ))}
-    </Main>
+    </View>
   );
 }

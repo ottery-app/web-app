@@ -16,7 +16,8 @@ export function Home() {
             {
                 icon: "account",
                 title: "Account",
-                onPress: ()=>{console.log("goto account")}
+                // onPress: ()=>{console.log("goto account")}
+                onPress: ()=>{navigator(paths.main.user.dummyPage)}
                 
             },
             {

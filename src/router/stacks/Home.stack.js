@@ -8,6 +8,7 @@ import { screenOptions } from "./screenOptions";
 import { LogoTitle } from "./LogoTitle";
 import { Home } from "../../features/home/Home";
 import { Notifications } from "../../features/notifications/notifications";
+import DummyPage from "../../features/user/dummy";
 
 const Stack = createNativeStackNavigator();
 
@@ -160,6 +161,20 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <Text>temp</Text>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.user.dummyPage}
+        options={{
+          title: "dummy page",
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <DummyPage />
             </View>
           </AuthGuard>
         )}

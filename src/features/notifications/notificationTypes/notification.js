@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { getInfo } from "../../user/userApi";
 import { FriendRequest } from "./FriendRequest";
 import { margin } from "../../../../ottery-ui/styles/margin";
@@ -9,23 +8,25 @@ import { dtoAssign, notification, NotificationDto } from "@ottery/ottery-dto";
 import { colors } from "../../../../ottery-ui/styles/colors";
 import Image from "../../../../ottery-ui/image/Image";
 import { image } from "../../../../ottery-ui/styles/image";
-import { radius } from "../../../../ottery-ui/styles/radius";
 
 const styles = StyleSheet.create({
   mainNotif: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
     padding: margin.small,
+    margin: margin.medium,
   },
   head: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "flex-start",
     width: "100%",
+    margin: margin.large, //TODO: we can import the multpx here
   },
   from: {
     fontWeight: "bold",
+    color: "black",
   },
 });
 
@@ -57,20 +58,14 @@ export function Notification({ raw }) {
     return null;
   }
 
-  console.log(user?.pfp)
+  console.log(user?.pfp);
 
   if (err) {
     console.error(err);
     return null;
   } else {
     return (
-      <Button
-        icon={({ color, size }) => (
-          <Image
-            src = {{src : user?.pfp?.src, aspectRatio:user?.pfp?.aspectRatio || 1 }}
-            width={image.smallProfile}
-          />
-        )}
+      <TouchableOpacity
         contentStyle={{
           main: colors.background.primary,
           dark: colors.background.primary,
@@ -80,6 +75,15 @@ export function Notification({ raw }) {
         onPress={callback}
       >
         <View style={styles.mainNotif}>
+          <Image
+            src={{
+              src: user?.pfp?.src,
+              aspectRatio: user?.pfp?.aspectRatio || 1,
+            }}
+            radius={image.smallProfile}
+            width={image.smallProfile}
+            height={image.smallProfile}
+          />
           <View style={styles.head}>
             <Text>
               <Text style={styles.from}>
@@ -89,14 +93,13 @@ export function Notification({ raw }) {
             <Text>
               <Time time={notif.time} type={"date"} />
             </Text>
-          </View>
-          <View>
-            {" "}
-            {/* This is just here in case an internal body is just a string, it protects the structure a bit */}
-            {body}
+            <View>
+              {/* This is just here in case an internal body is just a string, it protects the structure a bit */}
+              {body}
+            </View>
           </View>
         </View>
-      </Button>
+      </TouchableOpacity>
     );
   }
 }

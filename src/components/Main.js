@@ -5,13 +5,12 @@ import { margin } from "../../ottery-ui/styles/margin";
 const styles = StyleSheet.create({
   base: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    flexWrap: "wrap",
+    // justifyContent: "center",
+    // width: "100%",
   },
   main: {
-    boxSizing: "border-box",
+    // boxSizing: "border-box",
     padding: margin.small,
   },
   marginlessMain: {},

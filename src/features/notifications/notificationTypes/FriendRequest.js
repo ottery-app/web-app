@@ -3,6 +3,7 @@ import { Link } from "../../../../ottery-ui/text/Link";
 import paths from "../../../router/paths";
 import { useNavigator } from "../../../router/useNavigator";
 import { useEffect } from "react";
+import { Text } from "react-native";
 
 export function FriendRequest({ notif, setCallback }) {
   const navigator = useNavigator();
@@ -14,8 +15,8 @@ export function FriendRequest({ notif, setCallback }) {
   }, [notif]);
 
   return (
-    <Main>
+    <Text>
       <Link>{notif.message}</Link>
-    </Main>
+    </Text>
   );
 }
