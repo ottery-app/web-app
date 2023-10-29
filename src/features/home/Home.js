@@ -7,7 +7,7 @@ import { role } from "@ottery/ottery-dto";
 import { Frame } from "../../../ottery-ui/containers/Frame";
 import { usePing } from "../../../ottery-ping";
 import { message, pfp } from "../../../assets/icons";
-
+import paths from "../../router/paths";
 export function Home() {
     const navigator = useNavigator();
     const userState = useSelector(selectUserState);
