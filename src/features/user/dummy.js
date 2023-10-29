@@ -17,7 +17,6 @@ const DummyPage = () => {
     <View style={{ flex: 10 }}>
       <MultiFieldHeader
         title="John Doe"
-        src="pfp"
         tabs={["dumm", "Tab 2", "Tab 3"]}
         tab={selectedTab}
         onTab={handleTabChange}

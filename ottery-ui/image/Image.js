@@ -34,7 +34,7 @@ const Image = ({
       }}
     >
       <RNImage
-        source={defaultSrc[src] ?? imgSrc}
+        source={defaultSrc.hasOwnProperty(src) ? defaultSrc[src].src : imgSrc}
         alt={alt}
         style={{
           resizeMode: "cover",
