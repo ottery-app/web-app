@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextInput as InternalTextInput } from 'react-native-paper';
 import { colors } from '../styles/colors';
 import { makeValidator, useValidator } from './useValidator';
-import { Color } from '../styles/Color';
+import { useThemeMaker } from '../styles/Color';
 
 export default function TextInput({
     color=colors.primary,
@@ -17,17 +17,20 @@ export default function TextInput({
     validator=makeValidator(status),
 }) {
     const validatorStatus = useValidator(validator, value, delay);
+    const theme = useThemeMaker({primary: color, status: status || validatorStatus})
 
     return(
-        <Color primary={color} status={status||validatorStatus}>
-            <InternalTextInput
-                secureTextEntry={!!password}
-                mode={mode}
-                placeholder={placeholder}
-                label={label}
-                value={value}
-                onChangeText={text => onChange(text)}
-            />
-        </Color>
+        <InternalTextInput
+            theme={theme}
+            secureTextEntry={!!password}
+            mode={mode}
+            placeholder={placeholder}
+            label={label}
+            value={value}
+            style={{
+                width:"100%"
+            }}
+            onChangeText={text => onChange(text)}
+        />
     );
 }

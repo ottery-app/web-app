@@ -1,10 +1,14 @@
-import { createContext, useCallback, useContext, useState, useMemo } from "react";
-// import { MainHeaderHeight } from '../../ottery-ui/headers/MainHeader';
-//import { useAuthClient } from "../src/features/auth/useAuthClient";
+import { 
+    createContext,
+    useCallback,
+    useContext,
+    useState
+} from "react";
 
-// const Alert = forwardRef(function Alert(props, ref) {
-//     return <MuiAlert sx={{ width: '100%' }} elevation={6} ref={ref} variant="filled" {...props} />;
-// });
+import { Snackbar, Button, useTheme } from 'react-native-paper';
+import useColors from "../ottery-ui/styles/useColors";
+import { colors } from "../ottery-ui/styles/colors";
+
 
 const PingContext = createContext();
 
@@ -25,14 +29,7 @@ const BASE_OPTIONS = {
 export function PingProvider({children}) {
     //const sesh = useAuthClient().useSesh();
     const [options, setOptions] = useState(BASE_OPTIONS);
-
-    // const margin = useMemo(()=>{
-    //     if (sesh.loggedin && sesh.activated) {
-    //         return MainHeaderHeight;
-    //     } else {
-    //         return 0;
-    //     }
-    // }, [sesh]);
+    const color = useColors({status: options.severity});
 
     const success = useCallback((message) => {
         console.log(message);
@@ -42,6 +39,7 @@ export function PingProvider({children}) {
             open: true,
             message,
             severity: AlertColor.success,
+            label: "close",
         }));
     }, []);
     
@@ -52,7 +50,8 @@ export function PingProvider({children}) {
             ...prevOptions,
             open: true,
             message,
-            severity: AlertColor.info, // Change to info
+            severity: AlertColor.info,
+            label: "close",
         }));
     }, []);
     
@@ -64,6 +63,7 @@ export function PingProvider({children}) {
             open: true,
             message,
             severity: AlertColor.warning,
+            label: "close",
         }));
     }, []);
     
@@ -75,6 +75,7 @@ export function PingProvider({children}) {
             open: true,
             message,
             severity: AlertColor.error,
+            label: "close",
         }));
     }, []);
     
@@ -98,29 +99,27 @@ export function PingProvider({children}) {
                 info,
             }}
         >
-            {/* <Snackbar 
-                anchorOrigin={{horizontal:"left", vertical:"top"}} 
-                open={options.open} 
-                autoHideDuration={options.autoHideDuration}
-                onClose={handleClose}
-                style={{ marginTop: margin }}
-            >
-                <Alert 
-                    onClose={handleClose}
-                    severity={options.severity} 
-                >
-                    {options.message}
-                </Alert>
-            </Snackbar> */}
             {children}
+            <Snackbar
+                visible={options.open}
+                onDismiss={handleClose}
+                duration={options.autoHideDuration}
+                action={{
+                    label: options.label,
+                    textColor: color?.contrastText,
+                    onPress: handleClose,
+                }}
+                style={{
+                    backgroundColor: color?.main,
+                    color: color?.contrastText,
+                }}
+            >
+                {options.message}
+            </Snackbar>
         </PingContext.Provider>
     );
 }
 
 export function usePing() {
     return useContext(PingContext);
-}
-
-export function useUpdateMargin() {
-    return useContext(PingContext).setMargin;
 }
