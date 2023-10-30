@@ -54,7 +54,7 @@ export default function Register() {
                         onChange={(text)=>{setFirstName(text)}}
                     />
                     <TextInput
-                        label="First name"
+                        label="Last name"
                         value={lastName}
                         state={"default"}
                         onChange={(text)=>{setLastName(text)}}

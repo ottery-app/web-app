@@ -7,7 +7,7 @@ import { role } from "@ottery/ottery-dto";
 import { Frame } from "../../../ottery-ui/containers/Frame";
 import { usePing } from "../../../ottery-ping";
 import { message, pfp } from "../../../assets/icons";
-
+import paths from "../../router/paths";
 export function Home() {
     const navigator = useNavigator();
     const userState = useSelector(selectUserState);
@@ -18,13 +18,19 @@ export function Home() {
             {
                 icon: {uri:pfp.src},
                 title: "Account",
-                onPress: ()=>{error("goto account not set up")}
+                onPress: ()=>{navigator(paths.main.user.dummyPage)}
             },
             {
                 icon: {uri:message.src},
                 title: "Messages",
-                onPress: ()=>{error("goto messages not set up")}
-            }
+                onPress: ()=>{console.log("goto messages")}
+            },
+            {
+                icon: "NONE",
+                title: "Notifications",
+                onPress: ()=>{navigator(paths.main.social.notifications)}
+            },
+
         ];
 
         if (userState === role.GUARDIAN) {

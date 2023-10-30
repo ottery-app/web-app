@@ -67,9 +67,13 @@ export default class Clide {
                 validateWith(config.param_validators[key], config.params[key]);
             }
 
-            //make request
+            const oldParams = config.params;
+            config.url = makeUrl(config.url, config.params);
+            config.params = undefined;
+
             let res = await that.instance.request(config);
 
+            config.params = oldParams;
             return await config.out_pipeline(res, config);
         }
     }
@@ -109,5 +113,32 @@ export default class Clide {
 
     makeGetUri() {
         throw new Error('not yet supported');
+    }
+}
+
+function makeUrl(dest, props) {
+    if (props) {
+        let url = dest;
+        let tail = "?";
+
+        Object.entries(props).forEach((arr)=>{
+            if (arr[1]) {
+                if (url.indexOf(":" + arr[0]) === -1) {
+                    if (Array.isArray(arr[1])) {
+                        for (let i in arr[1]) {
+                            tail = tail + arr[0] + "[]=" + arr[1][i] + "&";
+                        }
+                    } else {
+                        tail = tail + arr[0] + "=" + arr[1] + "&";
+                    }
+                } else {
+                    url = url.replaceAll(":" + arr[0], arr[1]);
+                }
+            }
+        });
+
+        return url + ((tail.length > 1) ? tail.slice(0, -1) : "");
+    } else {
+        return dest;
     }
 }
