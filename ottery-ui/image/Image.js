@@ -12,14 +12,14 @@ const defaultSrc = {
 const Image = ({
   src,
   alt,
-  radius,
+  radius=undefined,
   width = radius,
   height = radius,
-  maxWidth,
-  onClick,
+  maxWidth=undefined,
+  onClick=undefined,
   opacity = 1,
   grayscale = "0%",
-  aspectRatio,
+  aspectRatio=undefined,
 }) => {
   const [imgSrc, imgAspect] = useMemo(() => {
     const aspectRatio = aspectRatio || src?.aspectRatio;

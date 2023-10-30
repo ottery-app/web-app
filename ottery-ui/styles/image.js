@@ -1,7 +1,7 @@
 export const image = {
-  largeProfile: "150px",
-  mediumProfile: "80px",
-  smallProfile: "44px",
+  largeProfile: 150,
+  mediumProfile: 80,
+  smallProfile: 44,
 };
 
 export function updateImage(name, size) {
@@ -9,9 +9,3 @@ export function updateImage(name, size) {
     image[name] = size;
   }
 }
-export const imageStyles = {
-  clickable: {
-    medHeight: image.mediumProfile,
-    minHeight: image.smallProfile,
-  },
-};
