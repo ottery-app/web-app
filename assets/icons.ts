@@ -1,24 +1,26 @@
-export const closedMailWithHalo = {
+import { ImageAsset } from "./ImageAsset";
+
+export const closedMailWithHalo: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg",
     aspectRatio: 1,
 };
 
-export const pfp = {
+export const pfp: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/pfp.svg",
     aspectRatio: 1,
 }
 
-export const x = {
+export const x: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/x.svg",
     aspectRatio: 1,
 }
 
-export const check = {
+export const check: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/check.svg",
     aspectRatio: 1,
 }
 
-export const message = {
+export const message: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/message.svg",
     aspectRatio: 1,
 }

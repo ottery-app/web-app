@@ -12,6 +12,8 @@ import ChatBox from "./components/ChatBox";
 import { margin } from "../../../ottery-ui/styles/margin";
 import ChatBoxWrapper from "./components/ChatBoxWrapper";
 import { Button } from "react-native-paper";
+import { useUserClient } from "../user/useUserClient";
+import { IconHeader } from "../../../ottery-ui/headers/IconHeader";
 
 function Chat({ route }) {
   const { chatId } = route.params;
@@ -21,6 +23,8 @@ function Chat({ route }) {
     refetchInterval: API_ENV.query_delta,
     refetchIntervalInBackground: true,
   });
+
+
   const sendMessage = useSendMessage();
   const { useUserId } = useAuthClient();
   const selfId = useUserId();
@@ -30,6 +34,12 @@ function Chat({ route }) {
   const { isSuccess } = getChat;
   const messages = getChat?.data?.data.messages || [];
   const messageCount = messages.length;
+
+  const otherId = getChat?.data?.data.users.filter((id)=>selfId!==id)[0];
+  const otherUser = useUserClient().useGetUserInfo({
+    inputs: [otherId],
+    enabled: !!otherId
+  })
 
   const [isNewMessage, setIsNewMessage] = useState(false);
   const isInitialMessagesRendered = useRef(false);
@@ -72,6 +82,10 @@ function Chat({ route }) {
 
   return (
     <ScreenWrapper withScrollView={false}>
+      <IconHeader
+        src={otherUser?.data?.data[0].pfp}
+        title={otherUser?.data?.data[0].firstName + " " + otherUser?.data?.data[0].lastName}
+      />
       <ChatBoxWrapper ref={scrollViewRef} onScroll={handleScroll}>
         <ChatBox>
           {messages?.map((message, i) => (

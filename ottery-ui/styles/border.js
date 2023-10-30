@@ -5,9 +5,9 @@ export {updateRadius} from "./radius";
  * the border options
  */
 export const border = {
-    default: "2px",
-    thin: "1px",
-    thick: "3px",
+    default: 2,
+    thin: 1,
+    thick: 3,
     radius: radius,
 }
 
