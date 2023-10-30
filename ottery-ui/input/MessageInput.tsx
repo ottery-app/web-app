@@ -9,7 +9,7 @@ import { clickable } from "../styles/clickable";
 export function MessageInput({ onSend }) {
   const [message, setMessage] = useState("");
 
-  function handleTextInputChange(text) {
+  function handleTextInputChange(text: string) {
     setMessage(text);
   }
 

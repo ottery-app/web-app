@@ -32,7 +32,8 @@ function MessageBox({ self = false, date, content }: MessageBoxProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: margin.small
+    flexBasis: "auto",
+    gap: margin.small,
   },
   content: {
     padding: margin.medium,
