@@ -21,7 +21,7 @@ export function Home() {
   const buttons = useMemo(() => {
     const buttons = [
       {
-        icon: { url: pfp.src },
+        icon: { uri: pfp.src },
         title: "Account",
         onPress: () => {
           navigator(paths.main.user.dummyPage);
@@ -31,6 +31,13 @@ export function Home() {
         icon: { uri: message.src },
         title: "Messages",
         onPress: navigateToMessages,
+      },
+      {
+        icon: "NONE",
+        title: "Notifications",
+        onPress: () => {
+          navigator(paths.main.social.notifications);
+        },
       },
     ];
 

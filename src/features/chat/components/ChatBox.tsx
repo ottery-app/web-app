@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { margin } from "../styles/margin";
+import { margin } from "../../../../ottery-ui/styles/margin";
 import { ReactNode } from "react";
 
 interface ChatBoxProps {
@@ -13,7 +13,7 @@ function ChatBox({ children }: ChatBoxProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: margin.small
+    margin: margin.small,
   },
 });
 

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import MessageBox from "../../../ottery-ui/chat/MessageBox";
+import MessageBox from "./components/MessageBox";
 import { MessageInput } from "../../../ottery-ui/input/MessageInput";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "./useChatClient";
 import { API_ENV } from "../../env/api.env";
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
-import ChatBox from "../../../ottery-ui/chat/ChatBox";
+import ChatBox from "./components/ChatBox";
 import { margin } from "../../../ottery-ui/styles/margin";
 import ChatBoxWrapper from "./components/ChatBoxWrapper";
 import { Button } from "react-native-paper";

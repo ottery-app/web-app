@@ -3,8 +3,8 @@ import paths from "../../router/paths";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "./useChatClient";
 import { useUserClient } from "../user/useUserClient";
-import ChatListItem from "../../../ottery-ui/chat/ChatListItem";
-import { Chat as ChatDto } from "../../../ottery-ui/chat/types/chat";
+import ChatListItem from "./components/ChatListItem";
+import { Chat as ChatDto } from "./components/types/chat";
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import { pfp } from "../../../assets/icons";
 
@@ -47,7 +47,10 @@ function Messages() {
 
   return (
     <ScreenWrapper>
-      {chats && chats.map((chat: InstanceType<typeof ChatDto>) => <Chat key={chat._id} chat={chat} />)}
+      {chats &&
+        chats.map((chat: InstanceType<typeof ChatDto>) => (
+          <Chat key={chat._id} chat={chat} />
+        ))}
     </ScreenWrapper>
   );
 }

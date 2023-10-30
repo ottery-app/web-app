@@ -1,9 +1,9 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { radius } from "../styles/radius";
-import { colors } from "../styles/colors";
-import { margin } from "../styles/margin";
-import { shadows } from "../styles/shadow";
-import { DateFormat, Time } from "../text/Time";
+import { radius } from "../../../../ottery-ui/styles/radius";
+import { colors } from "../../../../ottery-ui/styles/colors";
+import { margin } from "../../../../ottery-ui/styles/margin";
+import { shadows } from "../../../../ottery-ui/styles/shadow";
+import { DateFormat, Time } from "../../../../ottery-ui/text/Time";
 
 const windowWidth = Dimensions.get("window").width;
 
