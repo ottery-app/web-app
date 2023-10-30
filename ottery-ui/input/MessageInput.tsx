@@ -27,6 +27,7 @@ export function MessageInput({ onSend }) {
       />
       <IconButton
         icon="send"
+        rippleColor="rgba(1, 1, 1, 0)"
         size={clickable.minHeight}
         onPress={handleSendMessage}
         style={styles.sendButton}
