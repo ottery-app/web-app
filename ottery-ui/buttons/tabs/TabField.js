@@ -2,7 +2,7 @@ import useColors from "../../styles/useColors";
 import { colors } from "../../styles/colors";
 import { TabButton } from "./TabButton";
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 function generateAutos(length) {
   let auto = "";

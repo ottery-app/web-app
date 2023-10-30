@@ -1,15 +1,16 @@
 import React from "react";
-import { imageStyles } from "../styles/image";
+import { image } from "../styles/image";
 import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import TabField from "../buttons/tabs/TabField";
 import { TabButtonTypes } from "../buttons/tabs/TabButton";
-import { IconButton } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import Image from "../image/Image";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
-const IMAGE_RAD = imageStyles.clickable.minHeight;
+const IMAGE_RAD = image.mediumProfile;
+//imageStyles.clickable.minHeight;
 
 const styles = StyleSheet.create({
   header: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     gap: margin.large,
     margin: margin.medium,
   },
-  title: { flex: 1 },
+  title: { flex: 1, alignItems: "center", justifyContent: "center", height:"100%" },
   settings: {
     flex: 1,
     width: "100%",
@@ -89,9 +90,7 @@ export function MultiFieldHeader({
               />
               <View style={styles.title}>
                 <Text>
-                  {name[0].charAt(0).toUpperCase() + name[0].slice(1)}
-                  <br />
-                  {name.splice(1)}
+                  {name[0].charAt(0).toUpperCase() + name[0].slice(1)} {name.splice(1)}
                 </Text>
               </View>
             </View>
