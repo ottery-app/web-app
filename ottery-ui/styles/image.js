@@ -9,8 +9,9 @@ export function updateImage(name, size) {
     image[name] = size;
   }
 }
-export const styles = {
+export const imageStyles = {
   clickable: {
-    minHeight: image.mediumProfile,
+    medHeight: image.mediumProfile,
+    minHeight: image.smallProfile,
   },
 };
