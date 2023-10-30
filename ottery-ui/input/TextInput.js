@@ -7,14 +7,15 @@ import { useThemeMaker } from '../styles/Color';
 export default function TextInput({
     color=colors.primary,
     value = "",
-    label,
-    placeholder, //used if you only want a placeholder
-    onChange,
-    delay,
-    mode="outlined",
-    password,
-    status,
-    validator=makeValidator(status),
+    label = undefined,
+    placeholder = undefined, //used if you only want a placeholder
+    onChange = undefined,
+    delay = undefined,
+    mode = "outlined",
+    password = undefined,
+    status = undefined,
+    style = {},
+    validator = makeValidator(status),
 }) {
     const validatorStatus = useValidator(validator, value, delay);
     const theme = useThemeMaker({primary: color, status: status || validatorStatus})
@@ -28,7 +29,8 @@ export default function TextInput({
             label={label}
             value={value}
             style={{
-                width:"100%"
+                width:"100%",
+                ...style
             }}
             onChangeText={text => onChange(text)}
         />

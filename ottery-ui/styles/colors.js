@@ -20,11 +20,11 @@ export const colors = {
     contrastText: "black",
   },
 
-  //NavyBlue
+  //white
   tertiary: {
-    main: "#1357BE",
-    dark: "#000080",
-    contrastText: "white",
+    main: "#ffffff",
+    dark: "#cccccc",
+    contrastText: "black",
   },
 
   //red

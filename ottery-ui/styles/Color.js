@@ -46,7 +46,7 @@ export function ThemeProvider({children}) {
     );
 }
 
-export function useThemeMaker({primary, status}) {
+export function useThemeMaker({primary=undefined, status=undefined}) {
     let theme = useTheme();
 
     primary = useColors({color: primary, status});
