@@ -1,21 +1,20 @@
-// import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 
 import MessageBox from "../../../ottery-ui/chat/MessageBox";
 import { MessageInput } from "../../../ottery-ui/input/MessageInput";
 import { colors } from "../../../ottery-ui/styles/colors";
-// import { useScrollTo } from "../../hooks/useScrollTo";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "./useChatClient";
 import { API_ENV } from "../../env/api.env";
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import ChatBox from "../../../ottery-ui/chat/ChatBox";
 import { margin } from "../../../ottery-ui/styles/margin";
+import ChatBoxWrapper from "./components/ChatBoxWrapper";
 
 function Chat({ route }) {
   const { chatId } = route.params;
   const { useGetChat, useSendMessage } = useChatClient();
-  // const [ref, scrollTo] = useScrollTo("instant");
   const getChat = useGetChat({
     inputs: [chatId],
     refetchInterval: API_ENV.query_delta,
@@ -24,9 +23,14 @@ function Chat({ route }) {
   const sendMessage = useSendMessage();
   const { useUserId } = useAuthClient();
   const selfId = useUserId();
-  const messages = getChat?.data?.data.messages;
 
-  // useEffect(scrollTo, [getChat]);
+  const scrollViewRef = useRef(null);
+
+  const messages = getChat?.data?.data.messages || [];
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: false });
+  }, [messages.length]);
 
   function send(message) {
     sendMessage.mutate([chatId, message]);
@@ -34,7 +38,7 @@ function Chat({ route }) {
 
   return (
     <ScreenWrapper withScrollView={false}>
-      <ScreenWrapper>
+      <ChatBoxWrapper ref={scrollViewRef}>
         <ChatBox>
           {messages?.map((message, i) => (
             <MessageBox
@@ -45,7 +49,7 @@ function Chat({ route }) {
             />
           ))}
         </ChatBox>
-      </ScreenWrapper>
+      </ChatBoxWrapper>
 
       <View style={styles.inputContainer}>
         <MessageInput onSend={send} />
