@@ -17,24 +17,27 @@ const Image = ({
   height = radius,
   maxWidth,
   onClick,
-  animation,
   opacity = 1,
   grayscale = "0%",
   aspectRatio,
 }) => {
   const [imgSrc, imgAspect] = useMemo(() => {
-    return [{ uri: src.src }, src.aspectRatio];
-  }, [src]);
+    const aspectRatio = aspectRatio || src?.aspectRatio;
+    src = defaultSrc.hasOwnProperty(src) ? defaultSrc[src].src : src?.src
+    return [src, aspectRatio];
+  }, [src, aspectRatio]);
 
   return (
     <View
       style={{
         overflow: "hidden",
         borderRadius: radius,
+        width: width,
+        height: height,
       }}
     >
       <RNImage
-        source={defaultSrc.hasOwnProperty(src) ? defaultSrc[src].src : imgSrc}
+        source={imgSrc}
         alt={alt}
         style={{
           resizeMode: "cover",
@@ -43,8 +46,9 @@ const Image = ({
           filter: { grayscale },
           width: width,
           height: height,
-          aspectRatio: aspectRatio || imgAspect,
+          aspectRatio: imgAspect,
           maxWidth,
+          resizeMode: 'cover', // Adjust the resizeMode as needed
         }}
         onClick={onClick}
       />
