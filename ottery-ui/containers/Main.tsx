@@ -20,11 +20,8 @@ export const MarginlessMain = Base;
 
 const styles = StyleSheet.create({
   base: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   main: {
-    padding: margin.small,
+    padding: margin.medium,
   },
 });

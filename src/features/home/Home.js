@@ -4,10 +4,10 @@ import { useNavigator } from "../../router/useNavigator";
 import { selectUserState } from "../auth/authSlice";
 import { useMemo } from "react";
 import { role } from "@ottery/ottery-dto";
-import { Frame } from "../../../ottery-ui/containers/Frame";
 import { usePing } from "../../../ottery-ping";
 import { message, pfp } from "../../../assets/icons";
 import paths from "../../router/paths";
+import { Main } from "../../../ottery-ui/containers/Main.tsx";
 
 export function Home() {
   const navigator = useNavigator();
@@ -52,8 +52,8 @@ export function Home() {
   }, [userState]);
 
   return (
-    <Frame>
+    <Main>
       <ButtonMenu buttons={buttons} />
-    </Frame>
+    </Main>
   );
 }
