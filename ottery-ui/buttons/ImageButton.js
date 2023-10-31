@@ -41,8 +41,7 @@ export function ImageButton({
     }, [left, state]);
 
     const rightImage = useMemo(()=>right && <Image height={clickable.minHeight} src={right} />, [right]);
-
-
+    
     return (
         <Button 
             onPress={onPress} 

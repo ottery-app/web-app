@@ -26,7 +26,6 @@ export const paths = {
         },
         user: {
             profile: "/user/:userId",
-            dummyPage: "/user/dummy"
         }
     },
     dropoff: {

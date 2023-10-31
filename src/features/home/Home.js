@@ -14,31 +14,27 @@ export function Home() {
   const userState = useSelector(selectUserState);
   const { error } = usePing();
 
-  function navigateToMessages() {
-    navigator(paths.main.social.messages);
-  }
-
   const buttons = useMemo(() => {
     const buttons = [
       {
         icon: { uri: pfp.src },
         title: "Account",
         onPress: () => {
-          navigator(paths.main.user.dummyPage);
+          navigator(paths.main.user.profile);
         },
       },
       {
         icon: { uri: message.src },
         title: "Messages",
-        onPress: navigateToMessages,
+        onPress: ()=>navigator(paths.main.social.messages),
       },
-      {
-        icon: "NONE",
-        title: "Notifications",
-        onPress: () => {
-          navigator(paths.main.social.notifications);
-        },
-      },
+      // {
+      //   icon: "NONE",
+      //   title: "Notifications",
+      //   onPress: () => {
+      //     navigator(paths.main.social.notifications);
+      //   },
+      // },
     ];
 
     if (userState === role.GUARDIAN) {
