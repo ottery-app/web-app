@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     gap: margin.large,
     margin: margin.medium,
   },
-  title: { flex: 1, alignItems: "center", justifyContent: "center", height:"100%" },
+  title: { flex: 1, alignItems: "center", justifyContent: "center", flexDirection:"row", height:"100%" },
   settings: {
     flex: 1,
     width: "100%",
@@ -58,15 +58,13 @@ export function MultiFieldHeader({
   //tabs
   tabs = [],
   tab = tabs[0],
-  onTab = () => {},
+  onTab = undefined,
   onSettings = null,
 
   //style
   radius = rad.square,
 }) {
-  console.log(tabs);
-  const head = Array.isArray(title) ? title : [title];
-  const name = head[0].split(" ");
+
   return (
     <>
       <View
@@ -90,7 +88,7 @@ export function MultiFieldHeader({
               />
               <View style={styles.title}>
                 <Text>
-                  {name[0].charAt(0).toUpperCase() + name[0].slice(1)} {name.splice(1)}
+                  {title}
                 </Text>
               </View>
             </View>
@@ -110,7 +108,7 @@ export function MultiFieldHeader({
           type={TabButtonTypes.upright}
           tabs={tabs}
           active={tab}
-          onTab={onTab}
+          onTab={onTab || function(){}}
         />
       </View>
     </>

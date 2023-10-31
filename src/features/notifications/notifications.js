@@ -1,4 +1,4 @@
-import { Main } from "../../components/Main";
+import { Main } from "../../../ottery-ui/containers/Main.tsx";
 import {Notification} from './notificationTypes/notification';
 import { useAuthClient } from "../auth/useAuthClient";
 import { useNotificationClient } from "./useNotificationsClient";

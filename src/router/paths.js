@@ -19,13 +19,11 @@ export const paths = {
             profile: "/child/:childId",
         },
         event: {
-            new: "/event/new",
-            info: "/event/info/:eventId",
             dash: "/event/dash/:eventId",
             signup: "/event/signup/:eventId"
         },
         user: {
-            profile: "/user/:userId",
+            profile: "/user/profile",
         }
     },
     dropoff: {

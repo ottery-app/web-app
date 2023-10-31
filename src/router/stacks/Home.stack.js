@@ -8,6 +8,7 @@ import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
 import { Notifications } from "../../features/notifications/notifications";
+import { UserProfile } from "../../features/user/UserProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -99,35 +100,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
-            </View>
-          </AuthGuard>
-        )}
-      </Stack.Screen>
-      <Stack.Screen
-        name={paths.main.event.new}
-        options={{
-          title: "New Event",
-        }}
-      >
-        {(props) => (
-          <AuthGuard loggedin activated>
-            <View>
-              <Text>temp</Text>
-            </View>
-          </AuthGuard>
-        )}
-      </Stack.Screen>
-      <Stack.Screen
-        name={paths.main.event.info}
-        options={{
-          title: "Event Info",
-        }}
-      >
-        {(props) => (
-          <AuthGuard loggedin activated>
-            <View>
-              <Text>temp</Text>
+              <UserProfile/>
             </View>
           </AuthGuard>
         )}
