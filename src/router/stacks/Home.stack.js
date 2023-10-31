@@ -9,6 +9,7 @@ import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
 import { Notifications } from "../../features/notifications/notifications";
 import { UserProfile } from "../../features/user/UserProfile";
+import { ChildProfile } from "../../features/child/ChildProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -86,7 +87,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <ChildProfile {...props}/>
             </View>
           </AuthGuard>
         )}

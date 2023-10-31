@@ -58,7 +58,7 @@ export function UserProfile() {
             return <ImageButton 
                 {...props}
                 right={image}
-                onPress={()=>navigator(paths.main.child.profile, {userId: data._id})}
+                onPress={()=>navigator(paths.main.child.profile, {childId: data._id})}
             >
                 {data.firstName} {data.lastName}
             </ImageButton>
