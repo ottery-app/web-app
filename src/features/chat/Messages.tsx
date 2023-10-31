@@ -48,9 +48,10 @@ function Messages() {
   return (
     <ScreenWrapper>
       {chats &&
-        chats.map((chat: InstanceType<typeof ChatDto>) => (
-          <Chat key={chat._id} chat={chat} />
-        ))}
+        chats
+          .sort((b: InstanceType<typeof ChatDto>, a: InstanceType<typeof ChatDto>)=>a.messages[a.messages.length - 1].date - b.messages[b.messages.length - 1].date)
+          .map((chat: InstanceType<typeof ChatDto>) => <Chat key={chat._id} chat={chat} />)
+      }
     </ScreenWrapper>
   );
 }

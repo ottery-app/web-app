@@ -18,7 +18,7 @@ function ChatListItem({
   senderName,
   lastMessage,
   sentAt,
-  dateFormat = DateFormat.md,
+  dateFormat = DateFormat.passed,
   onPress,
 }: ChatListItemProps) {
   const pfpTheme = useThemeMaker({ primary: colors.tertiary });

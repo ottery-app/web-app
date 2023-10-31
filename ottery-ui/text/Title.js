@@ -34,6 +34,9 @@ const T = styled(View)`
   font-weight: bold;
 `;
 
+/**
+ * @deprecated use Text varient instead
+ */
 export function Title({ h = H_TYPES.three, fontSize, margin, children }) {
   const size = fontSize || H_SIZES[h] || h;
   const marginSize = margin || H_MARGINS[h] || h;

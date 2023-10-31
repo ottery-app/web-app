@@ -24,7 +24,7 @@ function MessageBox({ self = false, date, content }: MessageBoxProps) {
       >
         <Text>{content}</Text>
       </View>
-      <Time color={colors.text.tertiary} time={date} type={DateFormat.time} />
+      <Time color={colors.text.tertiary} time={date} type={DateFormat.smallest} />
     </View>
   );
 }
