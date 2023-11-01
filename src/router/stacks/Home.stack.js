@@ -10,6 +10,8 @@ import Messages from "../../features/chat/Messages";
 import { Notifications } from "../../features/notifications/notifications";
 import { UserProfile } from "../../features/user/UserProfile";
 import { ChildProfile } from "../../features/child/ChildProfile";
+import { AddGuardian } from "../../features/child/AddGuardian";
+import { InviteGuardian } from "../../features/child/InviteGuardian";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +90,34 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <ChildProfile {...props}/>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.child.addGuardian}
+        options={{
+          title: "Add Guardian",
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <AddGuardian {...props}/>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.child.inviteGuardian}
+        options={{
+          title: "Invite Guardian",
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <InviteGuardian {...props}/>
             </View>
           </AuthGuard>
         )}

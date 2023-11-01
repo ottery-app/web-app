@@ -5,21 +5,22 @@ import { Button as ButtonPaper } from 'react-native-paper';
 import { BUTTON_STATES, BUTTON_TYPES } from './button.enum';
 import { useThemeMaker } from '../styles/Color';
 import { shadows } from '../styles/shadow';
+import { clickable } from '../styles/clickable';
 
 export const Button = ({ 
     color=colors.primary,
     type=BUTTON_TYPES.filled,
-    onPress,
+    onPress=undefined,
     state=BUTTON_STATES.default,
     children,
     radius=rad.default,
-    width,
+    width=clickable.maxWidth,
     maxWidth,
-    minWidth,
-    height,
+    minWidth=undefined,
+    height=undefined,
     maxHeight,
-    minHeight,
-    shadow,
+    minHeight=undefined,
+    shadow=undefined,
 }) => {
     const theme = useThemeMaker({primary:color, status:state})
 

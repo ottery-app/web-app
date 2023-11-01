@@ -12,6 +12,7 @@ import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "../chat/useChatClient";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { usePing } from "../../../ottery-ping";
+import { Text } from "react-native-paper";
 
 enum Tabs {
     events = "Events",
@@ -89,9 +90,9 @@ export function ChildProfile({route}) {
                     ? <ImageButton 
                         color={colors.success} 
                         right={pluss}
-                        onPress={()=>{Ping.error("go to add guardian not implemented")}}
+                        onPress={()=>{navigator(paths.main.child.addGuardian, {childId: childId})}}
                     >
-                        Add guardian
+                        <Text>Add guardian</Text>
                     </ImageButton>
                     : undefined
                 }

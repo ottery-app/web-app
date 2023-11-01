@@ -1,5 +1,5 @@
 import { useQueryClient } from "react-query";
-import { getChildren, newChild, getGuardians } from "./childApi";
+import { getChildren, newChild, addGuardians, propsAddGuardians } from "./childApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
@@ -33,9 +33,14 @@ export function useChildClient() {
         }
     })
 
+    const useAddGuardians = makeUseMutation({
+        mutationFn: addGuardians,
+    })
+
     return {
         useNewChild,
         useGetChild,
         useGetChildren,
+        useAddGuardians
     }
 }

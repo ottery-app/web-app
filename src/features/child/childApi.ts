@@ -1,4 +1,4 @@
-import { CreateChildDto } from "@ottery/ottery-dto";
+import { CreateChildDto, IdArrayDto, id } from "@ottery/ottery-dto";
 import { formatForApi } from "../../functions/images";
 import { clideInst } from "../../provider/clideInst";
 
@@ -14,7 +14,21 @@ export const newChild = clideInst
         },
     });
 
-window.newChild = newChild
+export interface propsAddGuardians {
+    childId: id,
+    userIds: id[],
+}
+
+export const addGuardians = clideInst
+    .makePost("child/:childId/addGuardians", {
+        data_validator: IdArrayDto,
+        in_pipeline: async ({childId, userIds})=>{
+            return {
+                data : {ids:userIds},
+                params: {childId}
+            }
+        }
+    })
 
 export const getChildren = clideInst
     .makeGet("child", {

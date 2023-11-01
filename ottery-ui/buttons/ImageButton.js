@@ -47,6 +47,7 @@ export function ImageButton({
             onPress={onPress} 
             radius={rad.round} 
             color={color} 
+            width={"100%"}
             state={state}
         >
             {(leftImage || rightImage)
