@@ -1,52 +1,62 @@
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChildClient } from "./useChildClient";
-import { useSocialClient } from "../social/useSocialClient";
 import { Main } from "../../../ottery-ui/containers/Main";
-import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
-import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
 import {useState} from "react"
 import { Text } from "react-native-paper";
-import { pluss } from "../../../assets/icons";
-import paths from "../../router/paths";
+import { pfp } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
+import Image from "../../../ottery-ui/image/Image";
+import {View, StyleSheet} from "react-native";
+import TextInput from "../../../ottery-ui/input/TextInput";
+import { isEmail } from "@ottery/ottery-dto";
+import { margin } from "../../../ottery-ui/styles/margin";
+import { image } from "../../../ottery-ui/styles/image";
+import { radius } from "../../../ottery-ui/styles/radius";
+import Button from "../../../ottery-ui/buttons/Button";
+import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
+import { usePing } from "../../../ottery-ping";
 
 export function InviteGuardian({route}) {
     const navigator = useNavigator();
+    const Ping = usePing();
 
     const childId = route.params.childId;
     const userId = useAuthClient().useUserId();
     const childRes = useChildClient().useGetChild({inputs:[childId]});
+    const [email, setEmail] = useState();
+    const inviteGuardian = useChildClient().useInviteGuardian({
+        onSuccess: ()=>{Ping.success("Invitation sent"); setEmail("")},
+        onError: ()=>{Ping.error("Looks like we ran into an issue")}
+    });
     const child = childRes?.data?.data;
-    const friendsRes = useSocialClient().useGetFriends({inputs:[childId]});
-    const friends = friendsRes?.data?.data.filter((friend)=>!child.guardians.includes(friend._id));
-
-    const [selected, setSelected] = useState({});
-
+    
     return (
         <Main>
-            <ImageButtonList>
-                {friends?.map((friend)=>
-                    <ImageButton 
-                        key={friend._id}
-                        right={{src:friend?.pfp?.src, aspectRatio:1}}
-                        state={selected[friend._id] && "success"}
-                        onPress={()=>{setSelected(p=>{
-                            p[friend._id] = !!!p[friend._id];
-                            return {...p};
-                        })}}
-                    >
-                        <Text>{friend.firstName} {friend.lastName}</Text>
-                    </ImageButton>
-                )}
-                <ImageButton
-                    right={pluss}
-                    state={"success"}
-                    onPress={()=>{navigator(paths.main.child.inviteGuardian, {childId:childId})}}
-                >
-                    <Text>Invite new guardian</Text>
-                </ImageButton>
-            </ImageButtonList>
+            <View style={styles.padding}>
+                <Text style={{textAlign:"center"}} variant={"headlineSmall"}>Email Invite</Text>
+                <Text style={{textAlign:"center"}}>You are inviting a guardian for {child.firstName}</Text>
+            </View>
+            <View style={styles.padding}>
+                <Image radius={radius.round} height={image.largeProfile} width={image.largeProfile} src={{src: child?.pfp?.src || pfp, aspectRatio: 1}}/>
+            </View>
+            <View style={styles.padding}>
+                <TextInput
+                    label="Email"
+                    value={email}
+                    validator={isEmail}
+                    onChange={(text)=>{setEmail(text)}}
+                />
+            </View>
+            <ButtonSpan>
+                <Button
+                    onPress={()=>{inviteGuardian.mutate({email, childId})}}
+                >Send</Button>
+            </ButtonSpan>
         </Main>
     );
 }
+
+const styles = StyleSheet.create({
+    padding: {flex:1, justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}
+})
 

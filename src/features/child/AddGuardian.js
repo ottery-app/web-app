@@ -1,21 +1,16 @@
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChildClient } from "./useChildClient";
 import { useSocialClient } from "../social/useSocialClient";
-import { Main, MarginlessMain } from "../../../ottery-ui/containers/Main";
+import { Main } from "../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
 import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
 import {useState} from "react"
 import { Text } from "react-native-paper";
 import { View } from "react-native";
-import { pluss } from "../../../assets/icons";
 import paths from "../../router/paths";
 import { useNavigator } from "../../router/useNavigator";
-import { colors } from "../../../ottery-ui/styles/colors";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
-import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
-import { useMutation } from "react-query";
-import { clickable } from "../../../ottery-ui/styles/clickable";
 import { usePing } from "../../../ottery-ping";
 
 export function AddGuardian({route}) {
@@ -23,7 +18,6 @@ export function AddGuardian({route}) {
     const Ping = usePing();
 
     const childId = route.params.childId;
-    const userId = useAuthClient().useUserId();
     const childRes = useChildClient().useGetChild({inputs:[childId]});
     const child = childRes?.data?.data;
     const friendsRes = useSocialClient().useGetFriends({inputs:[childId]});
@@ -35,8 +29,6 @@ export function AddGuardian({route}) {
 
     const [selected, setSelected] = useState({});
     const freindIds = Object.entries(selected).filter(([key, value])=>value).map(([friendId])=>friendId)
-
-    console.log(freindIds)
 
     return (
         <Main>
@@ -59,7 +51,7 @@ export function AddGuardian({route}) {
                     </ImageButton>
                 )}
             </ImageButtonList>
-            <View style={{flex:1, alignItems:"center"}}>
+            <View style={{flex:1, justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Button
                     onPress={()=>{(freindIds.length) ? addGuardian.mutate({childId, userIds:freindIds}) : Ping.error("Please select a friend")}}
                 >Add</Button>

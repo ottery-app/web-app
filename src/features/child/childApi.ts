@@ -1,4 +1,4 @@
-import { CreateChildDto, IdArrayDto, id } from "@ottery/ottery-dto";
+import { CreateChildDto, IdArrayDto, id, EmailDto } from "@ottery/ottery-dto";
 import { formatForApi } from "../../functions/images";
 import { clideInst } from "../../provider/clideInst";
 
@@ -6,7 +6,7 @@ export const newChild = clideInst
     .makePost("child", {
         data_validator: CreateChildDto,
         in_pipeline: async (form)=>{
-            //form.pfp = await formatForApi(form.pfp);
+            form.pfp = await formatForApi(form.pfp);
             form.dateOfBirth = new Date(form.dateOfBirth).getTime();
             return {
                 data: form,
@@ -26,6 +26,17 @@ export const addGuardians = clideInst
             return {
                 data : {ids:userIds},
                 params: {childId}
+            }
+        }
+    })
+
+export const inviteGuardian = clideInst
+    .makePost("child/:childId/inviteGuardian", {
+        data_validator: EmailDto,
+        in_pipeline: async ({email, childId})=>{
+            return {
+                data: {email},
+                params: {childId},
             }
         }
     })
