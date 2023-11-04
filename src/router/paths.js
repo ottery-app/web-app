@@ -17,15 +17,15 @@ export const paths = {
         child: {
             new: "/child/new",
             profile: "/child/:childId",
+            addGuardian: "/child/:childId/addguardian",
+            inviteGuardian: "/child/:childId/inviteguardian",
         },
         event: {
-            new: "/event/new",
-            info: "/event/info/:eventId",
             dash: "/event/dash/:eventId",
             signup: "/event/signup/:eventId"
         },
         user: {
-            profile: "/user/:userId",
+            profile: "/user/profile",
         }
     },
     dropoff: {

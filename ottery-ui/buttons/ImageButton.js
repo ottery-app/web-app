@@ -21,12 +21,12 @@ const style = StyleSheet.create({
 })
 
 export function ImageButton({
-  left,
-  right,
+  left=undefined,
+  right=undefined,
   children,
-  color = colors.secondary,
-  state,
-  onPress,
+  color=colors.secondary,
+  state=undefined,
+  onPress=undefined,
 }) {
     const leftImage = useMemo(()=>{
         if (left) {
@@ -41,12 +41,13 @@ export function ImageButton({
     }, [left, state]);
 
     const rightImage = useMemo(()=>right && <Image height={clickable.minHeight} src={right} />, [right]);
-    
+
     return (
         <Button 
             onPress={onPress} 
             radius={rad.round} 
             color={color} 
+            width={"100%"}
             state={state}
         >
             {(leftImage || rightImage)
