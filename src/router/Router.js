@@ -11,7 +11,7 @@ export default function Router() {
 
   return (
       <NavigationContainer>
-        {(!sesh.loggedin || !sesh.activated) //is authenticated
+        {(true || !sesh.loggedin || !sesh.activated) //is authenticated
           ? <AuthStack/>
           : <AppTabs/>
         }
