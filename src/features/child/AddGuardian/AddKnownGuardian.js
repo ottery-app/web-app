@@ -1,20 +1,20 @@
-import { useAuthClient } from "../auth/useAuthClient";
-import { useChildClient } from "./useChildClient";
-import { useSocialClient } from "../social/useSocialClient";
-import { Main } from "../../../ottery-ui/containers/Main";
-import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
-import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
+import { useAuthClient } from "../../auth/useAuthClient";
+import { useChildClient } from "../useChildClient";
+import { useSocialClient } from "../../social/useSocialClient";
+import { Main } from "../../../../ottery-ui/containers/Main";
+import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
+import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import {useState} from "react"
 import { Text } from "react-native-paper";
 import { View } from "react-native";
-import paths from "../../router/paths";
-import { useNavigator } from "../../router/useNavigator";
-import { margin } from "../../../ottery-ui/styles/margin";
-import Button from "../../../ottery-ui/buttons/Button";
-import { usePing } from "../../../ottery-ping";
-import { useUserClient } from "../user/useUserClient";
+import paths from "../../../router/paths";
+import { useNavigator } from "../../../router/useNavigator";
+import { margin } from "../../../../ottery-ui/styles/margin";
+import Button from "../../../../ottery-ui/buttons/Button";
+import { usePing } from "../../../../ottery-ping";
+import { useUserClient } from "../../user/useUserClient";
 
-export function AddGuardian({route}) {
+export function AddGuardian({route, setInvite}) {
     const navigator = useNavigator();
     const Ping = usePing();
 
@@ -37,9 +37,9 @@ export function AddGuardian({route}) {
     const [selected, setSelected] = useState({});
     //const freindIds = Object.entries(selected).filter(([key, value])=>value).map(([friendId])=>friendId)
 
-    // if (friendsRes.status === "success" && freindIds.length === 0) {
-    //     navigator(paths.main.child.inviteGuardian, {childId:childId})
-    // }
+    if (friendsRes.status === "success" && freindIds.length === 0) {
+        setInvite(true);
+    }
 
     return (
         <Main>
@@ -67,7 +67,7 @@ export function AddGuardian({route}) {
                     onPress={()=>{(freindIds.length) ? addGuardian.mutate({childId, userIds:freindIds}) : Ping.error("Please select a friend")}}
                 >Add</Button>
                 <Button type="default"
-                    onPress={()=>{navigator(paths.main.child.inviteGuardian, {childId:childId})}}
+                    onPress={()=>navigator(paths.main.child.inviteGuardian, {childId:childId})}
                 >Don't see them?</Button>
             </View>
         </Main>
