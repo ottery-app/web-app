@@ -12,23 +12,34 @@ import { useNavigator } from "../../router/useNavigator";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
 import { usePing } from "../../../ottery-ping";
+import { useUserClient } from "../user/useUserClient";
 
 export function AddGuardian({route}) {
     const navigator = useNavigator();
     const Ping = usePing();
 
+    const userId = useAuthClient().useUserId()
     const childId = route.params.childId;
     const childRes = useChildClient().useGetChild({inputs:[childId]});
     const child = childRes?.data?.data;
-    const friendsRes = useSocialClient().useGetFriends({inputs:[childId]});
-    const friends = friendsRes?.data?.data.filter((friend)=>!child.guardians.includes(friend._id));
+    const friendIdsRes = useSocialClient().useGetFriends({inputs:[userId]});
+    const freindIds = friendIdsRes?.data?.data.filter((friend)=>!child.guardians.includes(friend));
+    const friendsRes = useUserClient().useGetUserInfo({
+        inputs: [freindIds],
+        enabled: !!freindIds,
+    })
+    const friends = friendsRes?.data?.data;
     const addGuardian = useChildClient().useAddGuardians({
         onError: ()=>{Ping.error("Something went wrong")},
-        onSuccess: ()=>{Ping.error("Invites sent")}
+        onSuccess: ()=>{Ping.success("Invites sent")}
     });
 
     const [selected, setSelected] = useState({});
-    const freindIds = Object.entries(selected).filter(([key, value])=>value).map(([friendId])=>friendId)
+    //const freindIds = Object.entries(selected).filter(([key, value])=>value).map(([friendId])=>friendId)
+
+    // if (friendsRes.status === "success" && freindIds.length === 0) {
+    //     navigator(paths.main.child.inviteGuardian, {childId:childId})
+    // }
 
     return (
         <Main>
