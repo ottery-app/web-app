@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
 import Login from "../../features/auth/Login";
 import Register from "../../features/auth/Register";
@@ -9,6 +8,7 @@ import { useEffect } from "react";
 import { useAuthClient } from "../../features/auth/useAuthClient";
 import Validate from "../../features/auth/Validate";
 import ForgotPasswordScreen from "../../features/auth/ForgotPassword";
+import ResetPasswordScreen from "../../features/auth/ResetPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +56,17 @@ export function AuthStack() {
         {(props) => (
           <AuthGuard {...props} notLoggedin>
             <ForgotPasswordScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name={paths.auth.resetPassword}
+        options={{ headerShown: false }}
+      >
+        {(props) => (
+          <AuthGuard {...props} notLoggedin>
+            <ResetPasswordScreen />
           </AuthGuard>
         )}
       </Stack.Screen>
