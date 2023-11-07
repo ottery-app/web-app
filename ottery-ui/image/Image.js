@@ -16,6 +16,7 @@ const Image = ({
   width = radius,
   height = radius,
   maxWidth=undefined,
+  maxHeight=undefined,
   onClick=undefined,
   opacity = 1,
   grayscale = "0%",
@@ -34,9 +35,8 @@ const Image = ({
         borderRadius: radius,
         width: width,
         height: height,
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
       }}
     >
       <RNImage
