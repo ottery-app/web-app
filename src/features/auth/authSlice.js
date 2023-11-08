@@ -57,6 +57,14 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  `auth/reset-password`,
+  async (resetPasswordDto) => {
+    const response = await AuthApi.resetPassword(resetPasswordDto);
+    return response.data;
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

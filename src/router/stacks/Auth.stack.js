@@ -54,8 +54,8 @@ export function AuthStack() {
         options={{ headerShown: false }}
       >
         {(props) => (
-          <AuthGuard {...props} notLoggedin>
-            <ForgotPasswordScreen />
+          <AuthGuard notLoggedin>
+            <ForgotPasswordScreen {...props} />
           </AuthGuard>
         )}
       </Stack.Screen>
@@ -65,8 +65,8 @@ export function AuthStack() {
         options={{ headerShown: false }}
       >
         {(props) => (
-          <AuthGuard {...props} notLoggedin>
-            <ResetPasswordScreen />
+          <AuthGuard notLoggedin>
+            <ResetPasswordScreen {...props} />
           </AuthGuard>
         )}
       </Stack.Screen>

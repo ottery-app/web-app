@@ -12,6 +12,7 @@ import {
   selectUserEventId,
   selectSesh,
   forgotPassword,
+  resetPassword,
 } from "./authSlice";
 import useSwapState from "./useSwapState";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
@@ -51,6 +52,11 @@ export function useAuthClient() {
     mutationFn: async (emailDto) => dispatch(forgotPassword(emailDto)),
   });
 
+  const useResetPassword = makeUseMutation({
+    mutationFn: async (resetPasswordDto) =>
+      dispatch(resetPassword(resetPasswordDto)),
+  });
+
   const useUserId = () => useSelector(selectUserId);
   const useUserEmail = () => useSelector(selectUserEmail);
   const useUserState = () => useSelector(selectUserState);
@@ -66,6 +72,7 @@ export function useAuthClient() {
     useActivate,
     useSesh,
     useForgotPassword,
+    useResetPassword,
 
     useUserId,
     useUserEmail,

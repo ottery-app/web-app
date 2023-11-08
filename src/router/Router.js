@@ -16,8 +16,7 @@ export default function Router() {
     prefixes: [
       /*linking prefixes*/
       Linking.createURL("/"),
-      "localhost:19006",
-      "http://192.168.0.132:19006",
+      process.env.EXPO_PUBLIC_WEB_APP_URL,
     ],
     config: {
       /** configuration for matching screens with paths */

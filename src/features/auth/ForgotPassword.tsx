@@ -1,16 +1,15 @@
 import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 
-import { Main } from "../../components/Main";
 import Shadowbox from "../../../ottery-ui/containers/Shadowbox";
 import Image from "../../../ottery-ui/image/Image";
 import { logoDefault } from "../../../assets/logos";
-import { Form } from "./loginStyles";
+import { Form, Main } from "./loginStyles";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { AwaitButton } from "../../guards/AwaitButton";
 import { usePing } from "../../../ottery-ping";
 import { useAuthClient } from "./useAuthClient";
-import { Text } from "react-native-paper";
-import { View } from "react-native";
 
 function ForgotPasswordScreen() {
   const Ping = usePing();
@@ -52,7 +51,7 @@ function ForgotPasswordScreen() {
             onChange={handleEmailChange}
           />
           {isEmailSent && (
-            <View>
+            <View style={styles.infoContainer}>
               <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                 Email sent
               </Text>
@@ -73,5 +72,11 @@ function ForgotPasswordScreen() {
     </Main>
   );
 }
+
+const styles = StyleSheet.create({
+  infoContainer: {
+    alignSelf: "flex-start",
+  },
+});
 
 export default ForgotPasswordScreen;

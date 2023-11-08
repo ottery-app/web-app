@@ -4,6 +4,7 @@ import {
   isId,
   LoginDto,
   NewUserDto,
+  ResetPasswordDto,
 } from "@ottery/ottery-dto";
 import { setCookie, getCookie } from "../../functions/cookies";
 import { clideInst } from "../../provider/clideInst";
@@ -100,6 +101,15 @@ export const forgotPassword = clideInst.makePost("auth/forgot-password", {
   },
 });
 
+export const resetPassword = clideInst.makePost("auth/reset-password", {
+  data_validator: ResetPasswordDto,
+  in_pipeline: (resetPasswordDto) => {
+    return {
+      data: resetPasswordDto,
+    };
+  },
+});
+
 const AuthApi = {
   load,
   login,
@@ -108,6 +118,7 @@ const AuthApi = {
   activate,
   switchState,
   forgotPassword,
+  resetPassword,
 };
 
 export default AuthApi;
