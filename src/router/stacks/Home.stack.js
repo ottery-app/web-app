@@ -8,6 +8,9 @@ import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
 import { Notifications } from "../../features/notifications/notifications";
+import { UserProfile } from "../../features/user/UserProfile";
+import { ChildProfile } from "../../features/child/ChildProfile";
+import AddGuardian from "../../features/child/AddGuardian";
 
 const Stack = createNativeStackNavigator();
 
@@ -85,7 +88,21 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <ChildProfile {...props}/>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.child.addGuardian}
+        options={{
+          title: "Add Guardian",
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <AddGuardian {...props}/>
             </View>
           </AuthGuard>
         )}
@@ -99,35 +116,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
-            </View>
-          </AuthGuard>
-        )}
-      </Stack.Screen>
-      <Stack.Screen
-        name={paths.main.event.new}
-        options={{
-          title: "New Event",
-        }}
-      >
-        {(props) => (
-          <AuthGuard loggedin activated>
-            <View>
-              <Text>temp</Text>
-            </View>
-          </AuthGuard>
-        )}
-      </Stack.Screen>
-      <Stack.Screen
-        name={paths.main.event.info}
-        options={{
-          title: "Event Info",
-        }}
-      >
-        {(props) => (
-          <AuthGuard loggedin activated>
-            <View>
-              <Text>temp</Text>
+              <UserProfile/>
             </View>
           </AuthGuard>
         )}

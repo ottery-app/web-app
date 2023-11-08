@@ -24,6 +24,17 @@ export function useChatClient() {
     queryFn: getDirectChat,
   });
 
+  const useGetDirectChats = makeUseQuery({
+    queryKey: [CLIENT_CHAT_TAG, "directChat"],
+    queryFn: async (userId, friendIds)=>{
+      const ids = {};
+      await Promise.all(friendIds.map(async (otherId)=>{
+        ids[otherId] = (await getDirectChat(userId, otherId)).data._id;
+      }));
+      return ids;
+    }
+  })
+
   const useGetChat = makeUseQuery({
     queryKey: [CLIENT_CHAT_TAG, "chat"],
     queryFn: async (chatId: string) => getChat(chatId),
@@ -48,6 +59,7 @@ export function useChatClient() {
   return {
     useGetChatsFor,
     useMakeChat,
+    useGetDirectChats,
     useGetDirectChat,
     useGetChat,
     useSendMessage,

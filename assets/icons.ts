@@ -24,3 +24,8 @@ export const message: ImageAsset = {
     src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/message.svg",
     aspectRatio: 1,
 }
+
+export const pluss: ImageAsset = {
+    src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/plus.svg",
+    aspectRatio: 1,
+}
