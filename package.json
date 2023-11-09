@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
-    "@ottery/ottery-dto": "^0.0.22",
+    "@ottery/ottery-dto": "^0.0.26",
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
@@ -29,7 +29,8 @@
     "react-query": "^3.39.3",
     "react-redux": "^8.1.3",
     "react-router-native": "^6.16.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "expo-linking": "~5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
