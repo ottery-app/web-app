@@ -2,11 +2,11 @@ import { socialLinkState, UpdateLinkDto } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
 
 export const friendStatus = clideInst
-    .makeGet("social/status", {
+    .makeGet("social/status/:userId", {
         in_pipeline: (id)=>{
             return {
                 params: {
-                    userIds: [id],
+                    userId: id,
                 }
             }
         },
@@ -29,13 +29,12 @@ export const updateStatus = clideInst
         },
     });
 
-export const getFriends = clideInst
-    .makeGet("social/status", {
+export const getFriendLinks = clideInst
+    .makeGet("social/status/type/:type", {
         params: {
-            types: [socialLinkState.ACCEPTED],
+            type: socialLinkState.ACCEPTED,
         },
         out_pipeline: (res)=>{
-            res.data = res.data.map(socialStatus=>socialStatus.user);
             return res;
         }
     });

@@ -13,6 +13,9 @@ export function makeUseMutation(defaultOptions) {
         return oldOnSuccess ? oldOnSuccess(data) : data;
       };
     }
-    return useMutation(defaultOptions.mutationFn, options);
+    return useMutation<unknown, unknown, unknown, unknown>(
+      defaultOptions.mutationFn,
+      options
+    );
   };
 }

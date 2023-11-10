@@ -1,31 +1,30 @@
-import { useAuthClient } from "../auth/useAuthClient";
-import { useChildClient } from "./useChildClient";
-import { Main } from "../../../ottery-ui/containers/Main";
+import { useChildClient } from "../useChildClient";
+import { Main } from "../../../../ottery-ui/containers/Main";
 import {useState} from "react"
 import { Text } from "react-native-paper";
-import { pfp } from "../../../assets/icons";
-import { useNavigator } from "../../router/useNavigator";
-import Image from "../../../ottery-ui/image/Image";
+import { pfp } from "../../../../assets/icons";
+import { useNavigator } from "../../../router/useNavigator";
+import Image from "../../../../ottery-ui/image/Image";
 import {View, StyleSheet} from "react-native";
-import TextInput from "../../../ottery-ui/input/TextInput";
+import TextInput from "../../../../ottery-ui/input/TextInput";
 import { isEmail } from "@ottery/ottery-dto";
-import { margin } from "../../../ottery-ui/styles/margin";
-import { image } from "../../../ottery-ui/styles/image";
-import { radius } from "../../../ottery-ui/styles/radius";
-import Button from "../../../ottery-ui/buttons/Button";
-import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
-import { usePing } from "../../../ottery-ping";
+import { margin } from "../../../../ottery-ui/styles/margin";
+import { image } from "../../../../ottery-ui/styles/image";
+import { radius } from "../../../../ottery-ui/styles/radius";
+import Button from "../../../../ottery-ui/buttons/Button";
+import { ButtonSpan } from "../../../../ottery-ui/containers/ButtonSpan";
+import { usePing } from "../../../../ottery-ping";
 
-export function InviteGuardian({route}) {
+export function InviteGuardian({route, setInvite}) {
     const navigator = useNavigator();
     const Ping = usePing();
 
     const childId = route.params.childId;
-    const userId = useAuthClient().useUserId();
     const childRes = useChildClient().useGetChild({inputs:[childId]});
     const [email, setEmail] = useState();
     const inviteGuardian = useChildClient().useInviteGuardian({
-        onSuccess: ()=>{Ping.success("Invitation sent"); setEmail("")},
+        onSuccess: ()=>{
+            Ping.success("Invitation sent"); setEmail("")},
         onError: ()=>{Ping.error("Looks like we ran into an issue")}
     });
     const child = childRes?.data?.data;
