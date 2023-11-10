@@ -3,6 +3,7 @@ import { colors } from "../../styles/colors";
 import { TabButton } from "./TabButton";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
+import { TAB_BUTTON_TYPES } from "../button.enum";
 
 function generateAutos(length) {
   let auto = "";
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 
 export default function TabField({
   color = colors.secondary,
-  type = "default",
+  type = TAB_BUTTON_TYPES.default,
   tabs = [],
   active = tabs[0],
   onTab = () => {},

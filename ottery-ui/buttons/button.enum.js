@@ -15,4 +15,5 @@ export const TAB_BUTTON_TYPES = {
   hanging: "hanging",
   upright: "upright",
   line: "line",
+  default: "default",
 };
