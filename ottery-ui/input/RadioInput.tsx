@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import Image from "../image/Image";
 import { image } from "../styles/image";
-import { radius } from "../styles/radius";
 import { colors } from "../styles/colors";
 import { border } from "../styles/border";
 import { margin } from "../styles/margin";
@@ -14,7 +13,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderColor: colors.secondary.contrastText,
         borderWidth: border.thin,
-        borderRadius: 50,
+        borderRadius: 10,
         padding: 1.5 * margin.medium,
         justifyContent: "space-between",
         alignItems: "center",
@@ -23,46 +22,37 @@ const styles = StyleSheet.create({
 })
 
 interface FieldOption{
-    key: string,
+    key: any,
     value: string
 }
 
 interface RadioInputFieldsProps {
-    current: FieldOption,
-    onChange: (current: FieldOption) => void,
+    current: any,
+    onChange: (current: any) => void,
     options: FieldOption[]
 }
 
 export default function RadioInputFields({
-    current=undefined,
+    current,
     onChange=undefined,
     options=[]
 }: RadioInputFieldsProps) {
 
-    const [curr, setCurrent] = useState((current && options.includes(current) ? current : undefined) ?? options[0].key);
-
-
-    useEffect(()=>{
-        if(onChange == undefined){
-            onChange(current);
-        }
-    },[current]);
-
     return (
         <View>
             {options.map((option, index) => {
-                if(option === curr){
-                    return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.success.main}]} key={index} onPress={() => setCurrent(null)}>
+                if(option.key === current){
+                    return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.success.main}]} key={index} onPress={() => onChange(null)}>
                         <Text>{option.value}</Text>
                         <View>
-                            <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'check'} alt={'check icon'}/>
+                            <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'checkmark'} alt={'check icon'}/>
                         </View>
                     </TouchableOpacity>)
                 }
-                return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.background.secondary}]} key={index}  onPress={() => setCurrent(option)}>
+                return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.background.secondary}]} key={index}  onPress={() => onChange(option.key)}>
                     <Text>{option.value}</Text>
                     <View>
-                        <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'x'} alt={'check icon'}/>
+                        <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'xmark'} alt={'xmark icon'}/>
                     </View>
                 </TouchableOpacity>)
             })}

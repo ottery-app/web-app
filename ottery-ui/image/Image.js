@@ -1,29 +1,38 @@
 import React, { useMemo } from "react";
 import { Image as RNImage, View } from "react-native";
-import { pfp, x, closedMailWithHalo, check } from "../../assets/icons";
+import {
+  pfp,
+  x,
+  closedMailWithHalo,
+  check,
+  checkmark,
+  xmark,
+} from "../../assets/icons";
 
 const defaultSrc = {
   pfp,
   x,
   closedMailWithHalo,
   check,
+  checkmark,
+  xmark,
 };
 
 const Image = ({
   src,
   alt,
-  radius=undefined,
+  radius = undefined,
   width = radius,
   height = radius,
-  maxWidth=undefined,
-  onClick=undefined,
+  maxWidth = undefined,
+  onClick = undefined,
   opacity = 1,
   grayscale = "0%",
-  aspectRatio=undefined,
+  aspectRatio = undefined,
 }) => {
   const [imgSrc, imgAspect] = useMemo(() => {
     const aspectRatio = aspectRatio || src?.aspectRatio;
-    src = defaultSrc.hasOwnProperty(src) ? defaultSrc[src].src : src?.src
+    src = defaultSrc.hasOwnProperty(src) ? defaultSrc[src].src : src?.src;
     return [src, aspectRatio];
   }, [src, aspectRatio]);
 
@@ -51,7 +60,7 @@ const Image = ({
           height: height,
           aspectRatio: imgAspect,
           maxWidth,
-          resizeMode: 'cover', // Adjust the resizeMode as needed
+          resizeMode: "cover", // Adjust the resizeMode as needed
         }}
         onClick={onClick}
       />
