@@ -57,5 +57,6 @@ export const colors = {
   background: {
     primary: "white",
     secondary: "#eee",
+    contrast: "#848484",
   },
 };
