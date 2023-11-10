@@ -24,7 +24,7 @@ export function TabButton({
   color = colors.secondary,
   active = false,
   onTab = () => {},
-  type = "default",
+  type = TAB_BUTTON_TYPES.default,
   children,
 }) {
   const col = useColors({ color: color });

@@ -21,6 +21,7 @@ export const Button = ({
   maxHeight,
   minHeight = undefined,
   shadow = undefined,
+  styles = {},
 }) => {
   const theme = useThemeMaker({ primary: color, status: state });
 
@@ -37,12 +38,12 @@ export const Button = ({
   return (
     <ButtonPaper
       theme={theme}
-      styles={shadows.default}
+      styles={[shadows.default]}
       borderRadius={rad.default}
       onPress={onPress}
       contentStyle={BUTTON_STYLE}
       labelStyle={BUTTON_STATES}
-      style={[shadow && shadows.default, BUTTON_STYLE]}
+      style={[shadow && shadows.default, BUTTON_STYLE, { ...styles }]}
       mode={type}
       compact={true}
     >
