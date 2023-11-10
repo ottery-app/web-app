@@ -12,6 +12,7 @@ import paths from "../../router/paths";
 import { useChatClient } from "../chat/useChatClient";
 import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
 import SelectionButton from "../../../ottery-ui/buttons/SelectionButton"
+import { Text } from "react-native-paper";
 
 enum Tabs {
     children = "Children",
@@ -30,8 +31,12 @@ export function UserProfile() {
     const userChildrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
     const userChildren = userChildrenRes?.data?.data;
     const userFriendsRes = useSocialClient().useGetFriends({inputs: [userId]});
-    const userFriends = userFriendsRes?.data?.data;
-    const userFriendIds = userFriends?.map(friend=>friend._id);
+    const userFriendIds = userFriendsRes?.data?.data;
+    const friendsRes = useUserClient().useGetUserInfo({
+        inputs: [userFriendIds],
+        enabled: !!userFriendIds,
+    });
+    const userFriends = friendsRes?.data?.data;
     const chatIdsRes = useChatClient().useGetDirectChats({
         inputs:[userId, userFriendIds],
         enabled: !!userFriendIds,
@@ -42,45 +47,38 @@ export function UserProfile() {
     const data = useMemo(()=>{
         if (userEvents && userFriends && userChildren) {
             var data = {};
-            data[Tabs.events] = userEvents;
-            data[Tabs.friends] = userFriends;
-            data[Tabs.children] = userChildren;
+            data[Tabs.events] = userEvents.map((event)=>{
+                return <ImageButton 
+                    key={event._id}
+                    onPress={()=>navigator(paths.main.event.dash, {eventId: event._id})}
+                >
+                    <Text>{event.summary}</Text>
+                </ImageButton>
+            });
+            data[Tabs.friends] = userFriends.map((friend)=>{
+                console.log(friend._id)
+                return <ImageButton 
+                    key={friend._id}
+                    right={{src:friend?.pfp?.src, aspectRatio:1} || pfp}
+                    onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[friend._id]})}
+                >
+                    <Text>{friend.firstName} {friend.lastName}</Text>
+                </ImageButton>
+            });
+            data[Tabs.children] = userChildren.map((child)=>{
+                return <ImageButton 
+                    key={child._id}
+                    right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
+                    onPress={()=>navigator(paths.main.child.profile, {childId: child._id})}
+                >
+                    <Text>{child.firstName} {child.lastName}</Text>
+                </ImageButton>
+            });
         }
         return data;
     }, [userChildren, userFriends, userEvents]);
 
-    const buttons = useMemo(()=>data && data[tab]?.map((data)=>{
-        const props = {
-            key: data._id,
-        }
-
-        const image = {src:data?.pfp?.src, aspectRatio:1} || pfp;
-
-        if (tab === Tabs.children) {
-            return <ImageButton 
-                {...props}
-                right={image}
-                onPress={()=>navigator(paths.main.child.profile, {childId: data._id})}
-            >
-                {data.firstName} {data.lastName}
-            </ImageButton>
-        } else if (tab === Tabs.events) {
-            return <ImageButton 
-                {...props}
-                onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}
-            >
-                    {data.summary}
-            </ImageButton>
-        } else if (tab === Tabs.friends) {
-            return <ImageButton 
-                {...props}
-                right={image}
-                onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[data._id]})}
-            >
-                {data.firstName} {data.lastName}
-            </ImageButton>
-        }
-    }) || [], [data, tab, chatIdMap]);
+    const buttons = (data && data[tab]) || [];
 
     return (
         <MarginlessMain>
