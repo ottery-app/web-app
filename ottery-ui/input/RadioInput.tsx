@@ -11,8 +11,6 @@ const styles = StyleSheet.create({
     Button: {
         flexDirection: 'row',
         width: '100%',
-        borderColor: colors.secondary.contrastText,
-        borderWidth: border.thin,
         borderRadius: 10,
         padding: 1.5 * margin.medium,
         justifyContent: "space-between",
@@ -43,13 +41,13 @@ export default function RadioInputFields({
             {options.map((option, index) => {
                 if(option.key === current){
                     return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.success.main}]} key={index} onPress={() => onChange(null)}>
-                        <Text>{option.value}</Text>
+                        <Text style={{color:colors.success.contrastText}}>{option.value}</Text>
                         <View>
                             <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'checkmark'} alt={'check icon'}/>
                         </View>
                     </TouchableOpacity>)
                 }
-                return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.background.secondary}]} key={index}  onPress={() => onChange(option.key)}>
+                return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.background.primary}]} key={index}  onPress={() => onChange(option.key)}>
                     <Text>{option.value}</Text>
                     <View>
                         <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'xmark'} alt={'xmark icon'}/>
