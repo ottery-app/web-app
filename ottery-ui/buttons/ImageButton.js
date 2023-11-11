@@ -23,6 +23,7 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     marginRight: margin.small,
+    radius: radius.round,
   },
   Name: {
     flex: 3,
@@ -41,11 +42,20 @@ export function ImageButton({
 }) {
   const leftImage = useMemo(() => {
     if (left) {
-      return <Image height={clickable.minHeight} src={left} radius={radius.round} />;
+      return (
+        <Image height={clickable.minHeight} src={left} radius={radius.round} />
+      );
     }
 
     if (state === BUTTON_STATES.error) {
-      return <Image height={clickable.minHeight} src={x} alt={"x mark"} radius={radius.round} />;
+      return (
+        <Image
+          height={clickable.minHeight}
+          src={x}
+          alt={"x mark"}
+          radius={radius.round}
+        />
+      );
     } else if (state === BUTTON_STATES.success) {
       return (
         <Image
@@ -59,7 +69,10 @@ export function ImageButton({
   }, [left, state]);
 
   const rightImage = useMemo(
-    () => right && <Image height={clickable.minHeight} src={right} radius={radius.round} />,
+    () =>
+      right && (
+        <Image height={clickable.minHeight} src={right} radius={radius.round} />
+      ),
     [right]
   );
 
