@@ -9,6 +9,7 @@ import { clickable } from "../styles/clickable";
 import { BUTTON_STATES } from "./button.enum";
 import { margin } from "../styles/margin";
 import { border } from "../styles/border";
+import { image } from "../styles/image";
 
 const style = StyleSheet.create({
   container: {
@@ -23,7 +24,6 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     marginRight: margin.small,
-    radius: radius.round,
   },
   Name: {
     flex: 3,
@@ -71,7 +71,12 @@ export function ImageButton({
   const rightImage = useMemo(
     () =>
       right && (
-        <Image height={clickable.minHeight} src={right} radius={radius.round} />
+        <Image
+          height={clickable.minHeight}
+          width={clickable.minWidth}
+          src={right}
+          radius={radius.round}
+        />
       ),
     [right]
   );
@@ -82,6 +87,7 @@ export function ImageButton({
       radius={rad.round}
       color={color}
       width={"100%"}
+      height={image.smallProfile}
       state={state}
       styles={{ borderWidth: border.thin, borderColor: colors.text.primary }}
     >
