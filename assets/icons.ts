@@ -19,6 +19,7 @@ export const check: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/check.svg",
   aspectRatio: 1,
 };
+
 export const checkmark: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/checkmark.svg",
   aspectRatio: 1,
@@ -35,5 +36,10 @@ export const message: ImageAsset = {
 
 export const pluss: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/plus.svg",
+  aspectRatio: 1,
+};
+
+export const checkmarkBlack: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/checkmarkBlack.svg",
   aspectRatio: 1,
 };
