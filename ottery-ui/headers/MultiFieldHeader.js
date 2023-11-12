@@ -8,6 +8,7 @@ import { TabButtonTypes } from "../buttons/tabs/TabButton";
 import { IconButton, Text } from "react-native-paper";
 import Image from "../image/Image";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { TAB_BUTTON_TYPES } from "../buttons/button.enum";
 
 const IMAGE_RAD = image.mediumProfile;
 //imageStyles.clickable.minHeight;
@@ -37,7 +38,13 @@ const styles = StyleSheet.create({
     gap: margin.large,
     margin: margin.medium,
   },
-  title: { flex: 1, alignItems: "center", justifyContent: "center", flexDirection:"row", height:"100%" },
+  title: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    height: "100%",
+  },
   settings: {
     flex: 1,
     width: "100%",
@@ -64,7 +71,6 @@ export function MultiFieldHeader({
   //style
   radius = rad.square,
 }) {
-
   return (
     <>
       <View
@@ -87,9 +93,7 @@ export function MultiFieldHeader({
                 radius={rad.round}
               />
               <View style={styles.title}>
-                <Text>
-                  {title}
-                </Text>
+                <Text>{title}</Text>
               </View>
             </View>
           </View>
@@ -105,10 +109,10 @@ export function MultiFieldHeader({
           </TouchableOpacity>
         </View>
         <TabField
-          type={TabButtonTypes.upright}
+          type={TAB_BUTTON_TYPES.upright}
           tabs={tabs}
           active={tab}
-          onTab={onTab || function(){}}
+          onTab={onTab || function () {}}
         />
       </View>
     </>

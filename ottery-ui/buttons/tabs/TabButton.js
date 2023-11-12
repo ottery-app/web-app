@@ -4,6 +4,7 @@ import { colors } from "../../styles/colors";
 import { radius } from "../../styles/radius";
 import useColors from "../../styles/useColors";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { TAB_BUTTON_TYPES } from "../button.enum";
 
 const lineThickness = "3px";
 const styles = StyleSheet.create({
@@ -19,17 +20,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const TabButtonTypes = {
-  hanging: "hanging",
-  upright: "upright",
-  line: "line",
-};
-
 export function TabButton({
   color = colors.secondary,
   active = false,
   onTab = () => {},
-  type = "default",
+  type = TAB_BUTTON_TYPES.default,
   children,
 }) {
   const col = useColors({ color: color });
@@ -37,7 +32,7 @@ export function TabButton({
     styles.Tab,
     { color: col.contrastText, background: active ? col.dark : col.main },
   ];
-  if (type === TabButtonTypes.hanging) {
+  if (type === TAB_BUTTON_TYPES.hanging) {
     return (
       <TouchableOpacity
         style={[
@@ -53,7 +48,7 @@ export function TabButton({
         <Text>{children}</Text>
       </TouchableOpacity>
     );
-  } else if (type === TabButtonTypes.upright) {
+  } else if (type === TAB_BUTTON_TYPES.upright) {
     return (
       <TouchableOpacity
         style={[
@@ -72,7 +67,7 @@ export function TabButton({
         </Text>
       </TouchableOpacity>
     );
-  } else if (type === TabButtonTypes.line) {
+  } else if (type === TAB_BUTTON_TYPES.line) {
     return (
       <TouchableOpacity
         style={[
