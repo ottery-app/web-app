@@ -13,6 +13,7 @@ import { useChatClient } from "../chat/useChatClient";
 import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
 import SelectionButton from "../../../ottery-ui/buttons/SelectionButton"
 import { Text } from "react-native-paper";
+import PhoneInput from "../../../ottery-ui/input/PhoneInput";
 
 enum Tabs {
     children = "Children",
@@ -82,7 +83,12 @@ export function UserProfile() {
 
     return (
         <MarginlessMain>
-            <MultiFieldHeader
+            <PhoneInput
+                label={"PHONE"}
+                value="123123"
+                onChange={()=>{}}
+            />
+            {/* <MultiFieldHeader
                 src={userData?.pfp}
                 title={userData?.firstName + " " + userData?.lastName}
                 tab={tab}
@@ -91,7 +97,7 @@ export function UserProfile() {
             />
             <ImageButtonList>
                 {buttons}
-            </ImageButtonList>
+            </ImageButtonList> */}
         </MarginlessMain>
     );
 }
