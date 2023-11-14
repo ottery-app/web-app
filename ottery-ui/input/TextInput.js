@@ -49,16 +49,19 @@ export default function TextInput({
         }}
         onChangeText={(text) => onChange(text)}
       />
-      <Text
-        style={{
-          marginLeft: margin.small,
-          marginTop: margin.small,
-          fontSize: 12,
-          color: colors.error.main,
-        }}
-      >
-        {errorMsg && validatorStatus == "error" ? errorMsg : ""}
-      </Text>
+      {(errorMsg && validatorStatus == "error")
+        ?<Text
+          style={{
+            marginLeft: margin.small,
+            marginTop: margin.small,
+            fontSize: 12,
+            color: colors.error.main,
+          }}
+        >
+          {errorMsg}
+        </Text>
+        :undefined
+      }
     </>
   );
 }
