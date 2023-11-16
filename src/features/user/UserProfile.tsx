@@ -91,6 +91,7 @@ export function UserProfile() {
                 onTab={(tab)=>{setTab(tab)}}
                 tabs={Object.values(Tabs)}
             />
+            <ImageInput></ImageInput>
             <ImageButtonList>
                 {buttons}
             </ImageButtonList>
