@@ -41,6 +41,7 @@ export const colors = {
     contrastText: "white",
   },
 
+  //grey
   disabled: {
     main: "#cdcdcd",
     dark: "black",
@@ -50,10 +51,11 @@ export const colors = {
   text: {
     primary: "black",
     secondary: "white",
-    tertiary: "#ddd",
+    tertiary: "#848484",
     hyperlink: "#0078ff",
   },
 
+  //mainly white
   background: {
     primary: "white",
     secondary: "#eee",
