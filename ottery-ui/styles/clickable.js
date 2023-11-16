@@ -4,9 +4,9 @@
  */
 export const clickable = {
     minWidth: 35,
-    maxWidth: 150,
+    maxWidth: 100,
     minHeight: 35,
-    maxHeight: 150,
+    maxHeight: 100,
 }
 //removed from buttons since it caused the flow to change
 // transform: scale(1.03);

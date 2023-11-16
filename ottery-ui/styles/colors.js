@@ -43,7 +43,7 @@ export const colors = {
 
   //grey
   disabled: {
-    main: "#9c9c9c",
+    main: "#cdcdcd",
     dark: "black",
     contrastText: "black",
   },
@@ -59,5 +59,6 @@ export const colors = {
   background: {
     primary: "white",
     secondary: "#eee",
+    contrast: "#848484",
   },
 };
