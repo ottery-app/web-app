@@ -1,59 +1,43 @@
-import {useState} from "react";
-import { useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import Image from "../image/Image";
-import { image } from "../styles/image";
-import { colors } from "../styles/colors";
-import { border } from "../styles/border";
 import { margin } from "../styles/margin";
+import { CheckBox, CheckBoxMode } from "./CheckBox"
+import { StyleSheet, View } from "react-native";
 
-const styles = StyleSheet.create({
-    Button: {
-        flexDirection: 'row',
-        width: '100%',
-        borderRadius: 10,
-        padding: 1.5 * margin.medium,
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: margin.medium
-    }
-})
-
-interface FieldOption{
+export interface RadioInputOption{
     key: any,
     value: string
 }
 
-interface RadioInputFieldsProps {
+export interface RadioInputProps {
     current: any,
     onChange: (current: any) => void,
-    options: FieldOption[]
+    options: RadioInputOption[],
+    mode: CheckBoxMode,
 }
 
-export default function RadioInputFields({
+const styles = StyleSheet.create({
+    main: {
+        flex: 1,
+        flexDirection: "column",
+        gap: margin.medium,
+    }
+});
+
+export function RadioInput({
     current,
     onChange=undefined,
-    options=[]
-}: RadioInputFieldsProps) {
-
+    options,
+    mode,
+}: RadioInputProps) {
     return (
-        <View>
-            {options.map((option, index) => {
-                if(option.key === current){
-                    return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.success.main}]} key={index} onPress={() => onChange(null)}>
-                        <Text style={{color:colors.success.contrastText}}>{option.value}</Text>
-                        <View>
-                            <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'checkmark'} alt={'check icon'}/>
-                        </View>
-                    </TouchableOpacity>)
-                }
-                return (<TouchableOpacity style={[styles.Button, {backgroundColor: colors.background.primary}]} key={index}  onPress={() => onChange(option.key)}>
-                    <Text>{option.value}</Text>
-                    <View>
-                        <Image height={0.5*image.smallProfile} width={0.5*image.smallProfile} src={'xmark'} alt={'xmark icon'}/>
-                    </View>
-                </TouchableOpacity>)
-            })}
+        <View style={styles.main}>
+            {options.map((option)=>
+                <CheckBox 
+                    mode={mode}
+                    value={option.key === current}
+                    label={option.value}
+                    onChange={()=>{onChange(option.key)}}
+                />
+            )}
         </View>
     )
 }

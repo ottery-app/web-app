@@ -20,15 +20,6 @@ export const check: ImageAsset = {
   aspectRatio: 1,
 };
 
-export const checkmark: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/checkmark.svg",
-  aspectRatio: 1,
-};
-export const xmark: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/xmark.svg",
-  aspectRatio: 1,
-};
-
 export const message: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/message.svg",
   aspectRatio: 1,

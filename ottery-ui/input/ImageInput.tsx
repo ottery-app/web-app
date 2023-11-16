@@ -13,8 +13,6 @@ import { Platform } from 'react-native';
 import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
 
-const shift = 25;
-
 export default function ImageInput({
     value="pfp",
     onChange=(image:ImageAsset)=>{},
@@ -56,32 +54,25 @@ export default function ImageInput({
                     height:image.mediumProfile,
                 }}
             >
-                <View
-                    style={{
-                        position: "relative",
-                        top: -shift,
-                        zIndex: zindex.front,
-                    }}
-                >
-                    <View style={{
-                        position: "relative",
-                        top: shift,
-                        zIndex: zindex.front,
-                    }}>
+                <View style={{
+                    position: "absolute",
+                    zIndex: zindex.front,
+                }}>
+                    <View style={{position: "relative"}}>
                         <Button
                             radius={rad.round}
                             width={25}
                             height={25}
                         >+</Button>
                     </View>
-                    <Image
-                        src={value}
-                        alt={"Image input"}
-                        width={image.mediumProfile}
-                        height={image.mediumProfile}
-                        radius={radius}
-                    />
                 </View>
+                <Image
+                    src={value}
+                    alt={"Image input"}
+                    width={image.mediumProfile}
+                    height={image.mediumProfile}
+                    radius={radius}
+                />
             </TouchableOpacity>
             <Portal>
                 <Dialog visible={dialog} onDismiss={close} dismissable={true}>
