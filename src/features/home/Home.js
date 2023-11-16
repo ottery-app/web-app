@@ -2,17 +2,19 @@ import { useSelector } from "react-redux";
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { useNavigator } from "../../router/useNavigator";
 import { selectUserState } from "../auth/authSlice";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { role } from "@ottery/ottery-dto";
 import { usePing } from "../../../ottery-ping";
 import { message, pfp } from "../../../assets/icons";
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
+import { Dropdown } from "../../../ottery-ui/input/Dropdown";
 
 export function Home() {
   const navigator = useNavigator();
   const userState = useSelector(selectUserState);
   const { error } = usePing();
+  const [drop, setDrop] = useState();
 
   const buttons = useMemo(() => {
     const buttons = [
@@ -51,9 +53,17 @@ export function Home() {
     return buttons;
   }, [userState]);
 
+  console.log(drop)
+  
   return (
     <Main>
       <ButtonMenu buttons={buttons} />
+      <Dropdown 
+        label="testing this thang"
+        value={drop}
+        options={[{label:"asdf", value:"test"}, {label:"5454", value:"test2"}]}
+        onChange={(value)=>{setDrop(value)}}
+      />
     </Main>
   );
 }
