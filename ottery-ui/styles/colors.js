@@ -42,7 +42,7 @@ export const colors = {
   },
 
   disabled: {
-    main: "#9c9c9c",
+    main: "#cdcdcd",
     dark: "black",
     contrastText: "black",
   },

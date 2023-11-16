@@ -13,7 +13,6 @@ import { useChatClient } from "../chat/useChatClient";
 import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
 import SelectionButton from "../../../ottery-ui/buttons/SelectionButton"
 import { Text } from "react-native-paper";
-import ImageInput from "../../../ottery-ui/input/ImageInput";
 import { TouchableOpacity } from "react-native";
 
 enum Tabs {
@@ -91,7 +90,6 @@ export function UserProfile() {
                 onTab={(tab)=>{setTab(tab)}}
                 tabs={Object.values(Tabs)}
             />
-            <ImageInput></ImageInput>
             <ImageButtonList>
                 {buttons}
             </ImageButtonList>

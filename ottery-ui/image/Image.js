@@ -5,8 +5,6 @@ import {
   x,
   closedMailWithHalo,
   check,
-  checkmark,
-  xmark,
 } from "../../assets/icons";
 
 const defaultSrc = {
@@ -14,8 +12,6 @@ const defaultSrc = {
   x,
   closedMailWithHalo,
   check,
-  checkmark,
-  xmark,
 };
 
 const Image = ({
