@@ -1,62 +1,105 @@
 import Image from "../image/Image";
-import { radius as rad } from "../styles/radius";
-import {useMemo} from "react"
-import {View, StyleSheet} from "react-native"
+import { radius as rad, radius } from "../styles/radius";
+import { useMemo } from "react";
+import { View, StyleSheet } from "react-native";
 import Button from "./Button";
 import { colors } from "../styles/colors";
-import { check, x } from "../../assets/icons";
+import { checkmarkBlack, x } from "../../assets/icons";
 import { clickable } from "../styles/clickable";
 import { BUTTON_STATES } from "./button.enum";
+import { margin } from "../styles/margin";
+import { border } from "../styles/border";
+import { image } from "../styles/image";
 
 const style = StyleSheet.create({
-    container: {
-        marginBottom: 0,
-        marginTop: 2,
-        flex: 3,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems:"center",
-        width: "100%",
-    },
-})
+  container: {
+    marginBottom: margin.small,
+    marginTop: margin.small,
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+  ButtonImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    marginRight: margin.small,
+  },
+  Name: {
+    flex: 3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export function ImageButton({
-  left=undefined,
-  right=undefined,
+  left = undefined,
+  right = undefined,
   children,
-  color=colors.secondary,
-  state=undefined,
-  onPress=undefined,
+  color = colors.secondary,
+  state = undefined,
+  onPress = undefined,
 }) {
-    const leftImage = useMemo(()=>{
-        if (left) {
-            return <Image height={clickable.minHeight} src={left} />
-        }
+  const leftImage = useMemo(() => {
+    if (left) {
+      return (
+        <Image height={clickable.minHeight} src={left} radius={radius.round} />
+      );
+    }
 
-        if (state === BUTTON_STATES.error) {
-            return <Image height={clickable.minHeight} src={x} alt={"x mark"}/>
-        } else if (state===BUTTON_STATES.success) {
-            return <Image height={clickable.minHeight} src={check} alt={"checkmark"}/>
-        }
-    }, [left, state]);
+    if (state === BUTTON_STATES.error) {
+      return (
+        <Image
+          height={clickable.minHeight}
+          src={x}
+          alt={"x mark"}
+          radius={radius.round}
+        />
+      );
+    } else if (state === BUTTON_STATES.success) {
+      return (
+        <Image
+          height={0.75 * clickable.minHeight}
+          src={checkmarkBlack}
+          alt={"checkmark"}
+          radius={radius.round}
+        />
+      );
+    }
+  }, [left, state]);
 
-    const rightImage = useMemo(()=>right && <Image height={clickable.minHeight} src={right} />, [right]);
+  const rightImage = useMemo(
+    () =>
+      right && (
+        <Image
+          height={clickable.minHeight}
+          width={clickable.minWidth}
+          src={right}
+          radius={radius.round}
+        />
+      ),
+    [right]
+  );
 
-    return (
-        <Button 
-            onPress={onPress} 
-            radius={rad.round} 
-            color={color} 
-            width={"100%"}
-            state={state}
-        >
-            {(leftImage || rightImage)
-                ?<View style={style.container}>
-                    {leftImage || <View />}
-                    {children}
-                    {rightImage || <View />}
-                </View>
-                :children}
-        </Button>
-    )
+  return (
+    <Button
+      onPress={onPress}
+      radius={rad.round}
+      color={color}
+      width={"100%"}
+      height={image.smallProfile}
+      state={state}
+      styles={{ borderWidth: border.thin, borderColor: colors.text.primary }}
+    >
+      {leftImage || rightImage ? (
+        <View style={style.container}>
+          <View style={{ flex: 1 }}>{leftImage || <View />}</View>
+          <View style={[style.Name]}>{children}</View>
+          <View style={style.ButtonImage}>{rightImage || <View />}</View>
+        </View>
+      ) : (
+        children
+      )}
+    </Button>
+  );
 }

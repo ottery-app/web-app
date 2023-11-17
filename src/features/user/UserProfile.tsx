@@ -10,7 +10,10 @@ import { pfp } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useChatClient } from "../chat/useChatClient";
+import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
+import SelectionButton from "../../../ottery-ui/buttons/SelectionButton"
 import { Text } from "react-native-paper";
+import { TouchableOpacity } from "react-native";
 
 enum Tabs {
     children = "Children",
