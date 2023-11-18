@@ -32,6 +32,14 @@ const theme = {
         onSurfaceVariant: colors.text.primary,
         outline: colors.primary.dark,
         outlineVariant: colors.secondary.dark,
+
+        surface: colors.primary.main,
+
+        elevation: {
+            level1: colors.background.primary,
+            level2: colors.background.primary,
+        }
+
         // inverseSurface: "rgb(50, 47, 51)",
         // inverseOnSurface: "rgb(245, 239, 244)",
         // inversePrimary: "rgb(220, 184, 255)",
