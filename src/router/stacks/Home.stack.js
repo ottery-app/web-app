@@ -3,7 +3,6 @@ import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
 import { screenOptions } from "./screenOptions";
-import { LogoTitle } from "./LogoTitle";
 import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
@@ -11,6 +10,7 @@ import { Notifications } from "../../features/notifications/notifications";
 import { UserProfile } from "../../features/user/UserProfile";
 import { ChildProfile } from "../../features/child/ChildProfile";
 import AddGuardian from "../../features/child/AddGuardian";
+import Header from "./Header";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,8 +20,8 @@ export function HomeStack() {
       <Stack.Screen
         name={paths.main.home}
         options={{
-          headerTitle: (props) => <LogoTitle {...props} />,
-        }} //switch to logo at some point
+          header: (props) => <Header {...props} />,
+        }}
       >
         {(props) => (
           <AuthGuard loggedin activated>
