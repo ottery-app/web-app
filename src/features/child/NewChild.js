@@ -68,7 +68,7 @@ export function NewChild() {
             <DateInput 
                 label={"Birth date"}
                 value={form?.dateOfBirth}
-                onChange={(value)=>{console.log(value); setForm({...form, dateOfBirth: value})}}
+                onChange={(value)=>{setForm({...form, dateOfBirth: value})}}
             />
             <Dropdown
                 label="Gender"
