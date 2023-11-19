@@ -6,11 +6,12 @@ import { useMemo, useState } from "react";
 import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
 import { MarginlessMain } from "../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
-import { pfp } from "../../../assets/icons";
+import { pfp, pluss } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useChatClient } from "../chat/useChatClient";
 import { Text } from "react-native-paper";
+import { colors } from "../../../ottery-ui/styles/colors";
 
 enum Tabs {
     children = "Children",
@@ -72,6 +73,15 @@ export function UserProfile() {
                     <Text>{child.firstName} {child.lastName}</Text>
                 </ImageButton>
             });
+
+            data[Tabs.children].unshift(<ImageButton
+                key={"add child"}
+                right={pluss}
+                color={colors.success}
+                onPress={()=>{navigator(paths.main.child.new)}}
+            >
+                <Text>Add a child</Text>
+            </ImageButton>)
         }
         return data;
     }, [userChildren, userFriends, userEvents]);

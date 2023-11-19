@@ -12,6 +12,7 @@ import { ChildProfile } from "../../features/child/ChildProfile";
 import AddGuardian from "../../features/child/AddGuardian";
 import Header from "./Header";
 import { EventHome } from "../../features/event/EventHome";
+import { NewChild } from "../../features/child/NewChild";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,7 +80,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <NewChild/>
             </View>
           </AuthGuard>
         )}
