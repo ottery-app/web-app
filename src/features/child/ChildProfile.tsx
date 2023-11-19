@@ -21,7 +21,6 @@ enum Tabs {
 
 export function ChildProfile({route}) {
     const navigator = useNavigator();
-    const Ping = usePing();
 
     const userId = useAuthClient().useUserId();
     const childId = route.params.childId;

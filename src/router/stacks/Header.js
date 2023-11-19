@@ -6,6 +6,7 @@ import Image from "../../../ottery-ui/image/Image";
 import { useAuthClient } from '../../features/auth/useAuthClient';
 import { role } from '@ottery/ottery-dto';
 import { colors } from '../../../ottery-ui/styles/colors';
+import { margin } from '../../../ottery-ui/styles/margin';
 
 export default function Header({
   navigation,
@@ -22,7 +23,7 @@ export default function Header({
         <Appbar.Header style={{backgroundColor:(sesh.state === role.CARETAKER)?colors.success.main:colors.primary.main}}>
             {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
             <Appbar.Content title={<Image src={logoDefault} width={150}/>} />
-            {(sesh.state === role.CARETAKER)?<Text>Clocked in</Text>:undefined}
+            {(sesh.state === role.CARETAKER)?<Text style={{padding:margin.large}}>Clocked in</Text>:undefined}
             {!back ? (
                 <Menu
                     visible={visible}
