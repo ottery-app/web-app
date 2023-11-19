@@ -4,13 +4,13 @@ import { TextInput } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
 
-const DateInput = ({ label, value = new Date(), onChange }) => {
+const DateInput = ({ label, value = new Date().getTime(), onChange }) => {
   const [open, setOpen] = useState(false);
 
   const onConfirmSingle = React.useCallback(
     (params) => {
       setOpen(false);
-      onChange(params.date);
+      onChange(params.date.getTime());
     },
     [setOpen, onChange]
   );
@@ -20,6 +20,7 @@ const DateInput = ({ label, value = new Date(), onChange }) => {
   }, [setOpen]);
 
   function formatDate(date) {
+    date = new Date(date);
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear().toString();
@@ -45,7 +46,7 @@ const DateInput = ({ label, value = new Date(), onChange }) => {
         locale="en"
         mode="single"
         visible={open}
-        date={value}
+        date={new Date(value)}
         animationType="fade"
         label={label}
         saveLabel="Save"

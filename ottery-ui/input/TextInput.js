@@ -5,6 +5,7 @@ import { makeValidator, useValidator } from "./useValidator";
 import { useThemeMaker } from "../styles/Color";
 import { margin } from "../styles/margin";
 import { Text } from "react-native";
+import { radius } from "../styles/radius";
 
 export default function TextInput({
   color = colors.primary,
@@ -33,7 +34,10 @@ export default function TextInput({
   return (
     <>
       <InternalTextInput
-        theme={theme}
+        theme={{
+          ...theme,
+          roundness: radius.default,
+        }}
         secureTextEntry={!!password}
         mode={mode}
         placeholder={placeholder}

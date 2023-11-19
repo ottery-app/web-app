@@ -10,8 +10,8 @@ import { zindex } from "../styles/zindex";
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: margin.large,
-    paddingBottom: margin.large,
+    paddingTop: margin.small,
+    paddingBottom: margin.small,
   },
   dropdown: {
     height: clickable.minHeight * 1.5, //arbitrary number
@@ -23,12 +23,14 @@ const styles = StyleSheet.create({
   },
   label: {
     position: "absolute",
+  },
+  labelContainer:{
+    position: "relative",
     backgroundColor: colors.background.primary,
+
     transform: [{translateX: margin.small}, {translateY: -10}], //arbitrary number
     zIndex: zindex.front,
     paddingHorizontal: margin.small,
-    color: colors.primary.main,
-    borderRadius: radius.default,
   },
   placeholderStyle: {
     color: colors.text.tertiary,
@@ -53,7 +55,7 @@ interface DropdownProps {
   label: string;
   options: DropdownOption[];
   value: string;
-  placeholder: string;
+  placeholder?: string;
   onChange: (key: string) => void;
 }
 
@@ -66,7 +68,7 @@ export function Dropdown({
 }: DropdownProps) {
   return (
     <View style={styles.container}>
-      {(value) ? <Text style={styles.label}>{label}</Text> : undefined}
+      {(value) ? <View style={styles.labelContainer}><Text style={styles.label}>{label}</Text></View> : undefined}
       <DropdownInner
         style={[styles.dropdown, { borderColor: colors.primary.main }]}
         placeholderStyle={styles.placeholderStyle}

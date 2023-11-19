@@ -12,9 +12,10 @@ import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
 import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
+import { pfp } from "../../assets/icons";
 
 export default function ImageInput({
-    value="pfp",
+    value=pfp,
     onChange=(image:ImageAsset)=>{},
     radius=rad.round,
 }) {
