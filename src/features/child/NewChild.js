@@ -37,8 +37,6 @@ export function NewChild() {
         })
     }
 
-    console.log(form);
-
     return (
         <Main>
             <View style={{margin:margin.medium}}>
@@ -68,12 +66,12 @@ export function NewChild() {
                 onChange={(value)=>{setForm({...form, lastName:value})}}
             />
             <DateInput 
-                label={"birthdate"}
+                label={"Birth date"}
                 value={form?.dateOfBirth}
-                onChange={(value)=>{setForm({...form, dateOfBirth: value})}}
+                onChange={(value)=>{console.log(value); setForm({...form, dateOfBirth: value})}}
             />
             <Dropdown
-                label="gender"
+                label="Gender"
                 value={form?.gender}
                 options={Object.keys(gender).map((key)=>{return {label: gender[key], value: gender[key]}})}
                 onChange={(value)=>{setForm({...form, gender:value})}}

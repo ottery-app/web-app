@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TouchableWithoutFeedback } from "react-native";
-import { TextInput } from "react-native-paper";
+import { DefaultTheme, TextInput, ThemeProvider } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
 
@@ -42,17 +42,26 @@ const DateInput = ({ label, value = new Date().getTime(), onChange }) => {
           value={formatDate(value)}
         />
       </TouchableWithoutFeedback>
-      <DatePickerModal
-        locale="en"
-        mode="single"
-        visible={open}
-        date={new Date(value)}
-        animationType="fade"
-        label={label}
-        saveLabel="Save"
-        onConfirm={onConfirmSingle}
-        onDismiss={onDismissSingle}
-      />
+      <ThemeProvider theme={{
+        ...DefaultTheme,
+        colors: {
+          ...DefaultTheme.colors,
+          primary: colors.primary.main,
+          onPrimary: colors.primary.contrastText,
+        }
+      }}>
+        <DatePickerModal
+          locale="en"
+          mode="single"
+          visible={open}
+          date={new Date(value)}
+          animationType="fade"
+          label={label}
+          saveLabel="SAVE"
+          onConfirm={onConfirmSingle}
+          onDismiss={onDismissSingle}
+        />
+      </ThemeProvider>
     </View>
   );
 };
