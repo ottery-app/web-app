@@ -34,3 +34,13 @@ export const checkmarkBlack: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/checkmarkBlack.svg",
   aspectRatio: 1,
 };
+
+export const users: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/users.svg",
+  aspectRatio:1,
+}
+
+export const clock: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/clock.svg",
+  aspectRatio:1,
+}

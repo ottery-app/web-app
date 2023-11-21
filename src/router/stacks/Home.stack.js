@@ -3,7 +3,6 @@ import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
 import { screenOptions } from "./screenOptions";
-import { LogoTitle } from "./LogoTitle";
 import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
@@ -11,17 +10,20 @@ import { Notifications } from "../../features/notifications/notifications";
 import { UserProfile } from "../../features/user/UserProfile";
 import { ChildProfile } from "../../features/child/ChildProfile";
 import AddGuardian from "../../features/child/AddGuardian";
+import Header from "./Header";
+import { EventHome } from "../../features/event/EventHome";
+import { NewChild } from "../../features/child/NewChild";
 
 const Stack = createNativeStackNavigator();
 
 export function HomeStack() {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator>
       <Stack.Screen
         name={paths.main.home}
         options={{
-          headerTitle: (props) => <LogoTitle {...props} />,
-        }} //switch to logo at some point
+          header: (props) => <Header {...props} />,
+        }}
       >
         {(props) => (
           <AuthGuard loggedin activated>
@@ -33,6 +35,7 @@ export function HomeStack() {
         name={paths.main.social.notifications}
         options={{
           title: "Notifications",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -45,6 +48,7 @@ export function HomeStack() {
         name={paths.main.social.chat}
         options={{
           title: "Chat",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -57,6 +61,7 @@ export function HomeStack() {
         name={paths.main.social.messages}
         options={{
           title: "Messages",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -69,12 +74,13 @@ export function HomeStack() {
         name={paths.main.child.new}
         options={{
           title: "New Child",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <NewChild/>
             </View>
           </AuthGuard>
         )}
@@ -83,6 +89,7 @@ export function HomeStack() {
         name={paths.main.child.profile}
         options={{
           title: "Child",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -97,6 +104,7 @@ export function HomeStack() {
         name={paths.main.child.addGuardian}
         options={{
           title: "Add Guardian",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -111,6 +119,7 @@ export function HomeStack() {
         name={paths.main.user.profile}
         options={{
           title: "User Profile",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
@@ -125,12 +134,13 @@ export function HomeStack() {
         name={paths.main.event.dash}
         options={{
           title: "Event Dash",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <EventHome {...props} />
             </View>
           </AuthGuard>
         )}
@@ -139,6 +149,7 @@ export function HomeStack() {
         name={paths.main.event.signup}
         options={{
           title: "Sign Up",
+          header: (props) => <Header {...props} />,
         }}
       >
         {(props) => (

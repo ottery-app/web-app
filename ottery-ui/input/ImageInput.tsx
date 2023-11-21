@@ -12,9 +12,11 @@ import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
 import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
+import { pfp } from "../../assets/icons";
+import { formatForApi } from "../../src/functions/images";
 
 export default function ImageInput({
-    value="pfp",
+    value=pfp,
     onChange=(image:ImageAsset)=>{},
     radius=rad.round,
 }) {
@@ -28,11 +30,16 @@ export default function ImageInput({
         setDialog(false);
     }
 
-    function imageCallback(e) {
-        onChange({
+    async function imageCallback(e) {
+        
+        let image = {
             aspectRatio: e.assets[0].height/e.assets[0].width,
             src: e.assets[0].uri
-        })
+        };
+
+        //image = await formatForApi(image);
+
+        onChange(image);
     }
 
     function pickPhoto() {

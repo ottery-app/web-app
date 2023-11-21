@@ -1,17 +1,18 @@
-import { useSelector } from "react-redux";
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { useNavigator } from "../../router/useNavigator";
-import { selectUserState } from "../auth/authSlice";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { role } from "@ottery/ottery-dto";
 import { usePing } from "../../../ottery-ping";
-import { message, pfp } from "../../../assets/icons";
+import { clock, message, pfp } from "../../../assets/icons";
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
+import { useAuthClient } from "../auth/useAuthClient";
 
 export function Home() {
   const navigator = useNavigator();
-  const userState = useSelector(selectUserState);
+  const authClient = useAuthClient();
+  const [state, swapState] = authClient.useSwapState();
+  const sesh = authClient.useSesh();
   const { error } = usePing();
 
   const buttons = useMemo(() => {
@@ -37,19 +38,19 @@ export function Home() {
       // },
     ];
 
-    if (userState === role.GUARDIAN) {
-    } else if (userState === role.CARETAKER) {
+    if (state === role.GUARDIAN) {
+    } else if (state === role.CARETAKER) {
       buttons.push({
-        icon: "clock",
+        icon: {uri:clock.src},
         title: "Clock out?",
         onPress: () => {
-          error("no");
+          swapState(sesh.event)
         },
       });
     }
 
     return buttons;
-  }, [userState]);
+  }, [state]);
   
   return (
     <Main>
