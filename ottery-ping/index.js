@@ -5,9 +5,8 @@ import {
     useState
 } from "react";
 
-import { Snackbar, Button, useTheme } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
 import useColors from "../ottery-ui/styles/useColors";
-import { colors } from "../ottery-ui/styles/colors";
 
 
 const PingContext = createContext();

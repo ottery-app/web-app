@@ -7,6 +7,7 @@ import { useAuthClient } from '../../features/auth/useAuthClient';
 import { role } from '@ottery/ottery-dto';
 import { colors } from '../../../ottery-ui/styles/colors';
 import { margin } from '../../../ottery-ui/styles/margin';
+import { useGotoNext } from '../useNavigator';
 
 export default function Header({
   navigation,
@@ -17,6 +18,7 @@ export default function Header({
   const closeMenu = () => setVisible(false);
   const sesh = useAuthClient().useSesh();
   const logout = useAuthClient().useLogout();
+  useGotoNext();
 
   return (
     <ThemeProvider>
