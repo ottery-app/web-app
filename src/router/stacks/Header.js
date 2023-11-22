@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Appbar, Menu, Text } from 'react-native-paper';
 import { ThemeProvider } from '../../../ottery-ui/styles/Color';
 import { logoDefault } from "../../../assets/logos";

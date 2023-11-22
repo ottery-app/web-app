@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { useCallback, createContext, useRef, useContext } from "react";
 import * as Linking from "expo-linking";
+import paths from "./paths";
+import { Link } from "react-router-native";
 
 const NavigatorContext = createContext();
 
@@ -51,9 +53,17 @@ export function NavigatorProvider({children}) {
 export function useGotoNext() {
   const navigator = useNavigator()
   const {hasNext, consumeNext} = useContext(NavigatorContext);
-
+  console.log("trigger next");
   if (hasNext()) {
-    navigator(consumeNext());
+    let next = consumeNext();
+    // console.log(next);
+    // console.log(paths);
+    // console.log(Linking);
+    console.log(next);
+    next = Linking.parse(next);
+    console.log(next);
+    //window.location = next
+    navigator(next.path);
   }
 }
 
