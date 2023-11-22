@@ -56,14 +56,14 @@ export function useGotoNext() {
   console.log("trigger next");
   if (hasNext()) {
     let next = consumeNext();
-    // console.log(next);
-    // console.log(paths);
-    // console.log(Linking);
-    console.log(next);
     next = Linking.parse(next);
-    console.log(next);
-    //window.location = next
-    navigator(next.path);
+
+    setTimeout(()=>{
+      //WORKS WITH THIS LINK:
+      //http://localhost:19006//child/:childId/addguardian?childId=65408d3f9b8ed4e9ed45942b&token=CVWDUWCX9AKUYQ8QUPHBSPF6SCTMH36T&email=benjamin@ottery.app
+      console.log(next);
+      navigator(next.path, next.queryParams);
+    }, 10);
   }
 }
 

@@ -5,6 +5,8 @@ import {useState} from "react"
 export default function AddGuardianRoot({route}) {
     const [invite, setInvite] = useState(false);
 
+    //return "test"
+
     if (invite) {
         return <InviteGuardian route={route} setInvite={setInvite}/>
     } else {

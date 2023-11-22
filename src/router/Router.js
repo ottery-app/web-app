@@ -12,8 +12,6 @@ export default function Router() {
 
   const sesh = useSesh();
 
-  console.log(paths);
-
   const linking = {
     prefixes: [
       /*linking prefixes*/
@@ -24,13 +22,10 @@ export default function Router() {
       /** configuration for matching screens with paths */
       screens: {
         [paths.auth.resetPassword]: "reset-password",
-        //[paths.main.child.addGuardian]: ":childId/add-guardian",
-        //[paths.main.home]: "Main",
+        //[paths.main.child.addGuardian]: "child/:childId/addguardian",
       },
     },
   };
-
-  console.log(linking);
 
   return (
     <NavigationContainer linking={linking}>
