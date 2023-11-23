@@ -31,6 +31,8 @@ export default function ImageInput({
     }
 
     async function imageCallback(e) {
+
+        console.log(e);
         
         let image = {
             aspectRatio: e.assets[0].height/e.assets[0].width,
@@ -43,7 +45,9 @@ export default function ImageInput({
     }
 
     function pickPhoto() {
-        launchImageLibrary({mediaType:"photo"}, imageCallback);
+        launchImageLibrary({
+            mediaType: "photo",
+        }, imageCallback);
         close();
     }
 

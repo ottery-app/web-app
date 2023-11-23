@@ -3,7 +3,7 @@ import { useNavigator } from "../../router/useNavigator";
 import { useMemo } from "react";
 import { role } from "@ottery/ottery-dto";
 import { usePing } from "../../../ottery-ping";
-import { clock, message, pfp } from "../../../assets/icons";
+import { clock, message, pfp, users } from "../../../assets/icons";
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -46,8 +46,16 @@ export function Home() {
         onPress: () => {
           swapState(sesh.event)
         },
+      },                 {
+        icon: { uri: users.src },
+        title: "Roster",
+        onPress: () => {
+          navigator(paths.main.event.roster, {eventId: sesh.event});
+        },
       });
     }
+
+    
 
     return buttons;
   }, [state]);

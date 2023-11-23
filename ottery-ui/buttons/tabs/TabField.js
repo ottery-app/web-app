@@ -27,7 +27,7 @@ export default function TabField({
   type = TAB_BUTTON_TYPES.default,
   tabs = [],
   active = tabs[0],
-  onTab = () => {},
+  onTab,
 }) {
   const [current, setCurrent] = useState(active);
   color = useColors({ color });
