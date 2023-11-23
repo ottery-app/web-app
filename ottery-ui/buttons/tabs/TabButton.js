@@ -1,22 +1,35 @@
-import styled from "styled-components";
+import { border } from "../../styles/border";
 import { clickable } from "../../styles/clickable";
 import { colors } from "../../styles/colors";
 import { radius } from "../../styles/radius";
 import useColors from "../../styles/useColors";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { TAB_BUTTON_TYPES } from "../button.enum";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import {useMemo} from "react";
 
-const lineThickness = "3px";
+export const TAB_BUTTON_TYPES = {
+  hanging: "hanging",
+  upright: "upright",
+  default: "default",
+};
+
 const styles = StyleSheet.create({
-  Tab: {
+  common: {
+    height: clickable.minHeight,
     flex: 1,
-    borderRadius: `${radius.default}`,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: clickable.minHeight,
-    minWidth: 2 * clickable.minWidth,
-    color: colors.contrastText,
+    alignItems:"center",
+    justifyContent:"center",
+    borderWidth: border.thin,
+  },
+  [TAB_BUTTON_TYPES.default]: {
+    borderRadius: radius.default,
+  },
+  [TAB_BUTTON_TYPES.upright]: {
+    borderTopLeftRadius: radius.default,
+    borderTopRightRadius: radius.default,
+  },
+  [TAB_BUTTON_TYPES.hanging]: {
+    borderBottomLeftRadius: radius.default,
+    borderBottomRightRadius: radius.default,
   },
 });
 
@@ -28,62 +41,19 @@ export function TabButton({
   children,
 }) {
   const col = useColors({ color: color });
-  const commonStyle = [
-    styles.Tab,
-    { color: col.contrastText, background: active ? col.dark : col.main },
-  ];
-  if (type === TAB_BUTTON_TYPES.hanging) {
-    return (
-      <TouchableOpacity
-        style={[
-          ...commonStyle,
-          {
-            borderRadius: `0 0 ${radius.default} ${radius.default}`,
-            border: `0 solid ${color.dark}`,
-            borderTop: `${lineThickness} solid ${color.dark}`,
-          },
-        ]}
-        onPress={onTab}
-      >
-        <Text>{children}</Text>
-      </TouchableOpacity>
-    );
-  } else if (type === TAB_BUTTON_TYPES.upright) {
-    return (
-      <TouchableOpacity
-        style={[
-          ...commonStyle,
-          {
-            borderWidth: 1,
-            borderColor: color.contrastText,
-            borderTopLeftRadius: radius.default,
-            borderTopRightRadius: radius.default,
-          },
-        ]}
-        onPress={onTab}
-      >
-        <Text style={{ fontSize: "17px", lineHeight: "19px", fontWeight: 400 }}>
-          {children}
-        </Text>
-      </TouchableOpacity>
-    );
-  } else if (type === TAB_BUTTON_TYPES.line) {
-    return (
-      <TouchableOpacity
-        style={[
-          ...commonStyle,
-          { borderWidth: 1, borderColor: color.contrastText },
-        ]}
-        onPress={onTab}
-      >
-        <Text>{children}</Text>
-      </TouchableOpacity>
-    );
-  } else {
-    return (
-      <TouchableOpacity style={[...commonStyle]} onPress={onTab}>
-        <Text>{children}</Text>
-      </TouchableOpacity>
-    );
-  }
+  const backgroundColor = useMemo(()=>(active) ? col.dark : col.main, [active])
+
+  return (
+    <TouchableOpacity 
+      style={[styles[type], styles.common, {
+        backgroundColor: backgroundColor,
+        borderColor: col.dark,
+      }]}
+      onPress={()=>onTab(children)}
+    >
+      <Text style={{
+        color: col.contractText,
+      }}>{children}</Text>
+    </TouchableOpacity>
+  );
 }

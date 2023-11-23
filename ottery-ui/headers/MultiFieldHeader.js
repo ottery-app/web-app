@@ -4,11 +4,10 @@ import { colors } from "../styles/colors";
 import { radius as rad } from "../styles/radius";
 import { margin } from "../styles/margin";
 import TabField from "../buttons/tabs/TabField";
-import { TabButtonTypes } from "../buttons/tabs/TabButton";
+import { TAB_BUTTON_TYPES } from "../buttons/tabs/TabButton";
 import { IconButton, Text } from "react-native-paper";
 import Image from "../image/Image";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { TAB_BUTTON_TYPES } from "../buttons/button.enum";
 
 const IMAGE_RAD = image.mediumProfile;
 //imageStyles.clickable.minHeight;
