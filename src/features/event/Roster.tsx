@@ -11,8 +11,9 @@ import { useChildClient } from "../child/useChildClient";
 import { Text } from "react-native-paper";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
-import { pfp } from "../../../assets/icons";
+import { pfp, pluss } from "../../../assets/icons";
 import { usePing } from "../../../ottery-ping";
+import { colors } from "../../../ottery-ui/styles/colors";
 
 enum RosterTabs {
     caretakers = "Caretakers",
@@ -22,6 +23,7 @@ enum RosterTabs {
 export function Roster() {
     const [tab, setTab] = React.useState(RosterTabs.caretakers);
     const Ping = usePing();
+    const navigator = useNavigator();
     const eventId = useAuthClient().useSesh().event;
     const eventClient = useEventClient();
     const eventInfoRes = eventClient.useGetEventInfo({inputs: [eventId]});
@@ -49,15 +51,26 @@ export function Roster() {
                 </ImageButton>
             )
         } else if (tab === RosterTabs.caretakers) {
-            return volenteers?.map((volenteer)=>
-            <ImageButton 
-                key={volenteer._id}
-                right={{src:volenteer?.pfp?.src, aspectRatio:1} || pfp}
-                onPress={()=>{Ping.error("go to volenteer info?")}}
+            const buttons = volenteers?.map((volenteer)=>
+                <ImageButton 
+                    key={volenteer._id}
+                    right={{src:volenteer?.pfp?.src, aspectRatio:1} || pfp}
+                    onPress={()=>{Ping.error("go to volenteer info?")}}
+                >
+                    <Text>{volenteer.firstName} {volenteer.lastName}</Text>
+                </ImageButton>
+            ) || [];
+
+            buttons.unshift(<ImageButton 
+                color={colors.success}
+                key={"add caretaker"}
+                right={pluss}
+                onPress={()=>{navigator(paths.main.event.invite.caretaker, {eventId: eventId})}}
             >
-                <Text>{volenteer.firstName} {volenteer.lastName}</Text>
-            </ImageButton>
-            )
+                <Text>Invite caretaker</Text>
+            </ImageButton>)
+
+            return buttons;
         }
     }, [tab, children, volenteers]);
 
