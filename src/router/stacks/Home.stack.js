@@ -14,6 +14,7 @@ import { EventHome } from "../../features/event/EventHome";
 import { NewChild } from "../../features/child/NewChild";
 import { Roster } from "../../features/event/Roster";
 import { InviteCaretaker } from "../../features/event/InviteCaretaker";
+import GetHelpScreen from "../../features/event/GetHelp";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,7 +82,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <NewChild/>
+              <NewChild />
             </View>
           </AuthGuard>
         )}
@@ -111,7 +112,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <ChildProfile {...props}/>
+              <ChildProfile {...props} />
             </View>
           </AuthGuard>
         )}
@@ -126,7 +127,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <AddGuardian {...props}/>
+              <AddGuardian {...props} />
             </View>
           </AuthGuard>
         )}
@@ -141,7 +142,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <UserProfile/>
+              <UserProfile />
             </View>
           </AuthGuard>
         )}
@@ -177,6 +178,19 @@ export function HomeStack() {
         )}
       </Stack.Screen>
       <Stack.Screen
+        name={paths.main.event.getHelp}
+        options={{
+          title: "Get Help",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <GetHelpScreen {...props} />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
         name={paths.main.event.invite.caretaker}
         options={{
           title: "Invite Caretaker",
@@ -186,7 +200,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <InviteCaretaker {...props}/>
+              <InviteCaretaker {...props} />
             </View>
           </AuthGuard>
         )}
