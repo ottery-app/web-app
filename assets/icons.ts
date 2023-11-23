@@ -37,10 +37,15 @@ export const checkmarkBlack: ImageAsset = {
 
 export const users: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/users.svg",
-  aspectRatio:1,
-}
+  aspectRatio: 1,
+};
 
 export const clock: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/clock.svg",
-  aspectRatio:1,
-}
+  aspectRatio: 1,
+};
+
+export const alertMessage: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/alertMessage.svg",
+  aspectRatio: 1,
+};
