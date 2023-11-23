@@ -1,9 +1,7 @@
 import useColors from "../../styles/useColors";
 import { colors } from "../../styles/colors";
-import { TabButton } from "./TabButton";
-import { useState } from "react";
+import { TAB_BUTTON_TYPES, TabButton } from "./TabButton";
 import { View, StyleSheet } from "react-native";
-import { TAB_BUTTON_TYPES } from "../button.enum";
 
 function generateAutos(length) {
   let auto = "";
@@ -27,9 +25,8 @@ export default function TabField({
   type = TAB_BUTTON_TYPES.default,
   tabs = [],
   active = tabs[0],
-  onTab = () => {},
+  onTab,
 }) {
-  const [current, setCurrent] = useState(active);
   color = useColors({ color });
 
   return (
@@ -40,11 +37,8 @@ export default function TabField({
         <TabButton
           color={color}
           key={tab}
-          onTab={() => {
-            setCurrent(tab);
-            onTab(tab);
-          }}
-          active={tab === current}
+          onTab={() => onTab(tab)}
+          active={tab === active}
           type={type}
         >
           {tab}

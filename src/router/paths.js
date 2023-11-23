@@ -25,6 +25,10 @@ export const paths = {
     event: {
       dash: "/event/dash/:eventId",
       signup: "/event/signup/:eventId",
+      roster: "/event/roster/:eventId",
+      invite: {
+        caretaker: "/event/:eventId/invite/caretaker",
+      }
     },
     user: {
       profile: "/user/profile",

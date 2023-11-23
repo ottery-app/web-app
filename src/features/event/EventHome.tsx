@@ -26,7 +26,7 @@ export function EventHome({route}) {
         enabled: !!event,
     });
     const chat = chatIdRes?.data?.data;
-    const isVolenteer = useMemo(()=>event?.volenteers.includes(userId), [eventRes]);
+    const isVolenteer = true || useMemo(()=>event?.volenteers.includes(userId), [eventRes]);
     const isAtendee = useMemo(()=>event?.attendees.includes(userId), [eventRes]);
 
     const buttons = useMemo(()=>{
@@ -53,7 +53,7 @@ export function EventHome({route}) {
                     icon: { uri: users.src },
                     title: "Roster",
                     onPress: () => {
-
+                        navigator(paths.main.event.roster, {eventId: event._id});
                     },
                 }
             )

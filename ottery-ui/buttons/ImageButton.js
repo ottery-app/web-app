@@ -89,7 +89,7 @@ export function ImageButton({
       width={"100%"}
       height={image.smallProfile}
       state={state}
-      styles={{ borderWidth: border.thin, borderColor: colors.text.primary }}
+      styles={{ borderWidth: border.thin, borderColor: color.dark }}
     >
       {leftImage || rightImage ? (
         <View style={style.container}>

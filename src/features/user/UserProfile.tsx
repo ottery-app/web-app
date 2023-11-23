@@ -55,7 +55,6 @@ export function UserProfile() {
                 </ImageButton>
             });
             data[Tabs.friends] = userFriends.map((friend)=>{
-                console.log(friend._id)
                 return <ImageButton 
                     key={friend._id}
                     right={{src:friend?.pfp?.src, aspectRatio:1} || pfp}

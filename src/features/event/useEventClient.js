@@ -15,6 +15,11 @@ export const QUERY_EVENT_TAG = "event";
 
 export function useEventClient() {
 
+    const useGetEventInfo = makeUseQuery({
+        queryKey: [QUERY_EVENT_TAG, "eventInfo"],
+        queryFn: getInfo,
+    });
+
     const useGetEvent = makeUseQuery({
         queryKey: [QUERY_EVENT_TAG, "event"],
         queryFn: async (event)=>{
@@ -43,11 +48,6 @@ export function useEventClient() {
         queryKey: [QUERY_EVENT_TAG, "volenteer", "signup"],
         queryFn: getVolenteerSignup,
     })
-
-    const useGetEventInfo = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "eventInfo"],
-        queryFn: getInfo,
-    });
 
     const useNewEvent = makeUseMutation({
         mutationFn: newEvent,

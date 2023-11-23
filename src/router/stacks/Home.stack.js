@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
-import { screenOptions } from "./screenOptions";
 import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
@@ -13,6 +12,8 @@ import AddGuardian from "../../features/child/AddGuardian";
 import Header from "./Header";
 import { EventHome } from "../../features/event/EventHome";
 import { NewChild } from "../../features/child/NewChild";
+import { Roster } from "../../features/event/Roster";
+import { InviteCaretaker } from "../../features/event/InviteCaretaker";
 
 const Stack = createNativeStackNavigator();
 
@@ -156,6 +157,36 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <EventHome {...props} />
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.event.roster}
+        options={{
+          title: "Roster",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <Roster {...props} />
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.event.invite.caretaker}
+        options={{
+          title: "Invite Caretaker",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <InviteCaretaker {...props}/>
             </View>
           </AuthGuard>
         )}

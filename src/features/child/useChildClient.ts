@@ -18,7 +18,6 @@ export function useChildClient() {
     const useGetChild = makeUseQuery({
         queryKey: [QUERY_CHILD_TAG],
         queryFn: async(child)=>{
-            console.log(child);
             const res = await getChildren([child]);
             res.data = res.data[0];
             return res;
