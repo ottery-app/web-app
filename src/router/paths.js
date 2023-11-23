@@ -28,6 +28,9 @@ export const paths = {
       roster: "/event/roster/:eventId",
       invite: {
         caretaker: "/event/:eventId/invite/caretaker",
+      },
+      accept: {
+        caretaker: "/event/:eventId/accept/caretaker",
       }
     },
     user: {

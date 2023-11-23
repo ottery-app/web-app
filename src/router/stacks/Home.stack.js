@@ -192,6 +192,21 @@ export function HomeStack() {
         )}
       </Stack.Screen>
       <Stack.Screen
+        name={paths.main.event.accept.caretaker}
+        options={{
+          title: "Accept caretaker invite",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <Text>accept caretaker invite</Text>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
         name={paths.main.event.signup}
         options={{
           title: "Sign Up",
