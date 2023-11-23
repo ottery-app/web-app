@@ -86,6 +86,21 @@ export function HomeStack() {
         )}
       </Stack.Screen>
       <Stack.Screen
+        name={paths.main.child.acceptGuardian}
+        options={{
+          title: "Accept guardian invite",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <Text>accept guardian invite</Text>
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
         name={paths.main.child.profile}
         options={{
           title: "Child",

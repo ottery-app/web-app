@@ -25,7 +25,7 @@ export function useAuthClient() {
 
   const useLoad = makeUseQuery({
     queryKey: [CLIENT_AUTH_TAG],
-    queryFn: async () => dispatch(load()),
+    queryFn: async () => {dispatch(load())},
   });
 
   const useLogin = makeUseMutation({
