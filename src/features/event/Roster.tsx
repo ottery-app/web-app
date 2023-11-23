@@ -4,7 +4,6 @@ import TabField from "../../../ottery-ui/buttons/tabs/TabField";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
 import { Main } from "../../../ottery-ui/containers/Main";
 import * as React from "react";
-import { useAuthClient } from "../auth/useAuthClient";
 import { useEventClient } from "./useEventClient";
 import { useUserClient } from "../user/useUserClient";
 import { useChildClient } from "../child/useChildClient";
@@ -20,11 +19,11 @@ enum RosterTabs {
     attendees = "Attendees",
 }
 
-export function Roster() {
+export function Roster({route}) {
     const [tab, setTab] = React.useState(RosterTabs.caretakers);
     const Ping = usePing();
     const navigator = useNavigator();
-    const eventId = useAuthClient().useSesh().event;
+    const eventId = route.params.eventId; //useAuthClient().useSesh().event;
     const eventClient = useEventClient();
     const eventInfoRes = eventClient.useGetEventInfo({inputs: [eventId]});
     const eventInfo = eventInfoRes?.data?.data;

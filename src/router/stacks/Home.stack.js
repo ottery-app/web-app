@@ -13,6 +13,7 @@ import Header from "./Header";
 import { EventHome } from "../../features/event/EventHome";
 import { NewChild } from "../../features/child/NewChild";
 import { Roster } from "../../features/event/Roster";
+import { InviteCaretaker } from "../../features/event/InviteCaretaker";
 
 const Stack = createNativeStackNavigator();
 
@@ -156,6 +157,21 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <Roster {...props} />
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.event.invite.caretaker}
+        options={{
+          title: "Invite Caretaker",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <InviteCaretaker {...props}/>
             </View>
           </AuthGuard>
         )}
