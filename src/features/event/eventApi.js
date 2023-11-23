@@ -103,7 +103,7 @@ export const getOwner = clideInst
     });
 
 export const sendCaretakerInvite = clideInst
-    .makeGet("event/:eventId/invite/caretaker", {
+    .makePost("event/:eventId/invite/caretaker", {
         data_validator: EmailDto,
         in_pipeline: (eventId, email)=>{
             return {
