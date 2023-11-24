@@ -10,6 +10,7 @@ import TextInput from "../../../ottery-ui/input/TextInput";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
 import { colors } from "../../../ottery-ui/styles/colors";
+import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
 
 const DEFAULT_TOPICS: OptionProps[] = [
   { value: "I need help at pickup" },
@@ -18,13 +19,27 @@ const DEFAULT_TOPICS: OptionProps[] = [
 ];
 
 function GetHelpScreen({ route }) {
-  const [topic, setTopic] = useState("");
+  const [option, setOption] = useState("");
+  const [customText, setCustomText] = useState("");
 
   const eventId = route.eventId;
 
-  function handleChange(topic: string) {
-    setTopic(topic);
+  function handleOptionChange(option: string) {
+    setOption(option);
+    setCustomText("");
   }
+
+  function handleCustomTextChange(text: string) {
+    setCustomText(text);
+    setOption("");
+  }
+
+  function handleSubmit(message: string) {
+    console.log("message sent", message);
+  }
+
+  const message = option || customText;
+  const buttonState = !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
 
   return (
     <ScreenWrapper
@@ -33,14 +48,24 @@ function GetHelpScreen({ route }) {
     >
       <View style={styles.topContainer}>
         <RadioGroup
-          onChange={handleChange}
+          onChange={handleOptionChange}
           options={DEFAULT_TOPICS}
-          selectedValue={topic}
+          selectedValue={option}
         />
       </View>
       <View style={styles.bottomContainer}>
-        <TextInput placeholder="Custom" />
-        <Button minWidth={200} minHeight={56} styles={styles.submitButton}>
+        <TextInput
+          onChange={handleCustomTextChange}
+          placeholder="Custom"
+          value={customText}
+        />
+        <Button
+          minHeight={56}
+          minWidth={200}
+          onPress={handleSubmit}
+          state={buttonState}
+          styles={styles.submitButton}
+        >
           <Text style={styles.buttonText}>Send to manager</Text>
         </Button>
       </View>
