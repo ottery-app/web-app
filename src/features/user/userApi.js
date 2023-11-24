@@ -1,5 +1,32 @@
-import { isId, noId } from "@ottery/ottery-dto";
+import { IdDto, ImageDto, isId, noId } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
+
+export const updateProfilePhoto = clideInst.makePost("user/:userId/pfp", {
+  data_validator: ImageDto,
+  in_pipeline: (imageAsset)=>{
+    return {
+      data: imageAsset,
+    }
+  }
+})
+
+export const acceptGuardianship = clideInst.makePost("user/:userId/accept/child", {
+  param_validators: {
+    userId: isId,
+  },
+  data_validator: IdDto,
+  in_pipeline: ({userId, childId, token}) => {
+    return {
+      params: {
+        userId,
+      },
+      data: {
+        token,
+        id: childId,
+      }
+    }
+  }
+})
 
 export const getChildren = clideInst.makeGet("user/:userId/children", {
   param_validators: {
