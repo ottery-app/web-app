@@ -38,17 +38,12 @@ export function useUserClient() {
     queryFn: getEvents,
   });
 
-  const useAcceptGuardianship = makeUseMutation({
-    mutationFn: acceptGuardianship,
-  })
-
   const useUpdateProfilePhoto = makeUseMutation({
     mutationFn: updateProfilePhoto,
   })
 
   return {
     useUpdateProfilePhoto,
-    useAcceptGuardianship,
     useGetUserInfo,
     useGetUserChildren,
     useGetAvalableChildren,

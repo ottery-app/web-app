@@ -16,6 +16,7 @@ import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { usePing } from "../../../ottery-ping";
+import { useInviteClient } from "../invite/useInviteClient";
 
 const styles = StyleSheet.create({
     container: {
@@ -44,8 +45,9 @@ export function AcceptGuardianship({route}) {
     const [image, setImage] = useState(pfp);
     const userId = useAuthClient().useUserId();
 
+    const acceptGuardianship = useInviteClient().useAcceptGuardianship();
+
     const userClient = useUserClient();
-    const acceptGuardianship = userClient.useAcceptGuardianship();
     const updateProfilePhoto = userClient.useUpdateProfilePhoto();
     const childRes = useChildClient().useGetChild({inputs:[route?.params?.childId]});
     const child = childRes?.data?.data;
@@ -55,7 +57,10 @@ export function AcceptGuardianship({route}) {
     const navigator = useNavigator();
 
     function savePhoto() {
-        updateProfilePhoto.mutate(image, {
+        updateProfilePhoto.mutate({
+            userId: user._id,
+            pfp: image,
+        }, {
             onSuccess: ()=>{
                 accept();
             },
@@ -74,6 +79,7 @@ export function AcceptGuardianship({route}) {
             userId: user._id,
             childId: child._id,
             token: token,
+            key: route.params.key
         }, {
             onSuccess: ()=>{
                 Ping.success("You're a guardian now!");
