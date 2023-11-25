@@ -29,19 +29,6 @@ export const addGuardians = clideInst.makePost("child/:childId/addGuardians", {
   },
 });
 
-export const inviteGuardian = clideInst.makePost(
-  "child/:childId/invite-guardian",
-  {
-    data_validator: EmailDto,
-    in_pipeline: async ({ email, childId }) => {
-      return {
-        data: { email },
-        params: { childId },
-      };
-    },
-  }
-);
-
 export const getChildren = clideInst.makeGet("child", {
   in_pipeline: (children) => {
     return {

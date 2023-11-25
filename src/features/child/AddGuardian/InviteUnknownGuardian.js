@@ -14,6 +14,7 @@ import { radius } from "../../../../ottery-ui/styles/radius";
 import Button from "../../../../ottery-ui/buttons/Button";
 import { ButtonSpan } from "../../../../ottery-ui/containers/ButtonSpan";
 import { usePing } from "../../../../ottery-ping";
+import { useInviteClient } from "../../invite/useInviteClient";
 
 export function InviteGuardian({route, setInvite}) {
     const navigator = useNavigator();
@@ -22,7 +23,7 @@ export function InviteGuardian({route, setInvite}) {
     const childId = route.params.childId;
     const childRes = useChildClient().useGetChild({inputs:[childId]});
     const [email, setEmail] = useState();
-    const inviteGuardian = useChildClient().useInviteGuardian({
+    const inviteGuardian = useInviteClient().useInviteGuardianForChild({
         onSuccess: ()=>{
             Ping.success("Invitation sent"); setEmail("")},
         onError: ()=>{Ping.error("Looks like we ran into an issue")}

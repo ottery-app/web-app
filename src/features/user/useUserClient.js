@@ -1,11 +1,14 @@
 import {
+  acceptGuardianship,
   getAvalableChildren,
   getChildren,
   getDroppedOffChildren,
   getEvents,
   getInfo,
+  updateProfilePhoto,
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
+import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 
 export const CLIENT_USER_TAG = "user";
 
@@ -35,7 +38,12 @@ export function useUserClient() {
     queryFn: getEvents,
   });
 
+  const useUpdateProfilePhoto = makeUseMutation({
+    mutationFn: updateProfilePhoto,
+  })
+
   return {
+    useUpdateProfilePhoto,
     useGetUserInfo,
     useGetUserChildren,
     useGetAvalableChildren,

@@ -1,5 +1,20 @@
-import { isId, noId } from "@ottery/ottery-dto";
+import { ImageDto, isId, noId } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
+
+export const updateProfilePhoto = clideInst.makePost("user/:userId/pfp", {
+  data_validator: ImageDto,
+  param_validators: {
+    userId: isId,
+  },
+  in_pipeline: ({pfp, userId})=>{
+    return {
+      data: pfp,
+      params: {
+        userId: userId
+      }
+    }
+  }
+});
 
 export const getChildren = clideInst.makeGet("user/:userId/children", {
   param_validators: {

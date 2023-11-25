@@ -14,6 +14,7 @@ import { EventHome } from "../../features/event/EventHome";
 import { NewChild } from "../../features/child/NewChild";
 import { Roster } from "../../features/event/Roster";
 import { InviteCaretaker } from "../../features/event/InviteCaretaker";
+import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 
 const Stack = createNativeStackNavigator();
 
@@ -96,7 +97,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>accept guardian invite</Text>
+              <AcceptGuardianship {...props} />
             </View>
           </AuthGuard>
         )}
@@ -201,7 +202,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>accept caretaker invite</Text>
+              <Text>accept being a caretaker</Text>
             </View>
           </AuthGuard>
         )}
