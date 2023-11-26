@@ -1,4 +1,4 @@
-import { CreateEventDto, EmailDto } from "@ottery/ottery-dto";
+import { CreateEventDto } from "@ottery/ottery-dto";
 import { getChildren } from "../user/userApi";
 import { clideInst } from "../../provider/clideInst";
 
@@ -67,11 +67,10 @@ export const getVolenteerSignup = clideInst
         }
     });
 
-export const signUpVolenteersByIds = clideInst
-    .makePatch("event/:eventId/signup/volenteer", {
-        in_pipeline: (eventId, ids)=>{
+export const signupUser = clideInst
+    .makePatch("signup/volenteer/:eventId", {
+        in_pipeline: (eventId)=>{
             return {
-                data: ids,
                 params: {
                     eventId,
                 }
@@ -101,18 +100,3 @@ export const getOwner = clideInst
             }
         }
     });
-
-export const sendCaretakerInvite = clideInst
-    .makePost("event/:eventId/invite/caretaker", {
-        data_validator: EmailDto,
-        in_pipeline: (eventId, email)=>{
-            return {
-                params: {
-                    eventId,
-                },
-                data: {
-                    email,
-                }
-            }
-        },
-    })

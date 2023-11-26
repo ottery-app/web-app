@@ -57,6 +57,10 @@ export function ThemeProvider({children}) {
 export function useThemeMaker({primary=undefined, status=undefined}) {
     let theme = useTheme();
 
+    if (status === "loading") {
+        status = "disabled";
+    }
+
     primary = useColors({color: primary, status});
 
     return useMemo(()=>{
