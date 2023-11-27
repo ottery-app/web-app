@@ -11,6 +11,12 @@ import {
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 
+export enum EventUserRole {
+  LEAD_MANAGER = "LEAD_MANAGER",
+  MANAGER = "MANAGER",
+  VOLUNTEER = "VOLUNTEER",
+}
+
 export const QUERY_EVENT_TAG = "event";
 
 export function useEventClient() {
@@ -60,12 +66,35 @@ export function useEventClient() {
     mutationFn: signUpVolenteersByIds,
   });
 
-  function getLeadManager(eventId: string) {
+  function getEventResult(eventId: string) {
     const eventInfoQueryResult = useGetEventInfo({ inputs: [eventId] });
-    const eventInfo = eventInfoQueryResult?.data?.data;
-
     if (eventInfoQueryResult.isSuccess) {
+      return eventInfoQueryResult?.data?.data;
+    }
+    return null;
+  }
+
+  function getLeadManager(eventId: string) {
+    const eventInfo = getEventResult(eventId);
+
+    if (eventInfo) {
       return eventInfo.leadManager;
+    }
+
+    return null;
+  }
+
+  function getEventUserRole(eventId: string, userId: string): EventUserRole {
+    const eventInfo = getEventResult(eventId);
+
+    if (eventInfo) {
+      if (eventInfo.leadManager === userId) {
+        return EventUserRole.LEAD_MANAGER;
+      } else if ((eventInfo.managers as string[]).includes(userId)) {
+        return EventUserRole.MANAGER;
+      } else if ((eventInfo.volunteers as string[]).includes(userId)) {
+        return EventUserRole.VOLUNTEER;
+      }
     }
 
     return null;
@@ -82,5 +111,6 @@ export function useEventClient() {
     useGetVolenteerSignup,
     useGetEventOwner,
     getLeadManager,
+    getEventUserRole,
   };
 }
