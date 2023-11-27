@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { ChatDto } from "@ottery/ottery-dto";
 
 import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import RadioGroup, {
@@ -9,8 +10,14 @@ import RadioGroup, {
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
-import { colors } from "../../../ottery-ui/styles/colors";
 import { BUTTON_STATES } from "../../../ottery-ui/buttons/button.enum";
+
+import { useEventClient } from "./useEventClient";
+import { useChatClient } from "../chat/useChatClient";
+import { useAuthClient } from "../auth/useAuthClient";
+import { usePing } from "../../../ottery-ping";
+import { useNavigator } from "../../router/useNavigator";
+import paths from "../../router/paths";
 
 const DEFAULT_TOPICS: OptionProps[] = [
   { value: "I need help at pickup" },
@@ -19,10 +26,21 @@ const DEFAULT_TOPICS: OptionProps[] = [
 ];
 
 function GetHelpScreen({ route }) {
+  const eventId = route.params.eventId;
+
   const [option, setOption] = useState("");
   const [customText, setCustomText] = useState("");
+  const message = option || customText;
+  const buttonState = !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
 
-  const eventId = route.eventId;
+  const { useUserId } = useAuthClient();
+  const userId = useUserId();
+  const leadManagerId = useEventClient().getLeadManager(eventId);
+  const { useMakeChat, useSendMessage } = useChatClient();
+  const createChat = useMakeChat();
+  const sendMessage = useSendMessage();
+  const Ping = usePing();
+  const navigator = useNavigator();
 
   function handleOptionChange(option: string) {
     setOption(option);
@@ -34,12 +52,31 @@ function GetHelpScreen({ route }) {
     setOption("");
   }
 
-  function handleSubmit(message: string) {
-    console.log("message sent", message);
-  }
+  const handleSubmit = useCallback(async () => {
+    try {
+      // Create a chat with the lead manager
+      const chatResponse = (await createChat.mutateAsync({
+        name: "Get Help",
+        users: [userId, leadManagerId],
+      })) as { data: ChatDto };
 
-  const message = option || customText;
-  const buttonState = !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
+      const chatId = chatResponse.data._id;
+
+      if (chatId) {
+        sendMessage.mutate([chatId, message], {
+          onSuccess: () => {
+            Ping.info("Sent successfully!");
+            navigator(paths.main.social.chat, { chatId });
+          },
+          onError: (err: Error) => {
+            Ping.error(err.message);
+          },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [userId, leadManagerId, message]);
 
   return (
     <ScreenWrapper

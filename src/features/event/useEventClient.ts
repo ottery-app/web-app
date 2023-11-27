@@ -60,17 +60,15 @@ export function useEventClient() {
     mutationFn: signUpVolenteersByIds,
   });
 
-  function getLeadManager(eventId) {
-    const eventInfoQueryResult = useGetEventInfo({ inputs: eventId });
+  function getLeadManager(eventId: string) {
+    const eventInfoQueryResult = useGetEventInfo({ inputs: [eventId] });
     const eventInfo = eventInfoQueryResult?.data?.data;
 
-    if (eventInfo.isSuccess) {
+    if (eventInfoQueryResult.isSuccess) {
       return eventInfo.leadManager;
     }
-    if (eventInfo.isError) {
-      return eventInfo.error;
-    }
-    return undefined;
+
+    return null;
   }
 
   return {
