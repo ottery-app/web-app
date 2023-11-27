@@ -97,8 +97,7 @@ function GetHelpScreen({ route }) {
           value={customText}
         />
         <Button
-          minHeight={56}
-          minWidth={200}
+
           onPress={handleSubmit}
           state={buttonState}
           styles={styles.submitButton}
