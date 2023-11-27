@@ -10,6 +10,12 @@ import { BUTTON_TYPES } from "../../../../ottery-ui/buttons/button.enum";
 import { useEventClient } from "../useEventClient";
 import { useAuthClient } from "../../auth/useAuthClient";
 import { usePing } from "../../../../ottery-ping";
+import { useUserClient } from "../../user/useUserClient";
+import Shadowbox from "../../../../ottery-ui/containers/Shadowbox";
+import Image from "../../../../ottery-ui/image/Image";
+import { happyCheck } from "../../../../assets/icons";
+import { useNavigator } from "../../../router/useNavigator";
+import paths from "../../../router/paths";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -38,10 +44,10 @@ const styles = StyleSheet.create({
 });
 
 enum pages {
-    selectSignupTypes,
-    signupVolenteer,
-    signupChildren,
-    done,
+    selectSignupTypes = "select",
+    signupVolenteer = "volenteer",
+    signupChildren = "child",
+    done = "done",
 }
 
 export function SignUp({route}) {
@@ -55,14 +61,14 @@ export function SignUp({route}) {
             [pages.selectSignupTypes] : <SelectSignupTypes/>,
             [pages.signupChildren] : <SignupChildren/>,
             [pages.signupVolenteer] : <SignupVolenteer/>,
-            [pages.done]: "done",
+            [pages.done]: <Done/>,
         }
     }, []);
 
     function gotoNext(addPages=[]) {
         todo.push(...addPages);
-        setTodo([...todo])
         const last = todo.shift();
+        setTodo([...todo])
         back.push(last);
         setBack([...back]);
         setCurrent(last);
@@ -105,10 +111,19 @@ function BackButton() {
 }
 
 function SelectSignupTypes() {
-    const {gotoNext} = useContext(SignupContext);
+    const {gotoNext, route} = useContext(SignupContext);
     const Ping = usePing();
     const [volenteer, sV] = useState(false);
     const [attend, sA] = useState(false);
+    const type = route.params.type;
+
+    useEffect(()=>{
+        if (type === "caretaker") {
+            gotoNext([pages.signupVolenteer]);
+        } else if (type === "attendee") {
+            gotoNext([pages.signupChildren]);
+        }
+    }, []);
 
     return (
         <Main style={styles.main}>
@@ -123,7 +138,11 @@ function SelectSignupTypes() {
                     const options = [];
                     volenteer && options.push(pages.signupVolenteer);
                     attend && options.push(pages.signupChildren);
-                    ((volenteer || attend) && gotoNext(options)) || Ping.error("Select one");
+                    if (options.length) {
+                        gotoNext(options);
+                    } else {
+                        Ping.error("Select one");
+                    }
                 }}>Next</Button>
             </ButtonSpan>
         </Main>
@@ -132,32 +151,61 @@ function SelectSignupTypes() {
 
 function SignupVolenteer() {
     //check for user data?
-    const {route} = useContext(SignupContext);
+    const {route, gotoNext} = useContext(SignupContext);
     const userId = useAuthClient().useUserId();
+    const eventRes = useEventClient().useGetEvent({inputs: [route.params.eventId]});
     const signup = useEventClient().useSignupUser();
+    const Ping = usePing();
+    const missingRes = useUserClient().useMissingUserData({
+        inputs:[userId, eventRes?.data?.data?.volenteerSignUp],
+        enabled: !!eventRes?.data?.data?.volenteerSignUp
+    });
+    const missingFields = missingRes?.data?.data;
 
-    useEffect(()=>{
+    function signupNow() {
         signup.mutate(route.params.eventId, {
             onSuccess: ()=>{
-                console.log("done");
+                gotoNext([pages.done]);  
             },
-            onError: ()=>{
-                console.log("error");
+            onError: (e:Error)=>{
+                Ping.error(e.message);
             }
         })
-    }, [])
+    }
+
+    useEffect(()=>{
+        if (missingFields && missingFields.length === 0) {
+            signupNow();
+        }
+    }, [missingFields])
 
     return <Main>
-
+        <Text>TODO get missing data {JSON.stringify(missingFields)}</Text>
     </Main>
 }
 
 function SignupChildren() {
     return <Main>
-
+        children
     </Main>
 }
 
 function Done() {
+    const navigator = useNavigator();
 
+    return <Main>
+        <Shadowbox>
+            <Text variant={"headlineSmall"}>You are all signed up!</Text>
+            <Image
+                src={happyCheck}
+                alt={"checkmark"}
+                width={"100%"}
+            />
+            <ButtonSpan>
+                <Button
+                    onPress={()=>{navigator(paths.main.home)}}
+                >Done</Button>
+            </ButtonSpan>
+        </Shadowbox>
+    </Main>
 }
