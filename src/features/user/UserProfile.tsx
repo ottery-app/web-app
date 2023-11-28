@@ -14,91 +14,128 @@ import { Text } from "react-native-paper";
 import { colors } from "../../../ottery-ui/styles/colors";
 
 enum Tabs {
-    children = "Children",
-    friends = "Friends",
-    events = "Events",    
+  children = "Children",
+  friends = "Friends",
+  events = "Events",
 }
 
 export function UserProfile() {
-    const navigator = useNavigator();
+  const navigator = useNavigator();
 
-    const userId = useAuthClient().useUserId();
-    const userRes = useUserClient().useGetUserInfo({inputs:[userId]});
-    const userData = userRes?.data?.data[0];
-    const userEventsRes = useUserClient().useGetUserEvents({inputs:[userId]});
-    const userEvents = userEventsRes?.data?.data;
-    const userChildrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
-    const userChildren = userChildrenRes?.data?.data;
-    const userFriendsRes = useSocialClient().useGetFriends({inputs: [userId]});
-    const userFriendIds = userFriendsRes?.data?.data;
-    const friendsRes = useUserClient().useGetUserInfo({
-        inputs: [userFriendIds],
-        enabled: !!userFriendIds,
-    });
-    const userFriends = friendsRes?.data?.data;
-    const chatIdsRes = useChatClient().useGetDirectChats({
-        inputs:[userId, userFriendIds],
-        enabled: !!userFriendIds,
-    });
-    const chatIdMap = chatIdsRes?.data;
+  const userId = useAuthClient().useUserId();
+  const userRes = useUserClient().useGetUserInfo({ inputs: [userId] });
+  const userData = userRes?.data?.data[0];
+  const userEventsRes = useUserClient().useGetUserEvents({ inputs: [userId] });
+  const userEvents = userEventsRes?.data?.data;
+  const userChildrenRes = useUserClient().useGetUserChildren({
+    inputs: [userId],
+  });
+  const userChildren = userChildrenRes?.data?.data;
+  const userFriendsRes = useSocialClient().useGetFriends({ inputs: [userId] });
+  const userFriendIds = userFriendsRes?.data?.data;
+  const friendsRes = useUserClient().useGetUserInfo({
+    inputs: [userFriendIds],
+    enabled: !!userFriendIds,
+  });
+  const userFriends = friendsRes?.data?.data;
+  const chatIdsRes = useChatClient().useGetDirectChats({
+    inputs: [userId, userFriendIds],
+    enabled: !!userFriendIds,
+  });
+  const chatIdMap = chatIdsRes?.data;
 
-    const [tab, setTab] = useState("Children");
-    const data = useMemo(()=>{
-        if (userEvents && userFriends && userChildren) {
-            var data = {};
-            data[Tabs.events] = userEvents.map((event)=>{
-                return <ImageButton 
-                    key={event._id}
-                    onPress={()=>navigator(paths.main.event.dash, {eventId: event._id})}
-                >
-                    <Text>{event.summary}</Text>
-                </ImageButton>
-            });
-            data[Tabs.friends] = userFriends.map((friend)=>{
-                return <ImageButton 
-                    key={friend._id}
-                    right={{src:friend?.pfp?.src, aspectRatio:1} || pfp}
-                    onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[friend._id]})}
-                >
-                    <Text>{friend.firstName} {friend.lastName}</Text>
-                </ImageButton>
-            });
-            data[Tabs.children] = userChildren.map((child)=>{
-                return <ImageButton 
-                    key={child._id}
-                    right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
-                    onPress={()=>navigator(paths.main.child.profile, {childId: child._id})}
-                >
-                    <Text>{child.firstName} {child.lastName}</Text>
-                </ImageButton>
-            });
+  const [tab, setTab] = useState("Children");
+  const data = useMemo(() => {
+    if (userEvents && userFriends && userChildren) {
+      var data = {};
+      data[Tabs.events] = userEvents.map((event) => {
+        return (
+          <ImageButton
+            key={event._id}
+            onPress={() =>
+              navigator(paths.main.event.dash, { eventId: event._id })
+            }
+          >
+            <Text>{event.summary}</Text>
+          </ImageButton>
+        );
+      });
+      data[Tabs.friends] = userFriends.map((friend) => {
+        return (
+          <ImageButton
+            key={friend._id}
+            right={{ src: friend?.pfp?.src, aspectRatio: 1 } || pfp}
+            onPress={() =>
+              navigator(paths.main.social.chat, {
+                chatId: chatIdMap[friend._id],
+              })
+            }
+          >
+            <Text>
+              {friend.firstName} {friend.lastName}
+            </Text>
+          </ImageButton>
+        );
+      });
+      data[Tabs.children] = userChildren.map((child) => {
+        return (
+          <ImageButton
+            key={child._id}
+            right={{ src: child?.pfp?.src, aspectRatio: 1 } || pfp}
+            onPress={() =>
+              navigator(paths.main.child.profile, { childId: child._id })
+            }
+          >
+            <Text>
+              {child.firstName} {child.lastName}
+            </Text>
+          </ImageButton>
+        );
+      });
 
-            data[Tabs.children].unshift(<ImageButton
-                key={"add child"}
-                right={pluss}
-                color={colors.success}
-                onPress={()=>{navigator(paths.main.child.new)}}
-            >
-                <Text>Add a child</Text>
-            </ImageButton>)
-        }
-        return data;
-    }, [userChildren, userFriends, userEvents]);
+      data[Tabs.children].unshift(
+        <ImageButton
+          key={"add child"}
+          right={pluss}
+          color={colors.success}
+          onPress={() => {
+            navigator(paths.main.child.new);
+          }}
+        >
+          <Text>Add a child</Text>
+        </ImageButton>
+      );
 
-    const buttons = (data && data[tab]) || [];
+      data[Tabs.events].unshift(
+        <ImageButton
+          key={"create event"}
+          right={pluss}
+          color={colors.success}
+          onPress={() => {
+            navigator(paths.main.event.new);
+          }}
+        >
+          <Text>Add an event</Text>
+        </ImageButton>
+      );
+    }
+    return data;
+  }, [userChildren, userFriends, userEvents]);
 
-    return (
-        <MarginlessMain>
-            <MultiFieldHeader
-                src={userData?.pfp}
-                title={userData?.firstName + " " + userData?.lastName}
-                tab={tab}
-                onTab={(tab)=>{setTab(tab)}}
-                tabs={Object.values(Tabs)}
-            />
-            <ImageButtonList>
-                {buttons}
-            </ImageButtonList>
-        </MarginlessMain>
-    );
+  const buttons = (data && data[tab]) || [];
+
+  return (
+    <MarginlessMain>
+      <MultiFieldHeader
+        src={userData?.pfp}
+        title={userData?.firstName + " " + userData?.lastName}
+        tab={tab}
+        onTab={(tab) => {
+          setTab(tab);
+        }}
+        tabs={Object.values(Tabs)}
+      />
+      <ImageButtonList>{buttons}</ImageButtonList>
+    </MarginlessMain>
+  );
 }
