@@ -3,9 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { ChatDto } from "@ottery/ottery-dto";
 
-import RadioGroup, {
-  OptionProp,
-} from "../../../ottery-ui/controls/RadioGroup";
+import RadioGroup, { OptionProp } from "../../../ottery-ui/controls/RadioGroup";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
@@ -21,9 +19,9 @@ import { Main } from "../../../ottery-ui/containers/Main";
 import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
 
 const DEFAULT_TOPICS: OptionProp[] = [
-  { label: "I need help at pickup", value:1 },
-  { label: "We need help cleaning up", value:2 },
-  { label: "We have an emergency", value:3 },
+  { label: "I need help at pickup", value: "I need help at pickup" },
+  { label: "We need help cleaning up", value: "We need help cleaning up" },
+  { label: "We have an emergency", value: "We have an emergency" },
 ];
 
 function GetHelpScreen({ route }) {
@@ -92,11 +90,7 @@ function GetHelpScreen({ route }) {
         value={customText}
       />
       <ButtonSpan>
-        <Button
-          onPress={handleSubmit}
-          state={buttonState}
-          width={150}
-        >
+        <Button onPress={handleSubmit} state={buttonState} width={150}>
           Alert manager
         </Button>
       </ButtonSpan>

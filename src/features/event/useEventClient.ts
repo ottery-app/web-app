@@ -11,12 +11,6 @@ import {
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 
-export enum EventUserRole {
-  LEAD_MANAGER = "LEAD_MANAGER",
-  MANAGER = "MANAGER",
-  VOLUNTEER = "VOLUNTEER",
-}
-
 export const QUERY_EVENT_TAG = "event";
 
 export function useEventClient() {
@@ -84,22 +78,6 @@ export function useEventClient() {
     return null;
   }
 
-  function getEventUserRole(eventId: string, userId: string): EventUserRole {
-    const eventInfo = getEventResult(eventId);
-
-    if (eventInfo) {
-      if (eventInfo.leadManager === userId) {
-        return EventUserRole.LEAD_MANAGER;
-      } else if ((eventInfo.managers as string[]).includes(userId)) {
-        return EventUserRole.MANAGER;
-      } else if ((eventInfo.volunteers as string[]).includes(userId)) {
-        return EventUserRole.VOLUNTEER;
-      }
-    }
-
-    return null;
-  }
-
   return {
     useGetEvent,
     useGetEvents,
@@ -111,6 +89,5 @@ export function useEventClient() {
     useGetVolenteerSignup,
     useGetEventOwner,
     getLeadManager,
-    getEventUserRole,
   };
 }
