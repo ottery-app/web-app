@@ -3,10 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { ChatDto } from "@ottery/ottery-dto";
 
-import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import RadioGroup, {
-  OptionProps,
-} from "../../../ottery-ui/controls/Radio/RadioGroup";
+  OptionProp,
+} from "../../../ottery-ui/controls/RadioGroup";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
@@ -18,11 +17,13 @@ import { useAuthClient } from "../auth/useAuthClient";
 import { usePing } from "../../../ottery-ping";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
+import { Main } from "../../../ottery-ui/containers/Main";
+import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
 
-const DEFAULT_TOPICS: OptionProps[] = [
-  { value: "I need help at pickup" },
-  { value: "We need help cleaning up" },
-  { value: "We have an emergency" },
+const DEFAULT_TOPICS: OptionProp[] = [
+  { label: "I need help at pickup", value:1 },
+  { label: "We need help cleaning up", value:2 },
+  { label: "We have an emergency", value:3 },
 ];
 
 function GetHelpScreen({ route }) {
@@ -79,57 +80,34 @@ function GetHelpScreen({ route }) {
   }, [userId, leadManagerId, message]);
 
   return (
-    <ScreenWrapper
-      contentContainerStyle={styles.container}
-      withScrollView={false}
-    >
-      <View style={styles.topContainer}>
-        <RadioGroup
-          onChange={handleOptionChange}
-          options={DEFAULT_TOPICS}
-          selectedValue={option}
-        />
-      </View>
-      <View style={styles.bottomContainer}>
-        <TextInput
-          onChange={handleCustomTextChange}
-          placeholder="Custom"
-          value={customText}
-        />
+    <Main style={styles.main}>
+      <RadioGroup
+        onChange={handleOptionChange}
+        options={DEFAULT_TOPICS}
+        value={option}
+      />
+      <TextInput
+        onChange={handleCustomTextChange}
+        placeholder="Custom"
+        value={customText}
+      />
+      <ButtonSpan>
         <Button
-
           onPress={handleSubmit}
           state={buttonState}
-          styles={styles.submitButton}
+          width={150}
         >
-          <Text style={styles.buttonText}>Send to manager</Text>
+          Alert manager
         </Button>
-      </View>
-    </ScreenWrapper>
+      </ButtonSpan>
+    </Main>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "space-between",
-  },
-  topContainer: {
+  main: {
     flex: 1,
-  },
-  bottomContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    margin: margin.medium,
-  },
-  submitButton: {
-    marginTop: margin.large,
-    alignItems: "center",
-    width: "50%",
-  },
-  buttonText: {
-    fontSize: 20,
-    color: "white",
+    gap: margin.large,
   },
 });
 

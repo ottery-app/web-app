@@ -6,6 +6,8 @@ import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
 
+const text_varient = "titleMedium";
+
 export interface CheckBoxProps {
     label: string,
     value: boolean,
@@ -56,7 +58,6 @@ export function CheckBox({
     onChange,
     mode=CheckBoxMode.filled
 }: CheckBoxProps) {
-    const text_varient = (mode === CheckBoxMode.filled) ? "headlineSmall" : "titleMedium";
 
     function Icon({active}) {
         return (active)
