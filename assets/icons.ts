@@ -1,5 +1,10 @@
 import { ImageAsset } from "./ImageAsset";
 
+export const share: ImageAsset = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/share.png?raw=true",
+  aspectRatio: 1,
+}
+
 export const happyCheck: ImageAsset = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/happyCheck.PNG?raw=true",
   aspectRatio: 1,

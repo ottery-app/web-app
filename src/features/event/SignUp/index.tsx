@@ -16,6 +16,9 @@ import Image from "../../../../ottery-ui/image/Image";
 import { happyCheck } from "../../../../assets/icons";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
+import { Form } from "../../../../ottery-ui/containers/Form";
+import { CustomFormFieldDto } from "@ottery/ottery-dto";
+import PhoneNumberInput from "../../../../ottery-ui/input/PhoneInput";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -40,6 +43,14 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         gap: margin.small,
+    },
+    formContainer: {
+        flex:1,
+        gap: margin.large,
+        width: "100%",
+    },
+    centeredText: {
+        textAlign: "center",
     }
 });
 
@@ -129,8 +140,8 @@ function SelectSignupTypes() {
         <Main style={styles.main}>
             <Text variant="headlineSmall">Lets get you signed up!</Text>
             <View style={styles.checkboxes}>
-                <CheckBox label="Signing up kids?" value={attend} onChange={sA}></CheckBox>
-                <CheckBox label="volenteering?" value={volenteer} onChange={sV}></CheckBox>
+                <CheckBox label="Signing up kids?" value={attend} onChange={sA}/>
+                <CheckBox label="Volenteering?" value={volenteer} onChange={sV}/>
             </View>
             <ButtonSpan>
                 <BackButton/>
@@ -147,6 +158,16 @@ function SelectSignupTypes() {
             </ButtonSpan>
         </Main>
     );
+}
+
+function FormFieldToInput({formField}) {
+    const [state, setState] = useState();
+
+    if (formField.type === "phone") {
+        return <View><PhoneNumberInput label={formField.label} value={state} onChange={setState}/></View>
+    } else {
+        throw new Error("input type not supported");
+    }
 }
 
 function SignupVolenteer() {
@@ -179,8 +200,11 @@ function SignupVolenteer() {
         }
     }, [missingFields])
 
-    return <Main>
-        <Text>TODO get missing data {JSON.stringify(missingFields)}</Text>
+    return <Main style={styles.formContainer}>
+        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing you up.</Text>
+        <Form>
+            {missingFields?.map((formField:CustomFormFieldDto)=><FormFieldToInput formField={formField} />)}
+        </Form>
     </Main>
 }
 
