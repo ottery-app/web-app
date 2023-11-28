@@ -16,6 +16,7 @@ import { Roster } from "../../features/event/Roster";
 import { InviteCaretaker } from "../../features/event/InviteCaretaker";
 import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 import GetHelpScreen from "../../features/event/GetHelp";
+import { SignUp } from "../../features/event/SignUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -231,7 +232,7 @@ export function HomeStack() {
         {(props) => (
           <AuthGuard loggedin activated>
             <View>
-              <Text>temp</Text>
+              <SignUp {...props} />
             </View>
           </AuthGuard>
         )}

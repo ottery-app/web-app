@@ -1,6 +1,6 @@
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { Main } from "../../../ottery-ui/containers/Main";
-import { clock, message, users } from "../../../assets/icons";
+import { clock, message, share, users } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useEventClient } from "./useEventClient";
@@ -10,9 +10,14 @@ import { useChatClient } from "../chat/useChatClient";
 import { useAuthClient } from "../auth/useAuthClient";
 import { role } from "@ottery/ottery-dto";
 import {useMemo} from "react"
+import {useClipboard} from "@react-native-clipboard/clipboard";
+import { usePing } from "../../../ottery-ping";
 
 export function EventHome({route}) {
     const navigator = useNavigator();
+    const [clipboardContent, setClipboard] = useClipboard();
+    const Ping = usePing();
+
     const userId = useAuthClient().useUserId();
     const [state, swapState] = useAuthClient().useSwapState()
 
@@ -37,7 +42,15 @@ export function EventHome({route}) {
                 onPress: () => {
                     navigator(paths.main.social.chat, {chatId: chat._id})
                 },
-            }
+            },
+            // {
+            //     icon: { uri: share.src },
+            //     title: "Share event",
+            //     onPress: () => {
+            //         setClipboard(`${window.location.origin}/${paths.main.event.dash}?eventId=${eventId}`);
+            //         Ping.success("coppied to clipboard");
+            //     },
+            // },
         ];
 
         if (isVolenteer) {

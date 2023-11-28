@@ -34,7 +34,7 @@ function ChatListItem({
       )}
       title={senderName}
       description={lastMessage}
-      right={(props) => <Time time={sentAt} type={dateFormat} />}
+      right={() => (isNaN(sentAt)) ? undefined : <Time time={sentAt} type={dateFormat} />}
       onPress={onPress}
     />
   );

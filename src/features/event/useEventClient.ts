@@ -2,11 +2,11 @@ import {
   getEvents,
   newEvent,
   signUpAttendeesByIds,
-  signUpVolenteersByIds,
   getInfo,
   getAttendeeSignup,
   getVolenteerSignup,
   getOwner,
+  signupUser,
 } from "./eventApi";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
@@ -56,8 +56,8 @@ export function useEventClient() {
     mutationFn: signUpAttendeesByIds,
   });
 
-  const useSignUpVolenteersByIds = makeUseMutation({
-    mutationFn: signUpVolenteersByIds,
+  const useSignupUser = makeUseMutation({
+    mutationFn: signupUser,
   });
 
   function getEventResult(eventId: string) {
@@ -84,7 +84,7 @@ export function useEventClient() {
     useNewEvent,
     useGetEventInfo,
     useSignUpAttendeesByIds,
-    useSignUpVolenteersByIds,
+    useSignupUser,
     useGetAttendeeSignup,
     useGetVolenteerSignup,
     useGetEventOwner,

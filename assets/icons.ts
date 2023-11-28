@@ -1,5 +1,15 @@
 import { ImageAsset } from "./ImageAsset";
 
+export const share: ImageAsset = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/share.png?raw=true",
+  aspectRatio: 1,
+}
+
+export const happyCheck: ImageAsset = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/happyCheck.PNG?raw=true",
+  aspectRatio: 1,
+}
+
 export const closedMailWithHalo: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg",
   aspectRatio: 1,

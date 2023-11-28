@@ -29,27 +29,6 @@ const PhoneNumberInput = ({ label, value, onChange }) => {
         value={value}
         errorMsg={"Please provide a valid number"}
       />
-      {/* <TextInput
-        mode="outlined"
-        label={label}
-        outlineStyle={{ borderRadius: radius.default }}
-        outlineColor={colors.primary.main}
-        placeholder="Phone number"
-        placeholderTextColor={colors.background.contrast}
-        keyboardType="numeric"
-        onChangeText={(text) => onChange(text)}
-        value={value}
-      />
-      <Text
-        style={{
-          marginLeft: margin.small,
-          marginTop: margin.small,
-          fontSize: 12,
-          color: colors.error.main,
-        }}
-      >
-        {validationText}
-      </Text> */}
     </View>
   );
 };
