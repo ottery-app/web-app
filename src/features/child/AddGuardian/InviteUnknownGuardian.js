@@ -49,6 +49,7 @@ export function InviteGuardian({route, setInvite}) {
             </View>
             <ButtonSpan>
                 <Button
+                    state={inviteGuardian.status}
                     onPress={()=>{inviteGuardian.mutate({email, childId})}}
                 >Send</Button>
             </ButtonSpan>

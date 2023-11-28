@@ -8,22 +8,28 @@ import {View} from "react-native";
 import { margin } from "../../../ottery-ui/styles/margin";
 import Button from "../../../ottery-ui/buttons/Button";
 import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
-import { sendCaretakerInvite } from "./eventApi";
 import { usePing } from "../../../ottery-ping";
+import { useInviteClient } from "../invite/useInviteClient";
 
 export function InviteCaretaker({route}) {
     const [email, setEmail] = useState("");
     const Ping = usePing();
     const eventRes = useEventClient().useGetEventInfo({inputs:[route.params.eventId]});
+    const sendCaretakerInvite = useInviteClient().useSendCaretakerInvite();
     const event = eventRes?.data?.data;
 
     function sendInvite() {
-        sendCaretakerInvite(route.params.eventId, email).then((res)=>{
-            Ping.success("Invite sent");
-        }).catch((e)=>{
-            Ping.error(e.message);
-        });
+        sendCaretakerInvite.mutate({eventId: route.params.eventId, email}, {
+            onSuccess: ()=>{
+                Ping.success("Invite sent");
+            },
+            onError: (e:Error)=>{
+                Ping.error(e.message);
+            }
+        })
     }
+
+    console.log(sendCaretakerInvite.status);
     
     return (
         <Main>
@@ -46,7 +52,10 @@ export function InviteCaretaker({route}) {
                     validator={isEmail}
                 />
                 <ButtonSpan>
-                    <Button onPress={sendInvite}>Send invite</Button>
+                    <Button 
+                        state={sendCaretakerInvite.status}
+                        onPress={sendInvite}
+                    >Send invite</Button>
                 </ButtonSpan>
             </View>
         </Main>

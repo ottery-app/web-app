@@ -30,3 +30,21 @@ export const acceptGuardianship = clideInst.makePost("invite/guardian/accept/:us
       }
     }
 })
+
+export const sendCaretakerInvite = clideInst
+    .makePost("invite/event/caretaker/for/:eventId", {
+        params_validators: {
+          eventId:isId,
+        },
+        data_validator: EmailDto,
+        in_pipeline: (eventId, email)=>{
+            return {
+                params: {
+                    eventId,
+                },
+                data: {
+                    email,
+                }
+            }
+        },
+    })

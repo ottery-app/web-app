@@ -5,6 +5,7 @@ import {
   getDroppedOffChildren,
   getEvents,
   getInfo,
+  missingUserData,
   updateProfilePhoto,
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
@@ -42,7 +43,13 @@ export function useUserClient() {
     mutationFn: updateProfilePhoto,
   })
 
+  const useMissingUserData = makeUseQuery({
+    queryKey: [CLIENT_USER_TAG, "data"],
+    queryFn: missingUserData,
+  })
+
   return {
+    useMissingUserData,
     useUpdateProfilePhoto,
     useGetUserInfo,
     useGetUserChildren,
