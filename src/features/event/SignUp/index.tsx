@@ -17,8 +17,9 @@ import { happyCheck } from "../../../../assets/icons";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
 import { Form } from "../../../../ottery-ui/containers/Form";
-import { CustomFormFieldDto } from "@ottery/ottery-dto";
+import { CustomFormFieldDto, inputType } from "@ottery/ottery-dto";
 import PhoneNumberInput from "../../../../ottery-ui/input/PhoneInput";
+import { InfoWrapper } from "../../../../ottery-ui/input/InfoWrapper";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -163,8 +164,8 @@ function SelectSignupTypes() {
 function FormFieldToInput({formField}) {
     const [state, setState] = useState();
 
-    if (formField.type === "phone") {
-        return <View><PhoneNumberInput label={formField.label} value={state} onChange={setState}/></View>
+    if (formField.type === inputType) {
+        return <InfoWrapper header={formField.label} info={formField.note}><PhoneNumberInput label={formField.label} value={state} onChange={setState}/></InfoWrapper>
     } else {
         throw new Error("input type not supported");
     }

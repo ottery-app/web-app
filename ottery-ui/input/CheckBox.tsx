@@ -5,11 +5,9 @@ import Button from "../buttons/Button";
 import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
+import { InputProps } from "./Input";
 
-export interface CheckBoxProps {
-    label: string,
-    value: boolean,
-    onChange: (value:boolean)=>void,
+export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,
 }
 
