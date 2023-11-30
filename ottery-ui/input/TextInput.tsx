@@ -16,7 +16,6 @@ export interface TextInputProps extends InputProps<string>{
   mode?: any,
   status?: string,
   style?: any,
-  errorMsg?: string,
   validator?: (val:any)=>boolean
 }
 
@@ -34,50 +33,34 @@ export default function TextInput({
   status = undefined,
   //keyboardType = "numeric",
   style = {},
-  errorMsg = undefined,
   validator = makeValidator(status),
 }: TextInputProps) {
-  const validatorStatus = useValidator(validator, value, 10);
+  const validatorStatus = useValidator(validator, value, 1000);
   const theme = useThemeMaker({
     primary: color,
     status: status || validatorStatus,
   });
 
   return (
-    <>
-      <InternalTextInput
-        theme={{
-          ...theme,
-          roundness: radius.default,
-        }}
-        secureTextEntry={!!password}
-        mode={mode}
-        placeholder={placeholder}
-        label={label}
-        //outlineStyle={{ ...outlineStyle }}
-        //outlineColor={outlineColor}
-        //placeholderTextColor={placeholderTextColor}
-        value={value}
-        //keyboardType={keyboardType}
-        style={{
-          width: "100%",
-          ...style,
-        }}
-        onChangeText={(text) => onChange(text)}
-      />
-      {(errorMsg && validatorStatus == "error")
-        ?<Text
-          style={{
-            marginLeft: margin.small,
-            marginTop: margin.small,
-            fontSize: 12,
-            color: colors.error.main,
-          }}
-        >
-          {errorMsg}
-        </Text>
-        :undefined
-      }
-    </>
+    <InternalTextInput
+      theme={{
+        ...theme,
+        roundness: radius.default,
+      }}
+      secureTextEntry={!!password}
+      mode={mode}
+      placeholder={placeholder}
+      label={label}
+      //outlineStyle={{ ...outlineStyle }}
+      //outlineColor={outlineColor}
+      //placeholderTextColor={placeholderTextColor}
+      value={value}
+      //keyboardType={keyboardType}
+      style={{
+        width: "100%",
+        ...style,
+      }}
+      onChangeText={(text) => onChange(text)}
+    />
   );
 }

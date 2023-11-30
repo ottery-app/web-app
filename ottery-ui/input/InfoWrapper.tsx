@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 import { InputIconWrapper } from "./InputIconWrapper";
+import { info as infoIcon} from "../../assets/icons";
 
 
 export interface InfoWrapperProps {
@@ -29,7 +30,7 @@ export function InfoWrapper({children, header, info}) {
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
-            <InputIconWrapper icon={info} onPress={showDialog}>
+            <InputIconWrapper icon={infoIcon} onPress={showDialog}>
                 {children}
             </InputIconWrapper>
         </>

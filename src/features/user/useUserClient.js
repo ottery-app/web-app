@@ -7,6 +7,7 @@ import {
   getInfo,
   missingUserData,
   updateProfilePhoto,
+  updateUserData,
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
@@ -43,12 +44,17 @@ export function useUserClient() {
     mutationFn: updateProfilePhoto,
   })
 
+  const useUpdateUserData = makeUseMutation({
+    mutationFn: updateUserData,
+  })
+
   const useMissingUserData = makeUseQuery({
     queryKey: [CLIENT_USER_TAG, "data"],
     queryFn: missingUserData,
   })
 
   return {
+    useUpdateUserData,
     useMissingUserData,
     useUpdateProfilePhoto,
     useGetUserInfo,
