@@ -16,9 +16,14 @@ import { happyCheck } from "../../../../assets/icons";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
 import { Form } from "../../../../ottery-ui/containers/Form";
-import { FormFieldDto, DataFieldDto } from "@ottery/ottery-dto";
+import { DataFieldDto } from "@ottery/ottery-dto";
 import { InfoWrapper } from "../../../../ottery-ui/input/InfoWrapper";
 import { Input } from "../../../../ottery-ui/input/Input";
+import SelectionButton from "../../../../ottery-ui/buttons/SelectionButton";
+import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
+import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
+import { BUTTON_STATES } from "../../../../ottery-ui/buttons/button.enum";
+import { useChildClient } from "../../child/useChildClient";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -27,6 +32,7 @@ const SignupContext = createContext({
     setForm: undefined,
     canGoBack: undefined,
     route: undefined,
+    current: undefined,
 });
 
 const styles = StyleSheet.create({
@@ -57,6 +63,7 @@ const styles = StyleSheet.create({
 enum pages {
     selectSignupTypes = "select",
     signupVolenteer = "volenteer",
+    selectChildren = "children",
     signupChildren = "child",
     done = "done",
 }
@@ -77,18 +84,19 @@ export function SignUp({route}) {
         return {
             [pages.selectSignupTypes] : <SelectSignupTypes/>,
             [pages.signupChildren] : <SignupChildren/>,
+            [pages.selectChildren] : <SelectChildren/>,
             [pages.signupVolenteer] : <SignupVolenteer/>,
             [pages.done]: <Done/>,
         }
     }, []);
 
-    function gotoNext(addPages:PageDto[]) {
+    function gotoNext(addPages:PageDto[] = []) {
         setCurrent((p)=>{
             todo.push(...addPages);
             const [current, ...todoTail] = todo;
             setTodo(todoTail);
             setBack([...back, p]);
-            return current
+            return current || {page: pages.done}
         })
     }
 
@@ -112,6 +120,7 @@ export function SignUp({route}) {
                 setForm,
                 canGoBack,
                 route,
+                current
             }}
         >
             {elements[current.page]}
@@ -138,7 +147,7 @@ function SelectSignupTypes() {
         if (type === "caretaker") {
             gotoNext([{page: pages.signupVolenteer}]);
         } else if (type === "attendee") {
-            gotoNext([{page:pages.signupChildren}]);
+            gotoNext([{page:pages.selectChildren}]);
         }
     }, []);
 
@@ -154,7 +163,7 @@ function SelectSignupTypes() {
                 <Button onPress={()=>{
                     const options = [];
                     volenteer && options.push({page:pages.signupVolenteer});
-                    attend && options.push({page:pages.signupChildren});
+                    attend && options.push({page:pages.selectChildren});
                     if (options.length) {
                         gotoNext(options);
                     } else {
@@ -222,7 +231,7 @@ function SignupVolenteer() {
         function singupMutate() {
             signup.mutate(route.params.eventId, {
                 onSuccess: ()=>{
-                    gotoNext([{page:pages.done}]);  
+                    gotoNext();  
                 },
                 onError: (e:Error)=>{
                     Ping.error(e.message);
@@ -264,7 +273,7 @@ function SignupVolenteer() {
             })
         }
     }, [missingFields]);
-    
+
     if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
         return;
     }
@@ -284,8 +293,154 @@ function SignupVolenteer() {
 }
 
 function SignupChildren() {
-    return <Main>
-        children
+    const Ping = usePing();
+    const {current, gotoNext, route} = useContext(SignupContext);
+    const eventRes = useEventClient().useGetEvent({inputs: [route.params.eventId]});
+    const missingRes = useChildClient().useMissingChildData({
+        inputs:[current.props.childId, eventRes?.data?.data?.attendeeSignUp],
+        enabled: !!eventRes?.data?.data?.attendeeSignUp
+    });
+    const childRes = useChildClient().useGetChild({inputs: [current.props.childId]});
+    const child = childRes?.data?.data;
+    const missingFields = missingRes?.data?.data;
+    const updateData = useChildClient().useUpdateChildData();
+    const signup = useEventClient().useSignupAttendee();
+    const [datafields, setDataFields] = useState({});
+
+    function updateDataField(dataField:DataFieldDto) {
+        setDataFields((p)=>{
+            return {
+                ...p,
+                [dataField.formField]: dataField
+            }
+        })
+    }
+
+    function signupNow() {
+        function singupMutate() {
+            signup.mutate({
+                eventId: route.params.eventId,
+                childId: current.props.childId,
+            }, {
+                onSuccess: ()=>{
+                    gotoNext();  
+                },
+                onError: (e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        }
+
+        if (missingFields.length) {
+            updateData.mutate({
+                childId: current.props.childId,
+                dataFields: Object.values(datafields),
+            }, {
+                onSuccess:singupMutate,
+                onError:(e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        } else {
+            singupMutate();
+        }
+    }
+
+    useEffect(()=>{
+        if (missingFields && missingFields.length === 0) {
+            signupNow();
+        } else if (missingFields) {
+            missingFields.map(missingField=>{
+                setDataFields((p)=>{
+                    return {
+                        ...p,
+                        [missingField._id]: {
+                            formField: missingField._id,
+                            label: missingField.label,
+                            type: missingField.type,
+                            value: undefined,
+                        },
+                    }
+                })
+            })
+        }
+    }, [missingFields]);
+
+    if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
+        return;
+    }
+
+    return <Main style={styles.formContainer}>
+        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing {child?.firstName} up.</Text>
+        <Form>
+            {missingFields?.map((formField)=><FormFieldToInput formField={formField} value={datafields[formField._id]} onChange={updateDataField}/>)}
+        </Form>
+        <ButtonSpan>
+            <BackButton/>
+            <Button
+                onPress={signupNow}
+            >Done</Button>
+        </ButtonSpan>
+    </Main>
+}
+
+function SelectChildren() {
+    const Ping = usePing();
+    const userId = useAuthClient().useUserId();
+    const childrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
+    const children = childrenRes?.data?.data;
+    const [selected, setSelected] = useState([]);
+    const {gotoNext} = useContext(SignupContext);
+
+    function addKids() {
+        if (selected.length === 0) {
+            Ping.error("Please select a child");
+            return;
+        }
+
+        gotoNext([...selected.map(id=>{
+            const page: PageDto = {
+                page: pages.signupChildren,
+                props: {childId:id}
+            }
+
+            return page;
+        })]);
+    }
+
+
+    return <Main style={{gap:margin.large, flex:1}}>
+        <Text variant="titleLarge" style={styles.centeredText}>Select kids to signup!</Text>
+        <SelectionButton
+            itemCount={selected.length}
+            itemTitle={["child", "children"]}
+            onPress={addKids}
+        ></SelectionButton>
+        <ImageButtonList>
+            {children?.map((child)=>
+                <ImageButton
+                    state={(selected.includes(child._id))?BUTTON_STATES.success:undefined}
+                    right={child.pfp}
+                    onPress={()=>{setSelected((selected)=>{
+                        const filteredSelected = selected.filter(id=>id!==child._id);
+
+                        if (filteredSelected.length === selected.length) {
+                            return [...filteredSelected, child._id]
+                        } else {
+                            return filteredSelected;
+                        }
+                    })}}
+                >
+                    <Text>{child.firstName} {child.lastName}</Text>
+                </ImageButton>
+            )}
+        </ImageButtonList>
+        <ButtonSpan>
+            <BackButton/>
+            {/* <Button
+                onPress={()=>{}}
+            >Done</Button> */}
+        </ButtonSpan>
     </Main>
 }
 

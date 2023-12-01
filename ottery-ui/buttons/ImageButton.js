@@ -4,12 +4,13 @@ import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "./Button";
 import { colors } from "../styles/colors";
-import { checkmarkBlack, x } from "../../assets/icons";
+import { check, x } from "../../assets/icons";
 import { clickable } from "../styles/clickable";
 import { BUTTON_STATES } from "./button.enum";
 import { margin } from "../styles/margin";
 import { border } from "../styles/border";
 import { image } from "../styles/image";
+import useColors from "../styles/useColors";
 
 const style = StyleSheet.create({
   container: {
@@ -40,10 +41,17 @@ export function ImageButton({
   state = undefined,
   onPress = undefined,
 }) {
+  color = useColors({status:state, color})
   const leftImage = useMemo(() => {
     if (left) {
       return (
-        <Image height={clickable.minHeight} src={left} radius={radius.round} />
+        <Image
+          height={clickable.minHeight}
+          width={clickable.minHeight}
+          alt={"left image button"}
+          src={left}
+          radius={radius.round}
+        />
       );
     }
 
@@ -51,6 +59,7 @@ export function ImageButton({
       return (
         <Image
           height={clickable.minHeight}
+          width={clickable.minHeight}
           src={x}
           alt={"x mark"}
           radius={radius.round}
@@ -59,8 +68,9 @@ export function ImageButton({
     } else if (state === BUTTON_STATES.success) {
       return (
         <Image
-          height={0.75 * clickable.minHeight}
-          src={checkmarkBlack}
+          height={clickable.minHeight}
+          width={clickable.minHeight}
+          src={check}
           alt={"checkmark"}
           radius={radius.round}
         />

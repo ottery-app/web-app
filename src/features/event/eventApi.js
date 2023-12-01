@@ -78,13 +78,13 @@ export const signupUser = clideInst
         }
     });
 
-export const signUpAttendeesByIds = clideInst
-    .makePatch("event/:eventId/signup/attendee", {
-        in_pipeline: (eventId, ids)=>{
+export const signupAttendee = clideInst
+    .makePatch("signup/attendee/:eventId", {
+        in_pipeline: ({eventId, childId})=>{
             return {
-                data: ids,
                 params: {
                     eventId,
+                    childId: childId,
                 }
             }
         }
