@@ -91,11 +91,11 @@ export const signupAttendee = clideInst
     });
 
 export const getOwner = clideInst
-    .makeGet("event/:eventId/owner", {
+    .makeGet("event/:id/owner", {
         in_pipeline: (eventId)=>{
             return {
                 params: {
-                    eventId,
+                    id:eventId,
                 }
             }
         }

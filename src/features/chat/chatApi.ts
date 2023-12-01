@@ -4,6 +4,7 @@ import { clideInst } from "../../provider/clideInst";
 export const makeChat = clideInst.makePut("message/chat", {
   data_validator: MakeChatDto,
   in_pipeline: (makeChatDto: MakeChatDto) => {
+    console.log(makeChatDto);
     return {
       data: makeChatDto,
     };

@@ -61,6 +61,8 @@ export function useEventClient() {
         mutationFn: signupAttendee,
     })
 
+    
+
     return {
         useGetEvent,
         useGetEvents,

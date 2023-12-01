@@ -389,9 +389,9 @@ function SelectChildren() {
     const Ping = usePing();
     const userId = useAuthClient().useUserId();
     const childrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
-    const children = childrenRes?.data?.data;
     const [selected, setSelected] = useState([]);
-    const {gotoNext} = useContext(SignupContext);
+    const {gotoNext, route} = useContext(SignupContext);
+    const children = childrenRes?.data?.data.filter((child)=>!child.events.includes(route.params.eventId));
 
     function addKids() {
         if (selected.length === 0) {

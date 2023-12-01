@@ -1,8 +1,5 @@
 import { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
-import { ChatDto } from "@ottery/ottery-dto";
-
+import { StyleSheet } from "react-native";
 import RadioGroup, { OptionProp } from "../../../ottery-ui/controls/RadioGroup";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { margin } from "../../../ottery-ui/styles/margin";
@@ -31,15 +28,16 @@ function GetHelpScreen({ route }) {
   const [customText, setCustomText] = useState("");
   const message = option || customText;
   const buttonState = !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
-
   const { useUserId } = useAuthClient();
   const userId = useUserId();
-  const leadManagerId = useEventClient().getLeadManager(eventId);
-  const { useMakeChat, useSendMessage } = useChatClient();
-  const createChat = useMakeChat();
+  const leadManagerIdRes = useEventClient().useGetEventOwner({inputs:[eventId]});
+  const leadManagerId = leadManagerIdRes?.data?.data._id;
+  const { useSendMessage, useGetDirectChat } = useChatClient();
   const sendMessage = useSendMessage();
   const Ping = usePing();
   const navigator = useNavigator();
+  const directChatRes = useGetDirectChat({inputs:[leadManagerId, userId], enabled:!!leadManagerId});
+  const chatId = directChatRes?.data?.data._id;
 
   function handleOptionChange(option: string) {
     setOption(option);
@@ -52,30 +50,16 @@ function GetHelpScreen({ route }) {
   }
 
   const handleSubmit = useCallback(async () => {
-    try {
-      // Create a chat with the lead manager
-      const chatResponse = (await createChat.mutateAsync({
-        name: "Get Help",
-        users: [userId, leadManagerId],
-      })) as { data: ChatDto };
-
-      const chatId = chatResponse.data._id;
-
-      if (chatId) {
-        sendMessage.mutate([chatId, message], {
-          onSuccess: () => {
-            Ping.info("Sent successfully!");
-            navigator(paths.main.social.chat, { chatId });
-          },
-          onError: (err: Error) => {
-            Ping.error(err.message);
-          },
-        });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [userId, leadManagerId, message]);
+    sendMessage.mutate([chatId, message], {
+      onSuccess: () => {
+        //Ping.info("Sent successfully!");
+        navigator(paths.main.social.chat, { chatId });
+      },
+      onError: (err: Error) => {
+        Ping.error(err.message);
+      },
+    });
+  }, [userId, leadManagerId, message, chatId]);
 
   return (
     <Main style={styles.main}>
