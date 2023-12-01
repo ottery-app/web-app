@@ -20,7 +20,7 @@ export const paths = {
       new: "/child/new",
       profile: "/child/:childId",
       addGuardian: "/child/:childId/addguardian",
-      acceptGuardian: "/child/:childId/acceptguardianinvite"
+      acceptGuardian: "/child/:childId/acceptguardianinvite",
     },
     event: {
       dash: "/event/dash/:eventId",
@@ -31,7 +31,8 @@ export const paths = {
       },
       accept: {
         caretaker: "/event/:eventId/accept/caretaker",
-      }
+      },
+      getHelp: "/event/:eventId/get-help",
     },
     user: {
       profile: "/user/profile",

@@ -28,7 +28,7 @@ function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   return (
     <ChatListItem
       onPress={selectChat}
-      senderImage={flagUser?.pfp.src || pfp.src}
+      senderImage={flagUser?.pfp?.src || pfp.src}
       senderName={
         flagUser ? `${flagUser.firstName} ${flagUser.lastName}` : undefined
       }
@@ -49,9 +49,17 @@ function Messages() {
     <ScreenWrapper>
       {chats &&
         chats
-          .sort((b: InstanceType<typeof ChatDto>, a: InstanceType<typeof ChatDto>)=>a.messages[a.messages.length - 1]?.date - b.messages[b.messages.length - 1]?.date)
-          .map((chat: InstanceType<typeof ChatDto>) => <Chat key={chat._id} chat={chat} />)
-      }
+          .sort(
+            (
+              b: InstanceType<typeof ChatDto>,
+              a: InstanceType<typeof ChatDto>
+            ) =>
+              a.messages[a.messages.length - 1]?.date -
+              b.messages[b.messages.length - 1]?.date
+          )
+          .map((chat: InstanceType<typeof ChatDto>) => (
+            <Chat key={chat._id} chat={chat} />
+          ))}
     </ScreenWrapper>
   );
 }
