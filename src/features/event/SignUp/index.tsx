@@ -6,7 +6,6 @@ import { CheckBox } from "../../../../ottery-ui/input/CheckBox";
 import { Text } from "react-native-paper";
 import Button from "../../../../ottery-ui/buttons/Button";
 import { ButtonSpan } from "../../../../ottery-ui/containers/ButtonSpan";
-import { BUTTON_TYPES } from "../../../../ottery-ui/buttons/button.enum";
 import { useEventClient } from "../useEventClient";
 import { useAuthClient } from "../../auth/useAuthClient";
 import { usePing } from "../../../../ottery-ping";
@@ -17,243 +16,450 @@ import { happyCheck } from "../../../../assets/icons";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
 import { Form } from "../../../../ottery-ui/containers/Form";
-import { CustomFormFieldDto } from "@ottery/ottery-dto";
-import PhoneNumberInput from "../../../../ottery-ui/input/PhoneInput";
+import { DataFieldDto } from "@ottery/ottery-dto";
+import { InfoWrapper } from "../../../../ottery-ui/input/InfoWrapper";
+import { Input } from "../../../../ottery-ui/input/Input";
+import SelectionButton from "../../../../ottery-ui/buttons/SelectionButton";
+import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
+import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
+import { BUTTON_STATES } from "../../../../ottery-ui/buttons/button.enum";
+import { useChildClient } from "../../child/useChildClient";
 
 const SignupContext = createContext({
-  gotoNext: undefined,
-  goBack: undefined,
-  form: undefined,
-  setForm: undefined,
-  canGoBack: undefined,
-  route: undefined,
+    gotoNext: undefined,
+    goBack: undefined,
+    form: undefined,
+    setForm: undefined,
+    canGoBack: undefined,
+    route: undefined,
+    current: undefined,
 });
 
 const styles = StyleSheet.create({
-  main: {
-    width: "100%",
-    flex: 1,
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    gap: margin.large,
-    paddingTop: margin.large,
-  },
-  checkboxes: {
-    flex: 1,
-    width: "100%",
-    gap: margin.small,
-  },
-  formContainer: {
-    flex: 1,
-    gap: margin.large,
-    width: "100%",
-  },
-  centeredText: {
-    textAlign: "center",
-  },
+    main: {
+        width: '100%',
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        gap: margin.large,
+        paddingTop: margin.large,
+    },
+    checkboxes: {
+        flex: 1,
+        width: "100%",
+        gap: margin.small,
+    },
+    formContainer: {
+        flex:1,
+        gap: margin.large,
+        width: "100%",
+    },
+    centeredText: {
+        textAlign: "center",
+    }
 });
 
 enum pages {
-  selectSignupTypes = "select",
-  signupVolenteer = "volenteer",
-  signupChildren = "child",
-  done = "done",
+    selectSignupTypes = "select",
+    signupVolenteer = "volenteer",
+    selectChildren = "children",
+    signupChildren = "child",
+    done = "done",
 }
 
-export function SignUp({ route }) {
-  const [current, setCurrent] = useState(pages.selectSignupTypes);
-  const [todo, setTodo] = useState([]);
-  const [back, setBack] = useState([]);
-  const [form, setForm] = useState({});
+interface PageDto {
+    page: pages,
+    props?: object,
+}
 
-  const elements = useMemo(() => {
-    return {
-      [pages.selectSignupTypes]: <SelectSignupTypes />,
-      [pages.signupChildren]: <SignupChildren />,
-      [pages.signupVolenteer]: <SignupVolenteer />,
-      [pages.done]: <Done />,
-    };
-  }, []);
+export function SignUp({route}) {
+    const Ping = usePing();
+    const [current, setCurrent] = useState<PageDto>({page:pages.selectSignupTypes});
+    const [todo, setTodo] = useState<PageDto[]>([]);
+    const [back, setBack] = useState<PageDto[]>([]);
+    const [form, setForm] = useState({});
 
-  function gotoNext(addPages = []) {
-    todo.push(...addPages);
-    const last = todo.shift();
-    setTodo([...todo]);
-    back.push(last);
-    setBack([...back]);
-    setCurrent(last);
-  }
+    const elements = useMemo(()=>{
+        return {
+            [pages.selectSignupTypes] : <SelectSignupTypes/>,
+            [pages.signupChildren] : <SignupChildren/>,
+            [pages.selectChildren] : <SelectChildren/>,
+            [pages.signupVolenteer] : <SignupVolenteer/>,
+            [pages.done]: <Done/>,
+        }
+    }, []);
 
-  function canGoBack() {
-    return back.length > 0;
-  }
+    function gotoNext(addPages:PageDto[] = []) {
+        setCurrent((p)=>{
+            todo.push(...addPages);
+            const [current, ...todoTail] = todo;
+            setTodo(todoTail);
+            setBack([...back, p]);
+            return current || {page: pages.done}
+        })
+    }
 
-  function goBack() {
-    const next = back.pop();
-    todo.unshift(next);
-    setTodo([...todo]);
-    setCurrent(next);
-    setBack([...back]);
-  }
+    function canGoBack() {
+        return back.length > 0;
+    }
 
-  return (
-    <SignupContext.Provider
-      value={{
-        gotoNext,
-        goBack,
-        form,
-        setForm,
-        canGoBack,
-        route,
-      }}
-    >
-      {elements[current]}
-    </SignupContext.Provider>
-  );
+    function goBack() {
+        setCurrent((p)=>{
+            setBack([]);
+            return {page:pages.selectSignupTypes};
+        })
+    }
+
+    return (
+        <SignupContext.Provider
+            value={{
+                gotoNext,
+                goBack,
+                form,
+                setForm,
+                canGoBack,
+                route,
+                current
+            }}
+        >
+            {elements[current.page]}
+        </SignupContext.Provider>
+    );
 }
 
 function BackButton() {
-  const { goBack, canGoBack } = useContext(SignupContext);
+    const {goBack, canGoBack} = useContext(SignupContext);
 
-  if (canGoBack()) {
-    return (
-      <Button onPress={goBack} styles={BUTTON_TYPES.outline}>
-        Back
-      </Button>
-    );
-  }
+    if (canGoBack()) {
+        return <Button onPress={goBack}>Back</Button>
+    }
 }
 
 function SelectSignupTypes() {
-  const { gotoNext, route } = useContext(SignupContext);
-  const Ping = usePing();
-  const [volenteer, sV] = useState(false);
-  const [attend, sA] = useState(false);
-  const type = route.params.type;
+    const {gotoNext, route} = useContext(SignupContext);
+    const Ping = usePing();
+    const [volenteer, sV] = useState(false);
+    const [attend, sA] = useState(false);
+    const type = route.params.type;
 
-  useEffect(() => {
-    if (type === "caretaker") {
-      gotoNext([pages.signupVolenteer]);
-    } else if (type === "attendee") {
-      gotoNext([pages.signupChildren]);
-    }
-  }, []);
+    useEffect(()=>{
+        if (type === "caretaker") {
+            gotoNext([{page: pages.signupVolenteer}]);
+        } else if (type === "attendee") {
+            gotoNext([{page:pages.selectChildren}]);
+        }
+    }, []);
 
-  return (
-    <Main style={styles.main}>
-      <Text variant="headlineSmall">Lets get you signed up!</Text>
-      <View style={styles.checkboxes}>
-        <CheckBox label="Signing up kids?" value={attend} onChange={sA} />
-        <CheckBox label="Volenteering?" value={volenteer} onChange={sV} />
-      </View>
-      <ButtonSpan>
-        <BackButton />
-        <Button
-          onPress={() => {
-            const options = [];
-            volenteer && options.push(pages.signupVolenteer);
-            attend && options.push(pages.signupChildren);
-            if (options.length) {
-              gotoNext(options);
-            } else {
-              Ping.error("Select one");
-            }
-          }}
-        >
-          Next
-        </Button>
-      </ButtonSpan>
-    </Main>
-  );
+    return (
+        <Main style={styles.main}>
+            <Text variant="headlineSmall">Lets get you signed up!</Text>
+            <View style={styles.checkboxes}>
+                <CheckBox label="Signing up kids?" value={attend} onChange={sA}/>
+                <CheckBox label="Volenteering?" value={volenteer} onChange={sV}/>
+            </View>
+            <ButtonSpan>
+                <BackButton/>
+                <Button onPress={()=>{
+                    const options = [];
+                    volenteer && options.push({page:pages.signupVolenteer});
+                    attend && options.push({page:pages.selectChildren});
+                    if (options.length) {
+                        gotoNext(options);
+                    } else {
+                        Ping.error("Select one");
+                    }
+                }}>Next</Button>
+            </ButtonSpan>
+        </Main>
+    );
 }
 
-function FormFieldToInput({ formField }) {
-  const [state, setState] = useState();
-
-  if (formField.type === "phone") {
+function FormFieldToInput({formField, value, onChange}) {
     return (
-      <View>
-        <PhoneNumberInput
-          label={formField.label}
-          value={state}
-          onChange={setState}
-        />
-      </View>
+        <InfoWrapper
+            header={formField.label}
+            info={formField.note}
+        >
+            <Input 
+                type={formField.type}
+                label={formField.label}
+                value={value?.value} 
+                onChange={(val:any)=>{
+                    value = value || {
+                        formField: formField._id,
+                        label: formField.label,
+                        type: formField.type,
+                        value: undefined,
+                    } as DataFieldDto,
+
+                    value.value = val;
+
+                    onChange(value);
+                }}
+            />
+        </InfoWrapper>
     );
-  } else {
-    throw new Error("input type not supported");
-  }
 }
 
 function SignupVolenteer() {
-  //check for user data?
-  const { route, gotoNext } = useContext(SignupContext);
-  const userId = useAuthClient().useUserId();
-  const eventRes = useEventClient().useGetEvent({
-    inputs: [route.params.eventId],
-  });
-  const signup = useEventClient().useSignupUser();
-  const Ping = usePing();
-  const missingRes = useUserClient().useMissingUserData({
-    inputs: [userId, eventRes?.data?.data?.volenteerSignUp],
-    enabled: !!eventRes?.data?.data?.volenteerSignUp,
-  });
-  const missingFields = missingRes?.data?.data;
-
-  function signupNow() {
-    signup.mutate(route.params.eventId, {
-      onSuccess: () => {
-        gotoNext([pages.done]);
-      },
-      onError: (e: Error) => {
-        Ping.error(e.message);
-      },
+    //check for user data?
+    const {route, gotoNext} = useContext(SignupContext);
+    const userId = useAuthClient().useUserId();
+    const eventRes = useEventClient().useGetEvent({inputs: [route.params.eventId]});
+    const signup = useEventClient().useSignupUser();
+    const Ping = usePing();
+    const userClient = useUserClient();
+    const missingRes = userClient.useMissingUserData({
+        inputs:[userId, eventRes?.data?.data?.volenteerSignUp],
+        enabled: !!eventRes?.data?.data?.volenteerSignUp
     });
-  }
+    const updateData = userClient.useUpdateUserData();
+    const missingFields = missingRes?.data?.data;
+    const [datafields, setDataFields] = useState({});
 
-  useEffect(() => {
-    if (missingFields && missingFields.length === 0) {
-      signupNow();
+    function updateDataField(dataField:DataFieldDto) {
+        setDataFields((p)=>{
+            return {
+                ...p,
+                [dataField.formField]: dataField
+            }
+        })
     }
-  }, [missingFields]);
 
-  return (
-    <Main style={styles.formContainer}>
-      <Text variant="titleLarge" style={styles.centeredText}>
-        Uh oh! Looks like we are missing some info for signing you up.
-      </Text>
-      <Form>
-        {missingFields?.map((formField: CustomFormFieldDto) => (
-          <FormFieldToInput formField={formField} />
-        ))}
-      </Form>
+    function signupNow() {
+        function singupMutate() {
+            signup.mutate(route.params.eventId, {
+                onSuccess: ()=>{
+                    gotoNext();  
+                },
+                onError: (e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        }
+
+        if (missingFields.length) {
+            updateData.mutate({
+                userId: userId,
+                dataFields: Object.values(datafields),
+            }, {
+                onSuccess:singupMutate,
+                onError:(e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        } else {
+            singupMutate();
+        }
+    }
+
+    useEffect(()=>{
+        if (missingFields && missingFields.length === 0) {
+            signupNow();
+        } else if (missingFields) {
+            missingFields.map(missingField=>{
+                setDataFields((p)=>{
+                    return {
+                        ...p,
+                        [missingField._id]: {
+                            formField: missingField._id,
+                            label: missingField.label,
+                            type: missingField.type,
+                            value: undefined,
+                        },
+                    }
+                })
+            })
+        }
+    }, [missingFields]);
+
+    if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
+        return;
+    }
+
+    return <Main style={styles.formContainer}>
+        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing you up.</Text>
+        <Form>
+            {missingFields?.map((formField)=><FormFieldToInput formField={formField} value={datafields[formField._id]} onChange={updateDataField}/>)}
+        </Form>
+        <ButtonSpan>
+            <BackButton/>
+            <Button
+                onPress={signupNow}
+            >Done</Button>
+        </ButtonSpan>
     </Main>
-  );
 }
 
 function SignupChildren() {
-  return <Main>children</Main>;
+    const Ping = usePing();
+    const {current, gotoNext, route} = useContext(SignupContext);
+    const eventRes = useEventClient().useGetEvent({inputs: [route.params.eventId]});
+    const missingRes = useChildClient().useMissingChildData({
+        inputs:[current.props.childId, eventRes?.data?.data?.attendeeSignUp],
+        enabled: !!eventRes?.data?.data?.attendeeSignUp
+    });
+    const childRes = useChildClient().useGetChild({inputs: [current.props.childId]});
+    const child = childRes?.data?.data;
+    const missingFields = missingRes?.data?.data;
+    const updateData = useChildClient().useUpdateChildData();
+    const signup = useEventClient().useSignupAttendee();
+    const [datafields, setDataFields] = useState({});
+
+    function updateDataField(dataField:DataFieldDto) {
+        setDataFields((p)=>{
+            return {
+                ...p,
+                [dataField.formField]: dataField
+            }
+        })
+    }
+
+    function signupNow() {
+        function singupMutate() {
+            signup.mutate({
+                eventId: route.params.eventId,
+                childId: current.props.childId,
+            }, {
+                onSuccess: ()=>{
+                    gotoNext();  
+                },
+                onError: (e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        }
+
+        if (missingFields.length) {
+            updateData.mutate({
+                childId: current.props.childId,
+                dataFields: Object.values(datafields),
+            }, {
+                onSuccess:singupMutate,
+                onError:(e:Error)=>{
+                    Ping.error(e.message);
+                }
+            });
+        } else {
+            singupMutate();
+        }
+    }
+
+    useEffect(()=>{
+        if (missingFields && missingFields.length === 0) {
+            signupNow();
+        } else if (missingFields) {
+            missingFields.map(missingField=>{
+                setDataFields((p)=>{
+                    return {
+                        ...p,
+                        [missingField._id]: {
+                            formField: missingField._id,
+                            label: missingField.label,
+                            type: missingField.type,
+                            value: undefined,
+                        },
+                    }
+                })
+            })
+        }
+    }, [missingFields]);
+
+    if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
+        return;
+    }
+
+    return <Main style={styles.formContainer}>
+        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing {child?.firstName} up.</Text>
+        <Form>
+            {missingFields?.map((formField)=><FormFieldToInput formField={formField} value={datafields[formField._id]} onChange={updateDataField}/>)}
+        </Form>
+        <ButtonSpan>
+            <BackButton/>
+            <Button
+                onPress={signupNow}
+            >Done</Button>
+        </ButtonSpan>
+    </Main>
+}
+
+function SelectChildren() {
+    const Ping = usePing();
+    const userId = useAuthClient().useUserId();
+    const childrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
+    const children = childrenRes?.data?.data;
+    const [selected, setSelected] = useState([]);
+    const {gotoNext} = useContext(SignupContext);
+
+    function addKids() {
+        if (selected.length === 0) {
+            Ping.error("Please select a child");
+            return;
+        }
+
+        gotoNext([...selected.map(id=>{
+            const page: PageDto = {
+                page: pages.signupChildren,
+                props: {childId:id}
+            }
+
+            return page;
+        })]);
+    }
+
+
+    return <Main style={{gap:margin.large, flex:1}}>
+        <Text variant="titleLarge" style={styles.centeredText}>Select kids to signup!</Text>
+        <SelectionButton
+            itemCount={selected.length}
+            itemTitle={["child", "children"]}
+            onPress={addKids}
+        ></SelectionButton>
+        <ImageButtonList>
+            {children?.map((child)=>
+                <ImageButton
+                    state={(selected.includes(child._id))?BUTTON_STATES.success:undefined}
+                    right={child.pfp}
+                    onPress={()=>{setSelected((selected)=>{
+                        const filteredSelected = selected.filter(id=>id!==child._id);
+
+                        if (filteredSelected.length === selected.length) {
+                            return [...filteredSelected, child._id]
+                        } else {
+                            return filteredSelected;
+                        }
+                    })}}
+                >
+                    <Text>{child.firstName} {child.lastName}</Text>
+                </ImageButton>
+            )}
+        </ImageButtonList>
+        <ButtonSpan>
+            <BackButton/>
+            {/* <Button
+                onPress={()=>{}}
+            >Done</Button> */}
+        </ButtonSpan>
+    </Main>
 }
 
 function Done() {
-  const navigator = useNavigator();
+    const navigator = useNavigator();
 
-  return (
-    <Main>
-      <Shadowbox>
-        <Text variant={"headlineSmall"}>You are all signed up!</Text>
-        <Image src={happyCheck} alt={"checkmark"} width={"100%"} />
-        <ButtonSpan>
-          <Button
-            onPress={() => {
-              navigator(paths.main.home);
-            }}
-          >
-            Done
-          </Button>
-        </ButtonSpan>
-      </Shadowbox>
+    return <Main>
+        <Shadowbox>
+            <Text variant={"headlineSmall"}>You are all signed up!</Text>
+            <Image
+                src={happyCheck}
+                alt={"checkmark"}
+                width={"100%"}
+            />
+            <ButtonSpan>
+                <Button
+                    onPress={()=>{navigator(paths.main.home)}}
+                >Done</Button>
+            </ButtonSpan>
+        </Shadowbox>
     </Main>
-  );
 }

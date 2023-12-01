@@ -5,15 +5,13 @@ import Button from "../buttons/Button";
 import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
+import { InputProps } from "./Input";
 
-const text_varient = "titleMedium";
-
-export interface CheckBoxProps {
-    label: string,
-    value: boolean,
-    onChange: (value:boolean)=>void,
+export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,
 }
+
+const text_varient = "titleMedium";
 
 export enum CheckBoxMode {
     default="default",

@@ -1,4 +1,4 @@
-import { IdArrayDto, ImageDto, isId, noId } from "@ottery/ottery-dto";
+import { DataFieldDto, ImageDto, isId, noId, validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
 
 export const missingUserData = clideInst.makeGet(
@@ -12,6 +12,26 @@ export const missingUserData = clideInst.makeGet(
         params: {
           userId: id,
           desired: desiredFieldIds,
+        }
+      }
+    }
+  }
+)
+
+export const updateUserData = clideInst.makePatch(
+  "user/:userId/data",
+  {
+    param_validators: {
+      userId: isId,
+    },
+    data_validator: validateAsArr(DataFieldDto),
+    in_pipeline: ({userId, dataFields})=>{
+      console.log(dataFields);
+      console.log(userId);
+      return {
+        data: dataFields,
+        params: {
+          userId: userId,
         }
       }
     }

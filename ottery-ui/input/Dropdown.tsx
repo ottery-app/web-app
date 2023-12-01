@@ -7,6 +7,7 @@ import { radius } from "../styles/radius";
 import { margin } from "../styles/margin";
 import { clickable } from "../styles/clickable";
 import { zindex } from "../styles/zindex";
+import { InputOption, InputProps } from "./Input";
 
 const styles = StyleSheet.create({
   container: {
@@ -46,12 +47,9 @@ const styles = StyleSheet.create({
 
 //Instead of defining the value as key in the dropdownoption interface we are defining it as label
 //because the native dropdoen component are expection values as options/data as label value pairs
-interface DropdownOption {
-  label: string;
-  value: string;
-}
+export interface DropdownOption extends InputOption<string> {}
 
-interface DropdownProps {
+export interface DropdownProps extends InputProps<string> {
   label: string;
   options: DropdownOption[];
   value: string;

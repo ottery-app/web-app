@@ -1,5 +1,15 @@
 import { ImageAsset } from "./ImageAsset";
 
+export const send: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/send.svg",
+  aspectRatio: 1,
+}
+
+export const info: ImageAsset = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/info.svg?raw=true",
+  aspectRatio: 1,
+}
+
 export const share: ImageAsset = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/share.png?raw=true",
   aspectRatio: 1,
@@ -37,11 +47,6 @@ export const message: ImageAsset = {
 
 export const pluss: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/plus.svg",
-  aspectRatio: 1,
-};
-
-export const checkmarkBlack: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/checkmarkBlack.svg",
   aspectRatio: 1,
 };
 
