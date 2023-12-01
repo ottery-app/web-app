@@ -1,5 +1,4 @@
-import { CreateChildDto, IdArrayDto, id, EmailDto, validateAsArr, DataFieldDto, isId } from "@ottery/ottery-dto";
-import { formatForApi } from "../../functions/images";
+import { CreateChildDto, IdArrayDto, id, validateAsArr, DataFieldDto, isId } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
 
 export const newChild = clideInst.makePost("child", {

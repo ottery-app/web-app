@@ -3,7 +3,13 @@ import { useNavigator } from "../../router/useNavigator";
 import { useMemo } from "react";
 import { role } from "@ottery/ottery-dto";
 import { usePing } from "../../../ottery-ping";
-import { clock, message, pfp, users } from "../../../assets/icons";
+import {
+  alertMessage,
+  clock,
+  message,
+  pfp,
+  users,
+} from "../../../assets/icons";
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -27,7 +33,7 @@ export function Home() {
       {
         icon: { uri: message.src },
         title: "Messages",
-        onPress: ()=>navigator(paths.main.social.messages),
+        onPress: () => navigator(paths.main.social.messages),
       },
       // {
       //   icon: "NONE",
@@ -40,26 +46,34 @@ export function Home() {
 
     if (state === role.GUARDIAN) {
     } else if (state === role.CARETAKER) {
-      buttons.push({
-        icon: {uri:clock.src},
-        title: "Clock out?",
-        onPress: () => {
-          swapState(sesh.event)
+      buttons.push(
+        {
+          icon: { uri: clock.src },
+          title: "Clock out?",
+          onPress: () => {
+            swapState(sesh.event);
+          },
         },
-      },                 {
-        icon: { uri: users.src },
-        title: "Roster",
-        onPress: () => {
-          navigator(paths.main.event.roster, {eventId: sesh.event});
+        {
+          icon: { uri: users.src },
+          title: "Roster",
+          onPress: () => {
+            navigator(paths.main.event.roster, { eventId: sesh.event });
+          },
         },
-      });
+        {
+          icon: { uri: alertMessage.src },
+          title: "Get Help",
+          onPress: () => {
+            navigator(paths.main.event.getHelp, { eventId: sesh.event });
+          },
+        }
+      );
     }
-
-    
 
     return buttons;
   }, [state]);
-  
+
   return (
     <Main>
       <ButtonMenu buttons={buttons} />

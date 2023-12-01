@@ -11,6 +11,8 @@ export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,
 }
 
+const text_varient = "titleMedium";
+
 export enum CheckBoxMode {
     default="default",
     filled="filled",
@@ -54,7 +56,6 @@ export function CheckBox({
     onChange,
     mode=CheckBoxMode.filled
 }: CheckBoxProps) {
-    const text_varient = (mode === CheckBoxMode.filled) ? "headlineSmall" : "titleMedium";
 
     function Icon({active}) {
         return (active)
