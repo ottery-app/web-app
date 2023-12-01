@@ -274,7 +274,7 @@ function SignupVolenteer() {
         }
     }, [missingFields]);
 
-    if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
+    if (signup.status === "loading") {
         return;
     }
 
@@ -295,7 +295,8 @@ function SignupVolenteer() {
 function SignupChildren() {
     const Ping = usePing();
     const {current, gotoNext, route} = useContext(SignupContext);
-    const eventRes = useEventClient().useGetEvent({inputs: [route.params.eventId]});
+    const eventClient = useEventClient();
+    const eventRes = eventClient.useGetEvent({inputs: [route.params.eventId]});
     const missingRes = useChildClient().useMissingChildData({
         inputs:[current.props.childId, eventRes?.data?.data?.attendeeSignUp],
         enabled: !!eventRes?.data?.data?.attendeeSignUp
@@ -304,7 +305,7 @@ function SignupChildren() {
     const child = childRes?.data?.data;
     const missingFields = missingRes?.data?.data;
     const updateData = useChildClient().useUpdateChildData();
-    const signup = useEventClient().useSignupAttendee();
+    const signup = eventClient.useSignupAttendee();
     const [datafields, setDataFields] = useState({});
 
     function updateDataField(dataField:DataFieldDto) {
@@ -366,7 +367,7 @@ function SignupChildren() {
         }
     }, [missingFields]);
 
-    if ([signup.status, updateData.status].find((v)=>v==="loading" || v ==="idle")) {
+    if (signup.status === "loading") {
         return;
     }
 

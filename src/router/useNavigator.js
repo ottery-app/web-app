@@ -1,8 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useCallback, createContext, useRef, useContext } from "react";
 import * as Linking from "expo-linking";
-import paths from "./paths";
-import { Link } from "react-router-native";
 
 const NavigatorContext = createContext();
 
