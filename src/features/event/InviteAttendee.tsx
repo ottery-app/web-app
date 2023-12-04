@@ -14,13 +14,23 @@ import { View } from "react-native";
 import { radius } from "../../../ottery-ui/styles/radius";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { border } from "../../../ottery-ui/styles/border";
+import { useInviteClient } from "../invite/useInviteClient";
 
 export function InviteAttendee({route}) {
     const Ping = usePing();
     const [email, setEmail] = useState("");
+    const attendeeInvite = useInviteClient().useSendAttendeeInvite();
+    const eventId = route.params.eventId;
 
     function sendInvite() {
-        Ping.error("Not implemented");
+        attendeeInvite.mutate({eventId, email}, {
+            onSuccess:()=>{
+                Ping.success("Invite sent");
+            },
+            onError:()=>{
+                Ping.error("Looks like we had a problem. Try again.")
+            }
+        })
     }
 
     return (
@@ -41,7 +51,7 @@ export function InviteAttendee({route}) {
                 }}
             >
                 <QRCode
-                    value={`${paths.main.event.invite.attendee}?eventId=${route.params.eventId}`}
+                    value={`${paths.main.event.invite.attendee}?eventId=${eventId}`}
                     size={image.largeProfile}
                 />
             </View>
