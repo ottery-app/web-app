@@ -27,6 +27,7 @@ export const paths = {
       signup: "/event/signup/:eventId",
       roster: "/event/roster/:eventId",
       invite: {
+        attendee: "./event/:eventId/invite/attendee",
         caretaker: "/event/:eventId/invite/caretaker",
       },
       accept: {

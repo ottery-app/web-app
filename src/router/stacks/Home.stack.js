@@ -17,6 +17,7 @@ import { InviteCaretaker } from "../../features/event/InviteCaretaker";
 import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
+import { InviteAttendee } from "../../features/event/InviteAttendee";
 
 const Stack = createNativeStackNavigator();
 
@@ -203,6 +204,21 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <InviteCaretaker {...props} />
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.event.invite.attendee}
+        options={{
+          title: "Invite Attendee",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <InviteAttendee {...props} />
             </View>
           </AuthGuard>
         )}

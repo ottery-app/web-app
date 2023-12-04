@@ -1,6 +1,6 @@
 import { useQueryClient } from "react-query";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
-import { acceptGuardianship, inviteGuardianForChild, sendCaretakerInvite } from "./inviteApi";
+import { acceptGuardianship, inviteGuardianForChild, sendAttendeeInvite, sendCaretakerInvite } from "./inviteApi";
 
 
 export function useInviteClient() {
@@ -18,7 +18,13 @@ export function useInviteClient() {
         mutationFn: async ({eventId, email}) => await sendCaretakerInvite(eventId, email),
     })
 
+    const useSendAttendeeInvite = makeUseMutation({
+        mutationFn: async ({eventId, email}) => await sendAttendeeInvite(eventId, email),
+    })
+
+
     return {
+        useSendAttendeeInvite,
         useSendCaretakerInvite,
         useAcceptGuardianship,
         useInviteGuardianForChild,
