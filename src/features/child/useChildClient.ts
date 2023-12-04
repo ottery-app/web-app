@@ -24,10 +24,11 @@ export function useChildClient() {
         },
     });
 
+    const getChildrenRes = useGetChildren();
+    console.log(getChildrenRes);
     const useNewChild = makeUseMutation({
         mutationFn: newChild,
         onSuccessAlways: (data)=>{
-            //invalidateGetChildren();
             return data;
         }
     })

@@ -46,7 +46,7 @@ function SelectionButton({
       }]}>
         <Text>{itemCount} {(itemCount===1)?itemTitle[0]:itemTitle[1]} selected</Text>
       </View>
-      <Button styles={{
+      <Button color={buttonColor} styles={{
         borderTopLeftRadius: radius.square,
         borderBottomLeftRadius: radius.square,
       }} onPress={onPress}>{buttonTitle}</Button>

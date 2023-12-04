@@ -24,6 +24,7 @@ import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonLis
 import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { BUTTON_STATES } from "../../../../ottery-ui/buttons/button.enum";
 import { useChildClient } from "../../child/useChildClient";
+import { colors } from "../../../../ottery-ui/styles/colors";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -392,6 +393,9 @@ function SelectChildren() {
     const [selected, setSelected] = useState([]);
     const {gotoNext, route} = useContext(SignupContext);
     const children = childrenRes?.data?.data.filter((child)=>!child.events.includes(route.params.eventId));
+    const navigator = useNavigator();
+
+    console.log(childrenRes);
 
     function addKids() {
         if (selected.length === 0) {
@@ -409,13 +413,19 @@ function SelectChildren() {
         })]);
     }
 
+    function newKid() {
+        navigator(paths.main.child.new, {next: paths.main.event.signup, nextParams:{...route.params}});
+    }
+
 
     return <Main style={{gap:margin.large, flex:1}}>
         <Text variant="titleLarge" style={styles.centeredText}>Select kids to signup!</Text>
         <SelectionButton
             itemCount={selected.length}
             itemTitle={["child", "children"]}
-            onPress={addKids}
+            onPress={newKid}
+            buttonTitle="Add"
+            buttonColor={colors.success}
         ></SelectionButton>
         <ImageButtonList>
             {children?.map((child)=>
@@ -438,9 +448,9 @@ function SelectChildren() {
         </ImageButtonList>
         <ButtonSpan>
             <BackButton/>
-            {/* <Button
-                onPress={()=>{}}
-            >Done</Button> */}
+            <Button
+                onPress={addKids}
+            >Done</Button>
         </ButtonSpan>
     </Main>
 }
