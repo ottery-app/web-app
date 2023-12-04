@@ -58,7 +58,7 @@ export function InviteAttendee({route}) {
             <Text variant="headlineLarge">Or email signup</Text>
             <TextInput value={email} onChange={setEmail} label="Email" validator={isEmail} />
             <ButtonSpan>
-                <Button onPress={sendInvite}>
+                <Button state={attendeeInvite.status} onPress={sendInvite}>
                     Send invite
                 </Button>
             </ButtonSpan>

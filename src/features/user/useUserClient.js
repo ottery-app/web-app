@@ -11,6 +11,7 @@ import {
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
+import { QUERY_CHILD_TAG } from "../child/useChildClient";
 
 export const CLIENT_USER_TAG = "user";
 
@@ -21,17 +22,17 @@ export function useUserClient() {
   });
 
   const useGetUserChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children"],
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG],
     queryFn: getChildren,
   });
 
   const useGetAvalableChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children", "avalable"],
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "avalable"],
     queryFn: getAvalableChildren,
   });
 
   const useGetDroppedOffChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children", "droppedOff"],
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "droppedOff"],
     queryFn: getDroppedOffChildren,
   });
 
