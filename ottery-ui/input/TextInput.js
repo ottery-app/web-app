@@ -24,6 +24,8 @@ export default function TextInput({
   style = {},
   errorMsg = undefined,
   validator = makeValidator(status),
+  multiline = false,
+  numberOfLines = 1,
 }) {
   const validatorStatus = useValidator(validator, value, delay);
   const theme = useThemeMaker({
@@ -42,6 +44,8 @@ export default function TextInput({
         mode={mode}
         placeholder={placeholder}
         label={label}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
         outlineStyle={{ ...outlineStyle }}
         outlineColor={outlineColor}
         placeholderTextColor={placeholderTextColor}
@@ -53,8 +57,8 @@ export default function TextInput({
         }}
         onChangeText={(text) => onChange(text)}
       />
-      {(errorMsg && validatorStatus == "error")
-        ?<Text
+      {errorMsg && validatorStatus == "error" ? (
+        <Text
           style={{
             marginLeft: margin.small,
             marginTop: margin.small,
@@ -64,8 +68,7 @@ export default function TextInput({
         >
           {errorMsg}
         </Text>
-        :undefined
-      }
+      ) : undefined}
     </>
   );
 }
