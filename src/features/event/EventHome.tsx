@@ -1,6 +1,6 @@
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { Main } from "../../../ottery-ui/containers/Main";
-import { clock, message, share, users } from "../../../assets/icons";
+import { clock, message, pfp, share, users } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useEventClient } from "./useEventClient";
@@ -67,6 +67,13 @@ export function EventHome({route}) {
                     title: "Roster",
                     onPress: () => {
                         navigator(paths.main.event.roster, {eventId: event._id});
+                    },
+                },
+                {
+                    icon: { uri: pfp.src },
+                    title: "New Attendee",
+                    onPress: () => {
+                        navigator(paths.main.event.invite.attendee, {eventId: event._id});
                     },
                 }
             )
