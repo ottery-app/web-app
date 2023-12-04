@@ -2,8 +2,9 @@ import { useQueryClient } from "react-query";
 import { getChildren, newChild, addGuardians, updateChildData, missingChildData } from "./childApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
+import { CLIENT_USER_TAG } from "../user/useUserClient";
 
-const QUERY_CHILD_TAG = "child";
+export const QUERY_CHILD_TAG = "child";
 
 export function useChildClient() {
     const queryClient = useQueryClient();
@@ -24,11 +25,10 @@ export function useChildClient() {
         },
     });
 
-    const getChildrenRes = useGetChildren();
-    console.log(getChildrenRes);
     const useNewChild = makeUseMutation({
         mutationFn: newChild,
         onSuccessAlways: (data)=>{
+            queryClient.invalidateQueries([CLIENT_USER_TAG, QUERY_CHILD_TAG]);
             return data;
         }
     })
