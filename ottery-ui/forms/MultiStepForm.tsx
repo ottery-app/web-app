@@ -10,7 +10,7 @@ import Button from "../buttons/Button";
 export interface StepProps<T> {
   form: T;
   setForm: React.Dispatch<React.SetStateAction<T>>;
-  setErrorHandler: React.Dispatch<React.SetStateAction<() => void>>;
+  updateErrorHandler: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
 export interface MultiStepFormProps<T> {
@@ -71,7 +71,7 @@ function MultiStepForm<T>({
   }
 
   function updateErrorHandler(handler: () => any) {
-    setErrorHandler(handler);
+    return setErrorHandler(() => handler);
   }
 
   function renderButtons({
