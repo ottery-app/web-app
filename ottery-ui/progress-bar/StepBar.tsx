@@ -95,8 +95,6 @@ const styles = StyleSheet.create({
   circle: {
     backgroundColor: colors.background.primary,
     color: colors.text.primary,
-    borderWidth: 3,
-    borderStyle: "solid",
     zIndex: zindex.front,
   },
   borderColorDefault: {
