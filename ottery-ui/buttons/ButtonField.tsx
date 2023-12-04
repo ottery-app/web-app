@@ -12,6 +12,7 @@ function ButtonField({ children }: ButtonFieldProps) {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: margin.small,
