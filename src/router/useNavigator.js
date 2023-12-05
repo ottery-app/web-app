@@ -91,6 +91,7 @@ export function useNavigator() {
       return;
     }
 
+    console.log(path, params);
     navigation.navigate(path, params);
   };
 }

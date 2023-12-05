@@ -395,8 +395,6 @@ function SelectChildren() {
     const children = childrenRes?.data?.data.filter((child)=>!child.events.includes(route.params.eventId));
     const navigator = useNavigator();
 
-    console.log(childrenRes);
-
     function addKids() {
         if (selected.length === 0) {
             Ping.error("Please select a child");
