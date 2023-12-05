@@ -1,19 +1,18 @@
-import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
+import React from "react";
+import { Main } from "../../../../ottery-ui/containers/Main";
+import { useAuthClient } from "../../auth/useAuthClient"
+import { useRosterClient } from "./useRosterClient";
+import { useNavigator } from "../../../router/useNavigator";
 import SelectionButton from "../../../../ottery-ui/buttons/SelectionButton";
 import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
-import { Main } from "../../../../ottery-ui/containers/Main";
-import { useAuthClient } from "../../auth/useAuthClient";
-import { useEventClient } from "../useEventClient";
-import React from "react";
+import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { Text } from "react-native-paper";
-import { useRosterClient } from "./useRosterClient";
-import { pfp, users } from "../../../../assets/icons";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
-import { StyleSheet } from "react-native";
+import paths from "../../../router/paths";
+import { clock, pfp, users } from "../../../../assets/icons";
+import {StyleSheet, View} from "react-native";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import { colors } from "../../../../ottery-ui/styles/colors";
-import { useNavigator } from "../../../router/useNavigator";
-import paths from "../../../router/paths";
 
 const styles = StyleSheet.create({
     headerText: {
@@ -23,26 +22,13 @@ const styles = StyleSheet.create({
     }
 });
 
-export function DropOffCaretaker() {
-    const sesh = useAuthClient().useSesh();
-    const eventRes = useEventClient().useGetEvent({inputs:[sesh.event]});
-    const event = eventRes?.data?.data;
-
-    if (event) {
-        if (event?.secure) {
-
-        } else {
-            return <UnSecure event={event} />
-        }
-    }
-}
-
-function UnSecure({event}) {
-    const navigator = useNavigator();
-    const dropOff = useRosterClient().useDropOff();
-    const childrenRes = useRosterClient().useGetAttendees({inputs:[event._id, {present:false}]});
+export function Dismissal() {
+    const eventId = useAuthClient().useSesh().event;
+    const childrenRes = useRosterClient().useGetAttendees({inputs:[eventId, {present:true}]});
     const children = childrenRes?.data?.data;
+    const navigator = useNavigator()
     const [selected, setSelected] = React.useState([]);
+    const pickup = useRosterClient().usePickUp();
 
     //does not sort right when in a effect
     children?.sort((a, b) => {
@@ -58,9 +44,9 @@ function UnSecure({event}) {
         return 0;
     });
 
-    function markPresent() {
-        dropOff.mutate({
-            eventId: event._id,
+    function markDismiss() {
+        pickup.mutate({
+            eventId: eventId,
             childrenIds: selected,
         }, {
             onSuccess: ()=>{
@@ -70,19 +56,16 @@ function UnSecure({event}) {
         })
     }
 
-    function newAttendee(){
-        alert("new attendeee");
-    }
-
     return(
         <Main>
             {(children?.length)
-                ? <>
+                ? <View>
                     <SelectionButton
                         itemCount={selected.length}
                         itemTitle={["child", "children"]}
-                        buttonTitle="Mark present"
-                        onPress={markPresent}
+                        buttonTitle="Dismiss"
+                        onPress={markDismiss}
+                        state={(pickup.status==="success")?undefined:pickup.status}
                     />
                     <ImageButtonList>
                         {(children?.map(child=>
@@ -98,27 +81,27 @@ function UnSecure({event}) {
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
                         ))}
                     </ImageButtonList>
-                </>
-                : <Text style={styles.headerText} variant={"headlineSmall"}>All children are present!</Text>
+                </View>
+                : <Text style={styles.headerText} variant={"headlineSmall"}>No kids to dismiss!</Text>
             }
             <ButtonMenu
                 buttons={[
                     {
-                        icon: { uri: pfp.src },
-                        title: "Invite Attendee",
+                        icon: { uri: clock.src },
+                        title: "End Event",
                         onPress: () => {
-                            navigator(paths.main.event.invite.attendee, {
-                                eventId:event._id,
+                            navigator(paths.main.event.end, {
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },
                     },
                     {
                         icon: { uri: users.src },
-                        title: "Roster",
+                        title: "Dismissal list",
                         onPress: () => {
-                            navigator(paths.main.event.roster, {
-                                eventId:event._id,
+                            navigator(paths.main.event.dismissalList, {
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },

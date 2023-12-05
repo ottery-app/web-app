@@ -6,7 +6,7 @@ import { screenOptions } from "./screenOptions";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
 import { role } from "@ottery/ottery-dto";
-import { DropOffCaretaker } from "../../features/event/tempzone/DropOffCaretaker";
+import { Signin } from "../../features/event/tempzone/Signin";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +24,7 @@ export function DropoffStack() {
         >
             {props => 
               <AuthGuard loggedin activated caretaker>
-                <DropOffCaretaker/>
+                <Signin/>
               </AuthGuard>
             }
         </Stack.Screen>

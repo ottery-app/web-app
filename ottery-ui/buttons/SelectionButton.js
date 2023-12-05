@@ -36,7 +36,7 @@ function SelectionButton({
   onPress = undefined,
 }) {
   buttonColor = useColors({ color:buttonColor, status:state });
-  backgroundColor = useColors({ color:backgroundColor, status:state });
+  backgroundColor = useColors({ color:backgroundColor });
 
   return (
     <View style={style.main}>
