@@ -41,8 +41,11 @@ export const paths = {
   },
   dropoff: {
     name: "Dropoff",
-    caretaker: "dropoff/caretaker",
-    guardian: "dropoff/guardian",
+    caretaker:"dropoff/caretaker",
+    guardian: {
+      pickKids : "dropoff/guardian/kids",
+      pickEvent: "dropoff/guardian/event",
+    },
   },
   pickup: {
     name: "pickup",

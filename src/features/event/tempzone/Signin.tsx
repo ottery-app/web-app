@@ -9,19 +9,11 @@ import { Text } from "react-native-paper";
 import { useRosterClient } from "./useRosterClient";
 import { pfp, users } from "../../../../assets/icons";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
-import { StyleSheet, View } from "react-native";
-import { margin } from "../../../../ottery-ui/styles/margin";
-import { colors } from "../../../../ottery-ui/styles/colors";
+import { View } from "react-native";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
+import { fadedStyle, fadedVariant } from "./tempzone.style";
 
-const styles = StyleSheet.create({
-    headerText: {
-        textAlign: 'center',
-        padding: margin.large,
-        color: colors.text.tertiary,
-    }
-});
 
 export function Signin() {
     const eventId = useAuthClient().useSesh().event;
@@ -83,7 +75,7 @@ export function Signin() {
                         ))}
                     </ImageButtonList>
                 </View>
-                : <Text style={styles.headerText} variant={"headlineSmall"}>All children are present!</Text>
+                : <Text style={[fadedStyle]} variant={fadedVariant}>All children are present!</Text>
             }
             <ButtonMenu
                 buttons={[

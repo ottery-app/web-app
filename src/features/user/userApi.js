@@ -26,8 +26,6 @@ export const updateUserData = clideInst.makePatch(
     },
     data_validator: validateAsArr(DataFieldDto),
     in_pipeline: ({userId, dataFields})=>{
-      console.log(dataFields);
-      console.log(userId);
       return {
         data: dataFields,
         params: {
@@ -91,30 +89,3 @@ export const getInfo = clideInst.makeGet("user/info", {
     };
   },
 });
-
-export const getAvalableChildren = clideInst.makeGet("user/:userId/children", {
-  in_pipeline: (userId) => {
-    return {
-      params: {
-        userId: userId,
-        at: noId,
-        hasEvent: true,
-      },
-    };
-  },
-});
-
-export const getDroppedOffChildren = clideInst.makeGet(
-  "user/:userId/children",
-  {
-    in_pipeline: (userId) => {
-      return {
-        params: {
-          userId: userId,
-          notat: noId,
-          hasEvent: true,
-        },
-      };
-    },
-  }
-);

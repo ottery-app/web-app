@@ -26,16 +26,6 @@ export function useUserClient() {
     queryFn: getChildren,
   });
 
-  const useGetAvalableChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "avalable"],
-    queryFn: getAvalableChildren,
-  });
-
-  const useGetDroppedOffChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "droppedOff"],
-    queryFn: getDroppedOffChildren,
-  });
-
   const useGetUserEvents = makeUseQuery({
     queryKey: [CLIENT_USER_TAG, "events"],
     queryFn: getEvents,
@@ -54,14 +44,26 @@ export function useUserClient() {
     queryFn: missingUserData,
   })
 
+  const useChildrenAt = makeUseQuery({
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG],
+    queryFn: async (userId, at)=>{
+      const childrenRes = await getChildren(userId, at);
+
+      if (childrenRes?.data) {
+        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at === at)
+      }
+
+      return childrenRes;
+    }
+  });
+
   return {
     useUpdateUserData,
     useMissingUserData,
     useUpdateProfilePhoto,
     useGetUserInfo,
     useGetUserChildren,
-    useGetAvalableChildren,
-    useGetDroppedOffChildren,
+    useChildrenAt,
     useGetUserEvents,
   };
 }
