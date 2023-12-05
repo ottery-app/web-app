@@ -1,5 +1,5 @@
 import { useQueryClient } from "react-query";
-import { dropOffChildren } from "./rosterApi";
+import { dropOffChildren, getAttendees } from "./rosterApi";
 import { makeUseQuery } from "../../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../../queryStatus/makeUseMutation";
 
@@ -10,9 +10,18 @@ export function useRosterClient() {
 
     const useDropOff = makeUseMutation({
         mutationFn: dropOffChildren,
+        onSuccessAlways: ()=>{
+            queryClient.invalidateQueries(QUERY_ROSTER_TAG)
+        }
     });
+
+    const useGetAttendees = makeUseQuery({
+        queryKey: [QUERY_ROSTER_TAG],
+        queryFn: getAttendees,
+    })
 
     return {
         useDropOff,
+        useGetAttendees,
     }
 }
