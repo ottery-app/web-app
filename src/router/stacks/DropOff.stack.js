@@ -9,6 +9,7 @@ import { useEventClient } from "../../features/event/useEventClient";
 import { ApproveSignin } from "../../features/event/tempzone/ApproveSignin";
 import { PickChildren, RequestSignin } from "../../features/event/tempzone/RequestSignin/PickChildren";
 import { SelectEvents } from "../../features/event/tempzone/RequestSignin/SelectEvents";
+import { DropOffStatus } from "../../features/event/tempzone/RequestSignin/DropOffStatus";
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +77,18 @@ export function DropoffStack() {
         {props => 
           <AuthGuard loggedin activated guardian>
             <SelectEvents/>
+          </AuthGuard>
+        }
+      </Stack.Screen>,
+        <Stack.Screen
+        name={paths.dropoff.guardian.status}
+        options={{
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {props => 
+          <AuthGuard loggedin activated guardian>
+            <DropOffStatus/>
           </AuthGuard>
         }
       </Stack.Screen>

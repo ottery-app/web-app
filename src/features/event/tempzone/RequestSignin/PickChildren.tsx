@@ -5,7 +5,7 @@ import { ImageButtonList } from "../../../../../ottery-ui/containers/ImageButton
 import { Main } from "../../../../../ottery-ui/containers/Main"
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useUserClient } from "../../../user/useUserClient";
-import { noId, requestType } from "@ottery/ottery-dto";
+import { noId, requestStatus, requestType } from "@ottery/ottery-dto";
 import { View } from "react-native";
 import { fadedStyle, fadedVariant } from "../tempzone.style";
 import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneSlice";
@@ -32,7 +32,7 @@ export function PickChildren() {
                 guardian: userId,
                 event: noId,
                 type: requestType.DROPOFF,
-                //status: requestStatus.NONE,
+                status: requestStatus.NONE,
             });
         }
     }
