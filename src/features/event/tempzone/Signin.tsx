@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export function DropOffCaretaker() {
+export function Signin() {
     const sesh = useAuthClient().useSesh();
     const eventRes = useEventClient().useGetEvent({inputs:[sesh.event]});
     const event = eventRes?.data?.data;
