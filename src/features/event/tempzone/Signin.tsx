@@ -24,23 +24,10 @@ const styles = StyleSheet.create({
 });
 
 export function Signin() {
-    const sesh = useAuthClient().useSesh();
-    const eventRes = useEventClient().useGetEvent({inputs:[sesh.event]});
-    const event = eventRes?.data?.data;
-
-    if (event) {
-        if (event?.secure) {
-
-        } else {
-            return <UnSecure event={event} />
-        }
-    }
-}
-
-function UnSecure({event}) {
+    const eventId = useAuthClient().useSesh().event;
     const navigator = useNavigator();
     const dropOff = useRosterClient().useDropOff();
-    const childrenRes = useRosterClient().useGetAttendees({inputs:[event._id, {present:false}]});
+    const childrenRes = useRosterClient().useGetAttendees({inputs:[eventId, {present:false}]});
     const children = childrenRes?.data?.data;
     const [selected, setSelected] = React.useState([]);
 
@@ -60,7 +47,7 @@ function UnSecure({event}) {
 
     function markPresent() {
         dropOff.mutate({
-            eventId: event._id,
+            eventId: eventId,
             childrenIds: selected,
         }, {
             onSuccess: ()=>{
@@ -105,7 +92,7 @@ function UnSecure({event}) {
                         title: "Invite Attendee",
                         onPress: () => {
                             navigator(paths.main.event.invite.attendee, {
-                                eventId:event._id,
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },
@@ -115,7 +102,7 @@ function UnSecure({event}) {
                         title: "Roster",
                         onPress: () => {
                             navigator(paths.main.event.roster, {
-                                eventId:event._id,
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },
