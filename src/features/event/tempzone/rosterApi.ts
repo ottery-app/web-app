@@ -14,6 +14,19 @@ export const dropOffChildren = clideInst.makePatch('roster/:eventId/dropOff', {
     }
 });
 
+export const pickupChildren = clideInst.makePatch("roster/:eventId/pickup", {
+    data_validator: IdArrayDto,
+    param_validators: {
+        eventId: isId,
+    },
+    in_pipeline: ({eventId, childrenIds})=>{
+        return {
+            params: {eventId},
+            data: {ids:childrenIds}
+        }
+    }
+})
+
 export interface getAttendeesParams {
     present?: boolean | undefined,
 }

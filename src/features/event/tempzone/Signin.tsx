@@ -9,7 +9,7 @@ import { Text } from "react-native-paper";
 import { useRosterClient } from "./useRosterClient";
 import { pfp, users } from "../../../../assets/icons";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import { colors } from "../../../../ottery-ui/styles/colors";
 import { useNavigator } from "../../../router/useNavigator";
@@ -70,19 +70,16 @@ function UnSecure({event}) {
         })
     }
 
-    function newAttendee(){
-        alert("new attendeee");
-    }
-
     return(
         <Main>
             {(children?.length)
-                ? <>
+                ? <View>
                     <SelectionButton
                         itemCount={selected.length}
                         itemTitle={["child", "children"]}
                         buttonTitle="Mark present"
                         onPress={markPresent}
+                        state={(dropOff.status==="success")?undefined:dropOff.status}
                     />
                     <ImageButtonList>
                         {(children?.map(child=>
@@ -98,7 +95,7 @@ function UnSecure({event}) {
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
                         ))}
                     </ImageButtonList>
-                </>
+                </View>
                 : <Text style={styles.headerText} variant={"headlineSmall"}>All children are present!</Text>
             }
             <ButtonMenu
