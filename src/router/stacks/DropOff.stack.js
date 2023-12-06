@@ -22,7 +22,7 @@ export function DropoffStack() {
 
   const screens = [];
 
-  if (state === role. CARETAKER) {
+  if (state === role.CARETAKER) {
     if (event?.tempzone === tempzone.Default) {
       screens.push(
         <Stack.Screen

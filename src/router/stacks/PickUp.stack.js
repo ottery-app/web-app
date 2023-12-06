@@ -1,21 +1,29 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { Text, View } from "react-native";
 import { AuthGuard } from "../../guards/AuthGuard";
-import { screenOptions } from "./screenOptions";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
-import { role } from "@ottery/ottery-dto";
+import { role, tempzone } from "@ottery/ottery-dto";
 import { Dismissal } from "../../features/event/tempzone/Dismissal";
+import { useEventClient } from "../../features/event/useEventClient";
+import { ApprovePickup } from "../../features/event/tempzone/ApprovePickup";
+import { PickChildren } from "../../features/event/tempzone/RequestPickup/PickChildren";
+import { PickupStatus } from "../../features/event/tempzone/RequestPickup/PickupStatus";
 
 const Stack = createNativeStackNavigator();
 
 export function PickUpStack() {
-  const state = useAuthClient().useUserState();
+  const {state, event:eventId} = useAuthClient().useSesh();
+  const event = useEventClient().useGetEvent({
+    inputs: [eventId],
+    enabled: !!eventId,
+  })?.data?.data;
+
+  const screens = [];
 
   if (state === role.CARETAKER) {
-    return (
-      <Stack.Navigator screenOptions={screenOptions}>
+    if (event?.tempzone === tempzone.Default) {
+      screens.push(
         <Stack.Screen
           name={paths.pickup.caretaker}
           options={{
@@ -28,24 +36,59 @@ export function PickUpStack() {
               </AuthGuard>
             }
         </Stack.Screen>
-      </Stack.Navigator>
-    )
+      );
+    } else if (event?.tempzone === tempzone.Secure) {
+      screens.push(
+        <Stack.Screen
+          name={paths.dropoff.caretaker}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <ApprovePickup/>
+              </AuthGuard>
+            }
+        </Stack.Screen>
+      );
+    }
   } else if (state === role.GUARDIAN) {
-    return (
-      <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen
-            name={paths.pickup.guardian}
-            options={{
-              header: (props) => <Header {...props} />,
-            }}
-          >
-              {props => 
-                <AuthGuard loggedin activated guardian>
-                  <View><Text>temp</Text></View>
-                </AuthGuard>
-              }
-          </Stack.Screen>
-      </Stack.Navigator>
-    );
+    screens.push(
+      <Stack.Screen
+          name={paths.pickup.guardian.pickKids}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+          {props => 
+            <AuthGuard loggedin activated guardian>
+              <PickChildren/>
+            </AuthGuard>
+          }
+      </Stack.Screen>,
+      <Stack.Screen
+        name={paths.pickup.guardian.status}
+        options={{
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {props => 
+          <AuthGuard loggedin activated guardian>
+            <PickupStatus/>
+          </AuthGuard>
+        }
+      </Stack.Screen>
+    )
   }
+
+  if (screens.length === 0) {
+    return;
+  }
+
+  return (
+    <Stack.Navigator>
+      {screens}
+    </Stack.Navigator>
+  )
 }

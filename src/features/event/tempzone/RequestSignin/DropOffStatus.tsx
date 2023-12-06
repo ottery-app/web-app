@@ -8,7 +8,7 @@ import { Main } from "../../../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../../../ottery-ui/containers/ImageButtonList";
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useTempzoneClient } from "../tempzoneClient";
-import { requestsStatus } from "./requestsStatus.func";
+import { requestsStatus } from "../requestsStatus.func";
 import { SpinAnimation } from "../../../../../ottery-ui/animations/Spin.animation";
 import Image from "../../../../../ottery-ui/image/Image";
 import { roundSpinningOtter } from "../../../../../assets/otters";
@@ -17,7 +17,6 @@ import { API_ENV } from "../../../../env/api.env";
 import {View, StyleSheet} from "react-native";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import { happyCheck, unhappyCheck } from "../../../../../assets/icons";
-import Shadowbox from "../../../../../ottery-ui/containers/Shadowbox";
 
 const styles = StyleSheet.create({
     infoContainer: {
@@ -42,19 +41,14 @@ function useConsumeRequests() {
     useTempzoneClient().useGetRequestsForGuardian({
         inputs:[userId],
         onSuccess: (res)=>{
-            setRequests(p=>[...p, ...res?.data || []]);
+            oldRequests.forEach((request:ChildRequestDto)=>removeRequest(request.child));
+            setRequests([...oldRequests, ...res?.data || []]);
         },
         refetchInterval: API_ENV.query_delta,
     });
 
-    useEffect(()=>{
-        if (oldRequests.length) {
-            oldRequests.forEach((request:ChildRequestDto)=>removeRequest(request.child));
-            setRequests(p=>[...p, ...oldRequests]);
-        }
-    }, [oldRequests])
+    const requestsMap = {};
 
-    const requestsMap = {}
     return requests.filter((request)=>{
         const result = !!!requestsMap[request.child];
         requestsMap[request.child] = true;

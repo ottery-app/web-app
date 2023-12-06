@@ -12,16 +12,22 @@ import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneS
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
+import { useTempzoneClient } from "../tempzoneClient";
+import { useState } from "react";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
     const selected = useGetRequests(request=>request.type === requestType.PICKUP).map(request=>request.child);
+    const selectedReqeusts = useGetRequests(r=>r.type === requestType.PICKUP);
     const removeRequest = useRemoveRequest();
     const updateRequest = useUpdateRequest();
-    const childrenRes = useUserClient().useChildrenAt({inputs:[userId, noId]});
+    const childrenRes = useUserClient().useChildrenNotAt({inputs:[userId, noId]});
     const children = childrenRes?.data?.data.filter(child=>child.events.length);
     const navigator = useNavigator();
     const Ping = usePing();
+    const makeRequest = useTempzoneClient().useMakeChildRequest();
+    const updateReqeust = useUpdateRequest();
+    const [navigated, setNavigated] = useState(false);
 
     function updateSelected(child) {
         if (selected.includes(child._id)) {
@@ -37,13 +43,34 @@ export function PickChildren() {
         }
     }
 
-    function selectEvents() {
+    function submitRequests() {
         if (selected.length === 0) {
             Ping.error("Please select a child");
             return;
         }
 
-        navigator(paths.dropoff.guardian.pickEvent);
+        const eventMap = children.reduce((map, child)=>{
+            console.log(map, child);
+            map[child._id] = child.lastStampedLocation.at;
+            return map;
+        }, {});
+
+        const reqeusts = selectedReqeusts.map((request)=>{
+            return {
+                ...request,
+                event: eventMap[request.child],
+            };
+        });
+
+        makeRequest.mutate(reqeusts, {
+            onSuccess:(res:any)=>{
+                res.data.forEach(request=>updateReqeust(request));
+                navigator(paths.pickup.guardian.status);
+            },
+            onError:(e)=>{
+                Ping.error("We ran into some issues. Please try again.")
+            },
+        });
     }
 
     return (
@@ -54,7 +81,7 @@ export function PickChildren() {
                         itemCount={selected.length}
                         itemTitle={["child", "children"]}
                         buttonTitle="Pick up"
-                        onPress={selectEvents}
+                        onPress={submitRequests}
                     />
                     <ImageButtonList>
                         {(children?.map(child=>{

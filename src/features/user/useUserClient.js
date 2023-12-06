@@ -1,8 +1,5 @@
 import {
-  acceptGuardianship,
-  getAvalableChildren,
   getChildren,
-  getDroppedOffChildren,
   getEvents,
   getInfo,
   missingUserData,
@@ -45,16 +42,29 @@ export function useUserClient() {
   })
 
   const useChildrenAt = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG],
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "at"],
     queryFn: async (userId, at)=>{
-      const childrenRes = await getChildren(userId, at);
+      const childrenRes = await getChildren(userId);
 
       if (childrenRes?.data) {
         childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at === at)
       }
 
       return childrenRes;
-    }
+    },
+  });
+
+  const useChildrenNotAt = makeUseQuery({
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "notAt"],
+    queryFn: async (userId, at)=>{
+      const childrenRes = await getChildren(userId);
+
+      if (childrenRes?.data) {
+        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at !== at)
+      }
+
+      return childrenRes;
+    },
   });
 
   return {
@@ -64,6 +74,7 @@ export function useUserClient() {
     useGetUserInfo,
     useGetUserChildren,
     useChildrenAt,
+    useChildrenNotAt,
     useGetUserEvents,
   };
 }
