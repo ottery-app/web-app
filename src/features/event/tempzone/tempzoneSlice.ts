@@ -1,6 +1,7 @@
 import { ChildRequestDto, requestType } from "@ottery/ottery-dto";
 import { createSlice } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux";
+import { useTempzoneClient } from "./tempzoneClient";
 
 export interface tempzoneStore {
     requests: ChildRequestDto[],
@@ -12,6 +13,9 @@ const initialState: tempzoneStore = {
 
 const name = "tempzone";
 
+/**
+ * This is for staging requests only not for storing them
+ */
 export const tempzoneSlice = createSlice({
     name,
     initialState,
@@ -31,11 +35,13 @@ export const tempzoneSlice = createSlice({
 
 export function useUpdateRequest() {
     const dispatch = useDispatch();
+    const updateRequestApi = useTempzoneClient().useMakeChildRequest();
 
-    return function updateRequest(request:ChildRequestDto) {
+    return async function updateRequest(request: ChildRequestDto) {
         dispatch(tempzoneSlice.actions.updateRequest(request));
     }   
 }
+
 
 export function useRemoveRequest() {
     const dispatch = useDispatch();

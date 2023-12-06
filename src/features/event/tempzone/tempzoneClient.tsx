@@ -1,22 +1,18 @@
 import { makeUseQuery } from "../../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../../queryStatus/makeUseMutation";
-import { acceptChildRequest, checkRequestsStatus, declineChildRequest, dropOffChildren, getWatingChildrenFor, pickUpChildren } from "./tempzoneApi";
+import { acceptChildRequest, checkRequestsStatus, declineChildRequest, makeChildRequests, getWatingChildrenFor, getRequestsForGuardian } from "./tempzoneApi";
 
 const QUERY_TEMPZONE_TAG = "tempzone";
 
 export function useTempzoneClient() {
-    /**
-     * @deprecated
-     */
-    const useDropOffChildren = makeUseMutation({
-        mutationFn: dropOffChildren,
+
+    const useMakeChildRequest = makeUseMutation({
+        mutationFn: makeChildRequests,
     })
 
-    /**
-     * @deprecated
-     */
-    const usePickupChildren = makeUseMutation({
-        mutationFn: pickUpChildren,
+    const useGetRequestsForGuardian = makeUseQuery({
+        queryKey: [QUERY_TEMPZONE_TAG, "status"],
+        queryFn: getRequestsForGuardian
     })
 
     /**
@@ -52,8 +48,8 @@ export function useTempzoneClient() {
     })
 
     return {
-        useDropOffChildren,
-        usePickupChildren,
+        useMakeChildRequest,
+        useGetRequestsForGuardian,
         useCheckRequestsStatus,
         useGetWaitingChildrenFor,
         useAcceptChildRequest,

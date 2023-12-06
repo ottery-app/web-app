@@ -18,7 +18,7 @@ import { useTempzoneClient } from "../tempzoneClient";
 export function SelectEvents() {
     const navigator = useNavigator();
     const requests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event === noId);
-    const readyRequests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event !== noId);
+    const readyRequests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event !== noId && !request._id);
     const removeRequest = useRemoveRequest();
     const updateReqeust = useUpdateRequest();
     //take the top. On refresh
@@ -29,7 +29,7 @@ export function SelectEvents() {
     const [navigated, setNavigated] = useState(false);
     const [selected, setSelected] = useState(noId);
 
-    const dropOff = useTempzoneClient().useDropOffChildren();
+    const dropOff = useTempzoneClient().useMakeChildRequest();
 
     function addEventToRequest(eventId) {
         updateReqeust({
@@ -48,12 +48,10 @@ export function SelectEvents() {
         if (navigated===false) {
             if (requests.length === 0) {
                 dropOff.mutate(readyRequests, {
-                    onSuccess: (res:any)=>{
-                        res?.data.forEach((request)=>{
-                            updateReqeust(request); //JUST LINKE THE MUTATE INTERNALLY
-                        })
+                    onSuccess:(res:any)=>{
+                        res.data.forEach(request=>updateReqeust(request));
                         navigator(paths.dropoff.guardian.status);
-                    },
+                    }
                 })
                 setNavigated(true);
             }

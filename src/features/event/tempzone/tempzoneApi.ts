@@ -4,31 +4,27 @@ import { validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../../provider/clideInst";
 import { getChildren } from "../../user/userApi";
 
-/**
- * @deprecated
- */
-export const dropOffChildren = clideInst
-    .makePost("tempzone/request/dropoff", {
-        data_validator: validateAsArr(ChildRequestDto),
-        in_pipeline: (dropOffRequestForms) => {
-            return {
-                data:dropOffRequestForms
+export const makeChildRequests = clideInst.makePost("tempzone/request", {
+    data_validator: validateAsArr(ChildRequestDto),
+    in_pipeline: (childRequests) => {
+        return {
+            data:childRequests
+        }
+    }
+})
+
+export const getRequestsForGuardian = clideInst.makeGet("tempzone/request/status", {
+    param_validators: {
+        guardian: isId,
+    },
+    in_pipeline: (guardianId)=>{
+        return {
+            params: {
+                guardian: guardianId,
             }
         }
-    });
-
-/**
- * @deprecated
- */
-export const pickUpChildren = clideInst
-    .makePost("tempzone/request/pickup", {
-        data_validator: validateAsArr(ChildRequestDto),
-        in_pipeline: (pickUpRequestForms) => {
-            return {
-                data:pickUpRequestForms
-            }
-        },
-    });
+    }
+});
 
 /**
  * @deprecated
