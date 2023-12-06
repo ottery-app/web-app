@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { DefaultTheme, TextInput, ThemeProvider } from "react-native-paper";
 import { TimePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
@@ -32,7 +32,7 @@ function TimeInput({ label, value, onChange }: TimeInputProps) {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleTimeInputPress}>
         <TextInput
           keyboardType="numeric"
@@ -65,5 +65,11 @@ function TimeInput({ label, value, onChange }: TimeInputProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default TimeInput;
