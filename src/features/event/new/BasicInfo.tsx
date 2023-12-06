@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
+import { noId } from "@ottery/ottery-dto";
 
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
-import { Main } from "../../../../ottery-ui/containers/Main";
-import Head from "./components/Head";
+import Head from "./components/UI/Head";
 import { CheckBox } from "../../../../ottery-ui/input/CheckBox";
 import TextInput from "../../../../ottery-ui/input/TextInput";
 import { Dropdown } from "../../../../ottery-ui/input/Dropdown";
-import { noId } from "@ottery/ottery-dto";
-import { StyleSheet } from "react-native";
+import Main from "./components/UI/Main";
 
 function BasicInfoForm({
   form,
@@ -59,7 +58,7 @@ function BasicInfoForm({
   }, [title, org, about, location, pub]);
 
   return (
-    <Main style={styles.container}>
+    <Main>
       <Head>Basic Info</Head>
       <CheckBox label="Make public?" onChange={setPublic} value={pub} />
       <TextInput label="Event Title" onChange={setTitle} value={title} />
@@ -83,12 +82,5 @@ function BasicInfoForm({
     </Main>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    gap: 5,
-  },
-});
 
 export default BasicInfoForm;
