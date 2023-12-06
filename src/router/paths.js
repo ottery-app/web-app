@@ -51,7 +51,10 @@ export const paths = {
   pickup: {
     name: "pickup",
     caretaker: "pickup/caretaker",
-    guardian: "pickup/guardian",
+    guardian: {
+      pickKids : "pickup/guardian/kids",
+      status: "pickup/guardian/status"
+    }
   },
 };
 

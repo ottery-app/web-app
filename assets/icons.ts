@@ -16,7 +16,12 @@ export const share: ImageAsset = {
 }
 
 export const happyCheck: ImageAsset = {
-  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/happyCheck.PNG?raw=true",
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/26e52da8b8819343f465cfed5e66f0fa1b3e9fa2/images/icons/green_check.svg",
+  aspectRatio: 1,
+}
+
+export const unhappyCheck: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/26e52da8b8819343f465cfed5e66f0fa1b3e9fa2/images/icons/red_x.svg",
   aspectRatio: 1,
 }
 
