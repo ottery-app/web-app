@@ -24,7 +24,8 @@ export function InviteAttendee({route}) {
 
     function sendInvite() {
         attendeeInvite.mutate({eventId, email}, {
-            onSuccess:()=>{
+            onSuccess:(res)=>{
+                console.log(res);
                 Ping.success("Invite sent");
             },
             onError:()=>{

@@ -34,5 +34,7 @@ const styles = StyleSheet.create({
         gap: margin.small,
         flexDirection: 'row', // Arrange buttons in a row
         flexWrap: 'wrap', // Wrap to the next line when there's not enough space
+        alignItems:"center",
+        justifyContent:"center",
     }
 });

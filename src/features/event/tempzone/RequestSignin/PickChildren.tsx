@@ -12,6 +12,7 @@ import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneS
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
+import { useEventClient } from "../../useEventClient";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -19,7 +20,13 @@ export function PickChildren() {
     const removeRequest = useRemoveRequest();
     const updateRequest = useUpdateRequest();
     const childrenRes = useUserClient().useChildrenAt({inputs:[userId, noId]});
-    const children = childrenRes?.data?.data.filter(child=>child.events.length);
+    let children = childrenRes?.data?.data.filter(child=>child.events.length);
+    // const eventRes = useEventClient().useGetEvents({inputs:[children?.reduce((arr, child)=>[...arr, child.events],[])]});
+    // const eventMap = eventRes?.data?.data.reduce((map, event)=>{
+    //     map[event._id] = event;
+    //     return map;
+    // }, {});
+
     const navigator = useNavigator();
     const Ping = usePing();
 

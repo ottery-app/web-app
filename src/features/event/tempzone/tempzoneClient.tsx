@@ -1,6 +1,6 @@
 import { makeUseQuery } from "../../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../../queryStatus/makeUseMutation";
-import { acceptChildRequest, checkRequestsStatus, declineChildRequest, makeChildRequests, getWatingChildrenFor, getRequestsForGuardian } from "./tempzoneApi";
+import { acceptChildRequest, checkRequestsStatus, declineChildRequest, makeChildRequests, getRequestsForGuardian, getWatingChildrenForEvent } from "./tempzoneApi";
 
 const QUERY_TEMPZONE_TAG = "tempzone";
 
@@ -15,20 +15,18 @@ export function useTempzoneClient() {
         queryFn: getRequestsForGuardian
     })
 
+    const useGetWaitingChildrenForEvent = makeUseQuery({
+        queryKey: [QUERY_TEMPZONE_TAG, "status"],
+        queryFn: getWatingChildrenForEvent,
+    })
+
+
     /**
      * @deprecated
      */
     const useCheckRequestsStatus = makeUseQuery({
         queryKey: [QUERY_TEMPZONE_TAG, "status"],
         queryFn: checkRequestsStatus,
-    })
-
-    /**
-     * @deprecated
-     */
-    const useGetWaitingChildrenFor = makeUseQuery({
-        queryKey: [QUERY_TEMPZONE_TAG, "status", "waiting"],
-        queryFn: getWatingChildrenFor,
     })
 
     /**
@@ -50,8 +48,8 @@ export function useTempzoneClient() {
     return {
         useMakeChildRequest,
         useGetRequestsForGuardian,
+        useGetWaitingChildrenForEvent,
         useCheckRequestsStatus,
-        useGetWaitingChildrenFor,
         useAcceptChildRequest,
         useDeclineChildRequest,
     }

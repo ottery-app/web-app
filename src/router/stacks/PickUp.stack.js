@@ -6,7 +6,7 @@ import { useAuthClient } from "../../features/auth/useAuthClient";
 import { role, tempzone } from "@ottery/ottery-dto";
 import { Dismissal } from "../../features/event/tempzone/Dismissal";
 import { useEventClient } from "../../features/event/useEventClient";
-import { ApprovePickup } from "../../features/event/tempzone/ApprovePickup";
+import { ApprovePickup } from "../../features/event/tempzone/approvePickup/ApprovePickup";
 import { PickChildren } from "../../features/event/tempzone/RequestPickup/PickChildren";
 import { PickupStatus } from "../../features/event/tempzone/RequestPickup/PickupStatus";
 

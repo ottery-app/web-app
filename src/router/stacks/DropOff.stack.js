@@ -6,10 +6,11 @@ import { useAuthClient } from "../../features/auth/useAuthClient";
 import { role, tempzone } from "@ottery/ottery-dto";
 import { Signin } from "../../features/event/tempzone/Signin";
 import { useEventClient } from "../../features/event/useEventClient";
-import { ApproveSignin } from "../../features/event/tempzone/ApproveSignin";
+import { ApproveSignin } from "../../features/event/tempzone/approveSingin/ApproveSignin";
 import { PickChildren, RequestSignin } from "../../features/event/tempzone/RequestSignin/PickChildren";
 import { SelectEvents } from "../../features/event/tempzone/RequestSignin/SelectEvents";
 import { DropOffStatus } from "../../features/event/tempzone/RequestSignin/DropOffStatus";
+import { ConfirmChildSignin } from "../../features/event/tempzone/approveSingin/ConfirmChildSignin";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,7 @@ export function DropoffStack() {
     if (event?.tempzone === tempzone.Default) {
       screens.push(
         <Stack.Screen
-          name={paths.dropoff.caretaker}
+          name={paths.dropoff.caretaker.root}
           options={{
             header: (props) => <Header {...props} />,
           }}
@@ -41,7 +42,7 @@ export function DropoffStack() {
     } else if (event?.tempzone === tempzone.Secure) {
       screens.push(
         <Stack.Screen
-          name={paths.dropoff.caretaker}
+          name={paths.dropoff.caretaker.root}
           options={{
             header: (props) => <Header {...props} />,
           }}
@@ -49,6 +50,18 @@ export function DropoffStack() {
             {props => 
               <AuthGuard loggedin activated caretaker>
                 <ApproveSignin/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.dropoff.caretaker.confirm}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <ConfirmChildSignin {...props}/>
               </AuthGuard>
             }
         </Stack.Screen>

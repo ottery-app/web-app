@@ -43,35 +43,22 @@ export const checkRequestsStatus = clideInst
         }
     });
 
-/**
- * @deprecated
- */
-export const getWatingChildrenFor = clideInst
+export const getWatingChildrenForEvent = clideInst
     .makeGet("tempzone/request/status", {
         param_validators: {
             event: isId,
             type: isRequestType,
         },
         in_pipeline: (eventId, requestType)=>{
+            const params = {
+                event: eventId,
+                status: requestStatus.INPROGRESS,
+                type: requestType,
+            };
+
             return {
-                params: {
-                    event: eventId,
-                    status: requestStatus.INPROGRESS,
-                    type: requestType,
-                }
+                params: params,
             }
-        },
-        out_pipeline: async (res) => {
-
-            if (res.data.length) {
-                const children = await getChildren(res.data.map(r=>r.child));
-                res.data = res.data.map((req, i)=>{
-                    req.child = children.data[i];
-                    return req;
-                });
-            }
-
-            return res
         }
     });
 
