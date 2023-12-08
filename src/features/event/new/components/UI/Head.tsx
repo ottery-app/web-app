@@ -1,9 +1,13 @@
 import { PropsWithChildren } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleProp, StyleSheet, TextStyle } from "react-native";
 import { Title } from "react-native-paper";
 
-function Head({ children }: PropsWithChildren) {
-  return <Title style={styles.container}>{children}</Title>;
+interface HeadProps {
+  style?: StyleProp<TextStyle>;
+}
+
+function Head({ children, style }: PropsWithChildren<HeadProps>) {
+  return <Title style={[styles.container, style]}>{children}</Title>;
 }
 
 const styles = StyleSheet.create({

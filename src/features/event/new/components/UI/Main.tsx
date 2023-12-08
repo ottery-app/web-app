@@ -10,7 +10,7 @@ function Main({ children }: PropsWithChildren) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    gap: margin.small,
+    gap: margin.large,
   },
 });
 
