@@ -4,13 +4,13 @@ import { usePing } from "../../../../ottery-ping";
 import { useEventClient } from "../useEventClient";
 import { useNavigator } from "../../../router/useNavigator";
 
-import { Main } from "../../../../ottery-ui/containers/Main";
 import MultiStepForm from "../../../../ottery-ui/forms/MultiStepForm";
 import BasicInfoForm from "./BasicInfo";
 import TimesForm from "./TimesInfo";
 import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
+import ScreenWrapper from "../../../../ottery-ui/containers/ScreenWrapper";
 
 export interface EventFormData {
   summary: string;
@@ -58,7 +58,7 @@ function NewEventScreen({ route }) {
   }
 
   return (
-    <Main>
+    <ScreenWrapper>
       <MultiStepForm<EventFormData>
         form={eventForm}
         handleError={handleError}
@@ -72,7 +72,7 @@ function NewEventScreen({ route }) {
         ]}
         submit={handleSubmit}
       />
-    </Main>
+    </ScreenWrapper>
   );
 }
 
