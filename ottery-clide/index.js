@@ -69,7 +69,6 @@ export default class Clide {
 
       const oldParams = config.params;
       config.url = makeUrl(config.url, config.params);
-      console.log(config);
       config.params = undefined;
 
       let res = await that.instance.request(config);

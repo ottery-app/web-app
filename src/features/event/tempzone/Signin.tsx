@@ -9,38 +9,17 @@ import { Text } from "react-native-paper";
 import { useRosterClient } from "./useRosterClient";
 import { pfp, users } from "../../../../assets/icons";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
-import { StyleSheet, View } from "react-native";
-import { margin } from "../../../../ottery-ui/styles/margin";
-import { colors } from "../../../../ottery-ui/styles/colors";
+import { View } from "react-native";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
+import { fadedStyle, fadedVariant } from "./tempzone.style";
 
-const styles = StyleSheet.create({
-    headerText: {
-        textAlign: 'center',
-        padding: margin.large,
-        color: colors.text.tertiary,
-    }
-});
 
 export function Signin() {
-    const sesh = useAuthClient().useSesh();
-    const eventRes = useEventClient().useGetEvent({inputs:[sesh.event]});
-    const event = eventRes?.data?.data;
-
-    if (event) {
-        if (event?.secure) {
-
-        } else {
-            return <UnSecure event={event} />
-        }
-    }
-}
-
-function UnSecure({event}) {
+    const eventId = useAuthClient().useSesh().event;
     const navigator = useNavigator();
     const dropOff = useRosterClient().useDropOff();
-    const childrenRes = useRosterClient().useGetAttendees({inputs:[event._id, {present:false}]});
+    const childrenRes = useRosterClient().useGetAttendees({inputs:[eventId, {present:false}]});
     const children = childrenRes?.data?.data;
     const [selected, setSelected] = React.useState([]);
 
@@ -60,7 +39,7 @@ function UnSecure({event}) {
 
     function markPresent() {
         dropOff.mutate({
-            eventId: event._id,
+            eventId: eventId,
             childrenIds: selected,
         }, {
             onSuccess: ()=>{
@@ -96,7 +75,7 @@ function UnSecure({event}) {
                         ))}
                     </ImageButtonList>
                 </View>
-                : <Text style={styles.headerText} variant={"headlineSmall"}>All children are present!</Text>
+                : <Text style={[fadedStyle]} variant={fadedVariant}>All children are present!</Text>
             }
             <ButtonMenu
                 buttons={[
@@ -105,7 +84,7 @@ function UnSecure({event}) {
                         title: "Invite Attendee",
                         onPress: () => {
                             navigator(paths.main.event.invite.attendee, {
-                                eventId:event._id,
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },
@@ -115,7 +94,7 @@ function UnSecure({event}) {
                         title: "Roster",
                         onPress: () => {
                             navigator(paths.main.event.roster, {
-                                eventId:event._id,
+                                eventId:eventId,
                                 screen: paths.main.name,
                             })
                         },

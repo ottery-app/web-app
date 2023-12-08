@@ -55,7 +55,8 @@ const Image = ({
           width: width,
           height: height,
           aspectRatio: imgAspect,
-          maxWidth,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
           resizeMode: "cover", // Adjust the resizeMode as needed
         }}
         onClick={onClick}

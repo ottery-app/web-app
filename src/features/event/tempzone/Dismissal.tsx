@@ -13,6 +13,7 @@ import { clock, pfp, users } from "../../../../assets/icons";
 import {StyleSheet, View} from "react-native";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import { colors } from "../../../../ottery-ui/styles/colors";
+import { fadedStyle, fadedVariant } from "./tempzone.style";
 
 const styles = StyleSheet.create({
     headerText: {
@@ -82,7 +83,7 @@ export function Dismissal() {
                         ))}
                     </ImageButtonList>
                 </View>
-                : <Text style={styles.headerText} variant={"headlineSmall"}>No kids to dismiss!</Text>
+                : <Text style={fadedStyle} variant={fadedVariant}>No kids to dismiss!</Text>
             }
             <ButtonMenu
                 buttons={[

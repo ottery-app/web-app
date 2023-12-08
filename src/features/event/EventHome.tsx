@@ -90,8 +90,6 @@ export function EventHome({route}) {
         return buttons
     }, [isVolenteer, isAtendee, chatIdRes]);
 
-    console.log(isVolenteer, isAtendee);
-
     return(
         <Main>
             <Text variant="titleLarge" style={{paddingBottom:margin.small}}>{event?.summary}</Text>
