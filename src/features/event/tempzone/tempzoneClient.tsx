@@ -20,26 +20,11 @@ export function useTempzoneClient() {
         queryFn: getWatingChildrenForEvent,
     })
 
-
-    /**
-     * @deprecated
-     */
-    const useCheckRequestsStatus = makeUseQuery({
-        queryKey: [QUERY_TEMPZONE_TAG, "status"],
-        queryFn: checkRequestsStatus,
-    })
-
-    /**
-     * @deprecated
-     */
     const useAcceptChildRequest = makeUseMutation({
         //queryKey: [QUERY_TEMPZONE_TAG, "request", "accept"],
         mutationFn: acceptChildRequest,
     });
 
-    /**
-     * @deprecated
-     */
     const useDeclineChildRequest = makeUseMutation({
         //queryKey: [QUERY_TEMPZONE_TAG, "request", "decline"],
         mutationFn: declineChildRequest,
@@ -49,7 +34,6 @@ export function useTempzoneClient() {
         useMakeChildRequest,
         useGetRequestsForGuardian,
         useGetWaitingChildrenForEvent,
-        useCheckRequestsStatus,
         useAcceptChildRequest,
         useDeclineChildRequest,
     }

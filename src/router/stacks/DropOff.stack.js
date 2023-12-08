@@ -11,6 +11,7 @@ import { PickChildren, RequestSignin } from "../../features/event/tempzone/Reque
 import { SelectEvents } from "../../features/event/tempzone/RequestSignin/SelectEvents";
 import { DropOffStatus } from "../../features/event/tempzone/RequestSignin/DropOffStatus";
 import { ConfirmChildSignin } from "../../features/event/tempzone/approveSingin/ConfirmChildSignin";
+import { DeclineSignin } from "../../features/event/tempzone/approveSingin/DeclineSignin";
 
 const Stack = createNativeStackNavigator();
 
@@ -64,7 +65,19 @@ export function DropoffStack() {
                 <ConfirmChildSignin {...props}/>
               </AuthGuard>
             }
-        </Stack.Screen>
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.dropoff.caretaker.decline}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <DeclineSignin {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
       )
     }
   } else if (state === role.GUARDIAN) {

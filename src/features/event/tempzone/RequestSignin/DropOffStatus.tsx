@@ -1,6 +1,6 @@
-import { ChildRequestDto, requestStatus, requestType } from "@ottery/ottery-dto";
+import { ChildRequestDto, noId, requestStatus, requestType } from "@ottery/ottery-dto";
 import { useGetRequests, useRemoveRequest } from "../tempzoneSlice";
-import {useEffect, useState, useMemo} from "react";
+import {useState, useMemo} from "react";
 import { useChildClient } from "../../../child/useChildClient";
 import { Text } from "react-native-paper";
 import { ImageButton } from "../../../../../ottery-ui/buttons/ImageButton";
@@ -17,6 +17,11 @@ import { API_ENV } from "../../../../env/api.env";
 import {View, StyleSheet} from "react-native";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import { happyCheck, unhappyCheck } from "../../../../../assets/icons";
+import { useChatClient } from "../../../chat/useChatClient";
+import paths from "../../../../router/paths";
+import { useNavigator } from "../../../../router/useNavigator";
+import { usePing } from "../../../../../ottery-ping";
+import { image } from "../../../../../ottery-ui/styles/image";
 
 const styles = StyleSheet.create({
     infoContainer: {
@@ -42,7 +47,7 @@ function useConsumeRequests() {
         inputs:[userId],
         onSuccess: (res)=>{
             oldRequests.forEach((request:ChildRequestDto)=>removeRequest(request.child));
-            setRequests([...oldRequests, ...res?.data || []]);
+            setRequests([...oldRequests, ...res?.data || []].filter(request=>request.type === requestType.DROPOFF));
         },
         refetchInterval: API_ENV.query_delta,
     });
@@ -57,31 +62,52 @@ function useConsumeRequests() {
 }
 
 export function DropOffStatus() {
+    const Ping = usePing();
+    const navigator = useNavigator();
+    const userId = useAuthClient().useUserId();
     const {width} = useScreenDimensions();
     const requests = useConsumeRequests();
     const status = useMemo(()=>requestsStatus(requests), [requests]);
-    const [results, setResults] = useState([]);
-    useChildClient().useGetChildren({
+    const caretakerId = requests?.map(r=>r.caretaker).filter(c=>c !== noId).filter(i=>i);
+    const chatRes = useChatClient().useGetDirectChats({
+        inputs:[userId, caretakerId],
+        enabled: !!caretakerId && !!caretakerId.length
+    });
+    const childrenRes = useChildClient().useGetChildren({
         inputs:[requests.map(r=>r.child)],
-        onSuccess: (res)=>{
-            setResults(res.data.map((child)=>{
-                const request:ChildRequestDto = requests.find((request)=>request.child === child._id);
-                let state = "default";
+    });
 
-                if (request?.status === requestStatus.ACCEPTED) {
-                    state="success"
-                } else if (request?.status === requestStatus.REJECTED) {
-                    state="error";
+    const results = childrenRes?.data?.data.map((child)=>{
+        const request:ChildRequestDto = requests.find((request)=>request.child === child._id);
+        let state = "default";
+        let onPress = undefined
+
+        if (request?.status === requestStatus.ACCEPTED) {
+            state="success"
+        } else if (request?.status === requestStatus.REJECTED) {
+            state="error";
+            onPress = ()=>{
+                if (!request.caretaker || request.caretaker === noId) {
+                    Ping.error("Request timed out");
+                    return;
                 }
 
-                return (
-                    <ImageButton state={state} right={child.pfp}>
-                        <Text>{child.firstName} {child.lastName}</Text>
-                    </ImageButton>
-                );
-            }))
+                console.log(chatRes, request);
+                const chatid = chatRes.data[request.caretaker];
+
+                navigator(paths.main.social.chat, {
+                    chatId: chatid,
+                    screen: paths.main.name,
+                });
+            };
         }
-    });
+
+        return (
+            <ImageButton onPress={onPress} state={state} right={child.pfp}>
+                <Text>{child.firstName} {child.lastName}</Text>
+            </ImageButton>
+        );
+    })
 
     let infoDisplay = undefined;
 
@@ -95,6 +121,8 @@ export function DropOffStatus() {
                         alt={"loding icon"}
                         height={width/2}
                         width={width/2}
+                        maxHeight={image.largeProfile}
+                        maxWidth={image.largeProfile}
                     />
                 </SpinAnimation>
                 <Text style={styles.infoText}>Almost ready</Text>

@@ -37,6 +37,7 @@ export function PickChildren() {
                 child: child._id,
                 guardian: userId,
                 event: noId,
+                caretaker: noId,
                 type: requestType.PICKUP,
                 status: requestStatus.NONE,
             });
@@ -50,7 +51,6 @@ export function PickChildren() {
         }
 
         const eventMap = children.reduce((map, child)=>{
-            console.log(map, child);
             map[child._id] = child.lastStampedLocation.at;
             return map;
         }, {});

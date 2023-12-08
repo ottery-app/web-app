@@ -2,7 +2,6 @@ import { isId, isRequestType } from "@ottery/ottery-dto";
 import { ChildRequestDto, requestStatus } from "@ottery/ottery-dto";
 import { validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../../provider/clideInst";
-import { getChildren } from "../../user/userApi";
 
 export const makeChildRequests = clideInst.makePost("tempzone/request", {
     data_validator: validateAsArr(ChildRequestDto),
@@ -62,9 +61,6 @@ export const getWatingChildrenForEvent = clideInst
         }
     });
 
-/**
- * @deprecated
- */
 export const acceptChildRequest = clideInst
     .makePatch("tempzone/request/accept", {
         data_validator: validateAsArr(ChildRequestDto),
@@ -75,9 +71,6 @@ export const acceptChildRequest = clideInst
         }
     });
 
-/**
- * @deprecated
- */
 export const declineChildRequest = clideInst
     .makePatch("tempzone/request/decline", {
         data_validator: validateAsArr(ChildRequestDto),

@@ -15,6 +15,7 @@ import { useTempzoneClient } from "../tempzoneClient";
 import { requestType } from "@ottery/ottery-dto";
 import { API_ENV } from "../../../../env/api.env";
 import { usePing } from "../../../../../ottery-ping";
+import { margin } from "../../../../../ottery-ui/styles/margin";
 
 export function ConfirmChildSignin({route}){
     const navigator = useNavigator();
@@ -52,6 +53,7 @@ export function ConfirmChildSignin({route}){
             flex:1,
             justifyContent: "center",
             alignItems: "center",
+            gap: margin.small,
         }}>
             <Text variant="headlineSmall">{child?.firstName} {child?.lastName}</Text>
             <Image

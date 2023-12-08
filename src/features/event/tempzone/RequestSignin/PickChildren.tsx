@@ -38,6 +38,7 @@ export function PickChildren() {
                 child: child._id,
                 guardian: userId,
                 event: noId,
+                caretaker: noId,
                 type: requestType.DROPOFF,
                 status: requestStatus.NONE,
             });
