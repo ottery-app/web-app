@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
   label: {
     position: "absolute",
   },
-  labelContainer:{
+  labelContainer: {
     position: "relative",
     backgroundColor: colors.background.primary,
 
-    transform: [{translateX: margin.small}, {translateY: -10}], //arbitrary number
+    transform: [{ translateX: margin.small }, { translateY: -10 }], //arbitrary number
     zIndex: zindex.front,
     paddingHorizontal: margin.small,
   },
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     color: colors.text.tertiary,
   },
   selectedTextStyle: {
-    color: colors.text.primary
+    color: colors.text.primary,
   },
   iconStyle: {
     width: margin.large,
@@ -48,27 +48,31 @@ const styles = StyleSheet.create({
 //because the native dropdoen component are expection values as options/data as label value pairs
 interface DropdownOption {
   label: string;
-  value: string;
+  value: any;
 }
 
 interface DropdownProps {
-  label: string;
+  label?: string;
   options: DropdownOption[];
-  value: string;
+  value: any;
   placeholder?: string;
-  onChange: (key: string) => void;
+  onChange: (value: any) => void;
 }
 
 export function Dropdown({
   label,
   options,
   onChange,
-  placeholder=label,
+  placeholder = label,
   value,
 }: DropdownProps) {
   return (
     <View style={styles.container}>
-      {(value) ? <View style={styles.labelContainer}><Text style={styles.label}>{label}</Text></View> : undefined}
+      {value ? (
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>{label}</Text>
+        </View>
+      ) : undefined}
       <DropdownInner
         style={[styles.dropdown, { borderColor: colors.primary.main }]}
         placeholderStyle={styles.placeholderStyle}
@@ -79,8 +83,8 @@ export function Dropdown({
         valueField="value"
         placeholder={placeholder}
         value={value}
-        onChange={(item)=>onChange(item.value)}
+        onChange={(item) => onChange(item.value)}
       />
     </View>
   );
-};
+}
