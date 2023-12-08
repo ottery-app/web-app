@@ -9,6 +9,8 @@ import { useEventClient } from "../../features/event/useEventClient";
 import { ApprovePickup } from "../../features/event/tempzone/approvePickup/ApprovePickup";
 import { PickChildren } from "../../features/event/tempzone/RequestPickup/PickChildren";
 import { PickupStatus } from "../../features/event/tempzone/RequestPickup/PickupStatus";
+import { ConfirmChildPickup } from "../../features/event/tempzone/approvePickup/ConfirmChildPickup";
+import { DeclinePickup } from "../../features/event/tempzone/approvePickup/DeclinePickup";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +27,7 @@ export function PickUpStack() {
     if (event?.tempzone === tempzone.Default) {
       screens.push(
         <Stack.Screen
-          name={paths.pickup.caretaker}
+          name={paths.pickup.caretaker.root}
           options={{
             header: (props) => <Header {...props} />,
           }}
@@ -40,17 +42,42 @@ export function PickUpStack() {
     } else if (event?.tempzone === tempzone.Secure) {
       screens.push(
         <Stack.Screen
-          name={paths.dropoff.caretaker}
+          name={paths.pickup.caretaker.root}
           options={{
             header: (props) => <Header {...props} />,
           }}
         >
             {props => 
               <AuthGuard loggedin activated caretaker>
-                <ApprovePickup/>
+                <ApprovePickup {...props}/>
               </AuthGuard>
             }
-        </Stack.Screen>
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.pickup.caretaker.confirm}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <ConfirmChildPickup {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.pickup.caretaker.decline}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <DeclinePickup {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+              
       );
     }
   } else if (state === role.GUARDIAN) {
