@@ -5,6 +5,7 @@ import { QueryClientProvider } from "react-query";
 import { ThemeProvider } from "../../ottery-ui/styles/Color";
 import { PingProvider } from "../../ottery-ping";
 import { NavigatorProvider } from "../router/useNavigator";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Providers({ children }) {
   return (
@@ -13,7 +14,7 @@ export default function Providers({ children }) {
         <Provider store={store}>
           <PingProvider>
             <NavigatorProvider>
-              {children}
+              <SafeAreaProvider>{children}</SafeAreaProvider>
             </NavigatorProvider>
           </PingProvider>
         </Provider>
