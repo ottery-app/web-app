@@ -68,11 +68,7 @@ export function ApprovePickup() {
                         icon: { uri: pfp.src },
                         title: "Dismiss List",
                         onPress: () => {
-                            alert("doesnt work yet");
-                            // navigator(paths., {
-                            //     eventId:eventId,
-                            //     screen: paths.main.name,
-                            // })
+                            navigator(paths.pickup.caretaker.dismissList, {eventId});
                         },
                     },
                 ]}
