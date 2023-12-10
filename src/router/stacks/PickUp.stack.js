@@ -11,6 +11,9 @@ import { PickChildren } from "../../features/event/tempzone/RequestPickup/PickCh
 import { PickupStatus } from "../../features/event/tempzone/RequestPickup/PickupStatus";
 import { ConfirmChildPickup } from "../../features/event/tempzone/approvePickup/ConfirmChildPickup";
 import { DeclinePickup } from "../../features/event/tempzone/approvePickup/DeclinePickup";
+import { DismissList } from "../../features/event/tempzone/approvePickup/ErrorFlow/DismissList";
+import { ContactGuardian } from "../../features/event/tempzone/approvePickup/ErrorFlow/ContactGuardian";
+import { NoRequestPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/NoRequestPickup";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,7 +80,42 @@ export function PickUpStack() {
               </AuthGuard>
             }
         </Stack.Screen>,
-              
+        <Stack.Screen
+          name={paths.pickup.caretaker.dismissList}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <DismissList {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.pickup.caretaker.dismissContacts}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <ContactGuardian {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.pickup.caretaker.noRequest}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <NoRequestPickup {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
       );
     }
   } else if (state === role.GUARDIAN) {

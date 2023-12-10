@@ -3,7 +3,7 @@ import paths from "../paths";
 import { AuthGuard } from "../../guards/AuthGuard";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
-import { role, tempzone } from "@ottery/ottery-dto";
+import { noId, role, tempzone } from "@ottery/ottery-dto";
 import { Signin } from "../../features/event/tempzone/Signin";
 import { useEventClient } from "../../features/event/useEventClient";
 import { ApproveSignin } from "../../features/event/tempzone/approveSingin/ApproveSignin";
@@ -19,7 +19,7 @@ export function DropoffStack() {
   const {state, event:eventId} = useAuthClient().useSesh();
   const event = useEventClient().useGetEvent({
     inputs: [eventId],
-    enabled: !!eventId,
+    enabled: !!eventId && eventId !== noId,
   })?.data?.data;
 
   const screens = [];

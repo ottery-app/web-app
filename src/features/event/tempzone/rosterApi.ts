@@ -36,7 +36,6 @@ export const getAttendees = clideInst.makeGet("roster/:eventId/attendees", {
         eventId: isId,
     },
     in_pipeline: (eventId:id, params?:getAttendeesParams)=>{
-
         return {
             params: {
                 eventId: eventId,

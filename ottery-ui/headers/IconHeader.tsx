@@ -43,6 +43,7 @@ export function IconHeader({
             )}
             title={title}
             style={{
+                backgroundColor: colors.background.primary,
                 borderBottomWidth: border.default,
                 borderBottomColor: colors.background.secondary,
             }}

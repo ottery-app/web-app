@@ -73,6 +73,7 @@ export function PickChildren() {
                             }
 
                             return <ImageButton 
+                                right={child.pfp}
                                 state={state}
                                 onPress={()=>updateSelected(child)}
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>

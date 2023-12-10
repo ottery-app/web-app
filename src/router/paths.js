@@ -53,11 +53,14 @@ export const paths = {
     },
   },
   pickup: {
-    name: "pickup",
+    name: "Pickup",
     caretaker: {
       root: "pickup/caretaker",
       confirm: "pickup/caretaker/:eventId/:childId/:guardianId",
-      decline: "pickup/caretaker/decline/:eventId/:childId/:guardianId"
+      decline: "pickup/caretaker/decline/:eventId/:childId/:guardianId",
+      dismissList: "pickup/caretaker/dismisslist/:eventId",
+      dismissContacts: "pickup/caretaker/dismisslist/contacts/:childId",
+      noRequest: "pickup/caretaker/noreqeust/:eventId/:childId/:guardianId"
     },
     guardian: {
       pickKids : "pickup/guardian/kids",
