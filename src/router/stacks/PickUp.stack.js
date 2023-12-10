@@ -14,6 +14,7 @@ import { DeclinePickup } from "../../features/event/tempzone/approvePickup/Decli
 import { DismissList } from "../../features/event/tempzone/approvePickup/ErrorFlow/DismissList";
 import { ContactGuardian } from "../../features/event/tempzone/approvePickup/ErrorFlow/ContactGuardian";
 import { NoRequestPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/NoRequestPickup";
+import { NoGuardianPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/noGuardianPickup";
 
 const Stack = createNativeStackNavigator();
 
@@ -113,6 +114,18 @@ export function PickUpStack() {
             {props => 
               <AuthGuard loggedin activated caretaker>
                 <NoRequestPickup {...props}/>
+              </AuthGuard>
+            }
+        </Stack.Screen>,
+        <Stack.Screen
+          name={paths.pickup.caretaker.manualDismissal}
+          options={{
+            header: (props) => <Header {...props} />,
+          }}
+        >
+            {props => 
+              <AuthGuard loggedin activated caretaker>
+                <NoGuardianPickup {...props}/>
               </AuthGuard>
             }
         </Stack.Screen>,

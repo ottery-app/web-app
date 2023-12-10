@@ -62,7 +62,7 @@ export function NoRequestPickup({route}){
                 alt={"guardian photo"}
             />
             <ButtonSpan>
-                <Button state="success" onPress={handleAccept}>Dissmiss</Button>
+                <Button state={pickup.status} onPress={handleAccept}>Dissmiss</Button>
             </ButtonSpan>
         </Main>
     );

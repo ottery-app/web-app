@@ -16,6 +16,8 @@ import paths from "../../../../../router/paths";
 import { useNavigator } from "../../../../../router/useNavigator";
 import { useAuthClient } from "../../../../auth/useAuthClient";
 import { useChatClient } from "../../../../chat/useChatClient";
+import { ButtonSpan } from "../../../../../../ottery-ui/containers/ButtonSpan";
+import Button from "../../../../../../ottery-ui/buttons/Button";
 
 const styles = StyleSheet.create({
     container:{
@@ -74,8 +76,6 @@ export function ContactGuardian({route}) {
     });
     const chatIds = useMemo(()=>dmsRes?.data, [dmsRes])
 
-    console.log(chatIds);
-
     function gotoChildConfirm(guardianId) {
         navigator(paths.pickup.caretaker.noRequest, {
             eventId,
@@ -132,6 +132,11 @@ export function ContactGuardian({route}) {
                     )}
                 </>
             </ImageButtonList>
+            <ButtonSpan>
+                <Button width={200} onPress={()=>navigator(paths.pickup.caretaker.manualDismissal, {childId})}>
+                    Manual dismissal
+                </Button>
+            </ButtonSpan>
         </Main>
     </MarginlessMain>
 }

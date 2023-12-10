@@ -60,7 +60,8 @@ export const paths = {
       decline: "pickup/caretaker/decline/:eventId/:childId/:guardianId",
       dismissList: "pickup/caretaker/dismisslist/:eventId",
       dismissContacts: "pickup/caretaker/dismisslist/contacts/:childId",
-      noRequest: "pickup/caretaker/noreqeust/:eventId/:childId/:guardianId"
+      noRequest: "pickup/caretaker/noreqeust/:eventId/:childId/:guardianId",
+      manualDismissal: "pickup/caretaker/noguardian/:childId",
     },
     guardian: {
       pickKids : "pickup/guardian/kids",
