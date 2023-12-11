@@ -9,4 +9,5 @@ export const BUTTON_STATES = {
   success: "success",
   disabled: "disabled",
   default: "default",
+  loading: "loading",
 };

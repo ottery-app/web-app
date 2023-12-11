@@ -35,6 +35,10 @@ export const Button = ({
     borderRadius: radius,
   };
 
+  if (state === BUTTON_STATES.disabled || state === BUTTON_STATES.loading) {
+    onPress = ()=>{}
+  }
+
   return (
     <ButtonPaper
       theme={theme}

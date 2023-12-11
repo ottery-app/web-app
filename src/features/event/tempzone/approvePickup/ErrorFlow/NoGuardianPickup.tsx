@@ -5,7 +5,7 @@ import { useChildClient } from "../../../../child/useChildClient";
 import {useMemo, useState} from "react"
 import Image from "../../../../../../ottery-ui/image/Image";
 import { image } from "../../../../../../ottery-ui/styles/image";
-import { CheckBox } from "../../../../../../ottery-ui/input/CheckBox";
+import { CheckBox, CheckBoxMode } from "../../../../../../ottery-ui/input/CheckBox";
 import { ButtonSpan } from "../../../../../../ottery-ui/containers/ButtonSpan";
 import Button from "../../../../../../ottery-ui/buttons/Button";
 import { useRosterClient } from "../../useRosterClient";
@@ -14,6 +14,8 @@ import { useNavigator } from "../../../../../router/useNavigator";
 import { usePing } from "../../../../../../ottery-ping";
 import { radius } from "../../../../../../ottery-ui/styles/radius";
 import { margin } from "../../../../../../ottery-ui/styles/margin";
+import {View} from "react-native";
+import { BUTTON_STATES } from "../../../../../../ottery-ui/buttons/button.enum";
 
 export function NoGuardianPickup({route}) {
     const navigator = useNavigator();
@@ -40,7 +42,12 @@ export function NoGuardianPickup({route}) {
         });
     }
 
-    return <Main>
+    return <Main style={{
+        flex:1,
+        gap:margin.large,
+        alignItems:"center",
+        justifyContent:"center",
+    }}>
         <Text variant="headlineSmall">{child?.firstName} {child?.lastName}</Text>
         <Image 
             radius={radius.round}
@@ -50,18 +57,36 @@ export function NoGuardianPickup({route}) {
             width={image.largeProfile}
         />
         <Text variant="headlineSmall">I personally verify that:</Text>
-        <CheckBox 
-            value={contactedManager} 
-            onChange={(v)=>setContactedManager(v)}
-            label={"I have contacted the event manager"}
-        />
-        <CheckBox 
-            value={contactedGuardian} 
-            onChange={(v)=>setContactedGuardian(v)}
-            label={`I have contacted one of ${child?.firstName}'s guardians`}
-        />
+        <View
+            style={{
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
+            <View
+                style={{
+                    gap: margin.small,
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                }}
+            >
+                <CheckBox 
+                    value={contactedManager} 
+                    onChange={(v)=>setContactedManager(v)}
+                    label={"I have contacted the event manager"}
+                    mode={CheckBoxMode.default}
+                />
+                <CheckBox 
+                    value={contactedGuardian} 
+                    onChange={(v)=>setContactedGuardian(v)}
+                    label={`I have contacted one of ${child?.firstName}'s guardians`}
+                    mode={CheckBoxMode.default}
+                />
+            </View>
+        </View>
         <ButtonSpan>
-            <Button state={pickup.status} onPress={handleDismiss}>Dismiss</Button>
+            <Button state={(!contactedGuardian || !contactedManager) ? BUTTON_STATES.disabled : pickup.status} onPress={handleDismiss}>Dismiss</Button>
         </ButtonSpan>
     </Main>
 }
