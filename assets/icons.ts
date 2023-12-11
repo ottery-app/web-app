@@ -3,12 +3,12 @@ import { ImageAsset } from "./ImageAsset";
 export const share: ImageAsset = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/share.png?raw=true",
   aspectRatio: 1,
-}
+};
 
 export const happyCheck: ImageAsset = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/happyCheck.PNG?raw=true",
   aspectRatio: 1,
-}
+};
 
 export const closedMailWithHalo: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg",
@@ -47,10 +47,15 @@ export const checkmarkBlack: ImageAsset = {
 
 export const users: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/users.svg",
-  aspectRatio:1,
-}
+  aspectRatio: 1,
+};
 
 export const clock: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/clock.svg",
-  aspectRatio:1,
-}
+  aspectRatio: 1,
+};
+
+export const info: ImageAsset = {
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/info.png?raw=true",
+  aspectRatio: 1,
+};
