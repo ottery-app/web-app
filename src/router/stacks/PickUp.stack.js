@@ -14,7 +14,7 @@ import { DeclinePickup } from "../../features/event/tempzone/approvePickup/Decli
 import { DismissList } from "../../features/event/tempzone/approvePickup/ErrorFlow/DismissList";
 import { ContactGuardian } from "../../features/event/tempzone/approvePickup/ErrorFlow/ContactGuardian";
 import { NoRequestPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/NoRequestPickup";
-import { NoGuardianPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/noGuardianPickup";
+import { NoGuardianPickup } from "../../features/event/tempzone/approvePickup/ErrorFlow/NoGuardianPickup";
 
 const Stack = createNativeStackNavigator();
 
