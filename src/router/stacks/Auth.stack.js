@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-//import { AuthGuard } from "../../guards/AuthGuard";
 import Login from "../../features/auth/Login";
 import Register from "../../features/auth/Register";
 import { useNavigator } from "../useNavigator";
@@ -27,48 +26,28 @@ export function AuthStack() {
       <Stack.Screen
         name={paths.auth.register}
         options={{ headerShown: false }} //switch to logo at some point
-      >
-        {(props) => (
-            <Register />
-
-        )}
-      </Stack.Screen>
-      <Stack.Screen name={paths.auth.login} options={{ headerShown: false }}>
-        {(props) => (
-
-            <Login />
-
-        )}
-      </Stack.Screen>
-      <Stack.Screen name={paths.auth.validate} options={{ headerShown: false }}>
-        {(props) => (
-
-            <Validate />
-
-        )}
-      </Stack.Screen>
-
+        component={Register}
+      />
+      <Stack.Screen 
+        name={paths.auth.login} 
+        options={{ headerShown: false }}
+        component={Login}
+      />
+      <Stack.Screen
+        name={paths.auth.validate}
+        options={{ headerShown: false }}
+        component={Validate} 
+      />
       <Stack.Screen
         name={paths.auth.forgotPassword}
         options={{ headerShown: false }}
-      >
-        {(props) => (
-
-            <ForgotPasswordScreen {...props} />
-
-        )}
-      </Stack.Screen>
-
+        component={ForgotPasswordScreen}
+      />
       <Stack.Screen
         name={paths.auth.resetPassword}
         options={{ headerShown: false }}
-      >
-        {(props) => (
-
-            <ResetPasswordScreen {...props} />
-
-        )}
-      </Stack.Screen>
+        component={ResetPasswordScreen}
+      />
     </Stack.Navigator>
   );
 }

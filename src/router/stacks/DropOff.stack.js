@@ -31,9 +31,8 @@ export function DropoffStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <Signin/>
-        </Stack.Screen>
+          component={Signin}
+       />
       )
     } else if (event?.tempzone === tempzone.Secure) {
       screens.push(
@@ -42,25 +41,22 @@ export function DropoffStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <ApproveSignin/>
-        </Stack.Screen>,
+          component={ApproveSignin}
+        />,
         <Stack.Screen
           name={paths.dropoff.caretaker.confirm}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <ConfirmChildSignin {...props}/>
-        </Stack.Screen>,
+          component={ConfirmChildSignin}
+        />,
         <Stack.Screen
           name={paths.dropoff.caretaker.decline}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props=><DeclineSignin {...props}/>}
-        </Stack.Screen>,
+          component={DeclineSignin}
+        />
       )
     }
   } else if (state === role.GUARDIAN) {
@@ -70,25 +66,22 @@ export function DropoffStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-      >
-        <PickChildren/>
-      </Stack.Screen>,
+          component={PickChildren}
+      />,
       <Stack.Screen
         name={paths.dropoff.guardian.pickEvent}
         options={{
           header: (props) => <Header {...props} />,
         }}
-      >
-        <SelectEvents/>
-      </Stack.Screen>,
-        <Stack.Screen
+        component={SelectEvents}
+      />,
+      <Stack.Screen
         name={paths.dropoff.guardian.status}
         options={{
           header: (props) => <Header {...props} />,
         }}
-      >
-        <DropOffStatus/>
-      </Stack.Screen>
+        component={DropOffStatus}
+      />
     )
   }
 

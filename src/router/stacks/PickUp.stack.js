@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { AuthGuard } from "../../guards/AuthGuard";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
 import { role, tempzone } from "@ottery/ottery-dto";
@@ -35,9 +34,8 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <Dismissal/>
-        </Stack.Screen>
+          component={Dismissal}
+        />
       );
     } else if (event?.tempzone === tempzone.Secure) {
       screens.push(
@@ -46,57 +44,50 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <ApprovePickup {...props}/>
-        </Stack.Screen>,
+          component={ApprovePickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.confirm}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props=><ConfirmChildPickup {...props}/>}
-        </Stack.Screen>,
+          component={ConfirmChildPickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.decline}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props=><DeclinePickup {...props}/>}
-        </Stack.Screen>,
+          component={DeclinePickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissList}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props=><DismissList {...props}/>}
-        </Stack.Screen>,
+          component={DismissList}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissContacts}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props => <ContactGuardian {...props}/>}
-        </Stack.Screen>,
+          component={ContactGuardian}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.noRequest}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => <NoRequestPickup {...props}/>}
-        </Stack.Screen>,
+          component={NoRequestPickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.manualDismissal}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => <NoGuardianPickup {...props}/>}
-        </Stack.Screen>,
+          component={NoGuardianPickup}
+        />,
       );
     }
   } else if (state === role.GUARDIAN) {

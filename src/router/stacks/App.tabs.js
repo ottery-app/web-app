@@ -2,8 +2,8 @@ import * as React from 'react';
 import paths from '../paths';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeStack } from './Home.stack';
-// import { DropoffStack } from './DropOff.stack';
-// import { PickUpStack } from './PickUp.stack';
+import { DropoffStack } from './DropOff.stack';
+import { PickUpStack } from './PickUp.stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../../ottery-ui/styles/colors';
 
@@ -32,9 +32,9 @@ export function AppTabs() {
               })}
             initialRouteName={paths.main.name}
         >
-            {/* <Tab.Screen name={paths.dropoff.name} component={DropoffStack}/>
+            <Tab.Screen name={paths.dropoff.name} component={DropoffStack}/>
             <Tab.Screen name={paths.main.name} component={HomeStack}/>
-            <Tab.Screen name={paths.pickup.name} component={PickUpStack}/> */}
+            <Tab.Screen name={paths.pickup.name} component={PickUpStack}/>
         </Tab.Navigator>
     );
 }

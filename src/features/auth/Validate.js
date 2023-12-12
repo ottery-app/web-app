@@ -11,6 +11,8 @@ import { View } from "react-native";
 import { margin } from "../../../ottery-ui/styles/margin";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { AwaitButton } from "../../guards/AwaitButton";
+import { isActivationCode } from "@ottery/ottery-dto";
+import { Form } from "../../../ottery-ui/containers/Form";
 
 export default function Validate() {
     const Ping = usePing();
@@ -25,7 +27,7 @@ export default function Validate() {
     function resend() {
         resendEmail.mutate(undefined, {
             onSuccess: ()=>{
-                Ping.info("Email sent to " + email);
+                Ping.success("Email sent to " + email);
             },
             onError: (err)=>{
                 Ping.error(err.message);
@@ -39,38 +41,46 @@ export default function Validate() {
         }, {
             onSuccess: (res)=>{
                 if (res.error) {
-                    Ping.error(res.error.message);
-                    throw res.error
+                    Ping.error("Incorrect code");
                 }
-            }
+            },
         });
     }
 
     return (
         <Main>
             <Shadowbox>
-                <Image src={closedMailWithHalo} alt="email icon" maxWidth={200} width={"100%"} />
                 <View style={{
-                    flex:1,
-                    alignItems:"center",
                     justifyContent:"center",
-                    gap: margin.small,
-                    padding:  margin.medium,
+                    alignItems:"center",
+                    gap: margin.medium,
                 }}>
-                    <Text variant="titleLarge">Enter confirmation code</Text>
-                    <Text variant="titleMedium">We sent it to:</Text>
-                    <Text variant="titleMedium">{email}</Text>
-                    <Link variant="titleMedium" onPress={resend}>Resend it?</Link>
-
-                    <TextInput
-                        value={code}
-                        onChange={(text)=>{setCode(text)}}
-                        label="Activation code"
-                    />
-                    <AwaitButton
-                        onPress={submit}
-                        status={activate.status}
-                    >Activate</AwaitButton>
+                    <Image src={closedMailWithHalo} alt="email icon" width={200} height={200}/>
+                    <View style={{
+                        justifyContent:"center",
+                        alignItems:"center",
+                    }}>
+                        <Text variant="titleLarge">Enter confirmation code</Text>
+                        <Text variant="titleMedium">We sent it to:</Text>
+                        <Text variant="titleMedium">{email}</Text>
+                        <Link variant="titleMedium" onPress={resend}>Resend it?</Link>
+                    </View>
+                    <View style={{
+                        justifyContent:"center",
+                        alignItems:"center",
+                        gap: margin.small,
+                    }}>
+                        <TextInput
+                            value={code}
+                            onChange={(text)=>{setCode(text)}}
+                            validator={isActivationCode}
+                            label="Activation code"
+                        />
+                        <AwaitButton
+                            onPress={submit}
+                            status={activate.status}
+                        >Activate</AwaitButton>
+                    </View>
                 </View>
             </Shadowbox>
         </Main>  

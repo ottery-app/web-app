@@ -6,16 +6,21 @@ import {
   NewUserDto,
   ResetPasswordDto,
 } from "@ottery/ottery-dto";
-import { getCookie } from "../../functions/cookies";
 import { clideInst } from "../../provider/clideInst";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const load = clideInst.makeGet("auth/load", {
   in_pipeline: async () => {
-    console.log(await AsyncStorage.getItem("token"));
-    console.log(await AsyncStorage.getItem("Id"));
-    clideInst.defaults.headers.common["Id"] = await AsyncStorage.getItem("Id");
-    clideInst.defaults.headers.common["Authorization"] = await AsyncStorage.getItem("token");
+    const seshId = await AsyncStorage.getItem("Id");
+    const token = await AsyncStorage.getItem("token");
+
+    if (seshId) {
+      clideInst.defaults.headers.common["Id"] = seshId;
+    }
+
+    if (seshId && token) {
+      clideInst.defaults.headers.common["Authorization"] = token;
+    }
   },
   out_pipeline: (res) => {
     clideInst.defaults.headers.common["Id"] = res.data._id;
@@ -32,9 +37,11 @@ export const login = clideInst.makePost("auth/login", {
     };
   },
   out_pipeline: (res) => {
-    AsyncStorage.setItem("token", res.data.token);
-    clideInst.defaults.headers.common["Id"] = res.data._id;
-    clideInst.defaults.headers.common["Authorization"] = res.data.token;
+    if (res) {
+      AsyncStorage.setItem("token", res.data.token);
+      clideInst.defaults.headers.common["Id"] = res.data._id;
+      clideInst.defaults.headers.common["Authorization"] = res.data.token;
+    }
     return res;
   },
 });
@@ -46,9 +53,9 @@ export const logout = clideInst.makeDelete("auth/logout", {
     }
   },
   out_pipeline: (res) => {
-    clideInst.defaults.headers.common["Id"] = undefined;
-    clideInst.defaults.headers.common["Authorization"] = undefined;
-    AsyncStorage.setItem("Id", "-1");
+    delete clideInst.defaults.headers.common["Id"];
+    delete clideInst.defaults.headers.common["Authorization"];
+    AsyncStorage.removeItem("Id");
     load();
     return res;
   },
@@ -62,8 +69,11 @@ export const register = clideInst.makePost("auth/register", {
     };
   },
   out_pipeline: (res) => {
-    AsyncStorage.setItem("token", res.data.token);
-    clideInst.defaults.headers.common["Authorization"] = res.data.token;
+    if (res?.data?.token){
+      AsyncStorage.setItem("token", res.data.token);
+      clideInst.defaults.headers.common["Authorization"] = res.data.token;
+    }
+
     return res;
   },
 });
@@ -76,7 +86,7 @@ export const activate = clideInst.makePut("auth/activate", {
     return {
       data: activationCodeDto,
     };
-  },
+  }
 });
 
 export const resendEmail = clideInst.makePut("auth/resend");

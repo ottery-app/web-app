@@ -26,7 +26,7 @@ export const unhappyCheck: ImageAsset = {
 }
 
 export const closedMailWithHalo: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.svg",
+  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/mail.png",
   aspectRatio: 1,
 };
 
