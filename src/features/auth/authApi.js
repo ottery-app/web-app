@@ -6,19 +6,20 @@ import {
   NewUserDto,
   ResetPasswordDto,
 } from "@ottery/ottery-dto";
-import { setCookie, getCookie } from "../../functions/cookies";
+import { getCookie } from "../../functions/cookies";
 import { clideInst } from "../../provider/clideInst";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const load = clideInst.makeGet("auth/load", {
-  in_pipeline: () => {
-    clideInst.defaults.headers.common["Id"] = getCookie("Id");
-    clideInst.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-    console.log(localStorage.getItem("token"));
-    console.log(getCookie("Id"));
+  in_pipeline: async () => {
+    console.log(await AsyncStorage.getItem("token"));
+    console.log(await AsyncStorage.getItem("Id"));
+    clideInst.defaults.headers.common["Id"] = await AsyncStorage.getItem("Id");
+    clideInst.defaults.headers.common["Authorization"] = await AsyncStorage.getItem("token");
   },
   out_pipeline: (res) => {
     clideInst.defaults.headers.common["Id"] = res.data._id;
-    setCookie("Id", res.data._id, 86400000); //set to 1 day for no real reason
+    AsyncStorage.setItem("Id", res.data._id); //set to 1 day for no real reason
     return res;
   },
 });
@@ -31,7 +32,7 @@ export const login = clideInst.makePost("auth/login", {
     };
   },
   out_pipeline: (res) => {
-    localStorage.setItem("token", res.data.token);
+    AsyncStorage.setItem("token", res.data.token);
     clideInst.defaults.headers.common["Id"] = res.data._id;
     clideInst.defaults.headers.common["Authorization"] = res.data.token;
     return res;
@@ -47,7 +48,7 @@ export const logout = clideInst.makeDelete("auth/logout", {
   out_pipeline: (res) => {
     clideInst.defaults.headers.common["Id"] = undefined;
     clideInst.defaults.headers.common["Authorization"] = undefined;
-    setCookie("Id", "-1", -1);
+    AsyncStorage.setItem("Id", "-1");
     load();
     return res;
   },
@@ -61,7 +62,7 @@ export const register = clideInst.makePost("auth/register", {
     };
   },
   out_pipeline: (res) => {
-    localStorage.setItem("token", res.data.token);
+    AsyncStorage.setItem("token", res.data.token);
     clideInst.defaults.headers.common["Authorization"] = res.data.token;
     return res;
   },
