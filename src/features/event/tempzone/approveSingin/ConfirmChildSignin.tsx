@@ -8,12 +8,10 @@ import { radius } from "../../../../../ottery-ui/styles/radius";
 import { Text } from "react-native-paper";
 import { ButtonSpan } from "../../../../../ottery-ui/containers/ButtonSpan";
 import Button from "../../../../../ottery-ui/buttons/Button";
-import { useState } from "react";
 import { useNavigator } from "../../../../router/useNavigator";
 import paths from "../../../../router/paths";
 import { useTempzoneClient } from "../tempzoneClient";
 import { requestType } from "@ottery/ottery-dto";
-import { API_ENV } from "../../../../env/api.env";
 import { usePing } from "../../../../../ottery-ping";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 

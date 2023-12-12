@@ -13,7 +13,6 @@ import { SpinAnimation } from "../../../../../ottery-ui/animations/Spin.animatio
 import Image from "../../../../../ottery-ui/image/Image";
 import { roundSpinningOtter } from "../../../../../assets/otters";
 import { useScreenDimensions } from "../../../../hooks/dimentions.hook";
-import { API_ENV } from "../../../../env/api.env";
 import {View, StyleSheet} from "react-native";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import { happyCheck, unhappyCheck } from "../../../../../assets/icons";
@@ -22,6 +21,7 @@ import paths from "../../../../router/paths";
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import { image } from "../../../../../ottery-ui/styles/image";
+import { query_delta } from "../../../../provider/clideInst";
 
 const styles = StyleSheet.create({
     infoContainer: {
@@ -49,7 +49,7 @@ function useConsumeRequests() {
             oldRequests.forEach((request:ChildRequestDto)=>removeRequest(request.child));
             setRequests([...oldRequests, ...res?.data || []].filter(request=>request.type === requestType.DROPOFF));
         },
-        refetchInterval: API_ENV.query_delta,
+        refetchInterval: query_delta,
     });
 
     const requestsMap = {};

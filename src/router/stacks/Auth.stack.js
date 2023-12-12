@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { AuthGuard } from "../../guards/AuthGuard";
+//import { AuthGuard } from "../../guards/AuthGuard";
 import Login from "../../features/auth/Login";
 import Register from "../../features/auth/Register";
 import { useNavigator } from "../useNavigator";
@@ -29,23 +29,22 @@ export function AuthStack() {
         options={{ headerShown: false }} //switch to logo at some point
       >
         {(props) => (
-          <AuthGuard notLoggedin>
             <Register />
-          </AuthGuard>
+
         )}
       </Stack.Screen>
       <Stack.Screen name={paths.auth.login} options={{ headerShown: false }}>
         {(props) => (
-          <AuthGuard notLoggedin>
+
             <Login />
-          </AuthGuard>
+
         )}
       </Stack.Screen>
       <Stack.Screen name={paths.auth.validate} options={{ headerShown: false }}>
         {(props) => (
-          <AuthGuard loggedin>
+
             <Validate />
-          </AuthGuard>
+
         )}
       </Stack.Screen>
 
@@ -54,9 +53,9 @@ export function AuthStack() {
         options={{ headerShown: false }}
       >
         {(props) => (
-          <AuthGuard notLoggedin>
+
             <ForgotPasswordScreen {...props} />
-          </AuthGuard>
+
         )}
       </Stack.Screen>
 
@@ -65,9 +64,9 @@ export function AuthStack() {
         options={{ headerShown: false }}
       >
         {(props) => (
-          <AuthGuard notLoggedin>
+
             <ResetPasswordScreen {...props} />
-          </AuthGuard>
+
         )}
       </Stack.Screen>
     </Stack.Navigator>

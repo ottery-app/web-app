@@ -1,3 +1,1 @@
-BACKEND_API = 'http://localhost:8080/'
-QUERY_DELTA: 500,
-TIMEOUT: 100000,
+BACKEND_API = "https://15e2-107-15-199-74.ngrok.io/"

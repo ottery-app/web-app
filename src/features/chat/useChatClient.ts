@@ -8,24 +8,23 @@ import {
 } from "./chatApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
-
-export const CLIENT_CHAT_TAG = "chat";
+import { query_paths } from "../../provider/queryClient";
 
 export function useChatClient() {
   const queryClient = useQueryClient();
 
   const useGetChatsFor = makeUseQuery({
     queryFn: getChatsFor,
-    queryKey: [CLIENT_CHAT_TAG, "userChats"],
+    queryKey: [query_paths.chat.root, "userChats"],
   });
 
   const useGetDirectChat = makeUseQuery({
-    queryKey: [CLIENT_CHAT_TAG, "directChat"],
+    queryKey: [query_paths.chat.root, "directChat"],
     queryFn: getDirectChat,
   });
 
   const useGetDirectChats = makeUseQuery({
-    queryKey: [CLIENT_CHAT_TAG, "directChat"],
+    queryKey: [query_paths.chat.root, "directChat"],
     queryFn: async (userId, friendIds)=>{
       const ids = {};
       await Promise.all(friendIds.map(async (otherId)=>{
@@ -36,14 +35,14 @@ export function useChatClient() {
   })
 
   const useGetChat = makeUseQuery({
-    queryKey: [CLIENT_CHAT_TAG, "chat"],
+    queryKey: [query_paths.chat.root, "chat"],
     queryFn: async (chatId: string) => getChat(chatId),
   });
 
   const useMakeChat = makeUseMutation({
     mutationFn: makeChat,
     onSuccessAlways: (data) => {
-      queryClient.invalidateQueries(CLIENT_CHAT_TAG);
+      queryClient.invalidateQueries(query_paths.chat.root);
       return data;
     },
   });
@@ -51,7 +50,7 @@ export function useChatClient() {
   const useSendMessage = makeUseMutation({
     mutationFn: async (vars) => sendMessage(...vars),
     onSuccessAlways: (data) => {
-      queryClient.invalidateQueries(CLIENT_CHAT_TAG);
+      queryClient.invalidateQueries(query_paths.chat.root);
       return data;
     },
   });

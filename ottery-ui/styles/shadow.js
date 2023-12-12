@@ -2,6 +2,7 @@ import { radius } from "./radius";
 
 /**
  * the style options for shadows
+ * @deprecated
  */
 export const shadows = {
     default: {

@@ -10,18 +10,17 @@ import {
 } from "./eventApi";
 import {makeUseMutation} from "../../queryStatus/makeUseMutation";
 import {makeUseQuery} from "../../queryStatus/makeGetQuery";
-
-export const QUERY_EVENT_TAG = "event";
+import { query_paths } from "../../provider/queryClient";
 
 export function useEventClient() {
 
     const useGetEventInfo = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "eventInfo"],
+        queryKey: [query_paths.event.root, "eventInfo"],
         queryFn: getInfo,
     });
 
     const useGetEvent = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "event"],
+        queryKey: [query_paths.event.root, "event"],
         queryFn: async (event)=>{
             let res = await getEvents([event]);
             res.data = res.data[0];
@@ -30,22 +29,22 @@ export function useEventClient() {
     });
 
     const useGetEvents = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG],
+        queryKey: [query_paths.event.root],
         queryFn: getEvents,
     });
 
     const useGetEventOwner = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "owner"],
+        queryKey: [query_paths.event.root, "owner"],
         queryFn: getOwner,
     })
 
     const useGetAttendeeSignup = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "attendee", "signup"],
+        queryKey: [query_paths.event.root, "attendee", "signup"],
         queryFn: getAttendeeSignup,
     })
 
     const useGetVolenteerSignup = makeUseQuery({
-        queryKey: [QUERY_EVENT_TAG, "volenteer", "signup"],
+        queryKey: [query_paths.event.root, "volenteer", "signup"],
         queryFn: getVolenteerSignup,
     })
 

@@ -9,19 +9,9 @@ import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { Text } from "react-native-paper";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
 import paths from "../../../router/paths";
-import { clock, pfp, users } from "../../../../assets/icons";
-import {StyleSheet, View} from "react-native";
-import { margin } from "../../../../ottery-ui/styles/margin";
-import { colors } from "../../../../ottery-ui/styles/colors";
+import { clock, users } from "../../../../assets/icons";
+import {View} from "react-native";
 import { fadedStyle, fadedVariant } from "./tempzone.style";
-
-const styles = StyleSheet.create({
-    headerText: {
-        textAlign: 'center',
-        padding: margin.large,
-        color: colors.text.tertiary,
-    }
-});
 
 export function Dismissal() {
     const eventId = useAuthClient().useSesh().event;

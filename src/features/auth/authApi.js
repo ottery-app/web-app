@@ -12,8 +12,9 @@ import { clideInst } from "../../provider/clideInst";
 export const load = clideInst.makeGet("auth/load", {
   in_pipeline: () => {
     clideInst.defaults.headers.common["Id"] = getCookie("Id");
-    clideInst.defaults.headers.common["Authorization"] =
-      localStorage.getItem("token");
+    clideInst.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+    console.log(localStorage.getItem("token"));
+    console.log(getCookie("Id"));
   },
   out_pipeline: (res) => {
     clideInst.defaults.headers.common["Id"] = res.data._id;
