@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
 import { Text, View } from "react-native";
-import { AuthGuard } from "../../guards/AuthGuard";
 import { Home } from "../../features/home/Home";
 import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";

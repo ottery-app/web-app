@@ -36,11 +36,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <Dismissal/>
-              </AuthGuard>
-            }
+          <Dismissal/>
         </Stack.Screen>
       );
     } else if (event?.tempzone === tempzone.Secure) {
@@ -51,11 +47,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ApprovePickup {...props}/>
-              </AuthGuard>
-            }
+          <ApprovePickup {...props}/>
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.confirm}
@@ -63,11 +55,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ConfirmChildPickup {...props}/>
-              </AuthGuard>
-            }
+          {props=><ConfirmChildPickup {...props}/>}
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.decline}
@@ -75,11 +63,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <DeclinePickup {...props}/>
-              </AuthGuard>
-            }
+          {props=><DeclinePickup {...props}/>}
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissList}
@@ -87,11 +71,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <DismissList {...props}/>
-              </AuthGuard>
-            }
+          {props=><DismissList {...props}/>}
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissContacts}
@@ -99,11 +79,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ContactGuardian {...props}/>
-              </AuthGuard>
-            }
+          {props => <ContactGuardian {...props}/>}
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.noRequest}
@@ -111,11 +87,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <NoRequestPickup {...props}/>
-              </AuthGuard>
-            }
+            {props => <NoRequestPickup {...props}/>}
         </Stack.Screen>,
         <Stack.Screen
           name={paths.pickup.caretaker.manualDismissal}
@@ -123,11 +95,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <NoGuardianPickup {...props}/>
-              </AuthGuard>
-            }
+            {props => <NoGuardianPickup {...props}/>}
         </Stack.Screen>,
       );
     }
@@ -139,11 +107,7 @@ export function PickUpStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-          {props => 
-            <AuthGuard loggedin activated guardian>
-              <PickChildren/>
-            </AuthGuard>
-          }
+          <PickChildren/>
       </Stack.Screen>,
       <Stack.Screen
         name={paths.pickup.guardian.status}
@@ -151,11 +115,7 @@ export function PickUpStack() {
           header: (props) => <Header {...props} />,
         }}
       >
-        {props => 
-          <AuthGuard loggedin activated guardian>
-            <PickupStatus/>
-          </AuthGuard>
-        }
+        <PickupStatus/>
       </Stack.Screen>
     )
   }

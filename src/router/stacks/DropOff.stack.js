@@ -1,13 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { AuthGuard } from "../../guards/AuthGuard";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
 import { noId, role, tempzone } from "@ottery/ottery-dto";
 import { Signin } from "../../features/event/tempzone/Signin";
 import { useEventClient } from "../../features/event/useEventClient";
 import { ApproveSignin } from "../../features/event/tempzone/approveSingin/ApproveSignin";
-import { PickChildren, RequestSignin } from "../../features/event/tempzone/RequestSignin/PickChildren";
+import { PickChildren } from "../../features/event/tempzone/RequestSignin/PickChildren";
 import { SelectEvents } from "../../features/event/tempzone/RequestSignin/SelectEvents";
 import { DropOffStatus } from "../../features/event/tempzone/RequestSignin/DropOffStatus";
 import { ConfirmChildSignin } from "../../features/event/tempzone/approveSingin/ConfirmChildSignin";
@@ -33,11 +32,7 @@ export function DropoffStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <Signin/>
-              </AuthGuard>
-            }
+          <Signin/>
         </Stack.Screen>
       )
     } else if (event?.tempzone === tempzone.Secure) {
@@ -48,11 +43,7 @@ export function DropoffStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ApproveSignin/>
-              </AuthGuard>
-            }
+          <ApproveSignin/>
         </Stack.Screen>,
         <Stack.Screen
           name={paths.dropoff.caretaker.confirm}
@@ -60,11 +51,7 @@ export function DropoffStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ConfirmChildSignin {...props}/>
-              </AuthGuard>
-            }
+          <ConfirmChildSignin {...props}/>
         </Stack.Screen>,
         <Stack.Screen
           name={paths.dropoff.caretaker.decline}
@@ -72,11 +59,7 @@ export function DropoffStack() {
             header: (props) => <Header {...props} />,
           }}
         >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <DeclineSignin {...props}/>
-              </AuthGuard>
-            }
+          {props=><DeclineSignin {...props}/>}
         </Stack.Screen>,
       )
     }
@@ -87,12 +70,8 @@ export function DropoffStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props => 
-            <AuthGuard loggedin activated guardian>
-              <PickChildren/>
-            </AuthGuard>
-          }
+      >
+        <PickChildren/>
       </Stack.Screen>,
       <Stack.Screen
         name={paths.dropoff.guardian.pickEvent}
@@ -100,11 +79,7 @@ export function DropoffStack() {
           header: (props) => <Header {...props} />,
         }}
       >
-        {props => 
-          <AuthGuard loggedin activated guardian>
-            <SelectEvents/>
-          </AuthGuard>
-        }
+        <SelectEvents/>
       </Stack.Screen>,
         <Stack.Screen
         name={paths.dropoff.guardian.status}
@@ -112,11 +87,7 @@ export function DropoffStack() {
           header: (props) => <Header {...props} />,
         }}
       >
-        {props => 
-          <AuthGuard loggedin activated guardian>
-            <DropOffStatus/>
-          </AuthGuard>
-        }
+        <DropOffStatus/>
       </Stack.Screen>
     )
   }
