@@ -25,8 +25,9 @@ export function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen
         name={paths.main.home}
-        options={{
-          header: (props) => <Header {...props} />,
+        
+        options={{  
+          header: Header,
         }}
         component={Home}
       />
