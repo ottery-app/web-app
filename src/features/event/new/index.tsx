@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import { usePing } from "../../../../ottery-ping";
 import { useEventClient } from "../useEventClient";
-import { useNavigator } from "../../../router/useNavigator";
 
 import MultiStepForm from "../../../../ottery-ui/forms/MultiStepForm";
 import BasicInfoForm from "./BasicInfo";
@@ -27,11 +26,10 @@ export interface EventFormData {
   public: boolean;
 }
 
-function NewEventScreen({ route }) {
+function NewEventScreen({ navigation }) {
   const Ping = usePing();
   const { useNewEvent } = useEventClient();
   const newEvent = useNewEvent();
-  const navigator = useNavigator();
 
   const [eventForm, setEventForm] = useState<EventFormData>({
     summary: "",
@@ -53,7 +51,7 @@ function NewEventScreen({ route }) {
 
   function handleSubmit(form: EventFormData) {
     newEvent.mutate(form, {
-      onSuccess: () => navigator(-1),
+      onSuccess: () => navigation.goBack(),
       onError: (err: any) => Ping.error(err.message),
     });
   }
