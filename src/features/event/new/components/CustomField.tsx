@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { IconButton, Text, TextInput } from "react-native-paper";
 import { nanoid } from "@reduxjs/toolkit";
 import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
-import { CustomFormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
+import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import { useFormClient } from "../../../form/useFormClient";
@@ -30,7 +30,10 @@ const INPUT_TYPE_OPTIONS = [
   { label: inputType.EMAIL, value: inputType.EMAIL },
 ];
 
-export type FieldData = Partial<CustomFormFieldDto> & { id: string };
+export type FieldData = Partial<FormFieldDto> & {
+  id: string;
+  permanent?: boolean;
+};
 
 interface CustomFieldProps {
   data: FieldData;
@@ -44,7 +47,7 @@ function CustomField({ data, onDone }: CustomFieldProps) {
   const [type, setType] = useState(data.type);
   const [note, setNote] = useState(data.note);
   const [permanent, setPermanent] = useState(data.permanent);
-  const [done, setDone] = useState(classifyWithDto(CustomFormFieldDto, data));
+  const [done, setDone] = useState(classifyWithDto(FormFieldDto, data));
   const [error, setError] = useState("");
 
   // const { useGetAllFormFields } = useFormClient();
