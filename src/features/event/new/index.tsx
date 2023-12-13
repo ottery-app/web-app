@@ -11,6 +11,7 @@ import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 import ScreenWrapper from "../../../../ottery-ui/containers/ScreenWrapper";
+import { FieldData } from "./components/CustomField";
 
 export interface EventFormData {
   summary: string;
@@ -20,8 +21,8 @@ export interface EventFormData {
   end: number;
   location: string;
   recurrence: string[];
-  volunteerSignUp: string[];
-  attendeeSignUp: string[];
+  volunteerSignUp: FieldData[];
+  attendeeSignUp: FieldData[];
   cost: number;
   public: boolean;
 }
@@ -32,7 +33,7 @@ function NewEventScreen({ route }) {
   const newEvent = useNewEvent();
   const navigator = useNavigator();
 
-  const [eventForm, setEventForm] = useState({
+  const [eventForm, setEventForm] = useState<EventFormData>({
     summary: "",
     org: "",
     description: "",
