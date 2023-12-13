@@ -6,6 +6,7 @@ import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
 import { InputProps } from "./Input";
+import React from "react";
 
 export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,
@@ -27,7 +28,6 @@ const stylesBox = (checked)=>StyleSheet.create({
 
 const stylesDefault = StyleSheet.create({
     main: {
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
         gap: margin.medium,
@@ -36,12 +36,10 @@ const stylesDefault = StyleSheet.create({
 
 const stylesFilled = StyleSheet.create({
     main: {
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         gap: margin.medium,
-        height: clickable.minHeight,
         width:"100%",
         borderRadius: radius.default,
     },
@@ -62,6 +60,8 @@ export function CheckBox({
             ? <Text variant={text_varient} style={stylesBox(active).box}>&#10004;</Text>
             : <Text variant={text_varient} style={stylesBox(active).box}>&#x2716;</Text>
     }
+
+    console.log(label);
 
     return (mode === CheckBoxMode.default) 
         ?(

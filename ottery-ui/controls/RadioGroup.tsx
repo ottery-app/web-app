@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { margin } from "../styles/margin";
 import { CheckBox, CheckBoxMode } from "../input/CheckBox";
+import React from "react";
 
 export interface OptionProp {
   label: string;
@@ -14,7 +15,7 @@ export interface RadioGroupProps {
 }
 
 function RadioGroup({ onChange, options, value }: RadioGroupProps) {
-  return <View><View style={styles.container}>
+  return <View style={styles.container}>
     {options.map((option) =>
         <CheckBox
           key={option.value}
@@ -24,12 +25,11 @@ function RadioGroup({ onChange, options, value }: RadioGroupProps) {
           value={option.value === value}
         />
     )}
-  </View></View>
+  </View>
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
     gap: margin.medium,
   },
 });
