@@ -54,8 +54,3 @@ export const clock: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/clock.svg",
   aspectRatio: 1,
 };
-
-export const info: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/info.png?raw=true",
-  aspectRatio: 1,
-};
