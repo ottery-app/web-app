@@ -11,9 +11,9 @@ import { useUserClient } from "../user/useUserClient";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "../chat/useChatClient";
 import { colors } from "../../../ottery-ui/styles/colors";
-import { usePing } from "../../../ottery-ping";
 import { Text } from "react-native-paper";
 import { useEventClient } from "../event/useEventClient";
+import React from "react";
 
 enum Tabs {
     events = "Events",
@@ -69,7 +69,7 @@ export function ChildProfile({route}) {
                 right={image}
                 onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[data._id]})}
             >
-                {data.firstName} {data.lastName}
+                <Text>{data.firstName} {data.lastName}</Text>
             </ImageButton>
         } else if (tab === Tabs.events) {
             console.log(data);
@@ -77,7 +77,7 @@ export function ChildProfile({route}) {
                 {...props}
                 onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}
             >
-                    {data.summary}
+                <Text>{data.summary}</Text>
             </ImageButton>
         }
     }) || [], [data, tab, chatIdMap]);
