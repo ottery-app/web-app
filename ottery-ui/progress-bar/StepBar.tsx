@@ -35,9 +35,12 @@ function Circle({
     active ? styles.borderColorActive : styles.borderColorDefault,
   ]);
 
+  const labelStyle = active ? styles.textColorActive : styles.textColorDefault;
+
   return (
     <Button
       height={clickable.minHeight}
+      labelStyle={labelStyle}
       onPress={onPress}
       radius={radius.round}
       styles={circleStyles}
@@ -94,7 +97,6 @@ const styles = StyleSheet.create({
   },
   circle: {
     backgroundColor: colors.background.primary,
-    color: colors.text.primary,
     zIndex: zindex.front,
   },
   borderColorDefault: {
@@ -102,6 +104,12 @@ const styles = StyleSheet.create({
   },
   borderColorActive: {
     borderColor: colors.primary.main,
+  },
+  textColorDefault: {
+    color: colors.text.tertiary,
+  },
+  textColorActive: {
+    color: colors.primary.main,
   },
 });
 
