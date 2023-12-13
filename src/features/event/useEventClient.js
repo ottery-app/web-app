@@ -58,10 +58,6 @@ export function useEventClient() {
     },
   });
 
-  const useSignUpAttendeesByIds = makeUseMutation({
-    mutationFn: signUpAttendeesByIds,
-  });
-
   const useSignupUser = makeUseMutation({
     mutationFn: signupUser,
   });
