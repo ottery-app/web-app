@@ -1,7 +1,7 @@
 import { ImageAsset } from "./ImageAsset";
 
 export const send: ImageAsset = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/send.png",
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/send.png?raw=true",
   aspectRatio: 1,
 }
 

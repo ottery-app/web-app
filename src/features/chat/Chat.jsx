@@ -10,10 +10,12 @@ import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import ChatBox from "./components/ChatBox";
 import { margin } from "../../../ottery-ui/styles/margin";
 import ChatBoxWrapper from "./components/ChatBoxWrapper";
-import { Button } from "react-native-paper";
+import Button from "../../../ottery-ui/buttons/Button";
 import { useUserClient } from "../user/useUserClient";
 import { IconHeader } from "../../../ottery-ui/headers/IconHeader";
 import { query_delta } from "../../provider/clideInst";
+import { clickable } from "../../../ottery-ui/styles/clickable";
+import { useScreenDimensions } from "../../hooks/dimentions.hook";
 
 function Chat({ route }) {
   const { chatId } = route.params;
@@ -23,7 +25,7 @@ function Chat({ route }) {
     refetchInterval: query_delta,
     refetchIntervalInBackground: true,
   });
-
+  const {width} = useScreenDimensions();
 
   const sendMessage = useSendMessage();
   const { useUserId } = useAuthClient();
@@ -98,23 +100,21 @@ function Chat({ route }) {
           ))}
         </ChatBox>
       </ChatBoxWrapper>
-      {!isScrollEnd && isNewMessage && (
-        <Button onPress={scrollToEnd}>See new messages</Button>
+      {!isScrollEnd && isNewMessage  && (
+        <View styles={{position:"relative"}}>
+          <Button styles={{
+              position:"absolute",
+              top: -clickable.minHeight,
+              transform: [{translateX: width / 4}],
+            }} 
+            width={width / 2}
+            onPress={scrollToEnd}
+          >See new messages</Button>
+        </View>
       )}
-      <View style={styles.inputContainer}>
-        <MessageInput onSend={send} />
-      </View>
+      <MessageInput onSend={send} />
     </ScreenWrapper>
   );
-}
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginBottom: margin.small,
-    marginRight: margin.small,
-    marginLeft: margin.small,
-    background: colors.background.primary,
-  },
-});
+};
 
 export default Chat;
