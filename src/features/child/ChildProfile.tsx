@@ -13,6 +13,7 @@ import { useChatClient } from "../chat/useChatClient";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { usePing } from "../../../ottery-ping";
 import { Text } from "react-native-paper";
+import { useEventClient } from "../event/useEventClient";
 
 enum Tabs {
     events = "Events",
@@ -26,7 +27,7 @@ export function ChildProfile({route}) {
     const childId = route.params.childId;
     const childRes = useChildClient().useGetChild({inputs:[childId]});
     const childData = childRes?.data?.data;
-    const childEvents = childData?.events;
+    const childEventsIds = childData?.events;
     const childGuardiansRes = useUserClient().useGetUserInfo({
         inputs:[childData?.guardians],
         enabled: !!childData?.guardians,
@@ -37,6 +38,11 @@ export function ChildProfile({route}) {
         inputs:[userId, childGuardianIds],
         enabled: !!childGuardians,
     });
+    const childEventsRes = useEventClient().useGetEvents({
+        inputs: [childEventsIds],
+        enabled: !!childEventsIds,
+    })
+    const childEvents = childEventsRes?.data?.data;
     const chatIdMap = chatIdsRes?.data;
 
 
@@ -66,6 +72,7 @@ export function ChildProfile({route}) {
                 {data.firstName} {data.lastName}
             </ImageButton>
         } else if (tab === Tabs.events) {
+            console.log(data);
             return <ImageButton 
                 {...props}
                 onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}

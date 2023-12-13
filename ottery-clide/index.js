@@ -122,7 +122,7 @@ function makeUrl(dest, props) {
     let tail = "?";
 
     Object.entries(props).forEach((arr) => {
-      if (arr[1]) {
+      if (arr[1]!==undefined) {
         if (url.indexOf(":" + arr[0]) === -1) {
           if (Array.isArray(arr[1])) {
             for (let i in arr[1]) {

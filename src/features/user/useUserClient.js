@@ -1,15 +1,14 @@
 import {
-  acceptGuardianship,
-  getAvalableChildren,
   getChildren,
-  getDroppedOffChildren,
   getEvents,
   getInfo,
   missingUserData,
   updateProfilePhoto,
+  updateUserData,
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
+import { QUERY_CHILD_TAG } from "../child/useChildClient";
 
 export const CLIENT_USER_TAG = "user";
 
@@ -20,18 +19,8 @@ export function useUserClient() {
   });
 
   const useGetUserChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children"],
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG],
     queryFn: getChildren,
-  });
-
-  const useGetAvalableChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children", "avalable"],
-    queryFn: getAvalableChildren,
-  });
-
-  const useGetDroppedOffChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "children", "droppedOff"],
-    queryFn: getDroppedOffChildren,
   });
 
   const useGetUserEvents = makeUseQuery({
@@ -43,18 +32,49 @@ export function useUserClient() {
     mutationFn: updateProfilePhoto,
   })
 
+  const useUpdateUserData = makeUseMutation({
+    mutationFn: updateUserData,
+  })
+
   const useMissingUserData = makeUseQuery({
     queryKey: [CLIENT_USER_TAG, "data"],
     queryFn: missingUserData,
   })
 
+  const useChildrenAt = makeUseQuery({
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "at"],
+    queryFn: async (userId, at)=>{
+      const childrenRes = await getChildren(userId);
+
+      if (childrenRes?.data) {
+        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at === at)
+      }
+
+      return childrenRes;
+    },
+  });
+
+  const useChildrenNotAt = makeUseQuery({
+    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "notAt"],
+    queryFn: async (userId, at)=>{
+      const childrenRes = await getChildren(userId);
+
+      if (childrenRes?.data) {
+        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at !== at)
+      }
+
+      return childrenRes;
+    },
+  });
+
   return {
+    useUpdateUserData,
     useMissingUserData,
     useUpdateProfilePhoto,
     useGetUserInfo,
     useGetUserChildren,
-    useGetAvalableChildren,
-    useGetDroppedOffChildren,
+    useChildrenAt,
+    useChildrenNotAt,
     useGetUserEvents,
   };
 }

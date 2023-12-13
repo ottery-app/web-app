@@ -27,11 +27,13 @@ export const paths = {
       signup: "/event/signup/:eventId",
       roster: "/event/roster/:eventId",
       invite: {
+        attendee: "./event/:eventId/invite/attendee",
         caretaker: "/event/:eventId/invite/caretaker",
       },
       accept: {
         caretaker: "/event/:eventId/accept/caretaker",
       },
+      getHelp: "/event/:eventId/get-help",
       new: "/event/new",
     },
     user: {
@@ -40,13 +42,32 @@ export const paths = {
   },
   dropoff: {
     name: "Dropoff",
-    caretaker: "dropoff/caretaker",
-    guardian: "dropoff/guardian",
+    caretaker: {
+      root: "dropoff/caretaker",
+      confirm: "dropoff/caretaker/:eventId/:childId/:guardianId",
+      decline: "dropoff/caretaker/decline/:eventId/:childId/:guardianId",
+    },
+    guardian: {
+      pickKids: "dropoff/guardian/kids",
+      pickEvent: "dropoff/guardian/event",
+      status: "dropoff/guardian/status",
+    },
   },
   pickup: {
-    name: "pickup",
-    caretaker: "pickup/caretaker",
-    guardian: "pickup/guardian",
+    name: "Pickup",
+    caretaker: {
+      root: "pickup/caretaker",
+      confirm: "pickup/caretaker/:eventId/:childId/:guardianId",
+      decline: "pickup/caretaker/decline/:eventId/:childId/:guardianId",
+      dismissList: "pickup/caretaker/dismisslist/:eventId",
+      dismissContacts: "pickup/caretaker/dismisslist/contacts/:childId",
+      noRequest: "pickup/caretaker/noreqeust/:eventId/:childId/:guardianId",
+      manualDismissal: "pickup/caretaker/noguardian/:childId",
+    },
+    guardian: {
+      pickKids: "pickup/guardian/kids",
+      status: "pickup/guardian/status",
+    },
   },
 };
 

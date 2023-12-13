@@ -1,4 +1,4 @@
-import { IdArrayDto, ImageDto, isId, noId } from "@ottery/ottery-dto";
+import { DataFieldDto, ImageDto, isId, noId, validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
 
 export const missingUserData = clideInst.makeGet(
@@ -12,6 +12,24 @@ export const missingUserData = clideInst.makeGet(
         params: {
           userId: id,
           desired: desiredFieldIds,
+        }
+      }
+    }
+  }
+)
+
+export const updateUserData = clideInst.makePatch(
+  "user/:userId/data",
+  {
+    param_validators: {
+      userId: isId,
+    },
+    data_validator: validateAsArr(DataFieldDto),
+    in_pipeline: ({userId, dataFields})=>{
+      return {
+        data: dataFields,
+        params: {
+          userId: userId,
         }
       }
     }
@@ -71,30 +89,3 @@ export const getInfo = clideInst.makeGet("user/info", {
     };
   },
 });
-
-export const getAvalableChildren = clideInst.makeGet("user/:userId/children", {
-  in_pipeline: (userId) => {
-    return {
-      params: {
-        userId: userId,
-        at: noId,
-        hasEvent: true,
-      },
-    };
-  },
-});
-
-export const getDroppedOffChildren = clideInst.makeGet(
-  "user/:userId/children",
-  {
-    in_pipeline: (userId) => {
-      return {
-        params: {
-          userId: userId,
-          notat: noId,
-          hasEvent: true,
-        },
-      };
-    },
-  }
-);

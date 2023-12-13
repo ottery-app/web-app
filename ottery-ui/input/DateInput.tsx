@@ -3,6 +3,9 @@ import { View, TouchableWithoutFeedback } from "react-native";
 import { DefaultTheme, TextInput, ThemeProvider } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
+import { InputProps } from "./Input";
+
+export interface DateInputProps extends InputProps<number> {}
 
 interface DateInputProps {
   disabled?: boolean;

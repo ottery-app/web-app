@@ -28,8 +28,6 @@ export function InviteCaretaker({route}) {
             }
         })
     }
-
-    console.log(sendCaretakerInvite.status);
     
     return (
         <Main>

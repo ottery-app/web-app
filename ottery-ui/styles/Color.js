@@ -38,6 +38,7 @@ const theme = {
         elevation: {
             level1: colors.background.primary,
             level2: colors.background.primary,
+            level3: colors.background.primary,
         }
 
         // inverseSurface: "rgb(50, 47, 51)",

@@ -7,6 +7,7 @@ import { radius } from "../styles/radius";
 import { margin } from "../styles/margin";
 import { clickable } from "../styles/clickable";
 import { zindex } from "../styles/zindex";
+import { InputOption, InputProps } from "./Input";
 
 const styles = StyleSheet.create({
   container: {

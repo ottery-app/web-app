@@ -9,6 +9,9 @@ import { colors } from '../../../ottery-ui/styles/colors';
 import { margin } from '../../../ottery-ui/styles/margin';
 import { useGotoNext } from '../useNavigator';
 
+//gets set to true till the user restarts the app
+let initialized = false;
+
 export default function Header({
   navigation,
   back,
@@ -18,7 +21,14 @@ export default function Header({
   const closeMenu = () => setVisible(false);
   const sesh = useAuthClient().useSesh();
   const logout = useAuthClient().useLogout();
-  useGotoNext();
+  const gotoNext = useGotoNext();
+
+  React.useEffect(()=>{
+    if (initialized === false) {
+      initialized = true;
+      gotoNext();
+    }
+  }, []);
 
   return (
     <ThemeProvider>

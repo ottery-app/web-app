@@ -48,3 +48,21 @@ export const sendCaretakerInvite = clideInst
             }
         },
     })
+
+export const sendAttendeeInvite = clideInst
+    .makePost("invite/event/attendee/for/:eventId", {
+        params_validators: {
+          eventId:isId,
+        },
+        data_validator: EmailDto,
+        in_pipeline: (eventId, email)=>{
+            return {
+                params: {
+                    eventId,
+                },
+                data: {
+                    email,
+                }
+            }
+        },
+    })

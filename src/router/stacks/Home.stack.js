@@ -15,7 +15,9 @@ import { NewChild } from "../../features/child/NewChild";
 import { Roster } from "../../features/event/Roster";
 import { InviteCaretaker } from "../../features/event/InviteCaretaker";
 import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
+import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
+import { InviteAttendee } from "../../features/event/InviteAttendee";
 import NewEventScreen from "../../features/event/new";
 
 const Stack = createNativeStackNavigator();
@@ -180,6 +182,19 @@ export function HomeStack() {
         )}
       </Stack.Screen>
       <Stack.Screen
+        name={paths.main.event.getHelp}
+        options={{
+          title: "Get Help",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <GetHelpScreen {...props} />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
         name={paths.main.event.invite.caretaker}
         options={{
           title: "Invite Caretaker",
@@ -190,6 +205,21 @@ export function HomeStack() {
           <AuthGuard loggedin activated>
             <View>
               <InviteCaretaker {...props} />
+            </View>
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={paths.main.event.invite.attendee}
+        options={{
+          title: "Invite Attendee",
+          header: (props) => <Header {...props} />,
+        }}
+      >
+        {(props) => (
+          <AuthGuard loggedin activated>
+            <View>
+              <InviteAttendee {...props} />
             </View>
           </AuthGuard>
         )}

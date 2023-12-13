@@ -13,13 +13,17 @@ import { Platform } from 'react-native';
 import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
 import { pfp } from "../../assets/icons";
-import { formatForApi } from "../../src/functions/images";
+import { InputProps } from "./Input";
+
+export interface ImageInputProps extends InputProps<ImageAsset> {
+    radius: number,
+}
 
 export default function ImageInput({
     value=pfp,
     onChange=(image:ImageAsset)=>{},
     radius=rad.round,
-}) {
+}:ImageInputProps) {
     const [dialog, setDialog] = useState(false);
 
     function open() {

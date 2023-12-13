@@ -5,13 +5,13 @@ import Button from "../buttons/Button";
 import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
+import { InputProps } from "./Input";
 
-export interface CheckBoxProps {
-    label: string,
-    value: boolean,
-    onChange: (value:boolean)=>void,
+export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,
 }
+
+const text_varient = "titleMedium";
 
 export enum CheckBoxMode {
     default="default",
@@ -56,7 +56,6 @@ export function CheckBox({
     onChange,
     mode=CheckBoxMode.filled
 }: CheckBoxProps) {
-    const text_varient = (mode === CheckBoxMode.filled) ? "headlineSmall" : "titleMedium";
 
     function Icon({active}) {
         return (active)
