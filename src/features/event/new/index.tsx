@@ -20,7 +20,7 @@ export interface EventFormData {
   end: number;
   location: string;
   recurrence: string[];
-  volunteerSignUp: FieldData[];
+  volenteerSignUp: FieldData[];
   attendeeSignUp: FieldData[];
   cost: number;
   public: boolean;
@@ -39,7 +39,7 @@ function NewEventScreen({ navigation }) {
     start: new Date().getTime(),
     location: "",
     recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
-    volunteerSignUp: [],
+    volenteerSignUp: [],
     attendeeSignUp: [],
     cost: 0,
     public: true,

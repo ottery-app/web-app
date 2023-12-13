@@ -9,7 +9,11 @@ import TimeInput, {
 import Head from "./components/UI/Head";
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
-import { formatTime, setDate as setDateFields } from "../../../functions/time";
+import {
+  formatTime,
+  getTime,
+  setDate as setDateFields,
+} from "../../../functions/time";
 import DateInput from "../../../../ottery-ui/input/DateInput";
 import Main from "./components/UI/Main";
 import { Dropdown } from "../../../../ottery-ui/input/Dropdown";
@@ -36,17 +40,13 @@ function TimesForm({
   updateErrorHandler,
 }: StepProps<EventFormData>) {
   const [date, setDate] = useState(form.start);
-  const [start, setStart] = useState(formatTime(form.start));
-  const [end, setEnd] = useState(formatTime(form.end));
+  const [start, setStart] = useState(getTime(form.start));
+  const [end, setEnd] = useState(getTime(form.end));
   const [repeat, setRepeat] = useState(form.recurrence[0]);
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    const unixStart = setDateFields(
-      date,
-      ...start.split(":").map((seg) => +seg)
-    );
-    const unixEnd = setDateFields(date, ...end.split(":").map((seg) => +seg));
+    const unixStart = setDateFields(date, start.hours, start.minutes);
+    const unixEnd = setDateFields(date, end.hours, end.minutes);
 
     updateErrorHandler(() => {
       if (!isDate(date)) {
@@ -85,11 +85,11 @@ function TimesForm({
   }
 
   function handleStartChange(time: TimeValueType) {
-    setStart(`${time.hours}:${time.minutes}`);
+    setStart(time);
   }
 
   function handleEndChange(time: TimeValueType) {
-    setEnd(`${time.hours}:${time.minutes}`);
+    setEnd(time);
   }
 
   function handleRepeatChange(repeat: string) {
@@ -121,17 +121,9 @@ function TimesForm({
       <Head>Time</Head>
       <DateInput label="Date" onChange={handleDateChange} value={date} />
       <View style={styles.timesContainer}>
-        <TimeInput
-          label="Start"
-          onChange={handleStartChange}
-          value={{ hours: 15, minutes: 35 }}
-        />
+        <TimeInput label="Start" onChange={handleStartChange} value={start} />
         <Text style={styles.timesText}>to</Text>
-        <TimeInput
-          label="End"
-          onChange={handleEndChange}
-          value={{ hours: 15, minutes: 35 }}
-        />
+        <TimeInput label="End" onChange={handleEndChange} value={end} />
       </View>
       <Dropdown
         label="repeat"

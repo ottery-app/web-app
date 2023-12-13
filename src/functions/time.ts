@@ -1,3 +1,5 @@
+import { TimeValueType } from "../../ottery-ui/input/TimeInput";
+
 export function getTimeZone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
@@ -78,4 +80,12 @@ export function setDate(
     date.setSeconds(seconds);
   }
   return date.getTime();
+}
+
+export function getTime(date: string | number | Date): TimeValueType {
+  const dateObj = new Date(date);
+  return {
+    hours: dateObj.getHours(),
+    minutes: dateObj.getMinutes(),
+  };
 }

@@ -13,8 +13,8 @@ function VolunteerSignUpOptionsForm({
     <Main>
       <HelpWrapper title="Volunteer Info">
         <SignUpOptions
-          fields={form.volunteerSignUp}
-          handleUpdate={makeHandleDone(setForm, "volunteerSignUp")}
+          fields={form.volenteerSignUp}
+          handleUpdate={makeHandleDone(setForm, "volenteerSignUp")}
           updateErrorHandler={updateErrorHandler}
         />
       </HelpWrapper>

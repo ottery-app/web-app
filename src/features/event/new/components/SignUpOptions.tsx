@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-import { CustomFormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
+import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { EventFormData } from "..";
 import AppendList from "../../../../../ottery-ui/lists/AppendList";
@@ -34,7 +34,7 @@ function SignUpOptions({
   useEffect(() => {
     updateErrorHandler(() => {
       for (let i = 0; i < items.length; i++) {
-        if (!classifyWithDto(CustomFormFieldDto, items[i])) {
+        if (!classifyWithDto(FormFieldDto, items[i])) {
           return "All fields must be marked done.";
         }
       }
