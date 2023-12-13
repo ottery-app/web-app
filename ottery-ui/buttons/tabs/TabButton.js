@@ -3,8 +3,9 @@ import { clickable } from "../../styles/clickable";
 import { colors } from "../../styles/colors";
 import { radius } from "../../styles/radius";
 import useColors from "../../styles/useColors";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import {useMemo} from "react";
+import { TouchableRipple } from "react-native-paper";
 
 export const TAB_BUTTON_TYPES = {
   hanging: "hanging",
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:"center",
     justifyContent:"center",
-    borderWidth: border.thin,
+    borderWidth: border.default,
   },
   [TAB_BUTTON_TYPES.default]: {
     borderRadius: radius.default,
@@ -44,7 +45,7 @@ export function TabButton({
   const backgroundColor = useMemo(()=>(active) ? col.dark : col.main, [active])
 
   return (
-    <TouchableOpacity 
+    <TouchableRipple
       style={[styles[type], styles.common, {
         backgroundColor: backgroundColor,
         borderColor: col.dark,
@@ -54,6 +55,6 @@ export function TabButton({
       <Text style={{
         color: col.contractText,
       }}>{children}</Text>
-    </TouchableOpacity>
+    </TouchableRipple>
   );
 }

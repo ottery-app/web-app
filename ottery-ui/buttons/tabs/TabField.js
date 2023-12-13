@@ -2,21 +2,13 @@ import useColors from "../../styles/useColors";
 import { colors } from "../../styles/colors";
 import { TAB_BUTTON_TYPES, TabButton } from "./TabButton";
 import { View, StyleSheet } from "react-native";
-
-function generateAutos(length) {
-  let auto = "";
-  for (let i = 0; i < length; i++) {
-    auto = auto.concat(" auto");
-  }
-  return auto;
-}
+import { clickable } from "../../styles/clickable";
 
 const styles = StyleSheet.create({
   main: {
-    position: "relative",
-    width: "100%",
-    display: "grid",
-    gridTemplateRows: "auto",
+    flex:1,
+    flexDirection: "row",
+    height: clickable.minHeight,
   },
 });
 
@@ -31,7 +23,7 @@ export default function TabField({
 
   return (
     <View
-      style={[styles.main, { gridTemplateColumns: generateAutos(tabs.length) }]}
+      style={styles.main}
     >
       {tabs.map((tab) => (
         <TabButton

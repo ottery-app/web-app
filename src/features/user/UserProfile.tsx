@@ -12,6 +12,7 @@ import paths from "../../router/paths";
 import { useChatClient } from "../chat/useChatClient";
 import { Text } from "react-native-paper";
 import { colors } from "../../../ottery-ui/styles/colors";
+import React from "react";
 
 enum Tabs {
     children = "Children",
@@ -96,9 +97,10 @@ export function UserProfile() {
                 onTab={(tab)=>{setTab(tab)}}
                 tabs={Object.values(Tabs)}
             />
-            <ImageButtonList>
+            <Text>THIS IS TEST TEXT</Text>
+            {/* <ImageButtonList>
                 {buttons}
-            </ImageButtonList>
+            </ImageButtonList> */}
         </MarginlessMain>
     );
 }

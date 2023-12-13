@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "clean": "react-native-clean-project"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
@@ -25,6 +26,7 @@
     "guarded-components": "^0.0.18",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-clean-project": "^4.0.3",
     "react-native-element-dropdown": "^2.10.0",
     "react-native-image-picker": "^7.0.2",
     "react-native-paper": "^5.11.0",
