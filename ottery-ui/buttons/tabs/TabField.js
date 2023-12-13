@@ -6,7 +6,7 @@ import { clickable } from "../../styles/clickable";
 
 const styles = StyleSheet.create({
   main: {
-    flex:1,
+    //flex:1,
     flexDirection: "row",
     height: clickable.minHeight,
   },

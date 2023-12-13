@@ -72,7 +72,13 @@ export default class Clide {
       config.url = makeUrl(config.url, config.params);
       config.params = undefined;
 
-      let res = await that.instance.request(config);
+      let res;
+
+      try {
+        res = await that.instance.request(config);
+      } catch (e) {
+        throw e.response;
+      }
 
       config.params = oldParams;
       res = await config.out_pipeline(res, config);
