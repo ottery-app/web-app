@@ -64,24 +64,25 @@ export function UserProfile() {
                     <Text>{friend.firstName} {friend.lastName}</Text>
                 </ImageButton>
             });
-            data[Tabs.children] = userChildren.map((child)=>{
-                return <ImageButton 
-                    key={child._id}
-                    right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
-                    onPress={()=>navigator(paths.main.child.profile, {childId: child._id})}
+            data[Tabs.children] = [
+                <ImageButton
+                    key={"add child"}
+                    right={pluss}
+                    color={colors.success}
+                    onPress={()=>{navigator(paths.main.child.new)}}
                 >
-                    <Text>{child.firstName} {child.lastName}</Text>
-                </ImageButton>
-            });
-
-            data[Tabs.children].unshift(<ImageButton
-                key={"add child"}
-                right={pluss}
-                color={colors.success}
-                onPress={()=>{navigator(paths.main.child.new)}}
-            >
-                <Text>Add a child</Text>
-            </ImageButton>)
+                    <Text>Add a child</Text>
+                </ImageButton>,
+                ...userChildren.map((child)=>{
+                    return <ImageButton 
+                        key={child._id}
+                        right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
+                        onPress={()=>navigator(paths.main.child.profile, {childId: child._id})}
+                    >
+                        <Text>{child.firstName} {child.lastName}</Text>
+                    </ImageButton>
+                })
+            ];
         }
         return data;
     }, [userChildren, userFriends, userEvents]);
@@ -97,10 +98,9 @@ export function UserProfile() {
                 onTab={(tab)=>{setTab(tab)}}
                 tabs={Object.values(Tabs)}
             />
-            <Text>THIS IS TEST TEXT</Text>
-            {/* <ImageButtonList>
+            <ImageButtonList>
                 {buttons}
-            </ImageButtonList> */}
+            </ImageButtonList>
         </MarginlessMain>
     );
 }

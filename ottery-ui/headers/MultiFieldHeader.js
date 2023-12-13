@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   top: {
     height: image.mediumProfile,
     margin: margin.medium,
+    marginLeft: margin.large,
     flexDirection: "row", 
   },
   info: {
