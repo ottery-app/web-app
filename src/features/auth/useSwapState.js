@@ -2,8 +2,7 @@ import { useDispatch, useSelector} from "react-redux";
 import { switchState } from "./authSlice";
 import paths from "../../router/paths";
 import { useNavigator } from "../../router/useNavigator";
-
-//TODO this export should be moved to authClient
+import { usePing } from "../../../ottery-ping";
 
 //I dont really like this
 export default function useSwapState(options = {
@@ -12,10 +11,15 @@ export default function useSwapState(options = {
     const dispatch = useDispatch();
     const navigator = useNavigator();
     const state = useSelector(store=>store.auth.sesh.state);
+    const Ping = usePing();
 
     return [state, (eventID)=>{
         dispatch(switchState(eventID)).then((res)=>{
-            options.goHome && navigator(paths.main.home);
+            if (!res.error) {
+                options.goHome && navigator(paths.main.home);
+            } else {
+                Ping.error("Unable to clock in at this time")
+            }
         });
     }]
 }

@@ -24,7 +24,6 @@ const Image = ({
   maxHeight=undefined,
   onClick=undefined,
   opacity = 1,
-  grayscale = "0%",
   aspectRatio = undefined,
 }) => {
   const [imgSrc, imgAspect] = useMemo(() => {
@@ -43,15 +42,15 @@ const Image = ({
         maxWidth: maxWidth,
         maxHeight: maxHeight,
       }}
+      onClick={onClick}
     >
       <RNImage
-        source={imgSrc}
+        source={{uri:imgSrc}}
         alt={alt}
         style={{
           resizeMode: "cover",
           borderRadius: radius,
           opacity,
-          filter: { grayscale },
           width: width,
           height: height,
           aspectRatio: imgAspect,
@@ -59,7 +58,6 @@ const Image = ({
           maxHeight: maxHeight,
           resizeMode: "cover", // Adjust the resizeMode as needed
         }}
-        onClick={onClick}
       />
     </View>
   );

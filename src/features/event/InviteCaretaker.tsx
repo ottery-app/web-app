@@ -10,6 +10,7 @@ import Button from "../../../ottery-ui/buttons/Button";
 import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
 import { usePing } from "../../../ottery-ping";
 import { useInviteClient } from "../invite/useInviteClient";
+import React from "react";
 
 export function InviteCaretaker({route}) {
     const [email, setEmail] = useState("");
@@ -32,17 +33,15 @@ export function InviteCaretaker({route}) {
     return (
         <Main>
             <View style={{
-                flex:1,
-                flexDirection:"column",
-                justifyContent:"center",
-                alignItems:"center",
-                gap: margin.large,
                 marginTop: margin.large,
                 paddingTop: margin.large,
+                gap:margin.large,
             }}>
-                <Text variant="titleMedium">You are inviting a caretaker for:</Text>
-                <Text variant="headlineSmall">{event?.summary}</Text>
-                <Text variant="titleMedium">Enter their email here:</Text>
+                <View style={{gap:margin.medium}}>
+                    <Text style={{textAlign: 'center'}} variant="titleMedium">You are inviting a caretaker for:</Text>
+                    <Text style={{textAlign: 'center'}} variant="headlineSmall">{event?.summary}</Text>
+                    <Text style={{textAlign: 'center'}} variant="titleMedium">Enter their email here:</Text>
+                </View>
                 <TextInput
                     label={"email"}
                     value={email}

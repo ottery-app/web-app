@@ -9,19 +9,9 @@ import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { Text } from "react-native-paper";
 import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
 import paths from "../../../router/paths";
-import { clock, pfp, users } from "../../../../assets/icons";
-import {StyleSheet, View} from "react-native";
-import { margin } from "../../../../ottery-ui/styles/margin";
-import { colors } from "../../../../ottery-ui/styles/colors";
+import { clock, users } from "../../../../assets/icons";
+import {View} from "react-native";
 import { fadedStyle, fadedVariant } from "./tempzone.style";
-
-const styles = StyleSheet.create({
-    headerText: {
-        textAlign: 'center',
-        padding: margin.large,
-        color: colors.text.tertiary,
-    }
-});
 
 export function Dismissal() {
     const eventId = useAuthClient().useSesh().event;
@@ -70,7 +60,8 @@ export function Dismissal() {
                     />
                     <ImageButtonList>
                         {(children?.map(child=>
-                            <ImageButton 
+                            <ImageButton
+                                right={child.pfp}
                                 state={(selected.includes(child._id))?"success":"default"}
                                 onPress={()=>{
                                     if (selected.includes(child._id)) {
@@ -85,30 +76,6 @@ export function Dismissal() {
                 </View>
                 : <Text style={fadedStyle} variant={fadedVariant}>No kids to dismiss!</Text>
             }
-            <ButtonMenu
-                buttons={[
-                    {
-                        icon: { uri: clock.src },
-                        title: "End Event",
-                        onPress: () => {
-                            navigator(paths.main.event.end, {
-                                eventId:eventId,
-                                screen: paths.main.name,
-                            })
-                        },
-                    },
-                    {
-                        icon: { uri: users.src },
-                        title: "Dismissal list",
-                        onPress: () => {
-                            navigator(paths.main.event.dismissalList, {
-                                eventId:eventId,
-                                screen: paths.main.name,
-                            })
-                        },
-                    }
-                ]}
-            />
         </Main>
     );
 }

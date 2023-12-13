@@ -3,7 +3,7 @@ export const CLIDE_CONF = {
      * these are the config properties for the cache
      * @type {Object}
      */
-    cache_conf: undefined,
+    //cache_conf: undefined,
 
     /**
      * this is used to validate api params before they are attached to url

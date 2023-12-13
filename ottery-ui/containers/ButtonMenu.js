@@ -30,11 +30,12 @@ export function ButtonMenu({buttons = []}) {
 
 const styles = StyleSheet.create({
     grid: {
-        flex: 1,
+        flex: 2,
         gap: margin.small,
         flexDirection: 'row', // Arrange buttons in a row
         flexWrap: 'wrap', // Wrap to the next line when there's not enough space
-        alignItems:"center",
+        //alignItems:"center",
         justifyContent:"center",
+        // backgroundColor:"red"
     }
 });

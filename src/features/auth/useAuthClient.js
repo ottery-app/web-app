@@ -17,14 +17,13 @@ import {
 import useSwapState from "./useSwapState";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
-
-const CLIENT_AUTH_TAG = "auth";
+import { query_paths } from "../../provider/queryClient";
 
 export function useAuthClient() {
   const dispatch = useDispatch();
 
   const useLoad = makeUseQuery({
-    queryKey: [CLIENT_AUTH_TAG],
+    queryKey: [query_paths.auth.root],
     queryFn: async () => {dispatch(load())},
   });
 

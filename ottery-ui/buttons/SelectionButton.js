@@ -10,10 +10,11 @@ import { clickable } from "../styles/clickable";
 
 const style = StyleSheet.create({
   main: {
-    flex:1,
+    //flex:1,
     flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
+    height: clickable.minHeight,
   },
   backdrop: {
     flex:1,

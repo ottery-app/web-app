@@ -13,6 +13,7 @@ import { View } from "react-native";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
 import { fadedStyle, fadedVariant } from "./tempzone.style";
+import { margin } from "../../../../ottery-ui/styles/margin";
 
 
 export function Signin() {
@@ -63,6 +64,7 @@ export function Signin() {
                     <ImageButtonList>
                         {(children?.map(child=>
                             <ImageButton 
+                                right={child.pfp}
                                 state={(selected.includes(child._id))?"success":"default"}
                                 onPress={()=>{
                                     if (selected.includes(child._id)) {
@@ -89,16 +91,6 @@ export function Signin() {
                             })
                         },
                     },
-                    {
-                        icon: { uri: users.src },
-                        title: "Roster",
-                        onPress: () => {
-                            navigator(paths.main.event.roster, {
-                                eventId:eventId,
-                                screen: paths.main.name,
-                            })
-                        },
-                    }
                 ]}
             />
         </Main>
