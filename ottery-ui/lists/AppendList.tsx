@@ -1,7 +1,5 @@
 import { StyleSheet, View } from "react-native";
 
-import { margin } from "../styles/margin";
-import { clickable } from "../styles/clickable";
 import { PropsWithChildren, ReactElement } from "react";
 import { IconButton, Text } from "react-native-paper";
 import { colors } from "../styles/colors";
