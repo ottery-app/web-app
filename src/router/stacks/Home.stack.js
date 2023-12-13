@@ -233,9 +233,7 @@ export function HomeStack() {
       >
         {(props) => (
           <AuthGuard loggedin activated>
-            <View>
-              <NewEventScreen {...props} />
-            </View>
+            <NewEventScreen {...props} />
           </AuthGuard>
         )}
       </Stack.Screen>
