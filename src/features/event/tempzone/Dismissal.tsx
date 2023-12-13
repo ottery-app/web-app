@@ -60,7 +60,8 @@ export function Dismissal() {
                     />
                     <ImageButtonList>
                         {(children?.map(child=>
-                            <ImageButton 
+                            <ImageButton
+                                right={child.pfp}
                                 state={(selected.includes(child._id))?"success":"default"}
                                 onPress={()=>{
                                     if (selected.includes(child._id)) {
@@ -75,30 +76,6 @@ export function Dismissal() {
                 </View>
                 : <Text style={fadedStyle} variant={fadedVariant}>No kids to dismiss!</Text>
             }
-            <ButtonMenu
-                buttons={[
-                    {
-                        icon: { uri: clock.src },
-                        title: "End Event",
-                        onPress: () => {
-                            navigator(paths.main.event.end, {
-                                eventId:eventId,
-                                screen: paths.main.name,
-                            })
-                        },
-                    },
-                    {
-                        icon: { uri: users.src },
-                        title: "Dismissal list",
-                        onPress: () => {
-                            navigator(paths.main.event.dismissalList, {
-                                eventId:eventId,
-                                screen: paths.main.name,
-                            })
-                        },
-                    }
-                ]}
-            />
         </Main>
     );
 }

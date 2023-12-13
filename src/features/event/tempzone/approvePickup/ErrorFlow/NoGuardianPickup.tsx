@@ -2,7 +2,7 @@ import { Text } from "react-native-paper";
 import { Main } from "../../../../../../ottery-ui/containers/Main";
 import { useAuthClient } from "../../../../auth/useAuthClient";
 import { useChildClient } from "../../../../child/useChildClient";
-import {useMemo, useState} from "react"
+import React, {useMemo, useState} from "react"
 import Image from "../../../../../../ottery-ui/image/Image";
 import { image } from "../../../../../../ottery-ui/styles/image";
 import { CheckBox, CheckBoxMode } from "../../../../../../ottery-ui/input/CheckBox";
@@ -43,10 +43,8 @@ export function NoGuardianPickup({route}) {
     }
 
     return <Main style={{
-        flex:1,
         gap:margin.large,
         alignItems:"center",
-        justifyContent:"center",
     }}>
         <Text variant="headlineSmall">{child?.firstName} {child?.lastName}</Text>
         <Image 
@@ -66,7 +64,7 @@ export function NoGuardianPickup({route}) {
         >
             <View
                 style={{
-                    gap: margin.small,
+                    gap: margin.large,
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
                 }}

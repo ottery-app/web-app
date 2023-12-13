@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', // Arrange buttons in a row
         flexWrap: 'wrap', // Wrap to the next line when there's not enough space
         //alignItems:"center",
-        //justifyContent:"center",
+        justifyContent:"center",
         // backgroundColor:"red"
     }
 });

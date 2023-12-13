@@ -1,18 +1,19 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { margin } from "../styles/margin"
 import { Main } from "./Main";
+import React from "react";
 
 export function ImageButtonList({children}) {
     return (
-        <Main style={styles.main}>
+        <View style={styles.main}>
             {children}
-        </Main>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     main: {
-        display: "flex",
+        padding: margin.medium,
         gap: margin.medium,
     }
 })

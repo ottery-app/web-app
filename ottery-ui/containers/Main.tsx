@@ -1,6 +1,6 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { margin } from "../../ottery-ui/styles/margin";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface BaseProps {
   children?: ReactNode;

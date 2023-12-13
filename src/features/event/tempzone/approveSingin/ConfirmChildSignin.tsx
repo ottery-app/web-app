@@ -14,6 +14,7 @@ import { useTempzoneClient } from "../tempzoneClient";
 import { requestType } from "@ottery/ottery-dto";
 import { usePing } from "../../../../../ottery-ping";
 import { margin } from "../../../../../ottery-ui/styles/margin";
+import React from "react";
 
 export function ConfirmChildSignin({route}){
     const navigator = useNavigator();
@@ -48,8 +49,8 @@ export function ConfirmChildSignin({route}){
 
     return (
         <Main style={{
-            flex:1,
-            justifyContent: "center",
+            //flex:1,
+            //justifyContent: "center",
             alignItems: "center",
             gap: margin.small,
         }}>

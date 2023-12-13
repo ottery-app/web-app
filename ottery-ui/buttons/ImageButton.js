@@ -1,5 +1,5 @@
 import Image from "../image/Image";
-import { radius as rad, radius } from "../styles/radius";
+import { radius } from "../styles/radius";
 import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { colors } from "../styles/colors";
@@ -11,21 +11,25 @@ import { border } from "../styles/border";
 import useColors from "../styles/useColors";
 import { TouchableRipple } from "react-native-paper";
 import { image } from "../styles/image";
-import { Text } from "react-native-paper";
 
 const style = StyleSheet.create({
   container: {
-    marginBottom: margin.small,
-    marginTop: margin.small,
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    height: clickable.minHeight,
   },
-  ButtonImage: {
+  RightButtonImage: {
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-end",
     marginRight: margin.small,
+  },
+  LeftButtonImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginLeft: margin.small,
   },
   Name: {
     flex: 3,
@@ -95,8 +99,9 @@ export function ImageButton({
   return (
     <TouchableRipple
       style={{
-          height: image.smallProfile,
+          height: clickable.minHeight + margin.medium,
           width: "100%",
+          justifyContent:"center",
           borderRadius: radius.round,
           backgroundColor: colors.secondary.main,
           borderColor: colors.secondary.dark,
@@ -109,9 +114,9 @@ export function ImageButton({
     >
       {leftImage || rightImage ? (
         <View style={style.container}>
-          <View style={{ flex: 1 }}>{leftImage || <View />}</View>
+          <View style={style.LeftButtonImage}>{leftImage || <View />}</View>
           <View style={style.Name}>{children}</View>
-          <View style={style.ButtonImage}>{rightImage || <View />}</View>
+          <View style={style.RightButtonImage}>{rightImage || <View />}</View>
         </View>
       ) : (
         <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>{children}</View>

@@ -61,8 +61,6 @@ export function CheckBox({
             : <Text variant={text_varient} style={stylesBox(active).box}>&#x2716;</Text>
     }
 
-    console.log(label);
-
     return (mode === CheckBoxMode.default) 
         ?(
             <View style={stylesDefault.main}>

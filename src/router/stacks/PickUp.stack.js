@@ -97,17 +97,15 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          <PickChildren/>
-      </Stack.Screen>,
+          component={PickChildren}
+      />,
       <Stack.Screen
         name={paths.pickup.guardian.status}
         options={{
           header: (props) => <Header {...props} />,
         }}
-      >
-        <PickupStatus/>
-      </Stack.Screen>
+        component={PickupStatus}
+      />
     )
   }
 

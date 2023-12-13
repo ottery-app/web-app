@@ -47,7 +47,7 @@ export const check: ImageAsset = {
 
 export const message: ImageAsset = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/message.png",
-  aspectRatio: 1,
+  aspectRatio: 1.05,
 };
 
 export const pluss: ImageAsset = {
