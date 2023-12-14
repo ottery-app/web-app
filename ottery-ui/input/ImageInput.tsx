@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "../image/Image";
 import { image } from "../styles/image";
 import { radius as rad } from "../styles/radius";
@@ -7,7 +7,7 @@ import { TouchableOpacity, View } from "react-native";
 import Button from "../buttons/Button";
 import { zindex } from "../styles/zindex";
 import { ImageAsset } from "../../assets/ImageAsset";
-import { Dialog, Portal } from "react-native-paper";
+import { Dialog, Portal, TouchableRipple } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
 import { ButtonSpan } from "../containers/ButtonSpan";
@@ -34,9 +34,7 @@ export default function ImageInput({
         setDialog(false);
     }
 
-    async function imageCallback(e) {
-
-        console.log(e);
+    async function imageCallback(e) {    
         
         let image = {
             aspectRatio: e.assets[0].height/e.assets[0].width,
@@ -51,12 +49,12 @@ export default function ImageInput({
     function pickPhoto() {
         launchImageLibrary({
             mediaType: "photo",
-        }, imageCallback);
+        }, imageCallback)
         close();
     }
 
     function takePhoto() {
-        launchCamera({mediaType:"photo"}, imageCallback);
+        launchCamera({mediaType:"photo"}, imageCallback)
         close();
     }
 
@@ -74,11 +72,20 @@ export default function ImageInput({
                     zIndex: zindex.front,
                 }}>
                     <View style={{position: "relative"}}>
-                        <Button
-                            radius={rad.round}
-                            width={25}
-                            height={25}
-                        >+</Button>
+                        <TouchableRipple
+                            style={{
+                                backgroundColor: colors.primary.main,
+                                height: 25,
+                                width: 25,
+                                borderRadius: rad.round,
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Text style={{
+                                textAlign:"center",
+                                color: colors.primary.contrastText,
+                            }}>+</Text>
+                        </TouchableRipple>
                     </View>
                 </View>
                 <Image

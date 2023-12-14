@@ -20,7 +20,6 @@ export const Button = ({
   height = clickable.minHeight,
   maxHeight = undefined,
   minHeight = undefined,
-  shadow = undefined,
   styles = {},
 }) => {
   const theme = useThemeMaker({ primary: color, status: state });
@@ -48,7 +47,7 @@ export const Button = ({
       onPress={onPress}
       contentStyle={BUTTON_STYLE}
       labelStyle={BUTTON_STATES}
-      style={[shadow && shadows.default, BUTTON_STYLE, styles]}
+      style={[BUTTON_STYLE, styles]}
       mode={type}
       compact={true}
     >
