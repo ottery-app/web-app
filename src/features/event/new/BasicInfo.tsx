@@ -62,12 +62,12 @@ function BasicInfoForm({
       <Head>Basic Info</Head>
       {/* <CheckBox label="Make public?" onChange={setPublic} value={pub} /> */}
       <TextInput label="Event Title" onChange={setTitle} value={title} />
-      <Dropdown
+      {/* <Dropdown
         label="Organization"
         onChange={setOrg}
         options={[{ label: "No Organization", value: noId }]}
         value={org}
-      />
+      /> */}
       <TextInput label="Location" onChange={setLocation} value={location} />
       <TextInput
         label="About"

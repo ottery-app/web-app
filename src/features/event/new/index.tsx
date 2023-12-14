@@ -11,6 +11,7 @@ import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 import ScreenWrapper from "../../../../ottery-ui/containers/ScreenWrapper";
 import { FieldData } from "./components/CustomField";
+import { noId } from "@ottery/ottery-dto";
 
 export interface EventFormData {
   summary: string;
@@ -33,7 +34,7 @@ function NewEventScreen({ navigation }) {
 
   const [eventForm, setEventForm] = useState<EventFormData>({
     summary: "",
-    org: "",
+    org: noId,
     description: "",
     end: new Date().getTime(),
     start: new Date().getTime(),
