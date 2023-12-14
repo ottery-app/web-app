@@ -25,8 +25,6 @@ import { query_delta } from "../../../../provider/clideInst";
 
 const styles = StyleSheet.create({
     infoContainer: {
-        flex:1,
-        flexDirection:"column",
         gap: margin.large,
         justifyContent: "center",
         alignItems: "center",
