@@ -1,5 +1,5 @@
 ---
-name: Custom issue template
+name: Test request
 about: This is for making a new test case
 title: "(Test)"
 labels: ''
