@@ -7,6 +7,7 @@ import { zindex } from "../styles/zindex";
 import Button from "../buttons/Button";
 
 import { radius } from "../styles/radius";
+import { border } from "../styles/border";
 
 interface CircleProps {
   active?: boolean;
@@ -22,7 +23,13 @@ function ProgressBar({ children }: React.PropsWithChildren) {
 }
 
 function Bar() {
-  return <View style={styles.bar} />;
+  return (
+    <View style={styles.barContainer}>
+      <View style={styles.barPadding}></View>
+      <View style={styles.bar}></View>
+      <View style={styles.barPadding}></View>
+    </View>
+  );
 }
 
 function Circle({
@@ -30,7 +37,7 @@ function Circle({
   children,
   onPress,
 }: CircleProps & PropsWithChildren) {
-  const circleStyles = StyleSheet.flatten([
+  const contentStyle = StyleSheet.flatten([
     styles.circle,
     active ? styles.borderColorActive : styles.borderColorDefault,
   ]);
@@ -39,12 +46,12 @@ function Circle({
 
   return (
     <Button
+      contentStyle={contentStyle}
       height={clickable.minHeight}
       labelStyle={labelStyle}
       onPress={onPress}
       radius={radius.round}
-      styles={circleStyles}
-      type="outlined"
+      type="text"
       width={clickable.minWidth}
     >
       {children}
@@ -65,7 +72,6 @@ function StepBar({ stepCount, currentStep, onPress }: StepBarProps) {
 
   return (
     <Main>
-      <Bar />
       <ProgressBar>
         {[...Array(stepCount).keys()].map((step) => (
           <Circle
@@ -77,6 +83,7 @@ function StepBar({ stepCount, currentStep, onPress }: StepBarProps) {
           </Circle>
         ))}
       </ProgressBar>
+      <Bar />
     </Main>
   );
 }
@@ -89,15 +96,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  bar: {
-    backgroundColor: colors.background.secondary,
-    height: 3.5,
-    transform: [{ translateY: clickable.minHeight - 17 }],
+  barContainer: {
+    position: "absolute",
+    width: "100%",
     zIndex: zindex.back,
   },
+  barPadding: {
+    padding: 8,
+  },
+  bar: {
+    height: border.thick,
+    backgroundColor: colors.background.secondary,
+  },
   circle: {
-    backgroundColor: colors.background.primary,
+    borderWidth: border.thick,
     zIndex: zindex.front,
+    backgroundColor: colors.background.primary,
   },
   borderColorDefault: {
     borderColor: colors.background.secondary,

@@ -23,6 +23,7 @@ export const Button = ({
   shadow = undefined,
   styles = {},
   labelStyle = undefined,
+  contentStyle = undefined,
 }) => {
   const theme = useThemeMaker({ primary: color, status: state });
 
@@ -46,7 +47,7 @@ export const Button = ({
       styles={[shadows.default]}
       borderRadius={rad.default}
       onPress={onPress}
-      contentStyle={BUTTON_STYLE}
+      contentStyle={[BUTTON_STYLE, contentStyle]}
       labelStyle={[BUTTON_STATES, labelStyle]}
       style={[shadow && shadows.default, BUTTON_STYLE, styles]}
       mode={type}
