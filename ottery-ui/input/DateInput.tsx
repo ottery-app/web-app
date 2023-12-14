@@ -5,9 +5,23 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
 import { InputProps } from "./Input";
 
-export interface  DateInputProps extends InputProps<number> {}
+export interface DateInputProps extends InputProps<number> {}
 
-const DateInput = ({ label, value = new Date().getTime(), onChange }: DateInputProps) => {
+interface DateInputProps {
+  disabled?: boolean;
+  label?: string;
+  placeholder?: string;
+  value?: string | number | Date;
+  onChange: (value: number) => void;
+}
+
+const DateInput = ({
+  disabled,
+  label,
+  placeholder,
+  value,
+  onChange,
+}: DateInputProps) => {
   const [open, setOpen] = useState(false);
 
   const onConfirmSingle = React.useCallback(
@@ -23,6 +37,10 @@ const DateInput = ({ label, value = new Date().getTime(), onChange }: DateInputP
   }, [setOpen]);
 
   function formatDate(date) {
+    if (!date) {
+      return undefined;
+    }
+
     date = new Date(date);
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
@@ -36,8 +54,11 @@ const DateInput = ({ label, value = new Date().getTime(), onChange }: DateInputP
     <View>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <TextInput
+          disabled={disabled}
           mode="outlined"
           label={label}
+          placeholder={placeholder}
+          placeholderTextColor={colors.disabled.main}
           outlineStyle={{ borderRadius: 10 }}
           style={{ borderColor: colors.primary.main }}
           outlineColor={colors.primary.main}
@@ -45,19 +66,21 @@ const DateInput = ({ label, value = new Date().getTime(), onChange }: DateInputP
           value={formatDate(value)}
         />
       </TouchableWithoutFeedback>
-      <ThemeProvider theme={{
-        ...DefaultTheme,
-        colors: {
-          ...DefaultTheme.colors,
-          primary: colors.primary.main,
-          onPrimary: colors.primary.contrastText,
-        }
-      }}>
+      <ThemeProvider
+        theme={{
+          ...DefaultTheme,
+          colors: {
+            ...DefaultTheme.colors,
+            primary: colors.primary.main,
+            onPrimary: colors.primary.contrastText,
+          },
+        }}
+      >
         <DatePickerModal
           locale="en"
           mode="single"
           visible={open}
-          date={new Date(value)}
+          date={value ? new Date(value) : undefined}
           animationType="fade"
           label={label}
           saveLabel="SAVE"

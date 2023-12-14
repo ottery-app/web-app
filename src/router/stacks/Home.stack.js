@@ -17,6 +17,7 @@ import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
+import NewEventScreen from "../../features/event/new";
 
 const Stack = createNativeStackNavigator();
 
@@ -150,6 +151,14 @@ export function HomeStack() {
           header: (props) => <Header {...props} />,
         }}
         component={SignUp}
+      />
+      <Stack.Screen
+        name={paths.main.event.new}
+        options={{
+          title: "New Event",
+          header: (props) => <Header {...props} />,
+        }}
+        component={NewEventScreen}
       />
     </Stack.Navigator>
   );

@@ -15,46 +15,60 @@ import { colors } from "../../../ottery-ui/styles/colors";
 import React from "react";
 
 enum Tabs {
-    children = "Children",
-    friends = "Friends",
-    events = "Events",    
+  children = "Children",
+  friends = "Friends",
+  events = "Events",
 }
 
 export function UserProfile() {
-    const navigator = useNavigator();
+  const navigator = useNavigator();
 
-    const userId = useAuthClient().useUserId();
-    const userRes = useUserClient().useGetUserInfo({inputs:[userId]});
-    const userData = userRes?.data?.data[0];
-    const userEventsRes = useUserClient().useGetUserEvents({inputs:[userId]});
-    const userEvents = userEventsRes?.data?.data;
-    const userChildrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
-    const userChildren = userChildrenRes?.data?.data;
-    const userFriendsRes = useSocialClient().useGetFriends({inputs: [userId]});
-    const userFriendIds = userFriendsRes?.data?.data;
-    const friendsRes = useUserClient().useGetUserInfo({
-        inputs: [userFriendIds],
-        enabled: !!userFriendIds,
-    });
-    const userFriends = friendsRes?.data?.data;
-    const chatIdsRes = useChatClient().useGetDirectChats({
-        inputs:[userId, userFriendIds],
-        enabled: !!userFriendIds,
-    });
-    const chatIdMap = chatIdsRes?.data;
+  const userId = useAuthClient().useUserId();
+  const userRes = useUserClient().useGetUserInfo({ inputs: [userId] });
+  const userData = userRes?.data?.data[0];
+  const userEventsRes = useUserClient().useGetUserEvents({ inputs: [userId] });
+  const userEvents = userEventsRes?.data?.data;
+  const userChildrenRes = useUserClient().useGetUserChildren({
+    inputs: [userId],
+  });
+  const userChildren = userChildrenRes?.data?.data;
+  const userFriendsRes = useSocialClient().useGetFriends({ inputs: [userId] });
+  const userFriendIds = userFriendsRes?.data?.data;
+  const friendsRes = useUserClient().useGetUserInfo({
+    inputs: [userFriendIds],
+    enabled: !!userFriendIds,
+  });
+  const userFriends = friendsRes?.data?.data;
+  const chatIdsRes = useChatClient().useGetDirectChats({
+    inputs: [userId, userFriendIds],
+    enabled: !!userFriendIds,
+  });
+  const chatIdMap = chatIdsRes?.data;
 
     const [tab, setTab] = useState("Children");
     const data = useMemo(()=>{
         if (userEvents && userFriends && userChildren) {
             var data = {};
-            data[Tabs.events] = userEvents.map((event)=>{
+            data[Tabs.events] = [
+              <ImageButton
+                key={"create event"}
+                right={pluss}
+                color={colors.success}
+                onPress={() => {
+                  navigator(paths.main.event.new);
+                }}
+              >
+                <Text>Add an event</Text>
+              </ImageButton>,
+              ...userEvents.map((event)=>{
                 return <ImageButton 
                     key={event._id}
                     onPress={()=>navigator(paths.main.event.dash, {eventId: event._id})}
                 >
-                    <Text>{event.summary}</Text>
+                  <Text>{event.summary}</Text>
                 </ImageButton>
-            });
+            })
+            ];
             data[Tabs.friends] = userFriends.map((friend)=>{
                 return <ImageButton 
                     key={friend._id}
@@ -84,23 +98,24 @@ export function UserProfile() {
                 })
             ];
         }
+
         return data;
-    }, [userChildren, userFriends, userEvents]);
+  }, [userChildren, userFriends, userEvents]);
 
-    const buttons = (data && data[tab]) || [];
+  const buttons = (data && data[tab]) || [];
 
-    return (
-        <MarginlessMain>
-            <MultiFieldHeader
-                src={userData?.pfp}
-                title={userData?.firstName + " " + userData?.lastName}
-                tab={tab}
-                onTab={(tab)=>{setTab(tab)}}
-                tabs={Object.values(Tabs)}
-            />
-            <ImageButtonList>
-                {buttons}
-            </ImageButtonList>
-        </MarginlessMain>
-    );
+  return (
+    <MarginlessMain>
+      <MultiFieldHeader
+        src={userData?.pfp}
+        title={userData?.firstName + " " + userData?.lastName}
+        tab={tab}
+        onTab={(tab) => {
+          setTab(tab);
+        }}
+        tabs={Object.values(Tabs)}
+      />
+      <ImageButtonList>{buttons}</ImageButtonList>
+    </MarginlessMain>
+  );
 }

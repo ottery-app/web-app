@@ -22,6 +22,7 @@ export const Button = ({
   minHeight = undefined,
   shadow = undefined,
   styles = {},
+  labelStyle = undefined,
 }) => {
   const theme = useThemeMaker({ primary: color, status: state });
 
@@ -36,7 +37,7 @@ export const Button = ({
   };
 
   if (state === BUTTON_STATES.disabled || state === BUTTON_STATES.loading) {
-    onPress = ()=>{}
+    onPress = () => {};
   }
 
   return (
@@ -47,7 +48,7 @@ export const Button = ({
       borderRadius={rad.default}
       onPress={onPress}
       contentStyle={BUTTON_STYLE}
-      labelStyle={BUTTON_STATES}
+      labelStyle={[BUTTON_STATES, labelStyle]}
       style={[shadow && shadows.default, BUTTON_STYLE, styles]}
       mode={type}
       compact={true}

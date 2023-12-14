@@ -34,6 +34,7 @@ export const paths = {
         caretaker: "/event/:eventId/accept/caretaker",
       },
       getHelp: "/event/:eventId/get-help",
+      new: "/event/new",
     },
     user: {
       profile: "/user/profile",
@@ -47,9 +48,9 @@ export const paths = {
       decline: "dropoff/caretaker/decline/:eventId/:childId/:guardianId",
     },
     guardian: {
-      pickKids : "dropoff/guardian/kids",
+      pickKids: "dropoff/guardian/kids",
       pickEvent: "dropoff/guardian/event",
-      status: "dropoff/guardian/status"
+      status: "dropoff/guardian/status",
     },
   },
   pickup: {
@@ -64,9 +65,9 @@ export const paths = {
       manualDismissal: "pickup/caretaker/noguardian/:childId",
     },
     guardian: {
-      pickKids : "pickup/guardian/kids",
-      status: "pickup/guardian/status"
-    }
+      pickKids: "pickup/guardian/kids",
+      status: "pickup/guardian/status",
+    },
   },
 };
 
