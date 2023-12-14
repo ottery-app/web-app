@@ -49,8 +49,15 @@ function TimeInput({ label, value, onChange }: TimeInputProps) {
           ...DefaultTheme,
           colors: {
             ...DefaultTheme.colors,
-            primary: colors.primary.main,
+            primary: colors.primary.dark,
             onPrimary: colors.primary.contrastText,
+            primaryContainer: colors.primary.main,
+            onPrimaryContainer: colors.primary.dark,
+            secondaryContainer: colors.primary.main,
+            surfaceVariant: colors.primary.contrastText,
+            onSurfaceVariant: colors.primary.dark,
+            outline: colors.primary.dark,
+            onSurface: colors.primary.dark,
           },
         }}
       >
