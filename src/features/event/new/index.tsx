@@ -42,7 +42,7 @@ function NewEventScreen({ navigation }) {
     volenteerSignUp: [],
     attendeeSignUp: [],
     cost: 0,
-    public: true,
+    public: false,
   });
 
   function handleError(err: any) {

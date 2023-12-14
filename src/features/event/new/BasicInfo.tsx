@@ -60,7 +60,7 @@ function BasicInfoForm({
   return (
     <Main>
       <Head>Basic Info</Head>
-      <CheckBox label="Make public?" onChange={setPublic} value={pub} />
+      {/* <CheckBox label="Make public?" onChange={setPublic} value={pub} /> */}
       <TextInput label="Event Title" onChange={setTitle} value={title} />
       <Dropdown
         label="Organization"
