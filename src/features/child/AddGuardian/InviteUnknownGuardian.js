@@ -3,7 +3,6 @@ import { Main } from "../../../../ottery-ui/containers/Main";
 import {useState} from "react"
 import { Text } from "react-native-paper";
 import { pfp } from "../../../../assets/icons";
-import { useNavigator } from "../../../router/useNavigator";
 import Image from "../../../../ottery-ui/image/Image";
 import {View, StyleSheet} from "react-native";
 import TextInput from "../../../../ottery-ui/input/TextInput";
@@ -17,7 +16,6 @@ import { usePing } from "../../../../ottery-ping";
 import { useInviteClient } from "../../invite/useInviteClient";
 
 export function InviteGuardian({route, setInvite}) {
-    const navigator = useNavigator();
     const Ping = usePing();
 
     const childId = route.params.childId;
@@ -58,6 +56,6 @@ export function InviteGuardian({route, setInvite}) {
 }
 
 const styles = StyleSheet.create({
-    padding: {flex:1, justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}
+    padding: {justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}
 })
 
