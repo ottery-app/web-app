@@ -40,7 +40,7 @@ export function NewChild() {
     return (
         <Main>
             <View style={{margin:margin.medium}}>
-                <View style={{flex:1, alignItems:"center", justifyContent:"center"}}>
+                <View style={{alignItems:"center", justifyContent:"center"}}>
                     <View style={{marginBottom:margin.medium}}>
                         <Text variant="titleLarge">Lets add one of your kids!</Text>
                     </View>
