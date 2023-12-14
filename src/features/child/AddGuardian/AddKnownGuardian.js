@@ -43,7 +43,7 @@ export function AddGuardian({route, setInvite}) {
 
     return (
         <Main>
-            <View style={{flex:1, justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
+            <View style={{justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Text style={{textAlign:"center"}} variant={"headlineSmall"}>Select Guardians</Text>
                 <Text style={{textAlign:"center"}}>These friends will be made guardians for {child.firstName}</Text>
             </View>
@@ -62,7 +62,7 @@ export function AddGuardian({route, setInvite}) {
                     </ImageButton>
                 )}
             </ImageButtonList>
-            <View style={{flex:1, justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
+            <View style={{justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Button
                     onPress={()=>{(freindIds.length) ? addGuardian.mutate({childId, userIds:freindIds}) : Ping.error("Please select a friend")}}
                 >Add</Button>
