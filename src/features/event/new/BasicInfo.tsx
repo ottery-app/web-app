@@ -65,10 +65,7 @@ function BasicInfoForm({
       <Dropdown
         label="Organization"
         onChange={setOrg}
-        options={[
-          { label: "noId", value: noId },
-          { label: "No Organization", value: "No Organization" },
-        ]}
+        options={[{ label: "No Organization", value: noId }]}
         value={org}
       />
       <TextInput label="Location" onChange={setLocation} value={location} />
