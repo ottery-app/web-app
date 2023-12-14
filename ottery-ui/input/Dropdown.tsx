@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: clickable.minHeight * 1.5, //arbitrary number
-    borderColor: colors.primary.main,
+    borderColor: colors.primary.dark,
     borderWidth: border.thin,
     borderRadius: radius.default,
     paddingHorizontal: margin.medium,
@@ -75,7 +75,7 @@ export function Dropdown({
         </View>
       ) : undefined}
       <DropdownInner
-        style={[styles.dropdown, { borderColor: colors.primary.main }]}
+        style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         iconStyle={styles.iconStyle}
