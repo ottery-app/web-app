@@ -15,6 +15,8 @@ import { usePing } from "../../../ottery-ping";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { View } from "react-native";
 import { clickable } from "../../../ottery-ui/styles/clickable";
+import { useAuthClient } from "../auth/useAuthClient";
+import { useChatClient } from "../chat/useChatClient";
 
 enum RosterTabs {
     caretakers = "Caretakers",
@@ -23,6 +25,7 @@ enum RosterTabs {
 
 export function Roster({route}) {
     const [tab, setTab] = React.useState(RosterTabs.caretakers);
+    const userId = useAuthClient().useUserId();
     const Ping = usePing();
     const navigator = useNavigator();
     const eventId = route.params.eventId; //useAuthClient().useSesh().event;
@@ -39,6 +42,12 @@ export function Roster({route}) {
         enabled: !!eventInfo,
     });
     const children = childrenRes?.data?.data;
+
+    const chatIdsRes = useChatClient().useGetDirectChats({
+        inputs:[userId, volenteers?.map(v=>v._id)],
+        enabled: !!volenteers,
+    });
+    const chatIdMap = chatIdsRes?.data;
 
     const buttons = React.useMemo(()=>{
         if (tab === RosterTabs.attendees) {
@@ -67,7 +76,9 @@ export function Roster({route}) {
                 <ImageButton 
                     key={volenteer._id}
                     right={{src:volenteer?.pfp?.src, aspectRatio:1} || pfp}
-                    onPress={()=>{Ping.error("go to volenteer info?")}}
+                    onPress={()=>{
+                        navigator(paths.main.social.chat, {chatId: chatIdMap[volenteer._id]});
+                    }}
                 >
                     <Text>{volenteer.firstName} {volenteer.lastName}</Text>
                 </ImageButton>
@@ -84,7 +95,7 @@ export function Roster({route}) {
 
             return buttons;
         }
-    }, [tab, children, volenteers]);
+    }, [tab, children, volenteers, chatIdsRes]);
 
     return (
         <Main margins={false} scrollable={false}>
