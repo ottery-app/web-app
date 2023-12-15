@@ -68,7 +68,7 @@ export function Dropdown({
     <View style={styles.container}>
       {(value) ? <View style={styles.labelContainer}><Text style={styles.label}>{label}</Text></View> : undefined}
       <DropdownInner
-        style={[styles.dropdown, { borderColor: colors.primary.main }]}
+        style={[styles.dropdown, { borderColor: colors.primary.dark, borderWidth:border.thick, height:clickable.minHeight + margin.small }]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         iconStyle={styles.iconStyle}

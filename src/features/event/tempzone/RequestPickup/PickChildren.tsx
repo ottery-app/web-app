@@ -76,7 +76,7 @@ export function PickChildren() {
     return (
         <Main>
             {(children?.length)
-                ? <View>
+                ? <>
                     <SelectionButton
                         itemCount={selected.length}
                         itemTitle={["child", "children"]}
@@ -98,7 +98,7 @@ export function PickChildren() {
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
                         }))}
                     </ImageButtonList> 
-                </View>
+                </>
                 : <Text style={[fadedStyle]} variant={fadedVariant}>No kids to pick up!</Text>
             }
         </Main>

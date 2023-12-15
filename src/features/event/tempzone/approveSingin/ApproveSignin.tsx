@@ -14,6 +14,7 @@ import { fadedStyle, fadedVariant } from "../tempzone.style";
 import { StyleSheet } from "react-native";
 import { query_delta } from "../../../../provider/clideInst";
 import React from "react";
+import { View } from "react-native";
 
 const styles = StyleSheet.create({
     center: {

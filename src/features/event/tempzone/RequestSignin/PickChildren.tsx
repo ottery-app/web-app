@@ -12,6 +12,7 @@ import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneS
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
+import React from "react";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -56,7 +57,7 @@ export function PickChildren() {
     return (
         <Main>
             {(children?.length)
-                ? <View>
+                ? <>
                     <SelectionButton
                         itemCount={selected.length}
                         itemTitle={["child", "children"]}
@@ -78,7 +79,7 @@ export function PickChildren() {
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
                         }))}
                     </ImageButtonList> 
-                </View>
+                </>
                 : <Text style={[fadedStyle]} variant={fadedVariant}>All your kids are dropped off!</Text>
             }
         </Main>

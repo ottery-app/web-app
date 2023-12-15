@@ -8,23 +8,21 @@ import {
 } from "./userApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
-import { QUERY_CHILD_TAG } from "../child/useChildClient";
-
-export const CLIENT_USER_TAG = "user";
+import { query_paths } from "../../provider/queryClient";
 
 export function useUserClient() {
   const useGetUserInfo = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG],
+    queryKey: [query_paths.user.root],
     queryFn: getInfo,
   });
 
   const useGetUserChildren = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG],
+    queryKey: [query_paths.user.root, query_paths.child.root],
     queryFn: getChildren,
   });
 
   const useGetUserEvents = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "events"],
+    queryKey: [query_paths.user.root, "events"],
     queryFn: getEvents,
   });
 
@@ -37,12 +35,12 @@ export function useUserClient() {
   })
 
   const useMissingUserData = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, "data"],
+    queryKey: [query_paths.user.root, "data"],
     queryFn: missingUserData,
   })
 
   const useChildrenAt = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "at"],
+    queryKey: [query_paths.user.root, query_paths.child.root, "at"],
     queryFn: async (userId, at)=>{
       const childrenRes = await getChildren(userId);
 
@@ -55,7 +53,7 @@ export function useUserClient() {
   });
 
   const useChildrenNotAt = makeUseQuery({
-    queryKey: [CLIENT_USER_TAG, QUERY_CHILD_TAG, "notAt"],
+    queryKey: [query_paths.user.root, query_paths.child.root, "notAt"],
     queryFn: async (userId, at)=>{
       const childrenRes = await getChildren(userId);
 

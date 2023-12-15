@@ -1,27 +1,49 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { margin } from "../../ottery-ui/styles/margin";
 import React, { ReactNode } from "react";
 
-interface BaseProps {
+interface MainProps {
   children?: ReactNode;
-  style?: StyleProp<ViewStyle>;
+  style?: any;
+  scrollable?: boolean,
+  margins?: boolean,
 }
 
-function Base({ children, style }: BaseProps) {
-  return <View style={[styles.base, style]}>{children}</View>;
-}
+export function Main({ 
+  children, 
+  style, 
+  scrollable=false, 
+  margins=true
+}: MainProps) {
 
-export function Main({ children, style }: BaseProps) {
-  return <View style={[styles.base, styles.main, style]}>{children}</View>;
-}
+  const stylesheets: any[] = [styles.base];
+  if (margins) stylesheets.push(styles.margin);
+  if (scrollable) stylesheets.push(styles.scroll);
+  if (!scrollable) stylesheets.push(style);
 
-export const MarginlessMain = Base;
+  if (scrollable) {
+    return <ScrollView
+      keyboardShouldPersistTaps="always"
+      alwaysBounceVertical={false}
+      showsVerticalScrollIndicator={true}
+      style={stylesheets}
+      contentContainerStyle={style}
+    >{children}</ScrollView>
+  } else {
+    return <View style={stylesheets}>{children}</View>;
+  }
+}
 
 const styles = StyleSheet.create({
+  margin: {
+    padding: margin.medium,
+  },
+
   base: {
     flex:1,
   },
-  main: {
-    padding: margin.medium,
-  },
+
+  scroll: {
+    flex: 1,
+  }
 });

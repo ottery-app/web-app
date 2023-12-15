@@ -5,8 +5,9 @@ import { useChatClient } from "./useChatClient";
 import { useUserClient } from "../user/useUserClient";
 import ChatListItem from "./components/ChatListItem";
 import { Chat as ChatDto } from "./components/types/chat";
-import ScreenWrapper from "../../../ottery-ui/containers/ScreenWrapper";
 import { pfp } from "../../../assets/icons";
+import React from "react";
+import { Main } from "../../../ottery-ui/containers/Main";
 
 function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   const { useUserId } = useAuthClient();
@@ -46,7 +47,7 @@ function Messages() {
   let chats = chatsRes?.data?.data;
 
   return (
-    <ScreenWrapper>
+    <Main>
       {chats &&
         chats
           .sort(
@@ -60,7 +61,7 @@ function Messages() {
           .map((chat: InstanceType<typeof ChatDto>) => (
             <Chat key={chat._id} chat={chat} />
           ))}
-    </ScreenWrapper>
+    </Main>
   );
 }
 

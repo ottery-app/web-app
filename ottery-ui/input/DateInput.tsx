@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, TouchableWithoutFeedback } from "react-native";
-import { DefaultTheme, Text, TextInput, ThemeProvider } from "react-native-paper";
+import { DefaultTheme, ThemeProvider } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
 import { InputProps } from "./Input";
+import TextInput from "./TextInput";
 
 export interface  DateInputProps extends InputProps<number> {}
 
@@ -39,11 +40,8 @@ const DateInput = ({ label, value = new Date().getTime(), onChange }: DateInputP
           <TextInput
             mode="outlined"
             label={label}
-            outlineStyle={{ borderRadius: 10 }}
-            style={{ borderColor: colors.primary.main }}
-            outlineColor={colors.primary.main}
-            keyboardType="numeric"
             value={formatDate(value)}
+            onChange={()=>{}}
           />
         </View>
       </TouchableWithoutFeedback>

@@ -17,6 +17,8 @@ import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
+import { useNavigator } from "../useNavigator";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -135,14 +137,14 @@ export function HomeStack() {
         }}
         component={InviteAttendee}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={paths.main.event.accept.caretaker}
         options={{
           title: "Accept caretaker invite",
           header: (props) => <Header {...props} />,
         }}
         component={()=><Text>accept being a caretaker</Text>}
-      />
+      /> */}
       <Stack.Screen
         name={paths.main.event.signup}
         options={{
