@@ -6,7 +6,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { TouchableOpacity, View } from "react-native";
 import Button from "../buttons/Button";
 import { zindex } from "../styles/zindex";
-import { ImageAsset } from "../../assets/ImageAsset";
+import { ImageDto as ImageAsset } from "@ottery/ottery-dto";
 import { Dialog, Portal, TouchableRipple } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
