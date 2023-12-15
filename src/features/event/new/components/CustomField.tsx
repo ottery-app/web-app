@@ -9,7 +9,6 @@ import { margin } from "../../../../../ottery-ui/styles/margin";
 import { useFormClient } from "../../../form/useFormClient";
 import Error from "../../../../../ottery-ui/text/Error";
 import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
-import { CheckBox } from "../../../../../ottery-ui/input/CheckBox";
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
@@ -32,7 +31,6 @@ const INPUT_TYPE_OPTIONS = [
 
 export type FieldData = Partial<FormFieldDto> & {
   id: string;
-  permanent?: boolean;
 };
 
 interface CustomFieldProps {
@@ -46,7 +44,6 @@ function CustomField({ data, onDone }: CustomFieldProps) {
   const [label, setLabel] = useState(data.label);
   const [type, setType] = useState(data.type);
   const [note, setNote] = useState(data.note);
-  const [permanent, setPermanent] = useState(data.permanent);
   const [done, setDone] = useState(classifyWithDto(FormFieldDto, data));
   const [error, setError] = useState("");
 
@@ -70,10 +67,6 @@ function CustomField({ data, onDone }: CustomFieldProps) {
     setNote(note);
   }
 
-  function handlePermanentChange(permanent: boolean) {
-    setPermanent(permanent);
-  }
-
   function handleDone() {
     if (!label) {
       setError("Label field can not be empty");
@@ -90,7 +83,7 @@ function CustomField({ data, onDone }: CustomFieldProps) {
       type,
       optional: false,
       note,
-      permanent,
+      permanent: false,
       id,
     };
     onDone(data);
@@ -136,11 +129,6 @@ function CustomField({ data, onDone }: CustomFieldProps) {
           onChangeText={handleNoteChange}
           placeholder="Leave a note why you want this feild"
           value={note}
-        />
-        <CheckBox
-          label="Mark as permanent"
-          onChange={handlePermanentChange}
-          value={permanent}
         />
         <View style={styles.actions}>
           <Button
