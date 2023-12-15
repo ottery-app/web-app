@@ -26,6 +26,7 @@ export function Main({
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}
       style={stylesheets}
+      contentContainerStyle={stylesheets}
     >{children}</ScrollView>
   } else {
     return <View style={stylesheets}>{children}</View>;
