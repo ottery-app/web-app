@@ -17,6 +17,8 @@ import { AcceptGuardianship } from "../../features/child/AcceptGuardianship";
 import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
+import { useNavigator } from "../useNavigator";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
