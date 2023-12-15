@@ -1,5 +1,6 @@
 import { TextInput } from "react-native-paper";
 import { colors } from "../styles/colors";
+import { radius } from "../styles/radius";
 
 function forceBetween(value: string | undefined, min?: number, max?: number) {
   if (value === undefined || value.length === 0) {
@@ -58,6 +59,7 @@ function NumericInput({
       onChangeText={handleChange}
       placeholder={placeholder}
       placeholderTextColor={colors.disabled.main}
+      theme={{ roundness: radius.default }}
       value={`${value ?? ""}`}
     />
   );
