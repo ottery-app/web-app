@@ -18,15 +18,15 @@ export function Main({
 
   const stylesheets: any[] = [styles.base];
   if (margins) stylesheets.push(styles.margin);
-  if (style) stylesheets.push(style);
+  if (scrollable) stylesheets.push(styles.scroll);
 
   if (scrollable) {
     return <ScrollView
       keyboardShouldPersistTaps="always"
       alwaysBounceVertical={false}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
       style={stylesheets}
-      contentContainerStyle={stylesheets}
+      contentContainerStyle={style}
     >{children}</ScrollView>
   } else {
     return <View style={stylesheets}>{children}</View>;
@@ -41,4 +41,8 @@ const styles = StyleSheet.create({
   base: {
     flex:1,
   },
+
+  scroll: {
+    flex: 1,
+  }
 });
