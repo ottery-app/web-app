@@ -28,7 +28,8 @@ export function AppTabs() {
                 },
                 tabBarActiveTintColor: colors.primary.main,
                 tabBarInactiveTintColor: colors.disabled.main,
-                headerShown: false
+                headerShown: false,
+                unmountOnBlur: true,
               })}
             initialRouteName={paths.main.name}
         >

@@ -137,14 +137,14 @@ export function HomeStack() {
         }}
         component={InviteAttendee}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={paths.main.event.accept.caretaker}
         options={{
           title: "Accept caretaker invite",
           header: (props) => <Header {...props} />,
         }}
         component={()=><Text>accept being a caretaker</Text>}
-      />
+      /> */}
       <Stack.Screen
         name={paths.main.event.signup}
         options={{
