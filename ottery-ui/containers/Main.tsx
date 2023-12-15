@@ -19,6 +19,7 @@ export function Main({
   const stylesheets: any[] = [styles.base];
   if (margins) stylesheets.push(styles.margin);
   if (scrollable) stylesheets.push(styles.scroll);
+  if (!scrollable) stylesheets.push(style);
 
   if (scrollable) {
     return <ScrollView

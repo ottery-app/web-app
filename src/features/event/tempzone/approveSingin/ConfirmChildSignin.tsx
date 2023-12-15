@@ -73,7 +73,6 @@ export function ConfirmChildSignin({route}){
             />
             <ButtonSpan>
                 <Button state="error" onPress={handleDeline}>Decline</Button>
-
                 <Button state="success" onPress={handleAccept}>Accept</Button>
             </ButtonSpan>
         </Main>
