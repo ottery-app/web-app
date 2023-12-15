@@ -4,7 +4,7 @@ import { useSocialClient } from "../social/useSocialClient";
 import { useUserClient } from "./useUserClient";
 import { useMemo, useState } from "react";
 import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
-import { MarginlessMain } from "../../../ottery-ui/containers/Main";
+import { Main } from "../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
 import { pfp, pluss } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
@@ -90,7 +90,7 @@ export function UserProfile() {
     const buttons = (data && data[tab]) || [];
 
     return (
-        <MarginlessMain>
+        <Main margins={false} scrollable={false}>
             <MultiFieldHeader
                 src={userData?.pfp}
                 title={userData?.firstName + " " + userData?.lastName}
@@ -101,6 +101,6 @@ export function UserProfile() {
             <ImageButtonList>
                 {buttons}
             </ImageButtonList>
-        </MarginlessMain>
+        </Main>
     );
 }

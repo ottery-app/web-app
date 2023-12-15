@@ -1,7 +1,6 @@
 import { MultiFieldHeader } from "../../../ottery-ui/headers/MultiFieldHeader";
 import { useMemo, useState } from "react";
 import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
-import { MarginlessMain } from "../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
 import { pfp, pluss } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
@@ -14,6 +13,7 @@ import { colors } from "../../../ottery-ui/styles/colors";
 import { Text } from "react-native-paper";
 import { useEventClient } from "../event/useEventClient";
 import React from "react";
+import { Main } from "../../../ottery-ui/containers/Main";
 
 enum Tabs {
     events = "Events",
@@ -72,7 +72,6 @@ export function ChildProfile({route}) {
                 <Text>{data.firstName} {data.lastName}</Text>
             </ImageButton>
         } else if (tab === Tabs.events) {
-            console.log(data);
             return <ImageButton 
                 {...props}
                 onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}
@@ -83,7 +82,7 @@ export function ChildProfile({route}) {
     }) || [], [data, tab, chatIdMap]);
 
     return (
-        <MarginlessMain>
+        <Main margins={false} scrollable={false}>
             <MultiFieldHeader
                 src={childData?.pfp}
                 title={childData?.firstName + " " + childData?.lastName}
@@ -104,6 +103,6 @@ export function ChildProfile({route}) {
                 }
                 {buttons}
             </ImageButtonList>
-        </MarginlessMain>
+        </Main>
     );
 }

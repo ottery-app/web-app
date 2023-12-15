@@ -2,7 +2,7 @@ import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
 import { TAB_BUTTON_TYPES } from "../../../ottery-ui/buttons/tabs/TabButton";
 import TabField from "../../../ottery-ui/buttons/tabs/TabField";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
-import { Main, MarginlessMain } from "../../../ottery-ui/containers/Main";
+import { Main } from "../../../ottery-ui/containers/Main";
 import * as React from "react";
 import { useEventClient } from "./useEventClient";
 import { useUserClient } from "../user/useUserClient";
@@ -87,7 +87,7 @@ export function Roster({route}) {
     }, [tab, children, volenteers]);
 
     return (
-        <MarginlessMain>
+        <Main margins={false} scrollable={false}>
             <TabField
                 type={TAB_BUTTON_TYPES.hanging}
                 active={tab}
@@ -97,6 +97,6 @@ export function Roster({route}) {
             <Main>
                 <ImageButtonList>{buttons}</ImageButtonList>
             </Main>
-        </MarginlessMain>
+        </Main>
     );
 }
