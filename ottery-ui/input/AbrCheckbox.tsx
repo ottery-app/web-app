@@ -16,13 +16,16 @@ function AbrCheckbox({ checked, label, onChange }: AbrCheckboxProps) {
     onChange(!checked);
   }
 
-  const contentStyle = checked ? styles.checked : styles.default;
+  const bgStyle = checked ? styles.bgChecked : styles.bgDefault;
+  const colorStyle = checked ? styles.colorChecked : styles.colorDefault;
+
   return (
     <Button
       height={clickable.minHeight}
+      labelStyle={colorStyle}
       onPress={handlePress}
       radius={radius.round}
-      styles={contentStyle}
+      styles={bgStyle}
       width={clickable.minWidth}
     >
       {label}
@@ -31,13 +34,17 @@ function AbrCheckbox({ checked, label, onChange }: AbrCheckboxProps) {
 }
 
 const styles = StyleSheet.create({
-  default: {
-    backgroundColor: colors.background.contrast,
-    color: colors.secondary.main,
+  bgDefault: {
+    backgroundColor: colors.background.secondary,
   },
-  checked: {
-    backgroundColor: colors.success.main,
-    color: colors.primary.main,
+  bgChecked: {
+    backgroundColor: colors.primary.main,
+  },
+  colorDefault: {
+    color: colors.secondary.contrastText,
+  },
+  colorChecked: {
+    color: colors.primary.contrastText,
   },
 });
 
