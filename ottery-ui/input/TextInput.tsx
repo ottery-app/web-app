@@ -7,6 +7,7 @@ import { margin } from "../styles/margin";
 import { Text } from "react-native";
 import { radius } from "../styles/radius";
 import { InputProps } from "./Input";
+import { clickable } from "../styles/clickable";
 
 
 export interface TextInputProps extends InputProps<string>{
@@ -58,6 +59,7 @@ export default function TextInput({
       //keyboardType={keyboardType}
       style={{
         width: "100%",
+        height: clickable.minHeight,
         ...style,
       }}
       onChangeText={(text) => onChange(text)}
