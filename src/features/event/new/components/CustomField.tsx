@@ -55,10 +55,6 @@ function CustomField({ data, onDone }: CustomFieldProps) {
     setError("");
   }, [label, type]);
 
-  function handleEdit() {
-    setDone(false);
-  }
-
   function handleTypeChange(type: inputType) {
     setType(type);
   }
@@ -93,13 +89,6 @@ function CustomField({ data, onDone }: CustomFieldProps) {
   if (done) {
     return (
       <Row>
-        <IconButton
-          containerColor={colors.success.dark}
-          icon="pen"
-          iconColor={colors.primary.contrastText}
-          mode="contained"
-          onPress={handleEdit}
-        />
         <Text>{label}</Text>
       </Row>
     );
