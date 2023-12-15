@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     color: colors.disabled.main,
   },
   selectedOptonLabel: {
-    color: colors.success.main,
+    color: colors.secondary.contrastText,
   },
   overlay: {
     position: "absolute",
