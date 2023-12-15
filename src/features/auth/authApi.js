@@ -14,7 +14,10 @@ export const load = clideInst.makeGet("auth/load", {
     const seshId = await AsyncStorage.getItem("Id");
     const token = await AsyncStorage.getItem("token");
 
-    if (seshId) {
+    delete clideInst.defaults.headers.common["Id"];
+    delete clideInst.defaults.headers.common["Authorizationi"];
+
+    if (seshId && seshId !== "undefined") {
       clideInst.defaults.headers.common["Id"] = seshId;
     }
 
