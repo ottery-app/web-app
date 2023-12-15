@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { PropsWithChildren, ReactElement } from "react";
 import { IconButton, Text } from "react-native-paper";
 import { colors } from "../styles/colors";
+import { radius } from "../styles/radius";
 
 interface AppendListProps<T> {
   items: T[];
@@ -31,6 +32,7 @@ function Item({ children, id, onDelete }: PropsWithChildren<ItemProps>) {
         iconColor={colors.error.contrastText}
         containerColor={colors.error.main}
         onPress={handleDeleteItem(id)}
+        style={{ borderRadius: radius.default }}
       />
     </View>
   );
@@ -57,6 +59,7 @@ function AppendList<T extends { id: string }>({
           iconColor={colors.primary.contrastText}
           mode="contained"
           onPress={onAdd}
+          style={{ borderRadius: radius.default }}
         />
       </View>
     </>
