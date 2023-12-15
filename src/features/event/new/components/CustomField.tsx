@@ -112,6 +112,7 @@ function CustomField({ data, onDone }: CustomFieldProps) {
           label="Label"
           mode="outlined"
           placeholder="Name of the field"
+          placeholderTextColor={colors.background.secondary}
           value={label}
           onChangeText={setLabel}
         />
@@ -128,6 +129,7 @@ function CustomField({ data, onDone }: CustomFieldProps) {
           numberOfLines={4}
           onChangeText={handleNoteChange}
           placeholder="Leave a note why you want this feild"
+          placeholderTextColor={colors.background.secondary}
           value={note}
         />
         <View style={styles.actions}>
