@@ -26,7 +26,7 @@ const ChatBoxWrapper = forwardRef(function (
   const containerStyle = [
     styles.container,
     {
-      backgroundColor: theme.colors.background,
+      //backgroundColor: theme.colors.background,
       paddingBottom: insets.bottom,
       paddingLeft: insets.left,
       paddingRight: insets.left,

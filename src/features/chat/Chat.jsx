@@ -81,7 +81,7 @@ function Chat({ route }) {
   }
 
   return (
-    <Main scrollable={false}>
+    <Main scrollable={false} margins={false}>
       <IconHeader
         src={otherUser?.data?.data[0].pfp}
         title={otherUser?.data?.data[0].firstName + " " + otherUser?.data?.data[0].lastName}
