@@ -1,5 +1,5 @@
 export const image = {
-  largeProfile: 150,
+  largeProfile: 250,
   mediumProfile: 80,
   smallProfile: 44,
 };

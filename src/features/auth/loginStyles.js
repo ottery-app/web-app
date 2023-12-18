@@ -3,14 +3,13 @@ import { margin } from "../../../ottery-ui/styles/margin";
 
 export const Main = ({children}) => (
     <View style={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
-      maxWidth: 500,
-      width: '100%',
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
     }}>
-      {children}
+      <View>
+        {children}
+      </View>
     </View>
 );
 

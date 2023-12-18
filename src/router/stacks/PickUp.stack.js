@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import paths from "../paths";
-import { AuthGuard } from "../../guards/AuthGuard";
 import Header from "./Header";
 import { useAuthClient } from "../../features/auth/useAuthClient";
 import { role, tempzone } from "@ottery/ottery-dto";
@@ -35,13 +34,8 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <Dismissal/>
-              </AuthGuard>
-            }
-        </Stack.Screen>
+          component={Dismissal}
+        />
       );
     } else if (event?.tempzone === tempzone.Secure) {
       screens.push(
@@ -50,85 +44,50 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ApprovePickup {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={ApprovePickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.confirm}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ConfirmChildPickup {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={ConfirmChildPickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.decline}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <DeclinePickup {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={DeclinePickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissList}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <DismissList {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={DismissList}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.dismissContacts}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <ContactGuardian {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={ContactGuardian}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.noRequest}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <NoRequestPickup {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={NoRequestPickup}
+        />,
         <Stack.Screen
           name={paths.pickup.caretaker.manualDismissal}
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-            {props => 
-              <AuthGuard loggedin activated caretaker>
-                <NoGuardianPickup {...props}/>
-              </AuthGuard>
-            }
-        </Stack.Screen>,
+          component={NoGuardianPickup}
+        />,
       );
     }
   } else if (state === role.GUARDIAN) {
@@ -138,25 +97,15 @@ export function PickUpStack() {
           options={{
             header: (props) => <Header {...props} />,
           }}
-        >
-          {props => 
-            <AuthGuard loggedin activated guardian>
-              <PickChildren/>
-            </AuthGuard>
-          }
-      </Stack.Screen>,
+          component={PickChildren}
+      />,
       <Stack.Screen
         name={paths.pickup.guardian.status}
         options={{
           header: (props) => <Header {...props} />,
         }}
-      >
-        {props => 
-          <AuthGuard loggedin activated guardian>
-            <PickupStatus/>
-          </AuthGuard>
-        }
-      </Stack.Screen>
+        component={PickupStatus}
+      />
     )
   }
 

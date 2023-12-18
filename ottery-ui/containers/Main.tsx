@@ -1,7 +1,6 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-
 import { margin } from "../../ottery-ui/styles/margin";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface BaseProps {
   children?: ReactNode;
@@ -20,6 +19,7 @@ export const MarginlessMain = Base;
 
 const styles = StyleSheet.create({
   base: {
+    flex:1,
   },
   main: {
     padding: margin.medium,

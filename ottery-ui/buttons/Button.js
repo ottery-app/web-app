@@ -4,8 +4,8 @@ import { radius as rad } from "../styles/radius";
 import { Button as ButtonPaper } from "react-native-paper";
 import { BUTTON_STATES, BUTTON_TYPES } from "./button.enum";
 import { useThemeMaker } from "../styles/Color";
-import { shadows } from "../styles/shadow";
 import { clickable } from "../styles/clickable";
+import { zindex } from "../styles/zindex";
 
 export const Button = ({
   color = colors.primary,
@@ -43,8 +43,9 @@ export const Button = ({
 
   return (
     <ButtonPaper
+      elevated={true}
+      elevation={zindex.front}
       theme={theme}
-      styles={[shadows.default]}
       borderRadius={rad.default}
       onPress={onPress}
       contentStyle={[BUTTON_STYLE, contentStyle]}

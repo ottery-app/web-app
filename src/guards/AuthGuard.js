@@ -1,8 +1,6 @@
-import { useSelector } from 'react-redux';
 import paths from '../router/paths';
 import { useStrategyGenerator } from './useStrategyGenerator';
 import { Guard } from './Guard';
-import { selectSesh } from '../features/auth/authSlice';
 import { useNavigator } from '../router/useNavigator';
 import { useAuthClient } from '../features/auth/useAuthClient';
 

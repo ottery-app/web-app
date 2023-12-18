@@ -2,7 +2,7 @@ import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
 import { TAB_BUTTON_TYPES } from "../../../ottery-ui/buttons/tabs/TabButton";
 import TabField from "../../../ottery-ui/buttons/tabs/TabField";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
-import { Main } from "../../../ottery-ui/containers/Main";
+import { Main, MarginlessMain } from "../../../ottery-ui/containers/Main";
 import * as React from "react";
 import { useEventClient } from "./useEventClient";
 import { useUserClient } from "../user/useUserClient";
@@ -13,6 +13,8 @@ import paths from "../../router/paths";
 import { pfp, pluss } from "../../../assets/icons";
 import { usePing } from "../../../ottery-ping";
 import { colors } from "../../../ottery-ui/styles/colors";
+import { View } from "react-native";
+import { clickable } from "../../../ottery-ui/styles/clickable";
 
 enum RosterTabs {
     caretakers = "Caretakers",
@@ -40,7 +42,7 @@ export function Roster({route}) {
 
     const buttons = React.useMemo(()=>{
         if (tab === RosterTabs.attendees) {
-            return children?.map((child)=>
+            const buttons = children?.map((child)=>
                 <ImageButton 
                     key={child._id}
                     right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
@@ -49,6 +51,17 @@ export function Roster({route}) {
                     <Text>{child.firstName} {child.lastName}</Text>
                 </ImageButton>
             )
+
+            buttons.unshift(<ImageButton 
+                color={colors.success}
+                key={"invite attendee"}
+                right={pluss}
+                onPress={()=>{navigator(paths.main.event.invite.attendee, {eventId: eventId})}}
+            >
+                <Text>Invite attendee</Text>
+            </ImageButton>)
+
+            return buttons
         } else if (tab === RosterTabs.caretakers) {
             const buttons = volenteers?.map((volenteer)=>
                 <ImageButton 
@@ -74,16 +87,16 @@ export function Roster({route}) {
     }, [tab, children, volenteers]);
 
     return (
-        <>
-        <TabField
-            type={TAB_BUTTON_TYPES.hanging}
-            active={tab}
-            tabs={Object.values(RosterTabs)}
-            onTab={(tab)=>{setTab(tab)}}
-        />
-        <Main>
-            <ImageButtonList>{buttons}</ImageButtonList>
-        </Main>
-        </>
+        <MarginlessMain>
+            <TabField
+                type={TAB_BUTTON_TYPES.hanging}
+                active={tab}
+                tabs={Object.values(RosterTabs)}
+                onTab={(tab)=>{setTab(tab)}}
+            />
+            <Main>
+                <ImageButtonList>{buttons}</ImageButtonList>
+            </Main>
+        </MarginlessMain>
     );
 }

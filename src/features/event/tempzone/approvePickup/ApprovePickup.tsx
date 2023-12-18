@@ -8,11 +8,12 @@ import paths from "../../../../router/paths";
 import { pfp } from "../../../../../assets/icons";
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useTempzoneClient } from "../tempzoneClient";
-import { API_ENV } from "../../../../env/api.env";
 import { requestType } from "@ottery/ottery-dto";
 import { useChildClient } from "../../../child/useChildClient";
 import { fadedStyle, fadedVariant } from "../tempzone.style";
 import { StyleSheet } from "react-native";
+import { query_delta } from "../../../../provider/clideInst";
+import React from "react";
 
 const styles = StyleSheet.create({
     center: {
@@ -25,7 +26,7 @@ export function ApprovePickup() {
     const eventId = useAuthClient().useEventId();
     const requestsRes = useTempzoneClient().useGetWaitingChildrenForEvent({
         inputs:[eventId, requestType.PICKUP],
-        refetchInterval: API_ENV.query_delta,
+        refetchInterval: query_delta,
     });
     const childrenRes = useChildClient().useGetChildren({
         inputs:[requestsRes?.data?.data.map(r=>r.child)],

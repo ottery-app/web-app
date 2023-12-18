@@ -1,8 +1,7 @@
 import {makeUseMutation} from "../../queryStatus/makeUseMutation";
 import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 import { getNotifications, readNotifications } from "./notifiactionsApi";
-
-export const QUERY_NOTIFICATION_TAG = "event";
+import { query_paths } from "../../provider/queryClient";
 
 export function useNotificationClient() {
 
@@ -13,7 +12,7 @@ export function useNotificationClient() {
     const readNotificationsCli = useReadNotifications();
 
     const useGetNotifications = makeUseQuery({
-        queryKey: [QUERY_NOTIFICATION_TAG],
+        queryKey: [query_paths.notification.root],
         queryFn: async (id)=>{
             readNotificationsCli.mutate(id);
             return await getNotifications(id);

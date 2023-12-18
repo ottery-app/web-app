@@ -12,6 +12,7 @@ import paths from "../../router/paths";
 import { useChatClient } from "../chat/useChatClient";
 import { Text } from "react-native-paper";
 import { colors } from "../../../ottery-ui/styles/colors";
+import React from "react";
 
 enum Tabs {
   children = "Children",
@@ -44,82 +45,61 @@ export function UserProfile() {
   });
   const chatIdMap = chatIdsRes?.data;
 
-  const [tab, setTab] = useState("Children");
-  const data = useMemo(() => {
-    if (userEvents && userFriends && userChildren) {
-      var data = {};
-      data[Tabs.events] = userEvents.map((event) => {
-        return (
-          <ImageButton
-            key={event._id}
-            onPress={() =>
-              navigator(paths.main.event.dash, { eventId: event._id })
-            }
-          >
-            <Text>{event.summary}</Text>
-          </ImageButton>
-        );
-      });
-      data[Tabs.friends] = userFriends.map((friend) => {
-        return (
-          <ImageButton
-            key={friend._id}
-            right={{ src: friend?.pfp?.src, aspectRatio: 1 } || pfp}
-            onPress={() =>
-              navigator(paths.main.social.chat, {
-                chatId: chatIdMap[friend._id],
-              })
-            }
-          >
-            <Text>
-              {friend.firstName} {friend.lastName}
-            </Text>
-          </ImageButton>
-        );
-      });
-      data[Tabs.children] = userChildren.map((child) => {
-        return (
-          <ImageButton
-            key={child._id}
-            right={{ src: child?.pfp?.src, aspectRatio: 1 } || pfp}
-            onPress={() =>
-              navigator(paths.main.child.profile, { childId: child._id })
-            }
-          >
-            <Text>
-              {child.firstName} {child.lastName}
-            </Text>
-          </ImageButton>
-        );
-      });
+    const [tab, setTab] = useState("Children");
+    const data = useMemo(()=>{
+        if (userEvents && userFriends && userChildren) {
+            var data = {};
+            data[Tabs.events] = [
+              <ImageButton
+                key={"create event"}
+                right={pluss}
+                color={colors.success}
+                onPress={() => {
+                  navigator(paths.main.event.new);
+                }}
+              >
+                <Text>Add an event</Text>
+              </ImageButton>,
+              ...userEvents.map((event)=>{
+                return <ImageButton 
+                    key={event._id}
+                    onPress={()=>navigator(paths.main.event.dash, {eventId: event._id})}
+                >
+                  <Text>{event.summary}</Text>
+                </ImageButton>
+            })
+            ];
+            data[Tabs.friends] = userFriends.map((friend)=>{
+                return <ImageButton 
+                    key={friend._id}
+                    right={{src:friend?.pfp?.src, aspectRatio:1} || pfp}
+                    onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[friend._id]})}
+                >
+                    <Text>{friend.firstName} {friend.lastName}</Text>
+                </ImageButton>
+            });
+            data[Tabs.children] = [
+                <ImageButton
+                    key={"add child"}
+                    right={pluss}
+                    color={colors.success}
+                    onPress={()=>{navigator(paths.main.child.new)}}
+                >
+                    <Text>Add a child</Text>
+                </ImageButton>,
+                ...userChildren.map((child)=>{
+                    return <ImageButton 
+                        key={child._id}
+                        right={{src:child?.pfp?.src, aspectRatio:1} || pfp}
+                        onPress={()=>navigator(paths.main.child.profile, {childId: child._id})}
+                    >
+                        <Text>{child.firstName} {child.lastName}</Text>
+                    </ImageButton>
+                })
+            ];
+        }
 
-      data[Tabs.children].unshift(
-        <ImageButton
-          key={"add child"}
-          right={pluss}
-          color={colors.success}
-          onPress={() => {
-            navigator(paths.main.child.new);
-          }}
-        >
-          <Text>Add a child</Text>
-        </ImageButton>
-      );
-
-      data[Tabs.events].unshift(
-        <ImageButton
-          key={"create event"}
-          right={pluss}
-          color={colors.success}
-          onPress={() => {
-            navigator(paths.main.event.new);
-          }}
-        >
-          <Text>Add an event</Text>
-        </ImageButton>
-      );
-    }
-    return data;
+        return data;
   }, [userChildren, userFriends, userEvents]);
 
   const buttons = (data && data[tab]) || [];

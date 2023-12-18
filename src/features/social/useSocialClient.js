@@ -1,12 +1,11 @@
 import { friendStatus, getFriendLinks, getFriends, updateStatus } from "./socialApi";
 import {makeUseMutation} from "../../queryStatus/makeUseMutation";
 import {makeUseQuery} from "../../queryStatus/makeGetQuery";
-
-const QUERY_SOCIAL_KEY = "social";
+import { query_paths } from "../../provider/queryClient";
 
 export function useSocialClient() {
     const useFriendStatus = makeUseQuery({
-        queryKey: [QUERY_SOCIAL_KEY, "status"],
+        queryKey: [query_paths.social.root, "status"],
         queryFn: friendStatus,
     })
 
@@ -15,7 +14,7 @@ export function useSocialClient() {
     })
 
     const useGetFriends = makeUseQuery({
-        queryKey: [QUERY_SOCIAL_KEY, "friends"],
+        queryKey: [query_paths.social.root, "friends"],
         queryFn: async (userId)=>{
             const res = await getFriendLinks(userId);
             res.data = res.data.map((link)=>link.users.filter(id=>id!==userId)[0]);

@@ -10,21 +10,6 @@ export default function Router() {
 
   const sesh = useSesh();
 
-  // const linking = {
-  //   prefixes: [
-  //     /*linking prefixes*/
-  //     Linking.createURL("/"),
-  //     process.env.EXPO_PUBLIC_WEB_APP_URL,
-  //   ],
-  //   config: {
-  //     /** configuration for matching screens with paths */
-  //     screens: {
-  //       [paths.auth.resetPassword]: "reset-password",
-  //       //[paths.main.child.addGuardian]: "child/:childId/addguardian",
-  //     },
-  //   },
-  // };
-
   return (
     <NavigationContainer>
       {!sesh.loggedin || !sesh.activated ? ( //is authenticated

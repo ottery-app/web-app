@@ -22,6 +22,7 @@ export default class Clide {
     conf = Object.assign({}, CLIDE_CONF, conf);
     this.conf = conf;
     this.instance = axios.create(conf);
+    //this.instance.defaults.headers.common["ngrok-skip-browser-warning"] = true;
   }
 
   /**
@@ -71,10 +72,18 @@ export default class Clide {
       config.url = makeUrl(config.url, config.params);
       config.params = undefined;
 
-      let res = await that.instance.request(config);
+      let res;
+
+      try {
+        res = await that.instance.request(config);
+      } catch (e) {
+        throw e.response;
+      }
 
       config.params = oldParams;
-      return await config.out_pipeline(res, config);
+      res = await config.out_pipeline(res, config);
+
+      return res;
     };
   }
 

@@ -1,5 +1,5 @@
 import { useChildClient } from "../../../../child/useChildClient"
-import {useMemo} from "react";
+import React, {useMemo} from "react";
 import { useUserClient } from "../../../../user/useUserClient";
 import { Main, MarginlessMain } from "../../../../../../ottery-ui/containers/Main";
 import { IconHeader } from "../../../../../../ottery-ui/headers/IconHeader";
@@ -21,7 +21,7 @@ import Button from "../../../../../../ottery-ui/buttons/Button";
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
+        //flex: 1,
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
@@ -50,7 +50,7 @@ export function IconWrapper({children, onPress}) {
                 {children}
             </View>
             <TouchableOpacity onPress={onPress} style={styles.icon}>
-                <Image src={message} alt={"input icon"} height={clickable.minHeight} width={clickable.minHeight + 2}/>
+                <Image src={message} alt={"input icon"} height={clickable.minHeight}/>
             </TouchableOpacity>
         </View>
     );
@@ -95,7 +95,7 @@ export function ContactGuardian({route}) {
             src={child?.pfp}
             title={child?.firstName + " " + child?.lastName}
         />
-        <Main>
+        <Main style={{gap:margin.large}}>
             <ImageButtonList>
                 <>
                     <Text variant="titleMedium">Primary guardian:</Text>

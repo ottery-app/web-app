@@ -1,30 +1,35 @@
 import Image from "../image/Image";
-import { radius as rad, radius } from "../styles/radius";
+import { radius } from "../styles/radius";
 import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
-import Button from "./Button";
 import { colors } from "../styles/colors";
 import { check, x } from "../../assets/icons";
 import { clickable } from "../styles/clickable";
 import { BUTTON_STATES } from "./button.enum";
 import { margin } from "../styles/margin";
 import { border } from "../styles/border";
-import { image } from "../styles/image";
 import useColors from "../styles/useColors";
+import { TouchableRipple } from "react-native-paper";
+import { image } from "../styles/image";
 
 const style = StyleSheet.create({
   container: {
-    marginBottom: margin.small,
-    marginTop: margin.small,
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    height: clickable.minHeight,
   },
-  ButtonImage: {
+  RightButtonImage: {
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-end",
     marginRight: margin.small,
+  },
+  LeftButtonImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginLeft: margin.small,
   },
   Name: {
     flex: 3,
@@ -92,24 +97,30 @@ export function ImageButton({
   );
 
   return (
-    <Button
+    <TouchableRipple
+      style={{
+          height: clickable.minHeight + margin.medium,
+          width: "100%",
+          justifyContent:"center",
+          borderRadius: radius.round,
+          backgroundColor: colors.secondary.main,
+          borderColor: colors.secondary.dark,
+          borderWidth: border.default,
+          backgroundColor: color.main,
+          borderWidth: border.thin,
+          borderColor: color.dark
+      }}
       onPress={onPress}
-      radius={rad.round}
-      color={color}
-      width={"100%"}
-      height={image.smallProfile}
-      state={state}
-      styles={{ borderWidth: border.thin, borderColor: color.dark }}
     >
       {leftImage || rightImage ? (
         <View style={style.container}>
-          <View style={{ flex: 1 }}>{leftImage || <View />}</View>
-          <View style={[style.Name]}>{children}</View>
-          <View style={style.ButtonImage}>{rightImage || <View />}</View>
+          <View style={style.LeftButtonImage}>{leftImage || <View />}</View>
+          <View style={style.Name}>{children}</View>
+          <View style={style.RightButtonImage}>{rightImage || <View />}</View>
         </View>
       ) : (
-        children
+        <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>{children}</View>
       )}
-    </Button>
+    </TouchableRipple>
   );
 }

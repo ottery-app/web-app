@@ -10,12 +10,13 @@ import { useChatClient } from "../chat/useChatClient";
 import { useAuthClient } from "../auth/useAuthClient";
 import { role } from "@ottery/ottery-dto";
 import {useMemo} from "react"
-import {useClipboard} from "@react-native-clipboard/clipboard";
+//import {useClipboard} from "@react-native-clipboard/clipboard";
 import { usePing } from "../../../ottery-ping";
+import React from "react";
 
 export function EventHome({route}) {
     const navigator = useNavigator();
-    const [clipboardContent, setClipboard] = useClipboard();
+    //const [clipboardContent, setClipboard] = useClipboard();
     const Ping = usePing();
 
     const userId = useAuthClient().useUserId();
@@ -69,13 +70,13 @@ export function EventHome({route}) {
                         navigator(paths.main.event.roster, {eventId: event._id});
                     },
                 },
-                {
-                    icon: { uri: pfp.src },
-                    title: "New Attendee",
-                    onPress: () => {
-                        navigator(paths.main.event.invite.attendee, {eventId: event._id});
-                    },
-                }
+                // {
+                //     icon: { uri: pfp.src },
+                //     title: "New Attendee",
+                //     onPress: () => {
+                //         navigator(paths.main.event.invite.attendee, {eventId: event._id});
+                //     },
+                // }
             )
         } else {
 

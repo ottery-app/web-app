@@ -3,9 +3,9 @@
  * these are generic styles for clickable components
  */
 export const clickable = {
-    minWidth: 35,
+    minWidth: 45,
     maxWidth: 100,
-    minHeight: 35,
+    minHeight: 45,
     maxHeight: 100,
 }
 //removed from buttons since it caused the flow to change

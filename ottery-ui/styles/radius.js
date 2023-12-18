@@ -1,4 +1,3 @@
-console.warn("oui: radius is depreciated -> moved to border");
 
 /**
  * the radius options

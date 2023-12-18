@@ -12,7 +12,6 @@ import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneS
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
-import { useEventClient } from "../../useEventClient";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();

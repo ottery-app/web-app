@@ -1,18 +1,19 @@
 import {View, StyleSheet, TouchableOpacity} from "react-native";
 import Image from "../image/Image";
 import { clickable } from "../styles/clickable";
-import { radius } from "../styles/radius";
 import { ImageAsset } from "../../assets/ImageAsset";
 import { margin } from "../styles/margin";
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
+        //flex: 1,
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
         gap: margin.small,
         width: "100%",
+        height: clickable.minHeight * 2,
+        padding: margin.small,
     },
     input: {
         flex: 9,
@@ -23,10 +24,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems:"center",
-        borderRadius: radius.round,
-        position:"relative",
-        transform: [{translateX: -margin.small}, {translateY: 1}],
-        right: -margin.small,
+        transform: [{translateX: 0}, {translateY: 1}],
     },
 })
 
@@ -43,7 +41,7 @@ export function InputIconWrapper({children, icon, onPress}: InputIconWrapperProp
                 {children}
             </View>
             <TouchableOpacity onPress={onPress} style={styles.icon}>
-                <Image src={icon} alt={"input icon"} height={clickable.minHeight} width={clickable.minHeight} radius={radius.round}/>
+                <Image src={icon} alt={"input icon"} height={clickable.minHeight} width={clickable.minHeight}/>
             </TouchableOpacity>
         </View>
     );

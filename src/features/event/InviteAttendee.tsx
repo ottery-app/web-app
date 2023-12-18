@@ -15,6 +15,7 @@ import { radius } from "../../../ottery-ui/styles/radius";
 import { colors } from "../../../ottery-ui/styles/colors";
 import { border } from "../../../ottery-ui/styles/border";
 import { useInviteClient } from "../invite/useInviteClient";
+import React from "react";
 
 export function InviteAttendee({route}) {
     const Ping = usePing();
@@ -36,10 +37,8 @@ export function InviteAttendee({route}) {
 
     return (
         <Main style={{
-            flex:1,
             gap:margin.large,
             alignItems:"center",
-            justifyContent:"center",
         }}>
             <Text variant="headlineLarge">Scan to signup</Text>
             <View 

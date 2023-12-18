@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
 import RadioGroup, { OptionProp } from "../../../ottery-ui/controls/RadioGroup";
 import TextInput from "../../../ottery-ui/input/TextInput";
@@ -27,7 +27,6 @@ function GetHelpScreen({ route }) {
   const [option, setOption] = useState("");
   const [customText, setCustomText] = useState("");
   const message = option || customText;
-  const buttonState = !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
   const { useUserId } = useAuthClient();
   const userId = useUserId();
   const leadManagerIdRes = useEventClient().useGetEventOwner({inputs:[eventId]});
@@ -38,6 +37,14 @@ function GetHelpScreen({ route }) {
   const navigator = useNavigator();
   const directChatRes = useGetDirectChat({inputs:[leadManagerId, userId], enabled:!!leadManagerId});
   const chatId = directChatRes?.data?.data._id;
+
+  const buttonState = useMemo(()=>{
+    if (sendMessage?.status !== "idle") {
+      return sendMessage.status;
+    } else {
+      return !message ? BUTTON_STATES.disabled : BUTTON_STATES.default;
+    }
+  }, [message, sendMessage]);
 
   function handleOptionChange(option: string) {
     setOption(option);
@@ -84,7 +91,7 @@ function GetHelpScreen({ route }) {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
+    //flex: 1,
     gap: margin.large,
   },
 });

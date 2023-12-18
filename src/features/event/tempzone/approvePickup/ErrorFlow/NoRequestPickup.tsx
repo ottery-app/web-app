@@ -12,6 +12,7 @@ import paths from "../../../../../router/paths";
 import { usePing } from "../../../../../../ottery-ping";
 import { margin } from "../../../../../../ottery-ui/styles/margin";
 import { useRosterClient } from "../../useRosterClient";
+import React from "react";
 
 export function NoRequestPickup({route}){
     const navigator = useNavigator();
@@ -39,8 +40,8 @@ export function NoRequestPickup({route}){
 
     return (
         <Main style={{
-            flex:1,
-            justifyContent: "center",
+            //flex:1,
+            //justifyContent: "center",
             alignItems: "center",
             gap: margin.small,
         }}>

@@ -2,22 +2,20 @@ import { useQueryClient } from "react-query";
 import { getChildren, newChild, addGuardians, updateChildData, missingChildData } from "./childApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
-import { CLIENT_USER_TAG } from "../user/useUserClient";
-
-export const QUERY_CHILD_TAG = "child";
+import { query_paths } from "../../provider/queryClient";
 
 export function useChildClient() {
     const queryClient = useQueryClient();
 
     const useGetChildren = makeUseQuery({
-        queryKey: [QUERY_CHILD_TAG],
+        queryKey: [query_paths.child.root],
         queryFn: async(children)=>{
             return await getChildren(children)
         },
     });
 
     const useGetChild = makeUseQuery({
-        queryKey: [QUERY_CHILD_TAG],
+        queryKey: [query_paths.child.root],
         queryFn: async(child)=>{
             const res = await getChildren([child]);
             res.data = res.data[0];
@@ -28,7 +26,7 @@ export function useChildClient() {
     const useNewChild = makeUseMutation({
         mutationFn: newChild,
         onSuccessAlways: (data)=>{
-            queryClient.invalidateQueries([CLIENT_USER_TAG, QUERY_CHILD_TAG]);
+            queryClient.invalidateQueries([query_paths.user.root, query_paths.child.root]);
             return data;
         }
     })
@@ -42,7 +40,7 @@ export function useChildClient() {
       })
     
     const useMissingChildData = makeUseQuery({
-        queryKey: [QUERY_CHILD_TAG, "data"],
+        queryKey: [query_paths.child.root, "data"],
         queryFn: missingChildData,
     })
 

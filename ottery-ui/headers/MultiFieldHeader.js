@@ -8,50 +8,27 @@ import { TAB_BUTTON_TYPES } from "../buttons/tabs/TabButton";
 import { IconButton, Text } from "react-native-paper";
 import Image from "../image/Image";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-
-const IMAGE_RAD = image.mediumProfile;
-//imageStyles.clickable.minHeight;
+import { clickable } from "../styles/clickable";
 
 const styles = StyleSheet.create({
-  header: {
-    display: "flex",
-    flexDirection: "column",
-    gap: margin.medium,
-    width: "100%",
+  main: {
     backgroundColor: colors.background.primary,
   },
-  container: {
-    flexDirection: "row",
-    width: "100%",
-  },
-  column: {
-    flex: 1,
-  },
-  userDetails: {
-    flex: 1,
-    width: "100%",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    flexDirection: "row",
-    paddingLeft: "25px",
-    gap: margin.large,
+  top: {
+    height: image.mediumProfile,
     margin: margin.medium,
+    marginLeft: margin.large,
+    flexDirection: "row", 
   },
-  title: {
-    flex: 1,
-    alignItems: "center",
+  info: {
+    flex:1,
     justifyContent: "center",
-    flexDirection: "row",
-    height: "100%",
+    alignItems:"center",
   },
-  settings: {
-    flex: 1,
-    width: "100%",
-    alignItems: "flex-end",
-    paddingRight: "25px",
-    marginTop: margin.medium,
-  },
-});
+  bottom: {
+    height:clickable.minHeight,
+  }
+})
 
 export function MultiFieldHeader({
   //top row
@@ -66,47 +43,22 @@ export function MultiFieldHeader({
   tab = tabs[0],
   onTab = undefined,
   onSettings = null,
-
-  //style
-  radius = rad.square,
 }) {
   return (
-    <>
-      <View
-        style={[
-          styles.header,
-          {
-            borderTopLeftRadius: rad.square,
-            borderTopRightRadius: rad.square,
-          },
-        ]}
-      >
-        <View style={styles.container}>
-          <View style={styles.column}>
-            <View style={styles.userDetails}>
-              <Image
-                src={src}
-                alt={alt}
-                width={IMAGE_RAD}
-                height={IMAGE_RAD}
-                radius={rad.round}
-              />
-              <View style={styles.title}>
-                <Text>{title}</Text>
-              </View>
-            </View>
-          </View>
-          <TouchableOpacity style={styles.column}>
-            {onSettings && (
-              <IconButton
-                style={styles.settings}
-                icon="cog"
-                size={30}
-                onPress={onSettings}
-              />
-            )}
-          </TouchableOpacity>
+    <View style={styles.main}>
+      <View style={styles.top}>
+        <Image
+          src={src}
+          alt={alt}
+          width={image.mediumProfile}
+          height={image.mediumProfile}
+          radius={rad.round}
+        />
+        <View style={styles.info}>
+          <Text variant="titleMedium">{title}</Text>
         </View>
+      </View>
+      <View style={styles.bottom}>
         <TabField
           type={TAB_BUTTON_TYPES.upright}
           tabs={tabs}
@@ -114,6 +66,6 @@ export function MultiFieldHeader({
           onTab={onTab || function () {}}
         />
       </View>
-    </>
+    </View>
   );
 }

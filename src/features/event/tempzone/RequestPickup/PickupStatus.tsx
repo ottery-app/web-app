@@ -1,6 +1,6 @@
 import { ChildRequestDto, noId, requestStatus, requestType } from "@ottery/ottery-dto";
 import { useGetRequests, useRemoveRequest } from "../tempzoneSlice";
-import { useState, useMemo} from "react";
+import React, { useState, useMemo} from "react";
 import { useChildClient } from "../../../child/useChildClient";
 import { Text } from "react-native-paper";
 import { ImageButton } from "../../../../../ottery-ui/buttons/ImageButton";
@@ -13,7 +13,6 @@ import { SpinAnimation } from "../../../../../ottery-ui/animations/Spin.animatio
 import Image from "../../../../../ottery-ui/image/Image";
 import { roundSpinningOtter } from "../../../../../assets/otters";
 import { useScreenDimensions } from "../../../../hooks/dimentions.hook";
-import { API_ENV } from "../../../../env/api.env";
 import {View, StyleSheet} from "react-native";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import { happyCheck, unhappyCheck } from "../../../../../assets/icons";
@@ -22,6 +21,7 @@ import { usePing } from "../../../../../ottery-ping";
 import { useNavigator } from "../../../../router/useNavigator";
 import paths from "../../../../router/paths";
 import { image } from "../../../../../ottery-ui/styles/image";
+import { query_delta } from "../../../../provider/clideInst";
 
 const styles = StyleSheet.create({
     infoContainer: {
@@ -50,7 +50,7 @@ function useConsumeRequests() {
             oldRequests.forEach((request:ChildRequestDto)=>removeRequest(request.child));
             setRequests([...oldRequests, ...res?.data || []].filter(request=>request.type === requestType.PICKUP));
         },
-        refetchInterval: API_ENV.query_delta,
+        refetchInterval: query_delta,
     });
 
     const requestsMap = {}
@@ -109,9 +109,8 @@ export function PickupStatus() {
         );
     });
 
-    console.log(requests);
-
     let infoDisplay = undefined;
+    const imageSize = width / 1.5;
 
     if (requestStatus.INPROGRESS === status) {
         infoDisplay = (
@@ -121,8 +120,8 @@ export function PickupStatus() {
                     <Image 
                         src={roundSpinningOtter}
                         alt={"loding icon"}
-                        height={width/2}
-                        width={width/2}
+                        height={imageSize}
+                        width={imageSize}
                         maxHeight={image.largeProfile}
                         maxWidth={image.largeProfile}
                     />
@@ -135,8 +134,8 @@ export function PickupStatus() {
                 <Image 
                     src={unhappyCheck}
                     alt={"error icon"}
-                    height={width/2}
-                    width={width/2}
+                    height={imageSize}
+                    width={imageSize}
                 />
                 <Text style={styles.infoText} variant={infoHeaderVarient}>Looks like we ran into some issues!</Text>
                 <Text style={styles.infoText}>Please talk to the event supervisor</Text>
@@ -148,8 +147,8 @@ export function PickupStatus() {
                 <Image 
                     src={happyCheck}
                     alt={"done icon"}
-                    height={width/2}
-                    width={width/2}
+                    height={imageSize}
+                    width={imageSize}
                 />
                 <Text style={styles.infoText} variant={infoHeaderVarient}>Have a good day! We will see you later.</Text>
             </View>
