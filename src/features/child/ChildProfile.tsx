@@ -146,7 +146,7 @@ export function ChildProfile({route}) {
             {childData?.data.map((formField:DataFieldDto)=>
                 <DataRow label={formField.label} value={formField.value}/>
             )}
-            <SettingsOption onPress={()=>{}}>Attendance</SettingsOption>
+            <SettingsOption onPress={()=>navigator(paths.main.child.attendancePickEvent, {childId})}>Attendance</SettingsOption>
         </Main>
     }, [childData, childEvents]);
 

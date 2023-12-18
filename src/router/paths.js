@@ -21,6 +21,8 @@ export const paths = {
       profile: "/child/:childId",
       addGuardian: "/child/:childId/addguardian",
       acceptGuardian: "/child/:childId/acceptguardianinvite",
+      attendancePickEvent: "/child/:childId/attendance/pick",
+      attendance: "/child/:childId/attendance/:eventId",
     },
     event: {
       dash: "/event/dash/:eventId",

@@ -1,52 +1,62 @@
-import { StyleSheet } from "react-native"
-import { ImageAsset } from "../../assets/ImageAsset"
-import { View } from "react-native"
-import Image from "../image/Image"
-import { pfp } from "../../assets/icons"
-import { image } from "../styles/image"
-import { Avatar, List, Text } from "react-native-paper"
-import { radius } from "../styles/radius"
-import { margin } from "../styles/margin"
-import { useThemeMaker } from "../styles/Color"
-import { colors } from "../styles/colors"
-import { border } from "../styles/border"
-
-interface IconHeaderProps {
-    src: ImageAsset, 
-    title: string
-}
+import React from "react";
+import { image } from "../styles/image";
+import { colors } from "../styles/colors";
+import { radius as rad } from "../styles/radius";
+import { margin } from "../styles/margin";
+import { Text } from "react-native-paper";
+import Image from "../image/Image";
+import { View, StyleSheet } from "react-native";
+import { ImageDto } from "@ottery/ottery-dto";
+import { pfp } from "../../assets/icons";
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: margin.medium,
-    }
+  main: {
+    backgroundColor: colors.background.primary,
+  },
+  inner: {
+    height: image.mediumProfile,
+    margin: margin.medium,
+    marginLeft: margin.large,
+    flexDirection: "row", 
+  },
+  info: {
+    flex:1,
+    justifyContent: "center",
+    alignItems:"center",
+  },
 })
 
+export interface IconHeaderProps {
+    title:string,
+    src:ImageDto,
+    alt:string,
+    subTitle?: string,
+}
 
 export function IconHeader({
-    src = pfp,
-    title,
-}: IconHeaderProps) {
-    const pfpTheme = useThemeMaker({ primary: colors.tertiary });
+  //top row
+  title = "title", //can be an array
 
-    return (
-        <List.Item
-            left={(props) => (
-                <Avatar.Image
-                    {...props}
-                    theme={pfpTheme}
-                    source={{ uri: src.src }}
-                />
-            )}
-            title={title}
-            style={{
-                backgroundColor: colors.background.primary,
-                borderBottomWidth: border.default,
-                borderBottomColor: colors.background.secondary,
-            }}
-        />
-    )
+  //image
+  src = pfp,
+  alt = "profile photo",
+  subTitle,
+}: IconHeaderProps) {
+  return (
+    <View style={styles.main}>
+        <View style={styles.inner}>
+            <Image
+                src={src}
+                alt={alt}
+                width={image.mediumProfile}
+                height={image.mediumProfile}
+                radius={rad.round}
+            />
+            <View style={styles.info}>
+                <Text variant="titleMedium">{title}</Text>
+                <Text variant="titleSmall">{subTitle}</Text>
+            </View>
+        </View>
+    </View>
+  );
 }
