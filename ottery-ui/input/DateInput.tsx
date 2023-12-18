@@ -50,18 +50,17 @@ const DateInput = ({
     //here we are not giving any placeholder text for this input instead we are displaying the present date when the date input button is used
     <View>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
-        <TextInput
-          disabled={disabled}
-          mode="outlined"
-          label={label}
-          placeholder={placeholder}
-          placeholderTextColor={colors.disabled.main}
-          outlineStyle={{ borderRadius: 10 }}
-          style={{ borderColor: colors.primary.main }}
-          outlineColor={colors.primary.main}
-          keyboardType="numeric"
-          value={formatDate(value)}
-        />
+        <View pointerEvents="box-only">
+          <TextInput
+            disabled={disabled}
+            mode="outlined"
+            label={label}
+            placeholder={placeholder}
+            placeholderTextColor={colors.disabled.main}
+            value={formatDate(value)}
+            onChange={() => {}}
+          />
+        </View>
       </TouchableWithoutFeedback>
       <ThemeProvider
         theme={{

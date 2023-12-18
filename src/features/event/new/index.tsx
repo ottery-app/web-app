@@ -2,14 +2,14 @@ import { useState } from "react";
 
 import { usePing } from "../../../../ottery-ping";
 import { useEventClient } from "../useEventClient";
-
+import { Main } from "../../../../ottery-ui/containers/Main";
 import MultiStepForm from "../../../../ottery-ui/forms/MultiStepForm";
 import BasicInfoForm from "./BasicInfo";
 import TimesForm from "./TimesInfo";
 import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
-import ScreenWrapper from "../../../../ottery-ui/containers/ScreenWrapper";
+
 import { noId } from "@ottery/ottery-dto";
 import { FieldData } from "./components/FieldSelect";
 
@@ -58,7 +58,7 @@ function NewEventScreen({ navigation }) {
   }
 
   return (
-    <ScreenWrapper>
+    <Main scrollable>
       <MultiStepForm<EventFormData>
         form={eventForm}
         handleError={handleError}
@@ -72,7 +72,7 @@ function NewEventScreen({ navigation }) {
         ]}
         submit={handleSubmit}
       />
-    </ScreenWrapper>
+    </Main>
   );
 }
 

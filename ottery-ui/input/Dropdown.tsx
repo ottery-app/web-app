@@ -75,7 +75,14 @@ export function Dropdown({
         </View>
       ) : undefined}
       <DropdownInner
-        style={styles.dropdown}
+        style={[
+          styles.dropdown,
+          {
+            borderColor: colors.primary.dark,
+            borderWidth: border.thick,
+            height: clickable.minHeight + margin.small,
+          },
+        ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         iconStyle={styles.iconStyle}

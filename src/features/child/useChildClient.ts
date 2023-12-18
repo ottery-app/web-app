@@ -26,7 +26,7 @@ export function useChildClient() {
     const useNewChild = makeUseMutation({
         mutationFn: newChild,
         onSuccessAlways: (data)=>{
-            queryClient.invalidateQueries([query_paths.user.root, query_paths.child.root]);
+            queryClient.invalidateQueries([query_paths.user.root]);
             return data;
         }
     })

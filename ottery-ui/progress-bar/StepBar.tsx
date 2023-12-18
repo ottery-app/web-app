@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     zIndex: zindex.back,
   },
   barPadding: {
-    padding: 8,
+    padding: 11,
   },
   bar: {
     height: border.thick,

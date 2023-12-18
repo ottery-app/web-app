@@ -24,7 +24,6 @@ export const SpinAnimation = ({children}) => {
   });
 
   return (
-    <View style={styles.container}>
       <Animated.View
         style={{
           transform: [{ rotate: spinAnimation }],
@@ -32,14 +31,5 @@ export const SpinAnimation = ({children}) => {
       >
         {children}
       </Animated.View>
-    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 import { InputIconWrapper } from "./InputIconWrapper";
 import { info as infoIcon} from "../../assets/icons";

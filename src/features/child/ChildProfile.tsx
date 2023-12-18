@@ -1,7 +1,6 @@
 import { MultiFieldHeader } from "../../../ottery-ui/headers/MultiFieldHeader";
 import { useMemo, useState } from "react";
 import { ImageButton } from "../../../ottery-ui/buttons/ImageButton";
-import { MarginlessMain } from "../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../ottery-ui/containers/ImageButtonList";
 import { pfp, pluss } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
@@ -14,10 +13,32 @@ import { colors } from "../../../ottery-ui/styles/colors";
 import { Text } from "react-native-paper";
 import { useEventClient } from "../event/useEventClient";
 import React from "react";
+import { Main } from "../../../ottery-ui/containers/Main";
+import { View } from "react-native";
+import { DataFieldDto, FormFieldDto, noId } from "@ottery/ottery-dto";
+import { margin } from "../../../ottery-ui/styles/margin";
 
 enum Tabs {
     events = "Events",
+    info = "Info",
     guardians = "Guardians", 
+}
+
+function getYearDifference(date1, date2) {
+    const diffInMilliseconds = Math.abs(date2 - date1);
+    const millisecondsInYear = 1000 * 60 * 60 * 24 * 365.25; // Approximation for a year
+  
+    const yearsDifference = diffInMilliseconds / millisecondsInYear;
+    return Math.floor(yearsDifference);
+}
+
+function DataRow({label, value}) {
+    return <View style={{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    }}>
+        <Text>{label}:</Text><Text>{value}</Text>
+    </View>
 }
 
 export function ChildProfile({route}) {
@@ -32,7 +53,7 @@ export function ChildProfile({route}) {
         inputs:[childData?.guardians],
         enabled: !!childData?.guardians,
     });
-    const childGuardians = childGuardiansRes?.data?.data.filter((guardian)=>guardian._id !== userId);
+    const childGuardians = childGuardiansRes?.data?.data//.filter((guardian)=>guardian._id !== userId);
     const childGuardianIds = childGuardians?.map(guardian=>guardian._id);
     const chatIdsRes = useChatClient().useGetDirectChats({
         inputs:[userId, childGuardianIds],
@@ -47,43 +68,88 @@ export function ChildProfile({route}) {
 
 
     const [tab, setTab] = useState(Tabs.events);
-    const data = useMemo(()=>{
-        if (childEvents && childGuardians) {
-            var data = {};
-            data[Tabs.events] = childEvents;
-            data[Tabs.guardians] = childGuardians;
-        }
-        return data;
-    }, [childEvents, childGuardians]);
+    
+    const display = {};
 
-    const buttons = useMemo(()=>data && data[tab]?.map((data)=>{
-        const props = {
-            key: data._id,
+    display[Tabs.guardians] = useMemo(()=>{
+        const primaryGuardian = childGuardians?.find(({_id})=>_id === childData.primaryGuardian);
+        const guardians = childGuardians?.filter(({_id})=>_id !== childData.primaryGuardian);
+
+        return <ImageButtonList>
+            <>
+                <Text variant="titleMedium">Primary Guardian:</Text>
+                <ImageButton 
+                    key={primaryGuardian?._id}
+                    right={primaryGuardian?.pfp}
+                    onPress={()=>{
+                        if (primaryGuardian._id === userId) {
+                            navigator(paths.main.user.profile, {userId})
+                        } else {
+                            navigator(paths.main.social.chat, {chatId: chatIdMap[primaryGuardian._id]})}}
+                        }
+                >
+                    <Text>{primaryGuardian?.firstName} {primaryGuardian?.lastName}</Text>
+                </ImageButton>
+            </>
+            <>
+                <Text variant="titleMedium">Guardians:</Text>
+                <ImageButton 
+                    color={colors.success} 
+                    right={pluss}
+                    onPress={()=>{navigator(paths.main.child.addGuardian, {childId: childId})}}
+                >
+                    <Text>Add guardian</Text>
+                </ImageButton>
+                {
+                    guardians?.map((guardian)=>{
+                        return <ImageButton 
+                            key={guardian._id}
+                            right={guardian.pfp}
+                            onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[guardian._id]})}
+                        >
+                            <Text>{guardian.firstName} {guardian.lastName}</Text>
+                        </ImageButton>
+                    })
+                }
+            </>
+        </ImageButtonList>
+    }, [childData, childGuardians, chatIdMap])
+
+    display[Tabs.events] = useMemo(()=>{
+        if (!childEvents) {
+            return;
         }
 
-        const image = {src:data?.pfp?.src, aspectRatio:1} || pfp;
+        return <ImageButtonList>
+            {childEvents.map((data)=>{
+                return <ImageButton 
+                    key={data._id}
+                    onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}
+                >
+                    <Text>{data.summary}</Text>
+                </ImageButton>
+            })}
+        </ImageButtonList>
+    }, [childEvents, chatIdMap]);
 
-        if (tab === Tabs.guardians) {
-            return <ImageButton 
-                {...props}
-                right={image}
-                onPress={()=>navigator(paths.main.social.chat, {chatId: chatIdMap[data._id]})}
-            >
-                <Text>{data.firstName} {data.lastName}</Text>
-            </ImageButton>
-        } else if (tab === Tabs.events) {
-            console.log(data);
-            return <ImageButton 
-                {...props}
-                onPress={()=>navigator(paths.main.event.dash, {eventId: data._id})}
-            >
-                <Text>{data.summary}</Text>
-            </ImageButton>
-        }
-    }) || [], [data, tab, chatIdMap]);
+    display[Tabs.info] = useMemo(()=>{
+        return <Main style={{gap:margin.medium}}>
+            <DataRow label={"Age"} value={getYearDifference(new Date(), new Date(childData?.dateOfBirth))}/>
+            <DataRow label={"Gender"} value={childData?.gender}/>
+            <DataRow label={"Location"} value={(()=>{
+                if (childData?.lastStampedLocation?.at === noId) {
+                    return "Home";
+                }
+                return childEvents?.find(({_id})=>_id === childData.lastStampedLocation.at)?.summary;
+            })()}/>
+            {childData?.data.map((formField:DataFieldDto)=>
+                <DataRow label={formField.label} value={formField.value}/>
+            )}
+        </Main>
+    }, [childData, childEvents]);
 
     return (
-        <MarginlessMain>
+        <Main margins={false} scrollable={false}>
             <MultiFieldHeader
                 src={childData?.pfp}
                 title={childData?.firstName + " " + childData?.lastName}
@@ -91,19 +157,7 @@ export function ChildProfile({route}) {
                 onTab={(tab)=>{setTab(tab)}}
                 tabs={Object.values(Tabs)}
             />
-            <ImageButtonList>
-                {(tab===Tabs.guardians)
-                    ? <ImageButton 
-                        color={colors.success} 
-                        right={pluss}
-                        onPress={()=>{navigator(paths.main.child.addGuardian, {childId: childId})}}
-                    >
-                        <Text>Add guardian</Text>
-                    </ImageButton>
-                    : undefined
-                }
-                {buttons}
-            </ImageButtonList>
-        </MarginlessMain>
+            {display[tab]}
+        </Main>
     );
 }

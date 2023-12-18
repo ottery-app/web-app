@@ -26,8 +26,7 @@ export function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen
         name={paths.main.home}
-        
-        options={{  
+        options={{
           header: Header,
         }}
         component={Home}
@@ -136,14 +135,14 @@ export function HomeStack() {
         }}
         component={InviteAttendee}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={paths.main.event.accept.caretaker}
         options={{
           title: "Accept caretaker invite",
           header: (props) => <Header {...props} />,
         }}
         component={()=><Text>accept being a caretaker</Text>}
-      />
+      /> */}
       <Stack.Screen
         name={paths.main.event.signup}
         options={{

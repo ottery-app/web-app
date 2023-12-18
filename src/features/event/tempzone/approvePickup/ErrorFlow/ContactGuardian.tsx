@@ -1,7 +1,7 @@
 import { useChildClient } from "../../../../child/useChildClient"
 import React, {useMemo} from "react";
 import { useUserClient } from "../../../../user/useUserClient";
-import { Main, MarginlessMain } from "../../../../../../ottery-ui/containers/Main";
+import { Main } from "../../../../../../ottery-ui/containers/Main";
 import { IconHeader } from "../../../../../../ottery-ui/headers/IconHeader";
 import { ImageButtonList } from "../../../../../../ottery-ui/containers/ImageButtonList";
 import { Text } from "react-native-paper";
@@ -90,7 +90,7 @@ export function ContactGuardian({route}) {
         })
     }
 
-    return <MarginlessMain>
+    return <Main margins={false} scrollable={false}>
         <IconHeader
             src={child?.pfp}
             title={child?.firstName + " " + child?.lastName}
@@ -138,5 +138,5 @@ export function ContactGuardian({route}) {
                 </Button>
             </ButtonSpan>
         </Main>
-    </MarginlessMain>
+    </Main>
 }

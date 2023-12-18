@@ -20,7 +20,6 @@ export const Button = ({
   height = clickable.minHeight,
   maxHeight = undefined,
   minHeight = undefined,
-  shadow = undefined,
   styles = {},
   labelStyle = undefined,
   contentStyle = undefined,
@@ -50,7 +49,7 @@ export const Button = ({
       onPress={onPress}
       contentStyle={[BUTTON_STYLE, contentStyle]}
       labelStyle={[BUTTON_STATES, labelStyle]}
-      style={[shadow && shadows.default, BUTTON_STYLE, styles]}
+      style={[BUTTON_STYLE, styles]}
       mode={type}
       compact={true}
     >
