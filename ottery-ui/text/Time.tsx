@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import {Text} from "react-native-paper";
 
 export enum DateFormat {
@@ -66,7 +66,13 @@ function isDateFurtherThanOneYearAway(date) {
   return daysDifference > 365;
 }
 
-export function Time({ time, type, color=undefined }) {
+export interface TimeProps {
+  time:any,
+  type:DateFormat,
+  color?: string,
+}
+
+export function Time({ time, type, color }:TimeProps) {
   time = useMemo(()=>{
     if (type === DateFormat.passed) {
       time = timeElapsedSince(time);

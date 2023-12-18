@@ -18,6 +18,10 @@ import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
 import NewEventScreen from "../../features/event/new";
+import { useNavigator } from "../useNavigator";
+import { useEffect } from "react";
+import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
+import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
 
 const Stack = createNativeStackNavigator();
 
@@ -78,6 +82,22 @@ export function HomeStack() {
           header: (props) => <Header {...props} />,
         }}
         component={ChildProfile}
+      />
+      <Stack.Screen
+        name={paths.main.child.attendancePickEvent}
+        options={{
+          title:"Pick Event",
+          header: (props) => <Header {...props} />,
+        }}
+        component={AttendanceChildPickEvent}
+      />
+      <Stack.Screen
+        name={paths.main.child.attendance}
+        options={{
+          title:"Pick Event",
+          header: (props) => <Header {...props} />,
+        }}
+        component={AttendanceChildEvent}
       />
       <Stack.Screen
         name={paths.main.child.addGuardian}
