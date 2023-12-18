@@ -26,7 +26,7 @@ function Item({ children, id, onDelete }: PropsWithChildren<ItemProps>) {
 
   return (
     <View style={styles.itemField}>
-      <View>{children}</View>
+      <View style={styles.item}>{children}</View>
       <IconButton
         icon="delete"
         iconColor={colors.error.contrastText}
@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
+  },
+  item: {
+    flex: 1,
   },
 });
 

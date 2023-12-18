@@ -4,7 +4,9 @@ import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { EventFormData } from "..";
 import AppendList from "../../../../../ottery-ui/lists/AppendList";
-import CustomField, { FieldData } from "./CustomField";
+import CustomField from "./CustomField";
+import { useFormClient } from "../../../form/useFormClient";
+import FieldSelect, { FieldData } from "./FieldSelect";
 
 export function makeHandleDone(
   setForm: React.Dispatch<React.SetStateAction<EventFormData>>,
@@ -29,6 +31,10 @@ function SignUpOptions({
   handleUpdate,
   updateErrorHandler,
 }: SignUpOptionsProps) {
+  const { useGetAllFormFields } = useFormClient();
+  const formFieldsResponse = useGetAllFormFields();
+  const formFields = (formFieldsResponse?.data?.data || []) as FieldData[];
+
   const [items, setItems] = useState(fields);
 
   useEffect(() => {
@@ -64,7 +70,9 @@ function SignUpOptions({
   }
 
   function renderListItem(item: FieldData) {
-    return <CustomField data={item} key={item.id} onDone={handleDone} />;
+    return (
+      <FieldSelect onDone={handleDone} options={formFields} value={item} />
+    );
   }
 
   return (

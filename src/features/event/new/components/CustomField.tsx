@@ -1,24 +1,20 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Text, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { nanoid } from "@reduxjs/toolkit";
 import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { margin } from "../../../../../ottery-ui/styles/margin";
-import { useFormClient } from "../../../form/useFormClient";
 import Error from "../../../../../ottery-ui/text/Error";
 import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
+import { FieldData } from "./FieldSelect";
 
 function Column({ children }: PropsWithChildren) {
   return <View style={styles.column}>{children}</View>;
-}
-
-function Row({ children }: PropsWithChildren) {
-  return <View style={styles.row}>{children}</View>;
 }
 
 const INPUT_TYPE_OPTIONS = [
@@ -29,27 +25,16 @@ const INPUT_TYPE_OPTIONS = [
   { label: inputType.EMAIL, value: inputType.EMAIL },
 ];
 
-export type FieldData = Partial<FormFieldDto> & {
-  id: string;
-};
-
 interface CustomFieldProps {
-  data: FieldData;
+  id: string;
   onDone: (data: FieldData) => void;
 }
 
-function CustomField({ data, onDone }: CustomFieldProps) {
-  const id = data.id || nanoid();
-
-  const [label, setLabel] = useState(data.label);
-  const [type, setType] = useState(data.type);
-  const [note, setNote] = useState(data.note);
-  const [done, setDone] = useState(classifyWithDto(FormFieldDto, data));
+function CustomField({ id, onDone }: CustomFieldProps) {
+  const [label, setLabel] = useState("");
+  const [type, setType] = useState(undefined);
+  const [note, setNote] = useState("");
   const [error, setError] = useState("");
-
-  // const { useGetAllFormFields } = useFormClient();
-  // const fieldsData = useGetAllFormFields();
-  // const fields = fieldsData?.data?.data || [];
 
   useEffect(() => {
     setError("");
@@ -75,23 +60,13 @@ function CustomField({ data, onDone }: CustomFieldProps) {
     }
 
     const data = {
+      id,
       label,
       type,
-      optional: false,
       note,
-      permanent: false,
-      id,
     };
-    onDone(data);
-    setDone(true);
-  }
 
-  if (done) {
-    return (
-      <Row>
-        <Text>{label}</Text>
-      </Row>
-    );
+    onDone(data);
   }
 
   return (
@@ -140,12 +115,6 @@ const styles = StyleSheet.create({
   column: {
     alignItems: "stretch",
     justifyContent: "center",
-    gap: margin.medium,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
     gap: margin.medium,
   },
   actions: {

@@ -10,8 +10,8 @@ import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 import ScreenWrapper from "../../../../ottery-ui/containers/ScreenWrapper";
-import { FieldData } from "./components/CustomField";
 import { noId } from "@ottery/ottery-dto";
+import { FieldData } from "./components/FieldSelect";
 
 export interface EventFormData {
   summary: string;
