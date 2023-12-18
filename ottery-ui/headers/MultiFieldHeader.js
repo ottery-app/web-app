@@ -9,6 +9,7 @@ import { IconButton, Text } from "react-native-paper";
 import Image from "../image/Image";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { clickable } from "../styles/clickable";
+import { IconHeader } from "./IconHeader";
 
 const styles = StyleSheet.create({
   main: {
@@ -46,18 +47,11 @@ export function MultiFieldHeader({
 }) {
   return (
     <View style={styles.main}>
-      <View style={styles.top}>
-        <Image
-          src={src}
-          alt={alt}
-          width={image.mediumProfile}
-          height={image.mediumProfile}
-          radius={rad.round}
-        />
-        <View style={styles.info}>
-          <Text variant="titleMedium">{title}</Text>
-        </View>
-      </View>
+      <IconHeader
+        title={title}
+        src={src}
+        alt={alt}
+      />
       <View style={styles.bottom}>
         <TabField
           type={TAB_BUTTON_TYPES.upright}

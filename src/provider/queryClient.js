@@ -22,6 +22,8 @@ export const query_paths = {
     },
     social: {
         root: "soc",
+    },
+    attendance: {
+        root: "attendance",
     }
-
 }
