@@ -17,6 +17,7 @@ import { Main } from "../../../ottery-ui/containers/Main";
 import { View } from "react-native";
 import { DataFieldDto, FormFieldDto, noId } from "@ottery/ottery-dto";
 import { margin } from "../../../ottery-ui/styles/margin";
+import { SettingsOption } from "../../../ottery-ui/buttons/SettingsOption";
 
 enum Tabs {
     events = "Events",
@@ -145,6 +146,7 @@ export function ChildProfile({route}) {
             {childData?.data.map((formField:DataFieldDto)=>
                 <DataRow label={formField.label} value={formField.value}/>
             )}
+            <SettingsOption onPress={()=>{}}>Attendance</SettingsOption>
         </Main>
     }, [childData, childEvents]);
 
