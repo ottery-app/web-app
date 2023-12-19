@@ -1,4 +1,3 @@
-import React from "react";
 import { IconHeader } from "../../../../ottery-ui/headers/IconHeader";
 import { useChildClient } from "../useChildClient";
 import { Main } from "../../../../ottery-ui/containers/Main";
@@ -6,6 +5,7 @@ import { useEventClient } from "../../event/useEventClient";
 import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
+import { Text } from "react-native-paper";
 
 export function AttendanceChildPickEvent({route}) {
     const navigator = useNavigator();
@@ -25,7 +25,7 @@ export function AttendanceChildPickEvent({route}) {
             />
             <Main>
                 {eventRes?.data?.data?.map((event)=>
-                    <ImageButton onPress={()=>navigator(paths.main.child.attendance, {childId, eventId:event._id})}>{event.summary}</ImageButton>
+                    <ImageButton onPress={()=>navigator(paths.main.child.attendance, {childId, eventId:event._id})}><Text>{event.summary}</Text></ImageButton>
                 )}
             </Main>
         </Main>

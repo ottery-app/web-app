@@ -3,8 +3,6 @@ import { TextInput as InternalTextInput } from "react-native-paper";
 import { color, colors } from "../styles/colors";
 import { makeValidator, useValidator } from "./useValidator";
 import { useThemeMaker } from "../styles/Color";
-import { margin } from "../styles/margin";
-import { Text } from "react-native";
 import { radius } from "../styles/radius";
 import { InputProps } from "./Input";
 import { clickable } from "../styles/clickable";
@@ -25,17 +23,13 @@ export default function TextInput({
   color = colors.primary,
   value = "",
   label = undefined,
-  //outlineStyle = undefined,
-  //outlineColor = undefined,
   placeholder = undefined, //used if you only want a placeholder
-  //placeholderTextColor = undefined,
   multiline = false,
   numberOfLines = 1,
   onChange = undefined,
   mode = "outlined",
   password = undefined,
   status = undefined,
-  //keyboardType = "numeric",
   style = {},
   validator = makeValidator(status),
 }: TextInputProps) {
@@ -57,14 +51,9 @@ export default function TextInput({
       label={label}
       multiline={multiline}
       numberOfLines={numberOfLines}
-      //outlineStyle={{ ...outlineStyle }}
-      //outlineColor={outlineColor}
-      //placeholderTextColor={placeholderTextColor}
       value={value}
-      //keyboardType={keyboardType}
       style={{
         width: "100%",
-        height: clickable.minHeight,
         ...style,
       }}
       onChangeText={(text) => onChange(text)}

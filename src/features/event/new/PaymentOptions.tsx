@@ -6,6 +6,7 @@ import { EventFormData } from ".";
 import Main from "./components/UI/Main";
 import Head from "./components/UI/Head";
 import NumericInput from "../../../../ottery-ui/input/NumericInput";
+import Hint from "../../../../ottery-ui/containers/Hint";
 
 function PaymentOptionsForm({
   form,
@@ -36,6 +37,7 @@ function PaymentOptionsForm({
   return (
     <Main>
       <Head>Payment</Head>
+      <Hint peak="This is to get the attendee's consent to be billed" />
       <NumericInput
         label="cost of registration USD"
         onChange={handleCostChange}
