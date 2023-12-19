@@ -13,6 +13,7 @@ import { usePing } from "../../../../../../ottery-ping";
 import { margin } from "../../../../../../ottery-ui/styles/margin";
 import { useRosterClient } from "../../useRosterClient";
 import React from "react";
+import { useScreenDimensions } from "../../../../../hooks/dimentions.hook";
 
 export function NoRequestPickup({route}){
     const navigator = useNavigator();
@@ -23,6 +24,7 @@ export function NoRequestPickup({route}){
     const guardian = useUserClient().useGetUserInfo({inputs:[guardianId]})?.data?.data[0];
     const pickup = useRosterClient().usePickUp();
     const Ping = usePing();
+    const {height} = useScreenDimensions();
 
     function handleAccept() {
         pickup.mutate({
@@ -48,8 +50,8 @@ export function NoRequestPickup({route}){
             <Text variant="headlineSmall">{child?.firstName} {child?.lastName}</Text>
             <Image
                 src={child?.pfp}
-                height={image.largeProfile}
-                width={image.largeProfile}
+                height={height/4}
+                width={height/4}
                 radius={radius.round}
                 alt={"child photo"}
             />
@@ -57,8 +59,8 @@ export function NoRequestPickup({route}){
             <Text variant="headlineSmall">{guardian?.firstName} {guardian?.lastName}</Text>
             <Image
                 src={guardian?.pfp}
-                height={image.largeProfile}
-                width={image.largeProfile}
+                height={height/4}
+                width={height/4}
                 radius={radius.round}
                 alt={"guardian photo"}
             />

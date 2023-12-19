@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export const image = {
   largeProfile: 250,
   mediumProfile: 80,
