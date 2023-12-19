@@ -74,7 +74,7 @@ export function NewChild() {
                 label="Gender"
                 value={form?.gender}
                 options={Object.keys(gender).map((key)=>{return {label: gender[key], value: gender[key]}})}
-                onChange={(value)=>{setForm({...form, gender:value})}}
+                onChange={({value})=>{setForm({...form, gender:value})}}
             />
             <View style={{margin:margin.medium}}>
                 <ButtonSpan>

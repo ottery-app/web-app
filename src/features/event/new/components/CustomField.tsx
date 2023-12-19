@@ -7,7 +7,7 @@ import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import Error from "../../../../../ottery-ui/text/Error";
-import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
+import { Dropdown, DropdownOption } from "../../../../../ottery-ui/input/Dropdown";
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
@@ -32,7 +32,7 @@ interface CustomFieldProps {
 
 function CustomField({ id, onDone }: CustomFieldProps) {
   const [label, setLabel] = useState("");
-  const [type, setType] = useState(undefined);
+  const [type, setType] = useState<inputType>(undefined);
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
 
@@ -40,7 +40,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
     setError("");
   }, [label, type]);
 
-  function handleTypeChange(type: inputType) {
+  function handleTypeChange({ value: type}: DropdownOption) {
     setType(type);
   }
 

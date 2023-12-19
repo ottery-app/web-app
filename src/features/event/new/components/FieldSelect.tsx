@@ -1,7 +1,7 @@
 import { PropsWithChildren, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { Dropdown } from "react-native-element-dropdown";
+
 import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { margin } from "../../../../../ottery-ui/styles/margin";
@@ -10,6 +10,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { border } from "../../../../../ottery-ui/styles/border";
 import { radius } from "../../../../../ottery-ui/styles/radius";
+import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
 
 export type FieldData = Partial<FormFieldDto> & {
   id: string;
@@ -71,10 +72,6 @@ function FieldSelect({ onDone, options, value }: FieldSelectProps) {
     onDone({ ...item.value, id: value.id });
   }
 
-  function handleSearchKeywordChange(search: string) {
-    console.log(search);
-  }
-
   function handleDone(data: FieldData) {
     setLabel(data.label);
     setDone(true);
@@ -96,21 +93,10 @@ function FieldSelect({ onDone, options, value }: FieldSelectProps) {
   }
 
   return (
-    <Dropdown<DropdownData>
-      containerStyle={styles.container}
-      data={dropdownData}
-      inputSearchStyle={styles.inputSearch}
-      labelField="label"
-      maxHeight={300}
-      minHeight={100}
-      mode="default"
+    <Dropdown
       onChange={handleDropdownChange}
-      onChangeText={handleSearchKeywordChange}
+      options={dropdownData}
       renderItem={renderItem}
-      search
-      searchField="label"
-      style={styles.dropdown}
-      valueField="value"
     />
   );
 }

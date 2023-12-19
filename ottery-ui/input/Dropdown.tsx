@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown as DropdownInner } from "react-native-element-dropdown";
 import { colors } from "../styles/colors";
@@ -47,17 +47,19 @@ const styles = StyleSheet.create({
 
 //Instead of defining the value as key in the dropdownoption interface we are defining it as label
 //because the native dropdoen component are expection values as options/data as label value pairs
-interface DropdownOption {
+export interface DropdownOption {
   label: string;
   value: any;
+  _index?: number;
 }
 
 interface DropdownProps {
   label?: string;
   options: DropdownOption[];
-  value: any;
+  value?: any;
   placeholder?: string;
-  onChange: (value: any) => void;
+  onChange: (item: DropdownOption) => void;
+  renderItem?: (item: DropdownOption, selected?: boolean) => ReactElement;
 }
 
 export function Dropdown({
@@ -65,6 +67,7 @@ export function Dropdown({
   options,
   onChange,
   placeholder = label,
+  renderItem,
   value,
 }: DropdownProps) {
   return (
@@ -91,7 +94,8 @@ export function Dropdown({
         valueField="value"
         placeholder={placeholder}
         value={value}
-        onChange={(item) => onChange(item.value)}
+        onChange={onChange}
+        renderItem={renderItem}
       />
     </View>
   );
