@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: margin.small,
     textAlign: "left",
+    paddingRight: margin.medium,
   },
 });
 

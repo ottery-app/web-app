@@ -12,6 +12,7 @@ import PaymentOptionsForm from "./PaymentOptions";
 
 import { noId } from "@ottery/ottery-dto";
 import { FieldData } from "./components/FieldSelect";
+import { useNavigator } from "../../../router/useNavigator";
 
 export interface EventFormData {
   summary: string;
@@ -27,7 +28,8 @@ export interface EventFormData {
   public: boolean;
 }
 
-function NewEventScreen({ navigation }) {
+function NewEventScreen() {
+  const navigator = useNavigator();
   const Ping = usePing();
   const { useNewEvent } = useEventClient();
   const newEvent = useNewEvent();
@@ -52,7 +54,7 @@ function NewEventScreen({ navigation }) {
 
   function handleSubmit(form: EventFormData) {
     newEvent.mutate(form, {
-      onSuccess: () => navigation.goBack(),
+      onSuccess: () => navigator(-1),
       onError: (err: any) => Ping.error(err.message),
     });
   }

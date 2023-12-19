@@ -35,7 +35,7 @@ function AbrCheckbox({ checked, label, onChange }: AbrCheckboxProps) {
 
 const styles = StyleSheet.create({
   bgDefault: {
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.disabled.main,
   },
   bgChecked: {
     backgroundColor: colors.primary.main,

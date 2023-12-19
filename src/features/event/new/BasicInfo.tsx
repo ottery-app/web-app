@@ -71,8 +71,8 @@ function BasicInfoForm({
       <TextInput label="Location" onChange={setLocation} value={location} />
       <TextInput
         label="About"
-        multiline
-        numberOfLines={4}
+        multiline={true}
+        numberOfLines={7}
         onChange={setAbout}
         value={about}
       />

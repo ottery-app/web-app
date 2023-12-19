@@ -91,6 +91,10 @@ export function useNavigator() {
       return;
     }
 
-    navigation.navigate(path, params);
+    if (path === -1) {
+      navigation.goBack();
+    } else {
+      navigation.navigate(path, params);
+    }
   };
 }

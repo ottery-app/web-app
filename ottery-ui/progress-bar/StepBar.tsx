@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: border.thick,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.disabled.main,
   },
   circle: {
     borderWidth: border.thick,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background.primary,
   },
   borderColorDefault: {
-    borderColor: colors.background.secondary,
+    borderColor: colors.disabled.main,
   },
   borderColorActive: {
     borderColor: colors.primary.main,

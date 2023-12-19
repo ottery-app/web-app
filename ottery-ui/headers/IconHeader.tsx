@@ -54,7 +54,10 @@ export function IconHeader({
             />
             <View style={styles.info}>
                 <Text variant="titleMedium">{title}</Text>
-                <Text variant="titleSmall">{subTitle}</Text>
+                {subTitle 
+                  ? <Text variant="titleSmall">{subTitle}</Text> 
+                  : undefined
+                }
             </View>
         </View>
     </View>

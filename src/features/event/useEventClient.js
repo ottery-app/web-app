@@ -12,8 +12,11 @@ import {
 import {makeUseMutation} from "../../queryStatus/makeUseMutation";
 import {makeUseQuery} from "../../queryStatus/makeGetQuery";
 import { query_paths } from "../../provider/queryClient";
+import { useQueryClient } from "react-query";
 
 export function useEventClient() {
+  const queryClient = useQueryClient();
+
   const useGetEventInfo = makeUseQuery({
       queryKey: [query_paths.event.root, "eventInfo"],
       queryFn: getInfo,
@@ -51,7 +54,8 @@ export function useEventClient() {
   const useNewEvent = makeUseMutation({
     mutationFn: newEvent,
     onSuccessAlways: (data) => {
-      queryClient.invalidateQueries([query_paths.event.root, "events"]);
+      queryClient.invalidateQueries([query_paths.event.root]);
+      queryClient.invalidateQueries([query_paths.user.root]);
       return data;
     },
   });

@@ -84,7 +84,7 @@ const CUSTOM_REPEAT_OPTIONS: HybridOptionProp[] = [
     type: "number",
     props: {
       min: 1,
-      placeholder: "occurrences",
+      placeholder: "repeats",
     },
   },
 ];
@@ -198,7 +198,6 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
     }
 
     //RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
-    console.log(end);
     if (!interval && !end && !repeat) {
       setCustom("RRULE:FREQ=CUSTOM");
     } else {

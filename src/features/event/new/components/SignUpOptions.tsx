@@ -41,7 +41,7 @@ function SignUpOptions({
     updateErrorHandler(() => {
       for (let i = 0; i < items.length; i++) {
         if (!classifyWithDto(FormFieldDto, items[i])) {
-          return "All fields must be marked done.";
+          return "All fields must saved.";
         }
       }
     });
