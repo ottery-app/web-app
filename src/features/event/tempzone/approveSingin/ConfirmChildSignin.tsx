@@ -15,6 +15,7 @@ import { requestType } from "@ottery/ottery-dto";
 import { usePing } from "../../../../../ottery-ping";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import React from "react";
+import { useScreenDimensions } from "../../../../hooks/dimentions.hook";
 
 export function ConfirmChildSignin({route}){
     const navigator = useNavigator();
@@ -26,6 +27,7 @@ export function ConfirmChildSignin({route}){
     const guardian = useUserClient().useGetUserInfo({inputs:[guardianId]})?.data?.data[0];
     const accept = useTempzoneClient().useAcceptChildRequest();
     const Ping = usePing();
+    const {height} = useScreenDimensions();
 
     const requestsRes = useTempzoneClient().useGetWaitingChildrenForEvent({
         inputs:[eventId, requestType.DROPOFF],
@@ -48,17 +50,19 @@ export function ConfirmChildSignin({route}){
     }
 
     return (
-        <Main style={{
-            //flex:1,
-            //justifyContent: "center",
-            alignItems: "center",
-            gap: margin.small,
-        }}>
+        <Main 
+            style={{
+                //flex:1,
+                //justifyContent: "center",
+                alignItems: "center",
+                gap: margin.small,
+            }}
+        >
             <Text variant="headlineSmall">{child?.firstName} {child?.lastName}</Text>
             <Image
                 src={child?.pfp}
-                height={image.largeProfile}
-                width={image.largeProfile}
+                height={height/4}
+                width={height/4}
                 radius={radius.round}
                 alt={"child photo"}
             />
@@ -66,8 +70,8 @@ export function ConfirmChildSignin({route}){
             <Text variant="headlineSmall">{guardian?.firstName} {guardian?.lastName}</Text>
             <Image
                 src={guardian?.pfp}
-                height={image.largeProfile}
-                width={image.largeProfile}
+                height={height/4}
+                width={height/4}
                 radius={radius.round}
                 alt={"guardian photo"}
             />
