@@ -8,6 +8,8 @@ import { Chat as ChatDto } from "./components/types/chat";
 import { pfp } from "../../../assets/icons";
 import React from "react";
 import { Main } from "../../../ottery-ui/containers/Main";
+import { fadedStyle, fadedVariant } from "../event/tempzone/tempzone.style";
+import { Text } from "react-native-paper";
 
 function Chat({ chat }: { chat: InstanceType<typeof ChatDto> }) {
   const { useUserId } = useAuthClient();
@@ -48,7 +50,7 @@ function Messages() {
 
   return (
     <Main>
-      {chats &&
+      {(chats &&
         chats
           .sort(
             (
@@ -60,7 +62,7 @@ function Messages() {
           )
           .map((chat: InstanceType<typeof ChatDto>) => (
             <Chat key={chat._id} chat={chat} />
-          ))}
+          ))) || <Text variant={fadedVariant} style={fadedStyle}>You have no messages</Text>}
     </Main>
   );
 }
