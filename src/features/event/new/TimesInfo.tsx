@@ -16,7 +16,7 @@ import {
 } from "../../../functions/time";
 import DateInput from "../../../../ottery-ui/input/DateInput";
 import Main from "./components/UI/Main";
-import { Dropdown } from "../../../../ottery-ui/input/Dropdown";
+import { Dropdown, DropdownOption } from "../../../../ottery-ui/input/Dropdown";
 import CustomRepeat from "./components/CustomRepeat";
 
 //https://www.rfc-editor.org/rfc/rfc5545#section-3.8.5
@@ -92,7 +92,7 @@ function TimesForm({
     setEnd(time);
   }
 
-  function handleRepeatChange(repeat: string) {
+  function handleRepeatChange({ value: repeat }: DropdownOption) {
     setRepeat(repeat);
   }
 

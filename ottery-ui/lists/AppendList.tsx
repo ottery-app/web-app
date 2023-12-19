@@ -4,12 +4,18 @@ import { PropsWithChildren, ReactElement } from "react";
 import { IconButton, Text } from "react-native-paper";
 import { colors } from "../styles/colors";
 import { radius } from "../styles/radius";
+import { id } from "@ottery/ottery-dto";
+
+export interface AppendListItem<T> {
+  id: id,
+  value: T,
+}
 
 interface AppendListProps<T> {
-  items: T[];
+  items: AppendListItem<T>[];
   onAdd: () => void;
-  onDelete: (id: string) => void;
-  renderItem: (item: T) => ReactElement;
+  onDelete: (id: id) => void;
+  renderItem: (item: AppendListItem<T>) => ReactElement;
 }
 
 interface ItemProps {
@@ -38,7 +44,7 @@ function Item({ children, id, onDelete }: PropsWithChildren<ItemProps>) {
   );
 }
 
-function AppendList<T extends { id: string }>({
+function AppendList<T>({
   items,
   onAdd,
   onDelete,

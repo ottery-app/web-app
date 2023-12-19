@@ -6,6 +6,7 @@ export const newEvent = clideInst
     .makePost("event", {
         data_validator: CreateEventDto,
         in_pipeline: (form)=>{
+            console.log(form);
             return {
                 data: form,
             }

@@ -57,6 +57,10 @@ function BasicInfoForm({
     });
   }, [title, org, about, location, pub]);
 
+  function handleOrgChange({ value }) {
+    setOrg(value);
+  }
+
   return (
     <Main>
       <Head>Basic Info</Head>
@@ -64,7 +68,7 @@ function BasicInfoForm({
       <TextInput label="Event Title" onChange={setTitle} value={title} />
       {/* <Dropdown
         label="Organization"
-        onChange={setOrg}
+        onChange={handleOrgChange}
         options={[{ label: "No Organization", value: noId }]}
         value={org}
       /> */}

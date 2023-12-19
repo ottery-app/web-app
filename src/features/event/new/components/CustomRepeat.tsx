@@ -17,7 +17,10 @@ import Main from "./UI/Main";
 import Head from "./UI/Head";
 import Row from "./UI/Row";
 import NumericInput from "../../../../../ottery-ui/input/NumericInput";
-import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
+import {
+  Dropdown,
+  DropdownOption,
+} from "../../../../../ottery-ui/input/Dropdown";
 import AbrCheckboxGroup from "../../../../../ottery-ui/controls/AbrCheckboxGroup";
 import HybridRadioGroup, {
   HybridOptionProp,
@@ -223,12 +226,16 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
     setInterval(newValue);
   }
 
-  function handleFrequencyChange(newValue: string) {
-    setFreq(newValue);
+  function handleFrequencyChange({ value: freq }: DropdownOption) {
+    setFreq(freq);
   }
 
-  function handleRepeatChange(newValue: string | string[]) {
-    setRepeat(newValue);
+  function handleMonthlyRepeatChange({ value: repeat }: DropdownOption) {
+    setRepeat(repeat);
+  }
+
+  function handleWeeklyRepeatChange(value: string[]) {
+    setRepeat(value);
   }
 
   function handleEndChange(key: string, value: any) {
@@ -260,7 +267,7 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
         <Row>
           <Dropdown
             label="Occurs on..."
-            onChange={handleRepeatChange}
+            onChange={handleMonthlyRepeatChange}
             options={monthlyRepeatOptions}
             value={repeat}
           />
@@ -268,7 +275,7 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
       )}
       {freq === "WEEKLY" && (
         <AbrCheckboxGroup
-          onChange={handleRepeatChange}
+          onChange={handleWeeklyRepeatChange}
           options={WEEKLY_REPEAT_OPTIONS}
           selectedIndexes={selectedIndexes}
         />

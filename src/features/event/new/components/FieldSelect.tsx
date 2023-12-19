@@ -1,34 +1,27 @@
 import { PropsWithChildren, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { Dropdown } from "react-native-element-dropdown";
+
 import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
 
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import CustomField from "./CustomField";
-import { nanoid } from "@reduxjs/toolkit";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { border } from "../../../../../ottery-ui/styles/border";
 import { radius } from "../../../../../ottery-ui/styles/radius";
-
-export type FieldData = Partial<FormFieldDto> & {
-  id: string;
-};
+import { Dropdown } from "../../../../../ottery-ui/input/Dropdown";
+import { AppendListItem } from "../../../../../ottery-ui/lists/AppendList";
 
 interface DropdownData {
   label: string;
-  value: FieldData;
+  value: FormFieldDto;
   _index?: number;
 }
 
 interface FieldSelectProps {
-  value: FieldData;
-  onDone: (data: FieldData) => void;
-  options: FieldData[];
-}
-
-function Column({ children }: PropsWithChildren) {
-  return <View style={styles.column}>{children}</View>;
+  value: AppendListItem<FormFieldDto>;
+  onDone: (data: AppendListItem<FormFieldDto>) => void;
+  options: AppendListItem<FormFieldDto>[];
 }
 
 function Row({ children }: PropsWithChildren) {
@@ -36,19 +29,30 @@ function Row({ children }: PropsWithChildren) {
 }
 
 function FieldSelect({ onDone, options, value }: FieldSelectProps) {
-  const [done, setDone] = useState(classifyWithDto(FormFieldDto, value));
+  const [done, setDone] = useState(classifyWithDto(FormFieldDto, value.value));
   const [isCustom, setIsCustom] = useState(false);
-  const [label, setLabel] = useState(value.label);
-
+  const [label, setLabel] = useState(value?.value?.label);
+  
   const dropdownData: DropdownData[] = useMemo(() => {
-    return options
-      .map((option) => {
-        return { label: option.label, value: option };
-      })
-      .concat({
-        label: "Custom",
-        value: { id: value.id, note: "Make your own custom field" },
+
+    const dropdowns = [];
+    
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i].value as FormFieldDto;
+
+      //NOTE there may be a bug caused by this
+      dropdowns.push({
+        value: option,
+        label: option.label,
       });
+    }
+
+    dropdowns.push({
+      label: "Custom",
+      value: { id: value.id, note: "Make your own custom field" },
+    });
+
+    return dropdowns;
   }, [options]);
 
   function renderItem(item: DropdownData) {
@@ -68,15 +72,11 @@ function FieldSelect({ onDone, options, value }: FieldSelectProps) {
       return;
     }
 
-    onDone({ ...item.value, id: value.id });
+    handleDone({ value: item.value, id: value.id });
   }
 
-  function handleSearchKeywordChange(search: string) {
-    console.log(search);
-  }
-
-  function handleDone(data: FieldData) {
-    setLabel(data.label);
+  function handleDone(data: AppendListItem<FormFieldDto>) {
+    setLabel(data.value.label);
     setDone(true);
 
     onDone(data);
@@ -96,21 +96,10 @@ function FieldSelect({ onDone, options, value }: FieldSelectProps) {
   }
 
   return (
-    <Dropdown<DropdownData>
-      containerStyle={styles.container}
-      data={dropdownData}
-      inputSearchStyle={styles.inputSearch}
-      labelField="label"
-      maxHeight={300}
-      minHeight={100}
-      mode="default"
+    <Dropdown
       onChange={handleDropdownChange}
-      onChangeText={handleSearchKeywordChange}
+      options={dropdownData}
       renderItem={renderItem}
-      search
-      searchField="label"
-      style={styles.dropdown}
-      valueField="value"
     />
   );
 }
