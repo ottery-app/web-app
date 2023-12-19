@@ -10,9 +10,9 @@ import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 
-import { noId } from "@ottery/ottery-dto";
-import { FieldData } from "./components/FieldSelect";
+import { FormFieldDto, noId } from "@ottery/ottery-dto";
 import { useNavigator } from "../../../router/useNavigator";
+import { AppendListItem } from "../../../../ottery-ui/lists/AppendList";
 
 export interface EventFormData {
   summary: string;
@@ -22,8 +22,8 @@ export interface EventFormData {
   end: number;
   location: string;
   recurrence: string[];
-  volenteerSignUp: FieldData[];
-  attendeeSignUp: FieldData[];
+  volenteerSignUp: AppendListItem<FormFieldDto>[];
+  attendeeSignUp: AppendListItem<FormFieldDto>[];
   cost: number;
   public: boolean;
 }
@@ -53,7 +53,11 @@ function NewEventScreen() {
   }
 
   function handleSubmit(form: EventFormData) {
-    newEvent.mutate(form, {
+    newEvent.mutate({
+      ...form,
+      volenteerSignUp: form.volenteerSignUp.map(({value})=>value),
+      attendeeSignUp: form.attendeeSignUp.map(({value})=>value),
+    }, {
       onSuccess: () => navigator(-1),
       onError: (err: any) => Ping.error(err.message),
     });

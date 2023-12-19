@@ -11,7 +11,7 @@ export function AwaitGlobalLoad({children}) {
     const status = useQueryStatus();
     const {height, width} = useScreenDimensions();
 
-    const done = status.every(stat=>stat!=="loading");
+    const done = true//status.every(stat=>stat!=="loading");
 
     return (
         <>

@@ -11,7 +11,7 @@ import { Dropdown, DropdownOption } from "../../../../../ottery-ui/input/Dropdow
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
-import { FieldData } from "./FieldSelect";
+import { AppendListItem } from "../../../../../ottery-ui/lists/AppendList";
 
 function Column({ children }: PropsWithChildren) {
   return <View style={styles.column}>{children}</View>;
@@ -27,7 +27,7 @@ const INPUT_TYPE_OPTIONS = [
 
 interface CustomFieldProps {
   id: string;
-  onDone: (data: FieldData) => void;
+  onDone: (data: AppendListItem<FormFieldDto>) => void;
 }
 
 function CustomField({ id, onDone }: CustomFieldProps) {
@@ -61,9 +61,11 @@ function CustomField({ id, onDone }: CustomFieldProps) {
 
     const data = {
       id,
-      label,
-      type,
-      note,
+      value: {
+        label,
+        type,
+        note,
+      }
     };
 
     onDone(data);
