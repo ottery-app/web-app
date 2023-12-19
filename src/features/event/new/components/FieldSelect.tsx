@@ -29,10 +29,10 @@ function Row({ children }: PropsWithChildren) {
 }
 
 function FieldSelect({ onDone, options, value }: FieldSelectProps) {
-  const [done, setDone] = useState(classifyWithDto(FormFieldDto, value));
+  const [done, setDone] = useState(classifyWithDto(FormFieldDto, value.value));
   const [isCustom, setIsCustom] = useState(false);
   const [label, setLabel] = useState(value?.value?.label);
-
+  
   const dropdownData: DropdownData[] = useMemo(() => {
 
     const dropdowns = [];

@@ -71,7 +71,6 @@ function SignUpOptions({
   }
 
   function renderListItem(item: AppendListItem<FormFieldDto>) {
-    console.log(formFields);
     return (
       <FieldSelect onDone={handleDone} options={formFields} value={item} />
     );
