@@ -32,6 +32,7 @@ export function Roster({route}) {
     const eventClient = useEventClient();
     const eventInfoRes = eventClient.useGetEventInfo({inputs: [eventId]});
     const eventInfo = eventInfoRes?.data?.data;
+    console.log(eventInfo);
     const volenteersRes = useUserClient().useGetUserInfo({
         inputs: [eventInfo?.volenteers],
         enabled: !!eventInfo,
@@ -77,7 +78,11 @@ export function Roster({route}) {
                     key={volenteer._id}
                     right={{src:volenteer?.pfp?.src, aspectRatio:1} || pfp}
                     onPress={()=>{
-                        navigator(paths.main.social.chat, {chatId: chatIdMap[volenteer._id]});
+                        if (volenteer._id === userId) {
+                            navigator(paths.main.user.profile, {userId:volenteer._id})
+                        } else {
+                            navigator(paths.main.social.chat, {chatId: chatIdMap[volenteer._id]});
+                        }
                     }}
                 >
                     <Text>{volenteer.firstName} {volenteer.lastName}</Text>
