@@ -38,7 +38,7 @@ export function UserProfile() {
     inputs: [userFriendIds],
     enabled: !!userFriendIds,
   });
-  const userFriends = friendsRes?.data?.data;
+  const userFriends = friendsRes?.data?.data.filter((user)=>user._id !== userId);
   const chatIdsRes = useChatClient().useGetDirectChats({
     inputs: [userId, userFriendIds],
     enabled: !!userFriendIds,
