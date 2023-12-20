@@ -25,6 +25,7 @@ import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { BUTTON_STATES } from "../../../../ottery-ui/buttons/button.enum";
 import { useChildClient } from "../../child/useChildClient";
 import { colors } from "../../../../ottery-ui/styles/colors";
+import { image } from "../../../../ottery-ui/styles/image";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -458,12 +459,14 @@ function Done() {
 
     return <Main>
         <Shadowbox>
-            <Text variant={"headlineSmall"}>You are all signed up!</Text>
-            <Image
-                src={happyCheck}
-                alt={"checkmark"}
-                width={"100%"}
-            />
+            <Text variant={"headlineSmall"} style={{textAlign:"center"}}>You are all signed up!</Text>
+            <View style={{justifyContent:"center", alignItems:"center", padding:margin.large}}>
+                <Image
+                    src={happyCheck}
+                    alt={"checkmark"}
+                    width={image.largeProfile}
+                />
+            </View>
             <ButtonSpan>
                 <Button
                     onPress={()=>{navigator(paths.main.home)}}

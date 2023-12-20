@@ -16,12 +16,12 @@ export const share: ImageDto = {
 };
 
 export const happyCheck: ImageDto = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/26e52da8b8819343f465cfed5e66f0fa1b3e9fa2/images/icons/green_check.png",
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/green_check.png?raw=true",
   aspectRatio: 1,
 };
 
 export const unhappyCheck: ImageDto = {
-  src: "https://raw.githubusercontent.com/ottery-app/global-data/26e52da8b8819343f465cfed5e66f0fa1b3e9fa2/images/icons/red_x.png",
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/red_x.png?raw=true",
   aspectRatio: 1,
 };
 

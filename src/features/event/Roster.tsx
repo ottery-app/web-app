@@ -13,8 +13,6 @@ import paths from "../../router/paths";
 import { pfp, pluss } from "../../../assets/icons";
 import { usePing } from "../../../ottery-ping";
 import { colors } from "../../../ottery-ui/styles/colors";
-import { View } from "react-native";
-import { clickable } from "../../../ottery-ui/styles/clickable";
 import { useAuthClient } from "../auth/useAuthClient";
 import { useChatClient } from "../chat/useChatClient";
 
