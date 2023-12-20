@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AuthApi from "./authApi";
 
+window.load = AuthApi.load;
+
 const initialState = {
   sesh: {
     loggedin: false,

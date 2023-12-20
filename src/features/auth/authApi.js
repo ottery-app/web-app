@@ -15,7 +15,7 @@ export const load = clideInst.makeGet("auth/load", {
     const token = await AsyncStorage.getItem("token");
 
     delete clideInst.defaults.headers.common["Id"];
-    delete clideInst.defaults.headers.common["Authorizationi"];
+    delete clideInst.defaults.headers.common["Authorization"];
 
     if (seshId && seshId !== "undefined") {
       clideInst.defaults.headers.common["Id"] = seshId;
@@ -25,9 +25,9 @@ export const load = clideInst.makeGet("auth/load", {
       clideInst.defaults.headers.common["Authorization"] = token;
     }
   },
-  out_pipeline: (res) => {
+  out_pipeline: async (res) => {
     clideInst.defaults.headers.common["Id"] = res.data._id;
-    AsyncStorage.setItem("Id", res.data._id); //set to 1 day for no real reason
+    await AsyncStorage.setItem("Id", res.data._id); //set to 1 day for no real reason
     return res;
   },
 });
@@ -75,6 +75,11 @@ export const register = clideInst.makePost("auth/register", {
     if (res?.data?.token){
       AsyncStorage.setItem("token", res.data.token);
       clideInst.defaults.headers.common["Authorization"] = res.data.token;
+    }
+
+    if (res?.data?._id) {
+      AsyncStorage.setItem("Id", res.data._id);
+      clideInst.defaults.headers.common["Id"] = res.data._id;
     }
 
     return res;
