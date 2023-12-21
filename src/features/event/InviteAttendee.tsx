@@ -36,7 +36,7 @@ export function InviteAttendee({route}) {
     }
 
     return (
-        <Main style={{
+        <Main scrollable={true} style={{
             gap:margin.large,
             alignItems:"center",
         }}>
