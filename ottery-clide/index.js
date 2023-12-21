@@ -22,7 +22,6 @@ export default class Clide {
     conf = Object.assign({}, CLIDE_CONF, conf);
     this.conf = conf;
     this.instance = axios.create(conf);
-    //this.instance.defaults.headers.common["ngrok-skip-browser-warning"] = true;
   }
 
   /**
@@ -38,6 +37,7 @@ export default class Clide {
    * @returns
    */
   makeRequest(url, conf = {}) {
+    console.log(url)
     conf.url = url;
     conf = Object.assign({}, this.conf, conf);
 

@@ -22,9 +22,10 @@ import {
   DropdownOption,
 } from "../../../../../ottery-ui/input/Dropdown";
 import AbrCheckboxGroup from "../../../../../ottery-ui/controls/AbrCheckboxGroup";
-import HybridRadioGroup, {
-  HybridOptionProp,
-} from "../../../../../ottery-ui/controls/HybridRadioGroup";
+import {
+  InputRadioOption, InputRadioGroup,
+} from "../../../../../ottery-ui/controls/InputRadioGroup";
+import { inputType } from "@ottery/ottery-dto";
 
 const FREQUENCY_OPTIONS = [
   { label: "day", value: "DAILY" },
@@ -71,23 +72,29 @@ const WEEKLY_REPEAT_OPTIONS = [
   },
 ];
 
-const CUSTOM_REPEAT_OPTIONS: HybridOptionProp[] = [
+enum END_TYPES {
+  Never="NEVER",
+  On="UNTIL",
+  After="COUNT",
+}
+
+const CUSTOM_REPEAT_OPTIONS: InputRadioOption[] = [
   {
-    label: "Never",
-    key: "NEVER",
+    label: "never",
+    key: END_TYPES.Never,
+    type: undefined,
   },
   {
-    label: "On",
-    key: "UNTIL",
-    type: "date",
+    label: "on",
+    key: END_TYPES.On,
+    type: inputType.DATE,
   },
   {
-    label: "After",
-    key: "COUNT",
-    type: "number",
+    label: "after",
+    key: END_TYPES.After,
+    type: inputType.NUMBER,
     props: {
       min: 1,
-      placeholder: "repeats",
     },
   },
 ];
@@ -106,10 +113,18 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
     rruleToObj(custom)["INTERVAL"] || 1
   );
   //The formatting for when the date should end
-  const [end, setEnd] = useState<[string, any]>([
-    CUSTOM_REPEAT_OPTIONS[0].key,
-    undefined,
-  ]);
+  const [endValues, setEndValues] = useState(() => {
+    const endValues = {};
+    const rrules = rruleToObj(custom);
+
+    Object.values(END_TYPES).forEach((value)=>{
+      endValues[value] = rrules[value];
+    });
+
+    return endValues;
+  });
+
+  const [currentEndKey, setCurrentEndKey] = useState("NEVER")
   const [repeat, setRepeat] = useState<string | string[] | undefined>(
     undefined
   );
@@ -142,21 +157,6 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
   }, []);
 
   useEffect(() => {
-    const rrules = rruleToObj(custom);
-
-    if (rrules["UNTIL"]) {
-      //till date
-      setEnd(["UNTIL", rrules["UNTIL"]]);
-    } else if (rrules["COUNT"]) {
-      //occurences
-      setEnd(["COUNT", rrules["COUNT"]]);
-    } else {
-      //never end
-      setEnd(["NEVER", undefined]);
-    }
-  }, []);
-
-  useEffect(() => {
     if (freq === "DAILY") {
       setRepeat(undefined);
     } else if (freq === "WEEKLY") {
@@ -183,9 +183,9 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
       rrule["INTERVAL"] = interval;
     }
 
-    if (end) {
-      if (end[0] !== "NEVER") {
-        rrule[end[0]] = end[1];
+    if (endValues[currentEndKey]) {
+      if (currentEndKey !== "NEVER") {
+        rrule[currentEndKey] = endValues[currentEndKey];
       }
     }
 
@@ -201,12 +201,12 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
     }
 
     //RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
-    if (!interval && !end && !repeat) {
+    if (!interval && !endValues && !repeat) {
       setCustom("RRULE:FREQ=CUSTOM");
     } else {
       setCustom(objToRrule(rrule));
     }
-  }, [freq, interval, end, repeat]);
+  }, [freq, interval, endValues, repeat]);
 
   const selectedIndexes = useMemo(() => {
     if (repeat === undefined) {
@@ -239,7 +239,11 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
   }
 
   function handleEndChange(key: string, value: any) {
-    setEnd([key, value]);
+    setCurrentEndKey(key);
+    setEndValues(p=>({
+      ...p,
+      [key]:value,
+    }));
   }
 
   return (
@@ -281,12 +285,12 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
         />
       )}
       <Row>
-        <HybridRadioGroup
+        <InputRadioGroup
           label="Ends:"
           onChange={handleEndChange}
           options={CUSTOM_REPEAT_OPTIONS}
-          selectedKey={end[0]}
-          selectedValue={end[1]}
+          selected={currentEndKey}
+          values={endValues}
         />
       </Row>
     </Main>

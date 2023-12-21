@@ -26,6 +26,7 @@ export function Main({
       keyboardShouldPersistTaps="always"
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={true}
+      automaticallyAdjustKeyboardInsets={true}
       style={stylesheets}
       contentContainerStyle={style}
     >{children}</ScrollView>

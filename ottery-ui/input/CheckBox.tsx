@@ -6,7 +6,6 @@ import { clickable } from "../styles/clickable";
 import { margin } from "../styles/margin";
 import { radius } from "../styles/radius";
 import { InputProps } from "./Input";
-import React from "react";
 
 export interface CheckBoxProps extends InputProps<boolean> {
     mode?: CheckBoxMode,

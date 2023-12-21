@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import { View, TouchableWithoutFeedback } from "react-native";
-import { DefaultTheme, TextInput, ThemeProvider } from "react-native-paper";
+import { DefaultTheme, ThemeProvider } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
+import { InputProps } from "./Input";
+import TextInput from "./TextInput";
 
-interface DateInputProps {
-  disabled?: boolean;
-  label?: string;
-  placeholder?: string;
-  value?: string | number | Date;
-  onChange: (value: number) => void;
-}
+interface DateInputProps extends InputProps<string | number | Date> {}
 
 const DateInput = ({
-  disabled,
   label,
   placeholder,
   value,
@@ -48,15 +43,13 @@ const DateInput = ({
 
   return (
     //here we are not giving any placeholder text for this input instead we are displaying the present date when the date input button is used
-    <View>
-      <TouchableWithoutFeedback onPress={() => setOpen(true)}>
-        <View pointerEvents="box-only">
+    <View style={{width:"100%"}}>
+      <TouchableWithoutFeedback onPress={() => setOpen(true)} style={{width:"100%"}}>
+        <View pointerEvents="box-only" style={{width:"100%"}}>
           <TextInput
-            disabled={disabled}
             mode="outlined"
             label={label}
             placeholder={placeholder}
-            placeholderTextColor={colors.disabled.main}
             value={formatDate(value)}
             onChange={() => {}}
           />

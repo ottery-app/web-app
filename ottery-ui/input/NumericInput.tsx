@@ -1,6 +1,5 @@
-import { TextInput } from "react-native-paper";
-import { colors } from "../styles/colors";
-import { radius } from "../styles/radius";
+import { InputProps } from "./Input";
+import TextInput from "./TextInput";
 
 function forceBetween(value: string | undefined, min?: number, max?: number) {
   if (value === undefined || value.length === 0) {
@@ -24,18 +23,13 @@ function forceBetween(value: string | undefined, min?: number, max?: number) {
   return parsedValue;
 }
 
-interface NumericInputProps {
-  label?: string;
-  value?: number;
+export interface NumericInputProps extends InputProps<number> {
   min?: number;
   max?: number;
-  disabled?: boolean;
   placeholder?: string;
-  onChange?: (value?: number) => void;
 }
 
 function NumericInput({
-  disabled,
   label,
   max,
   min,
@@ -53,13 +47,10 @@ function NumericInput({
 
   return (
     <TextInput
-      disabled={disabled}
       label={label}
       mode="outlined"
-      onChangeText={handleChange}
+      onChange={handleChange}
       placeholder={placeholder}
-      placeholderTextColor={colors.disabled.main}
-      theme={{ roundness: radius.default }}
       value={`${value ?? ""}`}
     />
   );

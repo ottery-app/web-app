@@ -59,6 +59,7 @@ export const logout = clideInst.makeDelete("auth/logout", {
     delete clideInst.defaults.headers.common["Id"];
     delete clideInst.defaults.headers.common["Authorization"];
     AsyncStorage.removeItem("Id");
+    AsyncStorage.removeItem("Authorization");
     load();
     return res;
   },

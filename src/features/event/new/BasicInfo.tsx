@@ -4,9 +4,7 @@ import { noId } from "@ottery/ottery-dto";
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
 import Head from "./components/UI/Head";
-import { CheckBox } from "../../../../ottery-ui/input/CheckBox";
 import TextInput from "../../../../ottery-ui/input/TextInput";
-import { Dropdown } from "../../../../ottery-ui/input/Dropdown";
 import Main from "./components/UI/Main";
 
 function BasicInfoForm({

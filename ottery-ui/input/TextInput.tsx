@@ -12,7 +12,6 @@ export interface TextInputProps extends InputProps<string> {
   placeholder?: string;
   password?: boolean;
   mode?: any;
-  status?: string;
   style?: any;
   validator?: (val: any) => boolean;
   multiline?: boolean;
@@ -34,6 +33,7 @@ export default function TextInput({
   validator = makeValidator(status),
 }: TextInputProps) {
   const validatorStatus = useValidator(validator, value, 1000);
+
   const theme = useThemeMaker({
     primary: color,
     status: status || validatorStatus,
@@ -41,6 +41,7 @@ export default function TextInput({
 
   return (
     <InternalTextInput
+      disabled={status==="disabled"}
       theme={{
         ...theme,
         roundness: radius.default,
