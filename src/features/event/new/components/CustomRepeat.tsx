@@ -88,6 +88,9 @@ const CUSTOM_REPEAT_OPTIONS: InputRadioOption[] = [
     label: "on",
     key: END_TYPES.On,
     type: inputType.DATE,
+    props: {
+      placeholder: "Date"
+    }
   },
   {
     label: "after",
@@ -95,6 +98,7 @@ const CUSTOM_REPEAT_OPTIONS: InputRadioOption[] = [
     type: inputType.NUMBER,
     props: {
       min: 1,
+      placeholder: "Occurances",
     },
   },
 ];
