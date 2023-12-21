@@ -51,7 +51,7 @@ function AbrCheckboxGroup({
         <AbrCheckbox
           key={option.index}
           label={option.label}
-          checked={selectedIndexes.includes(option.index)}
+          value={selectedIndexes.includes(option.index)}
           onChange={handleOptionChange(option.index)}
         />
       ))}

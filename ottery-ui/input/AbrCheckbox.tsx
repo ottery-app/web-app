@@ -4,20 +4,17 @@ import Button from "../buttons/Button";
 import { clickable } from "../styles/clickable";
 import { radius } from "../styles/radius";
 import { colors } from "../styles/colors";
+import { CheckBoxProps } from "./CheckBox";
 
-interface AbrCheckboxProps {
-  label: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-}
+interface AbrCheckboxProps extends CheckBoxProps {}
 
-function AbrCheckbox({ checked, label, onChange }: AbrCheckboxProps) {
+function AbrCheckbox( props : AbrCheckboxProps) {
   function handlePress() {
-    onChange(!checked);
+    props.onChange(!props.value);
   }
 
-  const bgStyle = checked ? styles.bgChecked : styles.bgDefault;
-  const colorStyle = checked ? styles.colorChecked : styles.colorDefault;
+  const bgStyle = props.value ? styles.bgChecked : styles.bgDefault;
+  const colorStyle = props.value ? styles.colorChecked : styles.colorDefault;
 
   return (
     <Button
@@ -28,7 +25,7 @@ function AbrCheckbox({ checked, label, onChange }: AbrCheckboxProps) {
       styles={bgStyle}
       width={clickable.minWidth}
     >
-      {label}
+      {props.label}
     </Button>
   );
 }
