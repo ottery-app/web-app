@@ -13,7 +13,7 @@ import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
 import { useTempzoneClient } from "../tempzoneClient";
-import React, { useState } from "react";
+import React from "react";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -27,7 +27,6 @@ export function PickChildren() {
     const Ping = usePing();
     const makeRequest = useTempzoneClient().useMakeChildRequest();
     const updateReqeust = useUpdateRequest();
-    const [navigated, setNavigated] = useState(false);
 
     function updateSelected(child) {
         if (selected.includes(child._id)) {

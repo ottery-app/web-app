@@ -13,15 +13,16 @@ import PaymentOptionsForm from "./PaymentOptions";
 import { FormFieldDto, noId } from "@ottery/ottery-dto";
 import { useNavigator } from "../../../router/useNavigator";
 import { AppendListItem } from "../../../../ottery-ui/lists/AppendList";
+import { Frequency, RRule } from "rrule";
+
+window["rule"] = RRule;
 
 export interface EventFormData {
   summary: string;
   org: string;
   description: string;
-  start: number;
-  end: number;
   location: string;
-  recurrence: string[];
+  rrule: RRule;
   volenteerSignUp: AppendListItem<FormFieldDto>[];
   attendeeSignUp: AppendListItem<FormFieldDto>[];
   cost: number;
@@ -38,10 +39,8 @@ function NewEventScreen() {
     summary: "",
     org: noId,
     description: "",
-    end: new Date().getTime(),
-    start: new Date().getTime(),
     location: "",
-    recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
+    rrule: new RRule({freq:Frequency.DAILY,count:1, dtstart: new Date()}),
     volenteerSignUp: [],
     attendeeSignUp: [],
     cost: 0,

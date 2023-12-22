@@ -26,6 +26,7 @@ import {
   InputRadioOption, InputRadioGroup,
 } from "../../../../../ottery-ui/controls/InputRadioGroup";
 import { inputType } from "@ottery/ottery-dto";
+import { RRule } from "rrule";
 
 const FREQUENCY_OPTIONS = [
   { label: "day", value: "DAILY" },
@@ -105,200 +106,215 @@ const CUSTOM_REPEAT_OPTIONS: InputRadioOption[] = [
 
 interface CustomRepeatProps {
   date: number;
-  custom: string;
+  custom: RRule;
   setCustom: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
-  //the time it repeats
-  const [freq, setFreq] = useState<string>();
-  //the time between repeats
-  const [interval, setInterval] = useState<number>(
-    rruleToObj(custom)["INTERVAL"] || 1
-  );
-  //The formatting for when the date should end
-  const [endValues, setEndValues] = useState(() => {
-    const endValues = {};
-    const rrules = rruleToObj(custom);
+  return "non existant at the moment"
+  // // //the time it repeats
+  // // const [freq, setFreq] = useState<string>();
+  // // //the time between repeats
+  // // const [interval, setInterval] = useState<number>(custom.options.interval || 1);
+  // // //The formatting for when the date should end
+  // // const [endValues, setEndValues] = useState(() => {
+  // //   const endValues = {};
+  // //   const rrules = custom;
 
-    Object.values(END_TYPES).forEach((value)=>{
-      endValues[value] = rrules[value];
-    });
+  // //   Object.values(END_TYPES).forEach((value)=>{
+  // //     endValues[value] = rrules[value];
+  // //   });
 
-    return endValues;
-  });
+  // //   return endValues;
+  // // });
 
-  const [currentEndKey, setCurrentEndKey] = useState("NEVER")
-  const [repeat, setRepeat] = useState<string | string[] | undefined>(
-    undefined
-  );
+  // //const [currentEndKey, setCurrentEndKey] = useState("NEVER")
+  // // const [repeat, setRepeat] = useState<string | string[] | undefined>(
+  // //   undefined
+  // // );
 
-  const monthlyRepeatOptions = useMemo(() => {
-    return [
-      {
-        label: `Monthly on day ${getDay(date)}`,
-        value: rruleMonthlyByDayFrom(date),
-      },
-      {
-        label: `Monthly on the ${getWeekInMonth(date)} ${getDateName(date)}`,
-        value: rruleMonthlyByWeekFrom(date),
-      },
-    ];
-  }, [date]);
+  // const monthlyRepeatOptions = useMemo(() => {
+  //   const dayOfMonth = getDay(date);
+  //   const weekInMonth = getWeekInMonth(date);
+  
+  //   const monthlyByDayRule = new RRule({
+  //     freq: RRule.MONTHLY,
+  //     bymonthday: dayOfMonth,
+  //     dtstart: new Date(date),
+  //   });
+  
+  //   const monthlyByWeekRule = new RRule({
+  //     freq: RRule.MONTHLY,
+  //     bysetpos: weekInMonth,
+  //     byweekday: new Date(date).getDay(), // Replace this with the appropriate weekday for your case
+  //     dtstart: new Date(date),
+  //   });
+  
+  //   return [
+  //     {
+  //       label: `Monthly on day ${dayOfMonth}`,
+  //       value: monthlyByDayRule.toString(),
+  //     },
+  //     {
+  //       label: `Monthly on the ${weekInMonth} ${getDateName(date)}`,
+  //       value: monthlyByWeekRule.toString(),
+  //     },
+  //   ];
+  // }, [date]);
 
-  useEffect(() => {
-    const freq = rruleToObj(custom)["FREQ"];
-    if (
-      !freq ||
-      (freq !== "DAILY" &&
-        freq !== "MONTHLY" &&
-        freq !== "YEARLY" &&
-        freq !== "WEEKLY")
-    ) {
-      setFreq("WEEKLY");
-    }
-    setFreq(freq);
-  }, []);
+  // // useEffect(() => {
+  // //   const freq = rruleToObj(custom)["FREQ"];
+  // //   if (
+  // //     !freq ||
+  // //     (freq !== "DAILY" &&
+  // //       freq !== "MONTHLY" &&
+  // //       freq !== "YEARLY" &&
+  // //       freq !== "WEEKLY")
+  // //   ) {
+  // //     setFreq("WEEKLY");
+  // //   }
+  // //   setFreq(freq);
+  // // }, []);
 
-  useEffect(() => {
-    if (freq === "DAILY") {
-      setRepeat(undefined);
-    } else if (freq === "WEEKLY") {
-      if (!(repeat instanceof Array)) {
-        setRepeat([getDateName(date, true).substring(0, 2)]);
-      }
-    } else if (freq === "MONTHLY") {
-      if (!freq.includes("BYMONTHDAY") && !freq.includes("BYWEEKNO")) {
-        setRepeat(rruleMonthlyByWeekFrom(date));
-      }
-    } else if (freq === "YEARLY") {
-      setRepeat(undefined);
-    }
-  }, [freq]);
+  // // useEffect(() => {
+  // //   if (freq === "DAILY") {
+  // //     setRepeat(undefined);
+  // //   } else if (freq === "WEEKLY") {
+  // //     if (!(repeat instanceof Array)) {
+  // //       setRepeat([getDateName(date, true).substring(0, 2)]);
+  // //     }
+  // //   } else if (freq === "MONTHLY") {
+  // //     if (!freq.includes("BYMONTHDAY") && !freq.includes("BYWEEKNO")) {
+  // //       setRepeat(rruleMonthlyByWeekFrom(date));
+  // //     }
+  // //   } else if (freq === "YEARLY") {
+  // //     setRepeat(undefined);
+  // //   }
+  // // }, [freq]);
 
-  useEffect(() => {
-    let rrule = {};
+  // // useEffect(() => {
+  // //   let rrule = {};
 
-    if (freq) {
-      rrule["FREQ"] = freq;
-    }
+  // //   if (freq) {
+  // //     rrule["FREQ"] = freq;
+  // //   }
 
-    if (interval !== undefined) {
-      rrule["INTERVAL"] = interval;
-    }
+  // //   if (interval !== undefined) {
+  // //     rrule["INTERVAL"] = interval;
+  // //   }
 
-    if (endValues[currentEndKey]) {
-      if (currentEndKey !== "NEVER") {
-        rrule[currentEndKey] = endValues[currentEndKey];
-      }
-    }
+  // //   if (endValues[currentEndKey]) {
+  // //     if (currentEndKey !== "NEVER") {
+  // //       rrule[currentEndKey] = endValues[currentEndKey];
+  // //     }
+  // //   }
 
-    if (repeat) {
-      if (repeat instanceof Array) {
-        rrule["WKST"] = repeat;
-      } else {
-        rrule = {
-          ...rrule,
-          ...rruleToObj("RRULE:" + repeat),
-        };
-      }
-    }
+  // //   if (repeat) {
+  // //     if (repeat instanceof Array) {
+  // //       rrule["WKST"] = repeat;
+  // //     } else {
+  // //       rrule = {
+  // //         ...rrule,
+  // //         ...rruleToObj("RRULE:" + repeat),
+  // //       };
+  // //     }
+  // //   }
 
-    //RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
-    if (!interval && !endValues && !repeat) {
-      setCustom("RRULE:FREQ=CUSTOM");
-    } else {
-      setCustom(objToRrule(rrule));
-    }
-  }, [freq, interval, endValues, repeat]);
+  // //   //RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
+  // //   if (!interval && !endValues && !repeat) {
+  // //     setCustom("RRULE:FREQ=CUSTOM");
+  // //   } else {
+  // //     setCustom(objToRrule(rrule));
+  // //   }
+  // // }, [freq, interval, endValues, repeat]);
 
-  const selectedIndexes = useMemo(() => {
-    if (repeat === undefined) {
-      return [];
-    } else if (repeat instanceof Array) {
-      return WEEKLY_REPEAT_OPTIONS.filter((option) =>
-        repeat.includes(option.value)
-      ).map((option) => option.index);
-    } else if (typeof repeat === "string") {
-      return WEEKLY_REPEAT_OPTIONS.filter(
-        (option) => option.value === repeat
-      ).map((option) => option.index);
-    }
-  }, [JSON.stringify(repeat)]);
+  // // const selectedIndexes = useMemo(() => {
+  // //   if (repeat === undefined) {
+  // //     return [];
+  // //   } else if (repeat instanceof Array) {
+  // //     return WEEKLY_REPEAT_OPTIONS.filter((option) =>
+  // //       repeat.includes(option.value)
+  // //     ).map((option) => option.index);
+  // //   } else if (typeof repeat === "string") {
+  // //     return WEEKLY_REPEAT_OPTIONS.filter(
+  // //       (option) => option.value === repeat
+  // //     ).map((option) => option.index);
+  // //   }
+  // // }, [JSON.stringify(repeat)]);
 
-  function handleIntervalChange(newValue?: number) {
-    setInterval(newValue);
-  }
+  // function handleIntervalChange(newValue?: number) {
+  //   setInterval(newValue);
+  // }
 
-  function handleFrequencyChange({ value: freq }: DropdownOption) {
-    setFreq(freq);
-  }
+  // function handleFrequencyChange({ value: freq }: DropdownOption) {
+  //   //setFreq(freq);
+  // }
 
-  function handleMonthlyRepeatChange({ value: repeat }: DropdownOption) {
-    setRepeat(repeat);
-  }
+  // function handleMonthlyRepeatChange({ value: repeat }: DropdownOption) {
+  //   //setRepeat(repeat);
+  // }
 
-  function handleWeeklyRepeatChange(value: string[]) {
-    setRepeat(value);
-  }
+  // function handleWeeklyRepeatChange(value: string[]) {
+  //   //setRepeat(value);
+  // }
 
-  function handleEndChange(key: string, value: any) {
-    setCurrentEndKey(key);
-    setEndValues(p=>({
-      ...p,
-      [key]:value,
-    }));
-  }
+  // function handleEndChange(key: string, value: any) {
+  //   // setCurrentEndKey(key);
+  //   // setEndValues(p=>({
+  //   //   ...p,
+  //   //   [key]:value,
+  //   // }));
+  // }
 
-  return (
-    <Main>
-      <Head style={{ textAlign: "left" }}>Custom repeat</Head>
-      <Row>
-        <Text>Every: </Text>
-        <View style={{ flex: 1 }}>
-          <NumericInput
-            min={1}
-            onChange={handleIntervalChange}
-            value={interval}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Dropdown
-            label="Frequency"
-            onChange={handleFrequencyChange}
-            options={FREQUENCY_OPTIONS}
-            value={freq}
-          />
-        </View>
-      </Row>
-      {freq === "MONTHLY" && (
-        <Row>
-          <Dropdown
-            label="Occurs on..."
-            onChange={handleMonthlyRepeatChange}
-            options={monthlyRepeatOptions}
-            value={repeat}
-          />
-        </Row>
-      )}
-      {freq === "WEEKLY" && (
-        <AbrCheckboxGroup
-          onChange={handleWeeklyRepeatChange}
-          options={WEEKLY_REPEAT_OPTIONS}
-          selectedIndexes={selectedIndexes}
-        />
-      )}
-      <Row>
-        <InputRadioGroup
-          label="Ends:"
-          onChange={handleEndChange}
-          options={CUSTOM_REPEAT_OPTIONS}
-          selected={currentEndKey}
-          values={endValues}
-        />
-      </Row>
-    </Main>
-  );
+  // return (
+  //   <Main>
+  //     <Head style={{ textAlign: "left" }}>Custom repeat</Head>
+  //     <Row>
+  //       <Text>Every: </Text>
+  //       <View style={{ flex: 1 }}>
+  //         <NumericInput
+  //           min={1}
+  //           onChange={handleIntervalChange}
+  //           value={interval}
+  //         />
+  //       </View>
+  //       <View style={{ flex: 1 }}>
+  //         <Dropdown
+  //           label="Frequency"
+  //           onChange={handleFrequencyChange}
+  //           options={FREQUENCY_OPTIONS}
+  //           value={freq}
+  //         />
+  //       </View>
+  //     </Row>
+  //     {freq === "MONTHLY" && (
+  //       <Row>
+  //         <Dropdown
+  //           label="Occurs on..."
+  //           onChange={handleMonthlyRepeatChange}
+  //           options={monthlyRepeatOptions}
+  //           value={repeat}
+  //         />
+  //       </Row>
+  //     )}
+  //     {freq === "WEEKLY" && (
+  //       <AbrCheckboxGroup
+  //         onChange={handleWeeklyRepeatChange}
+  //         options={WEEKLY_REPEAT_OPTIONS}
+  //         selectedIndexes={selectedIndexes}
+  //       />
+  //     )}
+  //     <Row>
+  //       <InputRadioGroup
+  //         label="Ends:"
+  //         onChange={handleEndChange}
+  //         options={CUSTOM_REPEAT_OPTIONS}
+  //         selected={currentEndKey}
+  //         values={endValues}
+  //       />
+  //     </Row>
+  //   </Main>
+  //);
 }
 
 export default CustomRepeat;
