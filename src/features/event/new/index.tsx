@@ -10,12 +10,10 @@ import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 
-import { FormFieldDto, noId } from "@ottery/ottery-dto";
+import { FormFieldDto, noId, time } from "@ottery/ottery-dto";
 import { useNavigator } from "../../../router/useNavigator";
 import { AppendListItem } from "../../../../ottery-ui/lists/AppendList";
 import { Frequency, RRule } from "rrule";
-
-window["rule"] = RRule;
 
 export interface EventFormData {
   summary: string;
@@ -23,6 +21,7 @@ export interface EventFormData {
   description: string;
   location: string;
   rrule: RRule;
+  durration: time,
   volenteerSignUp: AppendListItem<FormFieldDto>[];
   attendeeSignUp: AppendListItem<FormFieldDto>[];
   cost: number;
@@ -41,6 +40,7 @@ function NewEventScreen() {
     description: "",
     location: "",
     rrule: new RRule({freq:Frequency.DAILY,count:1, dtstart: new Date()}),
+    durration: 3600000,
     volenteerSignUp: [],
     attendeeSignUp: [],
     cost: 0,
