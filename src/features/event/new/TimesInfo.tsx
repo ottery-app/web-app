@@ -17,8 +17,20 @@ import DateInput from "../../../../ottery-ui/input/DateInput";
 import Main from "./components/UI/Main";
 import { Dropdown, DropdownOption } from "../../../../ottery-ui/input/Dropdown";
 import CustomRepeat from "./components/CustomRepeat";
-import { RRule } from "rrule";
 import { margin } from "../../../../ottery-ui/styles/margin";
+import { RRule } from 'rrule'
+
+// // Create a rule:
+// const rule = new RRule({
+//   freq: RRule.WEEKLY,
+//   interval: 5,
+//   byweekday: [RRule.MO, RRule.FR],
+//   dtstart: new Date(),
+//   until: new Date(new Date().getTime() + 10000000),
+// })
+
+// console.log(rule);
+// console.log(rule.toString())
 
 //https://www.rfc-editor.org/rfc/rfc5545#section-3.8.5
 
@@ -40,15 +52,17 @@ function TimesForm({
   setForm,
   updateErrorHandler,
 }: StepProps<EventFormData>) {
+  
   /**
    * This function is used to update the date that the event is on, not the time of the event.
    */
   function handleDateChange(value: number): void {
-    const currentDate = form.rrule.options.dtstart || new Date();
-    value = new Date(value).getDate();
-    currentDate.setDate(value);
-    form.rrule.options.dtstart = currentDate;
-    console.log(form, currentDate);
+    const current = new Date(form.start);
+    const target = new Date(value);
+    current.setFullYear(target.getFullYear());
+    current.setMonth(target.getMonth());
+    current.setDate(target.getDate());
+    form.start = current.getTime();
     setForm({...form})
   }
 
@@ -56,10 +70,10 @@ function TimesForm({
    * This function is used to update the time that the event starts in the day.
    */
   function handleStartChange(value: TimeValueType): void {
-    const currentDate = form.rrule.options.dtstart || new Date();
+    const currentDate = new Date(form.start) || new Date();
     currentDate.setHours(value.hours);
     currentDate.setMinutes(value.minutes);
-    form.rrule.options.dtstart = currentDate;
+    form.start = currentDate.getTime();
     setForm({...form})
   }
 
@@ -67,34 +81,31 @@ function TimesForm({
    * This function is used to update the time that the event ends in the day.
    * @param value - An object containing hours and minutes for the new end time
    */
-  function handleEndChange(value: TimeValueType): void {
-    form.durration = (value.hours * 3600000) + (value.minutes * 60000);
-    setForm({ ...form });
+  function handleEndChange(endTime: TimeValueType): void {
+    const end = new Date(form.start);
+    end.setHours(endTime.hours);
+    end.setMinutes(endTime.minutes);
+    const start = new Date(form.start);
+    form.durration = end.getTime() - start.getTime();
+    setForm({...form});
   }
 
   /**
    * Function to get the date from an RRule object's dtstart property
    */
   function getDate(): number {
-    const dtstart = form.rrule.options.dtstart;
-    if (dtstart instanceof Date) {
-      return dtstart.getTime();
-    }
-    return new Date().getTime(); // Return current time if dtstart is not a Date object
+    return new Date(form.start).getTime();
   }
 
   /**
    * Function to get the start time from an RRule object's dtstart property
    */
   function getStart(): TimeValueType {
-    const dtstart = form.rrule.options.dtstart;
-    if (dtstart instanceof Date) {
-      return {
-        hours: dtstart.getHours(),
-        minutes: dtstart.getMinutes(),
-      };
-    }
-    return { hours: 0, minutes: 0 }; // Return default time if dtstart is not a Date object
+    const start = new Date(form.start);
+    return {
+      hours: start.getHours(),
+      minutes: start.getMinutes(),
+    };
   }
 
   /**
@@ -111,22 +122,17 @@ function TimesForm({
   }
 
   function handleRepeatChange(option: DropdownOption) {
-    console.log(option.value);
-    const start = form?.rrule?.options?.dtstart;
     form.rrule = RRule.fromString(option.value);
-    form.rrule.options.dtstart = start;
     setForm({...form});
   }
 
   function getRepeatOptions() {
-    console.log(form.rrule.toString())
     // Get the RRULE string representation
     const ruleString = form.rrule.toString(); // This will give you a string representation of the rule
 
     // Extract just the RRULE part from the string
     const RRULEIndex = ruleString.indexOf('RRULE:');
     const RRULEString = RRULEIndex !== -1 ? ruleString.slice(RRULEIndex) : '';
-    console.log(RRULEString);
     return RRULEString;
   }
 
@@ -154,11 +160,11 @@ function TimesForm({
           value: key,
         })).concat({
           label: "Custom",
-          value: new RRule().toString()
+          value: new RRule({ freq: RRule.DAILY, interval: 1 }).toString()
         })}
         value={getRepeatOptions()}
       />
-      {new RRule().toString() !== form.rrule.toString() || !Object.keys(TIMEPROTOCOLS).includes(form.rrule.toString()) && (
+      {!Object.keys(TIMEPROTOCOLS).includes(form.rrule.toString()) && (
         <CustomRepeat rrule={form.rrule} setRRule={updateRRule} />
       )}
     </Main>

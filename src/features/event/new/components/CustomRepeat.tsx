@@ -1,18 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import {
-  objToRrule,
-  rruleMonthlyByDayFrom,
-  rruleMonthlyByWeekFrom,
-  rruleToObj,
-} from "../../../../functions/ical";
-import {
-  getDateName,
-  getDay,
-  getWeekInMonth,
-} from "../../../../functions/time";
 import Main from "./UI/Main";
 import Head from "./UI/Head";
 import Row from "./UI/Row";
@@ -26,7 +15,7 @@ import {
   InputRadioOption, InputRadioGroup,
 } from "../../../../../ottery-ui/controls/InputRadioGroup";
 import { inputType } from "@ottery/ottery-dto";
-import { Frequency, RRule, Weekday, WeekdayStr } from "rrule";
+import { ByWeekday, Frequency, RRule } from "rrule";
 
 const FREQUENCY_OPTIONS = [
   { label: "day", value: Frequency.DAILY },
@@ -112,15 +101,20 @@ interface CustomRepeatProps {
 function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
   const [endKey, setEndKey] = useState(END_TYPES.Never);
   const [endValues, setEndValues] = useState({});
+  const [rule, setRule] = useState({...rrule.origOptions});
+
+  useEffect(()=>{
+    setRRule(new RRule(rule));
+  }, [rule]);
 
   function handleIntervalChange(interval: number) {
-    rrule.options.interval = interval;
-    setRRule(rrule);
+    rule.interval = interval;
+    setRule({...rule})
   }
 
   function handleFrequencyChange(freq: DropdownOption) {
-    rrule.options.freq = freq.value;
-    setRRule(rrule);
+    rule.freq = freq.value;
+    setRule({...rule})
   }
 
   function handleEndChange(key, value) {
@@ -130,37 +124,49 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
 
     if (key === END_TYPES.After) {
       //set rrule to end after a certain number of events
-      rrule.options.count = value;
-      rrule.options.until = undefined;
+      rule.count = value;
+      rule.until = undefined;
     } else if (key === END_TYPES.On) {
       //set rrule to end on a date
-      rrule.options.count = undefined;
-      rrule.options.until = new Date(value);
+      rule.count = undefined;
+      rule.until = new Date(value);
     } else if (key === END_TYPES.Never) {
       //set rrule to never end
-      rrule.options.count = undefined;
-      rrule.options.until = undefined;
+      rule.count = undefined;
+      rule.until = undefined;
     }
 
+    setRule({...rule})
     setEndValues({...endValues});
   }
 
   function handleWeeklyRepeatChange(value: number[]) {
-    rrule.options.byweekday = WEEKLY_REPEAT_OPTIONS.reduce((arr, option)=>{
+    rule.byweekday = WEEKLY_REPEAT_OPTIONS.reduce((arr, option)=>{
       value.includes(option.index) && arr.push(option.value);
       return arr;
     }, []);
-    setRRule(rrule);
+
+    setRule({...rule})
   }
 
   function getSelectedIndexes() {
-    return rrule.options?.byweekday?.reduce((arr, weekday)=>{
+    const days = rule.byweekday as ByWeekday[] || []
+
+    return days.reduce((arr, weekday)=>{
       WEEKLY_REPEAT_OPTIONS.forEach((option)=>{
         option.value === weekday && arr.push(option.index);
       });
 
       return arr;
     }, []) || [];
+  }
+
+  function getCurrentFrequency() {
+    return rule.freq;
+  }
+
+  function getCurrentInterval() {
+    return rule.interval;
   }
 
   return (
@@ -172,7 +178,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
           <NumericInput
             min={1}
             onChange={handleIntervalChange}
-            value={rrule.options.interval}
+            value={getCurrentInterval()}
           />
         </View>
         <View style={{ flex: 1 }}>
@@ -180,7 +186,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
             label="Frequency"
             onChange={handleFrequencyChange}
             options={FREQUENCY_OPTIONS}
-            value={rrule.options.freq}
+            value={getCurrentFrequency()}
           />
         </View>
       </Row>
@@ -195,7 +201,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
           />
         </Row>
       )} */}
-      {rrule.options.freq === Frequency.WEEKLY && (
+      {rule.freq === Frequency.WEEKLY && (
         <AbrCheckboxGroup
           onChange={handleWeeklyRepeatChange}
           options={WEEKLY_REPEAT_OPTIONS}
