@@ -37,3 +37,7 @@ export function rruleMonthlyByWeekFrom(date: string | number | Date) {
     2
   )}`;
 }
+
+export function isActiveRrule(rrule) {
+
+}

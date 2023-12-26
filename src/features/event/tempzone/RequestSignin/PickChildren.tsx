@@ -13,6 +13,8 @@ import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
 import React from "react";
+import { useEventClient } from "../../useEventClient";
+import { rruleToObj } from "../../../../functions/ical";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -26,6 +28,13 @@ export function PickChildren() {
     //     map[event._id] = event;
     //     return map;
     // }, {});
+    const eventsRes = useEventClient().useGetEvents({
+        inputs:[children?.reduce((arr, c)=>[...arr, c.events], [])],
+        enabled:!!children,
+    });
+
+    console.log(eventsRes?.data?.data)
+   
 
     const navigator = useNavigator();
     const Ping = usePing();

@@ -1,18 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import {
-  objToRrule,
-  rruleMonthlyByDayFrom,
-  rruleMonthlyByWeekFrom,
-  rruleToObj,
-} from "../../../../functions/ical";
-import {
-  getDateName,
-  getDay,
-  getWeekInMonth,
-} from "../../../../functions/time";
 import Main from "./UI/Main";
 import Head from "./UI/Head";
 import Row from "./UI/Row";
@@ -26,49 +15,50 @@ import {
   InputRadioOption, InputRadioGroup,
 } from "../../../../../ottery-ui/controls/InputRadioGroup";
 import { inputType } from "@ottery/ottery-dto";
+import { ByWeekday, Frequency, RRule } from "rrule";
 
 const FREQUENCY_OPTIONS = [
-  { label: "day", value: "DAILY" },
-  { label: "week", value: "WEEKLY" },
-  { label: "month", value: "MONTHLY" },
-  { label: "year", value: "YEARLY" },
+  { label: "day", value: Frequency.DAILY },
+  { label: "week", value: Frequency.WEEKLY },
+  { label: "month", value: Frequency.MONTHLY },
+  { label: "year", value: Frequency.YEARLY },
 ];
 
 const WEEKLY_REPEAT_OPTIONS = [
   {
     index: 0,
-    label: "s",
-    value: "SU",
+    label: "Sa",
+    value: RRule.SU.weekday,
   },
   {
     index: 1,
-    label: "m",
-    value: "MO",
+    label: "Mo",
+    value: RRule.MO.weekday,
   },
   {
     index: 2,
-    label: "t",
-    value: "TU",
+    label: "Tu",
+    value: RRule.TU.weekday,
   },
   {
     index: 3,
-    label: "w",
-    value: "WE",
+    label: "We",
+    value: RRule.WE.weekday,
   },
   {
     index: 4,
-    label: "t",
-    value: "TH",
+    label: "Th",
+    value: RRule.TH.weekday,
   },
   {
     index: 5,
-    label: "f",
-    value: "FR",
+    label: "Fr",
+    value: RRule.FR.weekday,
   },
   {
     index: 6,
-    label: "s",
-    value: "SA",
+    label: "Sa",
+    value: RRule.SA.weekday,
   },
 ];
 
@@ -104,150 +94,79 @@ const CUSTOM_REPEAT_OPTIONS: InputRadioOption[] = [
 ];
 
 interface CustomRepeatProps {
-  date: number;
-  custom: string;
-  setCustom: React.Dispatch<React.SetStateAction<string>>;
+  rrule: RRule;
+  setRRule: (rrule: RRule)=>void;
 }
 
-function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
-  //the time it repeats
-  const [freq, setFreq] = useState<string>();
-  //the time between repeats
-  const [interval, setInterval] = useState<number>(
-    rruleToObj(custom)["INTERVAL"] || 1
-  );
-  //The formatting for when the date should end
-  const [endValues, setEndValues] = useState(() => {
-    const endValues = {};
-    const rrules = rruleToObj(custom);
+function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
+  const [endKey, setEndKey] = useState(END_TYPES.Never);
+  const [endValues, setEndValues] = useState({});
+  const [rule, setRule] = useState({...rrule.origOptions});
 
-    Object.values(END_TYPES).forEach((value)=>{
-      endValues[value] = rrules[value];
-    });
+  useEffect(()=>{
+    setRRule(new RRule(rule));
+  }, [rule]);
 
-    return endValues;
-  });
-
-  const [currentEndKey, setCurrentEndKey] = useState("NEVER")
-  const [repeat, setRepeat] = useState<string | string[] | undefined>(
-    undefined
-  );
-
-  const monthlyRepeatOptions = useMemo(() => {
-    return [
-      {
-        label: `Monthly on day ${getDay(date)}`,
-        value: rruleMonthlyByDayFrom(date),
-      },
-      {
-        label: `Monthly on the ${getWeekInMonth(date)} ${getDateName(date)}`,
-        value: rruleMonthlyByWeekFrom(date),
-      },
-    ];
-  }, [date]);
-
-  useEffect(() => {
-    const freq = rruleToObj(custom)["FREQ"];
-    if (
-      !freq ||
-      (freq !== "DAILY" &&
-        freq !== "MONTHLY" &&
-        freq !== "YEARLY" &&
-        freq !== "WEEKLY")
-    ) {
-      setFreq("WEEKLY");
-    }
-    setFreq(freq);
-  }, []);
-
-  useEffect(() => {
-    if (freq === "DAILY") {
-      setRepeat(undefined);
-    } else if (freq === "WEEKLY") {
-      if (!(repeat instanceof Array)) {
-        setRepeat([getDateName(date, true).substring(0, 2)]);
-      }
-    } else if (freq === "MONTHLY") {
-      if (!freq.includes("BYMONTHDAY") && !freq.includes("BYWEEKNO")) {
-        setRepeat(rruleMonthlyByWeekFrom(date));
-      }
-    } else if (freq === "YEARLY") {
-      setRepeat(undefined);
-    }
-  }, [freq]);
-
-  useEffect(() => {
-    let rrule = {};
-
-    if (freq) {
-      rrule["FREQ"] = freq;
-    }
-
-    if (interval !== undefined) {
-      rrule["INTERVAL"] = interval;
-    }
-
-    if (endValues[currentEndKey]) {
-      if (currentEndKey !== "NEVER") {
-        rrule[currentEndKey] = endValues[currentEndKey];
-      }
-    }
-
-    if (repeat) {
-      if (repeat instanceof Array) {
-        rrule["WKST"] = repeat;
-      } else {
-        rrule = {
-          ...rrule,
-          ...rruleToObj("RRULE:" + repeat),
-        };
-      }
-    }
-
-    //RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
-    if (!interval && !endValues && !repeat) {
-      setCustom("RRULE:FREQ=CUSTOM");
-    } else {
-      setCustom(objToRrule(rrule));
-    }
-  }, [freq, interval, endValues, repeat]);
-
-  const selectedIndexes = useMemo(() => {
-    if (repeat === undefined) {
-      return [];
-    } else if (repeat instanceof Array) {
-      return WEEKLY_REPEAT_OPTIONS.filter((option) =>
-        repeat.includes(option.value)
-      ).map((option) => option.index);
-    } else if (typeof repeat === "string") {
-      return WEEKLY_REPEAT_OPTIONS.filter(
-        (option) => option.value === repeat
-      ).map((option) => option.index);
-    }
-  }, [JSON.stringify(repeat)]);
-
-  function handleIntervalChange(newValue?: number) {
-    setInterval(newValue);
+  function handleIntervalChange(interval: number) {
+    rule.interval = interval;
+    setRule({...rule})
   }
 
-  function handleFrequencyChange({ value: freq }: DropdownOption) {
-    setFreq(freq);
+  function handleFrequencyChange(freq: DropdownOption) {
+    rule.freq = freq.value;
+    setRule({...rule})
   }
 
-  function handleMonthlyRepeatChange({ value: repeat }: DropdownOption) {
-    setRepeat(repeat);
+  function handleEndChange(key, value) {
+    setEndKey(key);
+
+    endValues[key] = value;
+
+    if (key === END_TYPES.After) {
+      //set rrule to end after a certain number of events
+      rule.count = value;
+      rule.until = undefined;
+    } else if (key === END_TYPES.On) {
+      //set rrule to end on a date
+      rule.count = undefined;
+      rule.until = new Date(value);
+    } else if (key === END_TYPES.Never) {
+      //set rrule to never end
+      rule.count = undefined;
+      rule.until = undefined;
+    }
+
+    setRule({...rule})
+    setEndValues({...endValues});
   }
 
-  function handleWeeklyRepeatChange(value: string[]) {
-    setRepeat(value);
+  function handleWeeklyRepeatChange(value: number[]) {
+    rule.byweekday = WEEKLY_REPEAT_OPTIONS.reduce((arr, option)=>{
+      value.includes(option.index) && arr.push(option.value);
+      return arr;
+    }, []);
+
+    setRule({...rule})
   }
 
-  function handleEndChange(key: string, value: any) {
-    setCurrentEndKey(key);
-    setEndValues(p=>({
-      ...p,
-      [key]:value,
-    }));
+  function getSelectedIndexes() {
+    const days = rule.byweekday as ByWeekday[] || []
+
+    return days.reduce((arr, weekday)=>{
+      WEEKLY_REPEAT_OPTIONS.forEach((option)=>{
+        option.value === weekday && arr.push(option.index);
+      });
+
+      return arr;
+    }, []) || [];
+  }
+
+  function getCurrentFrequency() {
+    return rule.freq;
+  }
+
+  function getCurrentInterval() {
+    return rule.interval;
   }
 
   return (
@@ -259,7 +178,7 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
           <NumericInput
             min={1}
             onChange={handleIntervalChange}
-            value={interval}
+            value={getCurrentInterval()}
           />
         </View>
         <View style={{ flex: 1 }}>
@@ -267,11 +186,12 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
             label="Frequency"
             onChange={handleFrequencyChange}
             options={FREQUENCY_OPTIONS}
-            value={freq}
+            value={getCurrentFrequency()}
           />
         </View>
       </Row>
-      {freq === "MONTHLY" && (
+      {/*IM NOT SURE IF THIS IS NEEDED????*/}
+      {/* {rrule.options.freq === Frequency.MONTHLY && (
         <Row>
           <Dropdown
             label="Occurs on..."
@@ -280,20 +200,20 @@ function CustomRepeat({ date, custom, setCustom }: CustomRepeatProps) {
             value={repeat}
           />
         </Row>
-      )}
-      {freq === "WEEKLY" && (
+      )} */}
+      {rule.freq === Frequency.WEEKLY && (
         <AbrCheckboxGroup
           onChange={handleWeeklyRepeatChange}
           options={WEEKLY_REPEAT_OPTIONS}
-          selectedIndexes={selectedIndexes}
+          selectedIndexes={getSelectedIndexes()}
         />
       )}
       <Row>
         <InputRadioGroup
-          label="Ends:"
+          label="Ends"
           onChange={handleEndChange}
           options={CUSTOM_REPEAT_OPTIONS}
-          selected={currentEndKey}
+          selected={endKey}
           values={endValues}
         />
       </Row>

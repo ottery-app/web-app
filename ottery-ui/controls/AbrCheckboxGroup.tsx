@@ -10,7 +10,7 @@ interface OptionProp {
 interface AbrCheckboxGroupProps {
   options: OptionProp[];
   selectedIndexes: number[];
-  onChange: (selectedValues: any[]) => void;
+  onChange: (selectedIndexes: number[]) => void;
 }
 
 function AbrCheckboxGroup({
@@ -39,7 +39,7 @@ function AbrCheckboxGroup({
 
       const selectedValues = options
         .filter((option) => newSelectedIndexes.includes(option.index))
-        .map((selectedOptions) => selectedOptions.value);
+        .map((selectedOptions) => selectedOptions.index);
 
       onChange(selectedValues);
     };
