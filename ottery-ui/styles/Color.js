@@ -4,7 +4,7 @@ import {View} from "react-native";
 import { colors } from './colors';
 import { useMemo } from 'react';
 
-const theme = {
+export const theme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,

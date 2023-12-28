@@ -66,12 +66,13 @@ const DateInput = ({
         }}
       >
         <DatePickerModal
+          allowEditing={false}
           locale="en"
           mode="single"
           visible={open}
           date={value ? new Date(value) : undefined}
           animationType="fade"
-          label={label}
+          label={label || "Date"}
           saveLabel="SAVE"
           onConfirm={onConfirmSingle}
           onDismiss={onDismissSingle}

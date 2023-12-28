@@ -104,7 +104,9 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
   const [rule, setRule] = useState({...rrule.origOptions});
 
   useEffect(()=>{
-    setRRule(new RRule(rule));
+    if (rule.interval !== undefined) {
+      setRRule(new RRule(rule));
+    }
   }, [rule]);
 
   function handleIntervalChange(interval: number) {

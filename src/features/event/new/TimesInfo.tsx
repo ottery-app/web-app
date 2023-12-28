@@ -155,6 +155,7 @@ function TimesForm({
       <Dropdown
         label="repeat"
         onChange={handleRepeatChange}
+        placeholder="Custom"
         options={Object.keys(TIMEPROTOCOLS).map((key)=>({
           label: TIMEPROTOCOLS[key],
           value: key,

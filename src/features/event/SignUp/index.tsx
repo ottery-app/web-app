@@ -15,10 +15,6 @@ import Image from "../../../../ottery-ui/image/Image";
 import { happyCheck } from "../../../../assets/icons";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
-import { Form } from "../../../../ottery-ui/containers/Form";
-import { DataFieldDto } from "@ottery/ottery-dto";
-import { InfoWrapper } from "../../../../ottery-ui/input/InfoWrapper";
-import { Input } from "../../../../ottery-ui/input/Input";
 import SelectionButton from "../../../../ottery-ui/buttons/SelectionButton";
 import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
 import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
@@ -26,6 +22,7 @@ import { BUTTON_STATES } from "../../../../ottery-ui/buttons/button.enum";
 import { useChildClient } from "../../child/useChildClient";
 import { colors } from "../../../../ottery-ui/styles/colors";
 import { image } from "../../../../ottery-ui/styles/image";
+import { GetFormInfo } from "../../form/GetFormInfo";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -130,11 +127,21 @@ export function SignUp({route}) {
     );
 }
 
+function useBack() {
+    const {goBack, canGoBack} = useContext(SignupContext);
+
+    if (canGoBack()) {
+        return goBack
+    } else {
+        return ()=>{}
+    }
+}
+
 function BackButton() {
     const {goBack, canGoBack} = useContext(SignupContext);
 
     if (canGoBack()) {
-        return <Button onPress={goBack}>Back</Button>
+        return <Button state="error" onPress={goBack}>Back</Button>
     }
 }
 
@@ -177,33 +184,6 @@ function SelectSignupTypes() {
     );
 }
 
-function FormFieldToInput({formField, value, onChange}) {
-    return (
-        <InfoWrapper
-            header={formField.label}
-            info={formField.note}
-        >
-            <Input 
-                type={formField.type}
-                label={formField.label}
-                value={value?.value} 
-                onChange={(val:any)=>{
-                    value = value || {
-                        formField: formField._id,
-                        label: formField.label,
-                        type: formField.type,
-                        value: undefined,
-                    } as DataFieldDto,
-
-                    value.value = val;
-
-                    onChange(value);
-                }}
-            />
-        </InfoWrapper>
-    );
-}
-
 function SignupVolenteer() {
     //check for user data?
     const {route, gotoNext} = useContext(SignupContext);
@@ -218,18 +198,9 @@ function SignupVolenteer() {
     });
     const updateData = userClient.useUpdateUserData();
     const missingFields = missingRes?.data?.data;
-    const [datafields, setDataFields] = useState({});
+    const goBack = useBack();
 
-    function updateDataField(dataField:DataFieldDto) {
-        setDataFields((p)=>{
-            return {
-                ...p,
-                [dataField.formField]: dataField
-            }
-        })
-    }
-
-    function signupNow() {
+    function signupNow(datafields) {
         function singupMutate() {
             signup.mutate(route.params.eventId, {
                 onSuccess: ()=>{
@@ -258,21 +229,7 @@ function SignupVolenteer() {
 
     useEffect(()=>{
         if (missingFields && missingFields.length === 0) {
-            signupNow();
-        } else if (missingFields) {
-            missingFields.map(missingField=>{
-                setDataFields((p)=>{
-                    return {
-                        ...p,
-                        [missingField._id]: {
-                            formField: missingField._id,
-                            label: missingField.label,
-                            type: missingField.type,
-                            value: undefined,
-                        },
-                    }
-                })
-            })
+            signupNow([]);
         }
     }, [missingFields]);
 
@@ -280,18 +237,12 @@ function SignupVolenteer() {
         return;
     }
 
-    return <Main style={styles.formContainer}>
-        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing you up.</Text>
-        <Form>
-            {missingFields?.map((formField)=><FormFieldToInput formField={formField} value={datafields[formField._id]} onChange={updateDataField}/>)}
-        </Form>
-        <ButtonSpan>
-            <BackButton/>
-            <Button
-                onPress={signupNow}
-            >Done</Button>
-        </ButtonSpan>
-    </Main>
+    return <GetFormInfo
+        title="Uh oh! Looks like we are missing some info for signing you up."
+        formFields={missingFields}
+        onDone={signupNow}
+        onBack={goBack}
+    />
 }
 
 function SignupChildren() {
@@ -308,18 +259,10 @@ function SignupChildren() {
     const missingFields = missingRes?.data?.data;
     const updateData = useChildClient().useUpdateChildData();
     const signup = eventClient.useSignupAttendee();
-    const [datafields, setDataFields] = useState({});
+    const goBack = useBack();
 
-    function updateDataField(dataField:DataFieldDto) {
-        setDataFields((p)=>{
-            return {
-                ...p,
-                [dataField.formField]: dataField
-            }
-        })
-    }
 
-    function signupNow() {
+    function signupNow(datafields) {
         function singupMutate() {
             signup.mutate({
                 eventId: route.params.eventId,
@@ -351,21 +294,7 @@ function SignupChildren() {
 
     useEffect(()=>{
         if (missingFields && missingFields.length === 0) {
-            signupNow();
-        } else if (missingFields) {
-            missingFields.map(missingField=>{
-                setDataFields((p)=>{
-                    return {
-                        ...p,
-                        [missingField._id]: {
-                            formField: missingField._id,
-                            label: missingField.label,
-                            type: missingField.type,
-                            value: undefined,
-                        },
-                    }
-                })
-            })
+            signupNow([]);
         }
     }, [missingFields]);
 
@@ -373,18 +302,12 @@ function SignupChildren() {
         return;
     }
 
-    return <Main style={styles.formContainer}>
-        <Text variant="titleLarge" style={styles.centeredText}>Uh oh! Looks like we are missing some info for signing {child?.firstName} up.</Text>
-        <Form>
-            {missingFields?.map((formField)=><FormFieldToInput formField={formField} value={datafields[formField._id]} onChange={updateDataField}/>)}
-        </Form>
-        <ButtonSpan>
-            <BackButton/>
-            <Button
-                onPress={signupNow}
-            >Done</Button>
-        </ButtonSpan>
-    </Main>
+    return <GetFormInfo
+        title={"Uh oh! Looks like we are missing some info for signing"}
+        formFields={missingFields}
+        onBack={goBack}
+        onDone={signupNow}
+    />
 }
 
 function SelectChildren() {

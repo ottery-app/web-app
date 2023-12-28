@@ -3,7 +3,7 @@ import { margin } from "../styles/margin";
 
 const styles = StyleSheet.create({
     main: {
-        flex: 1,
+        //flex: 1,
         gap: margin.large,
         alignItems:"center",
         justifyContent: "center",
