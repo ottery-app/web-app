@@ -17,6 +17,8 @@ import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { usePing } from "../../../ottery-ping";
 import { useInviteClient } from "../invite/useInviteClient";
+import { useFormClient } from "../form/useFormClient";
+import { FormFlag } from "@ottery/ottery-dto";
 
 const styles = StyleSheet.create({
     container: {
@@ -54,7 +56,11 @@ export function AcceptGuardianship({route}) {
     const userRes = userClient.useGetUserInfo({inputs:[userId]});
     const user = userRes?.data?.data[0];
     const token = route.params.token;
+    const baseGuardianFieldsRes = useFormClient().useGetBaseFormFields({inputs:[FormFlag.guardian]});
+    const baseFields = baseGuardianFieldsRes?.data?.data;
     const navigator = useNavigator();
+
+    console.log(baseFields);
 
     function savePhoto() {
         updateProfilePhoto.mutate({
@@ -86,8 +92,9 @@ export function AcceptGuardianship({route}) {
                 navigator(paths.main.home);
             },
             onError: (e:Error)=>{
-                Ping.error(e.message);
-                navigator(paths.main.home);
+                //Ping.error(e.message);
+                Ping.error("We ran into some issues")
+                //navigator(paths.main.home);
             }
         })
     }
@@ -118,8 +125,9 @@ export function AcceptGuardianship({route}) {
         );
     } else if (phase === Phase.validateInfo) {
 
+        console.log(user)
         if (user?.pfp && acceptGuardianship.status === "idle") {
-            accept()
+            //accept()
         }
 
         return (
@@ -128,6 +136,7 @@ export function AcceptGuardianship({route}) {
                 <Text style={styles.text}>We need this to make sure your kids are safe</Text>
                 <Text style={styles.text}>Make sure your face is clearly visible</Text>
                 <ImageInput
+                    radius={radius.round}
                     value={image}
                     onChange={(image)=>{setImage(image)}}
                 />

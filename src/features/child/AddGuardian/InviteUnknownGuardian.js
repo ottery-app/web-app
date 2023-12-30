@@ -29,7 +29,7 @@ export function InviteGuardian({route, setInvite}) {
     const child = childRes?.data?.data;
     
     return (
-        <Main>
+        <Main scrollable={true}>
             <View style={styles.padding}>
                 <Text style={{textAlign:"center"}} variant={"headlineSmall"}>Email Invite</Text>
                 <Text style={{textAlign:"center"}}>You are inviting a guardian for {child.firstName}</Text>

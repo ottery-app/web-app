@@ -1,5 +1,5 @@
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
-import { getAll } from "./formApi";
+import { getAll, getBaseFields } from "./formApi";
 
 export const CLIENT_FORM_TAG = "form";
 
@@ -9,7 +9,13 @@ export function useFormClient() {
     queryFn: getAll,
   });
 
+  const useGetBaseFormFields = makeUseQuery({
+    queryFn: getBaseFields,
+    queryKey: [CLIENT_FORM_TAG]
+  })
+
   return {
+    useGetBaseFormFields,
     useGetAllFormFields,
   };
 }

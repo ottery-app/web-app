@@ -42,7 +42,7 @@ export function AddGuardian({route, setInvite}) {
     }
 
     return (
-        <Main>
+        <Main scrollable={true}>
             <View style={{justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Text style={{textAlign:"center"}} variant={"headlineSmall"}>Select Guardians</Text>
                 <Text style={{textAlign:"center"}}>These friends will be made guardians for {child.firstName}</Text>
