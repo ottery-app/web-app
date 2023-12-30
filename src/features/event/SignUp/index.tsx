@@ -23,6 +23,7 @@ import { useChildClient } from "../../child/useChildClient";
 import { colors } from "../../../../ottery-ui/styles/colors";
 import { image } from "../../../../ottery-ui/styles/image";
 import { GetFormInfo } from "../../form/GetFormInfo";
+import { GetBaseUserInfo } from "../../form/GetBaseUserInfo";
 
 const SignupContext = createContext({
     gotoNext: undefined,
@@ -64,6 +65,7 @@ enum pages {
     signupVolenteer = "volenteer",
     selectChildren = "children",
     signupChildren = "child",
+    signupUser = "user",
     done = "done",
 }
 
@@ -85,6 +87,7 @@ export function SignUp({route}) {
             [pages.signupChildren] : <SignupChildren/>,
             [pages.selectChildren] : <SelectChildren/>,
             [pages.signupVolenteer] : <SignupVolenteer/>,
+            [pages.signupUser] : <SignupUser />,
             [pages.done]: <Done/>,
         }
     }, []);
@@ -184,6 +187,35 @@ function SelectSignupTypes() {
     );
 }
 
+function SignupUser() {
+    const {route, gotoNext} = useContext(SignupContext);
+    const userId = useAuthClient().useUserId();
+    const updateData = useUserClient().useUpdateUserData();
+    const eventId = route.params.eventId;
+    const Ping = usePing();
+    const goBack = useBack();
+
+    function next(val) {
+        updateData.mutate({
+            userId: userId,
+            dataFields: Object.values(val),
+        }, {
+            onSuccess:()=>gotoNext(),
+            onError:(e:Error)=>{
+                Ping.error(e.message);
+            }
+        });
+    }
+
+    return <GetBaseUserInfo
+        userId={userId}
+        eventId={eventId}
+        onNoneMissing={()=>gotoNext()}
+        onDone={next}
+        goBack={goBack}
+    />
+}
+
 function SignupVolenteer() {
     //check for user data?
     const {route, gotoNext} = useContext(SignupContext);
@@ -254,11 +286,9 @@ function SignupChildren() {
         inputs:[current.props.childId, eventRes?.data?.data?.attendeeSignUp],
         enabled: !!eventRes?.data?.data?.attendeeSignUp
     });
-    const childRes = useChildClient().useGetChild({inputs: [current.props.childId]});
-    const child = childRes?.data?.data;
     const missingFields = missingRes?.data?.data;
     const updateData = useChildClient().useUpdateChildData();
-    const signup = eventClient.useSignupAttendee();
+    const signup = eventClient.useSignupAttendee(); 
     const goBack = useBack();
 
 
@@ -303,7 +333,7 @@ function SignupChildren() {
     }
 
     return <GetFormInfo
-        title={"Uh oh! Looks like we are missing some info for signing"}
+        title={"Uh oh! Looks like we are missing some info for signing you up"}
         formFields={missingFields}
         onBack={goBack}
         onDone={signupNow}
@@ -325,14 +355,19 @@ function SelectChildren() {
             return;
         }
 
-        gotoNext([...selected.map(id=>{
+        gotoNext([
+            {
+                page: pages.signupUser
+            },
+            ...selected.map(id=>{
             const page: PageDto = {
                 page: pages.signupChildren,
                 props: {childId:id}
             }
 
             return page;
-        })]);
+            })
+        ]);
     }
 
     function newKid() {

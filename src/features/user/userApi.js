@@ -32,6 +32,11 @@ export const updateUserData = clideInst.makePatch(
           userId: userId,
         }
       }
+    },
+    out_pipeline: (i)=>{
+      console.log(i);
+      //debugger;
+      return i;
     }
   }
 )
