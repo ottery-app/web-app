@@ -18,16 +18,6 @@ export interface propsAddGuardians {
   userIds: id[];
 }
 
-export const addGuardians = clideInst.makePost("child/:childId/addGuardians", {
-  data_validator: IdArrayDto,
-  in_pipeline: async ({ childId, userIds }) => {
-    return {
-      data: { ids: userIds },
-      params: { childId },
-    };
-  },
-});
-
 export const getChildren = clideInst.makeGet("child", {
   in_pipeline: (children) => {
     return {

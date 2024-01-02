@@ -16,10 +16,11 @@ import { pfp } from "../../assets/icons";
 import { InputProps } from "./Input";
 
 export interface ImageInputProps extends InputProps<ImageAsset> {
-    radius: number,
+    radius?: number,
 }
 
 export default function ImageInput({
+    label,
     value=pfp,
     onChange=(image:ImageAsset)=>{},
     radius=rad.round,
@@ -60,6 +61,7 @@ export default function ImageInput({
 
     return(
         <>
+            <Text>{label}</Text>
             <TouchableOpacity
                 onPress={(Platform.OS === "web") ? pickPhoto : open}
                 style={{

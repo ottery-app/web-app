@@ -8,6 +8,7 @@ import TextInput, { TextInputProps } from "./TextInput";
 import React from "react";
 import TimeInput from "./TimeInput";
 import NumericInput from "./NumericInput";
+import { radius } from "../styles/radius";
 
 export interface InputOption<T> {
     label: string;
@@ -54,8 +55,7 @@ export function Input({ type = inputType.TEXT, ...props }:BaseInputProps) {
         throw new Error("Dropdown not supported for Input")
         //return <Dropdown {...props} />;
       case inputType.PICTURE:
-        throw new Error("Picture not supported for Input")
-        //return <ImageInput {...props} />;
+        return <ImageInput {...props} />;
       case inputType.PHONE:
         return <PhoneNumberInput {...props} />;
       case inputType.TEXT:

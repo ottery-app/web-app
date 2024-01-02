@@ -11,7 +11,7 @@ interface MainProps {
 
 export function Main({ 
   children, 
-  style, 
+  style={}, 
   scrollable=false, 
   margins=true
 }: MainProps) {
@@ -20,6 +20,14 @@ export function Main({
   if (margins) stylesheets.push(styles.margin);
   if (scrollable) stylesheets.push(styles.scroll);
   if (!scrollable) stylesheets.push(style);
+
+  style = {
+    alignItems: "center",
+    width: "100%",
+    ...style,
+  }
+  style.alignItems = style.alignItems || "center";
+
 
   if (scrollable) {
     return <ScrollView
@@ -42,6 +50,8 @@ const styles = StyleSheet.create({
 
   base: {
     flex:1,
+    //justifyContent: "center",
+    //alignItems: "center",
   },
 
   scroll: {

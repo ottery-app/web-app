@@ -4,7 +4,7 @@ import { useSocialClient } from "../../social/useSocialClient";
 import { Main } from "../../../../ottery-ui/containers/Main";
 import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
 import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import { Text } from "react-native-paper";
 import { View } from "react-native";
 import paths from "../../../router/paths";
@@ -13,9 +13,9 @@ import { margin } from "../../../../ottery-ui/styles/margin";
 import Button from "../../../../ottery-ui/buttons/Button";
 import { usePing } from "../../../../ottery-ping";
 import { useUserClient } from "../../user/useUserClient";
+import { useInviteClient } from "../../invite/useInviteClient";
 
 export function AddGuardian({route, setInvite}) {
-    const navigator = useNavigator();
     const Ping = usePing();
 
     const userId = useAuthClient().useUserId()
@@ -29,12 +29,17 @@ export function AddGuardian({route, setInvite}) {
         enabled: !!freindIds,
     })
     const friends = friendsRes?.data?.data;
-    const addGuardian = useChildClient().useAddGuardians({
-        onError: ()=>{Ping.error("Something went wrong")},
-        onSuccess: ()=>{Ping.success("Invites sent")}
-    });
 
     const [selected, setSelected] = useState({});
+
+    const inviteGuardian = useInviteClient().useInviteGuardianForChild({
+        onSuccess: ()=>{
+            Ping.success("Invitation sent");
+            setSelected({});
+        },
+        onError: ()=>{Ping.error("Looks like we ran into an issue")}
+    });
+
     //const freindIds = Object.entries(selected).filter(([key, value])=>value).map(([friendId])=>friendId)
 
     if (friendsRes.status === "success" && freindIds.length === 0) {
@@ -42,7 +47,7 @@ export function AddGuardian({route, setInvite}) {
     }
 
     return (
-        <Main scrollable={true}>
+        <Main>
             <View style={{justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Text style={{textAlign:"center"}} variant={"headlineSmall"}>Select Guardians</Text>
                 <Text style={{textAlign:"center"}}>These friends will be made guardians for {child.firstName}</Text>
@@ -50,11 +55,11 @@ export function AddGuardian({route, setInvite}) {
             <ImageButtonList>
                 {friends?.map((friend)=>
                     <ImageButton 
-                        key={friend._id}
+                        key={friend.email}
                         right={{src:friend?.pfp?.src, aspectRatio:1}}
-                        state={selected[friend._id] && "success"}
+                        state={selected[friend.email] && "success"}
                         onPress={()=>{setSelected(p=>{
-                            p[friend._id] = !!!p[friend._id];
+                            p[friend.email] = !!!p[friend.email];
                             return {...p};
                         })}}
                     >
@@ -64,10 +69,16 @@ export function AddGuardian({route, setInvite}) {
             </ImageButtonList>
             <View style={{justifyContent:"center",alignItems:"center", paddingTop:margin.large, paddingBottom:margin.large}}>
                 <Button
-                    onPress={()=>{(freindIds.length) ? addGuardian.mutate({childId, userIds:freindIds}) : Ping.error("Please select a friend")}}
+                    state={inviteGuardian.status}
+                    onPress={()=>{
+                        (freindIds.length) ? Object.keys(selected).forEach((email)=>{
+                            inviteGuardian.mutate({email, childId}, {onSuccess:()=>Ping.success("Invited friend(s)")});
+                        }) : Ping.error("Please select a friend")}
+                    }
                 >Add</Button>
                 <Button type="default"
-                    onPress={()=>navigator(paths.main.child.inviteGuardian, {childId:childId})}
+                    width={"100%"}
+                    onPress={()=>setInvite(true)}
                 >Don't see them?</Button>
             </View>
         </Main>

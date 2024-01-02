@@ -19,7 +19,7 @@ function MessageBox({ self = false, date, content }: MessageBoxProps) {
       <View
         style={[
           styles.content,
-          self && { backgroundColor: colors.secondary.main },
+          (self) ? { backgroundColor: colors.secondary.main } : {backgroundColor: colors.background.primary}
         ]}
       >
         <Text>{content}</Text>

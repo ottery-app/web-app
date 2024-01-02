@@ -1,5 +1,5 @@
 import { useQueryClient } from "react-query";
-import { getChildren, newChild, addGuardians, updateChildData, missingChildData } from "./childApi";
+import { getChildren, newChild, updateChildData, missingChildData } from "./childApi";
 import { makeUseQuery } from "../../queryStatus/makeGetQuery";
 import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 import { query_paths } from "../../provider/queryClient";
@@ -31,10 +31,6 @@ export function useChildClient() {
         }
     })
 
-    const useAddGuardians = makeUseMutation({
-        mutationFn: addGuardians,
-    })
-
     const useUpdateChildData = makeUseMutation({
         mutationFn: updateChildData,
       })
@@ -50,6 +46,5 @@ export function useChildClient() {
         useNewChild,
         useGetChild,
         useGetChildren,
-        useAddGuardians,
     }
 }

@@ -4,7 +4,7 @@ import { Form } from "../../../ottery-ui/containers/Form";
 import { ButtonSpan } from "../../../ottery-ui/containers/ButtonSpan";
 import Button from "../../../ottery-ui/buttons/Button";
 import { StyleSheet } from "react-native";
-import { DataFieldDto, FormFieldDto, id } from "@ottery/ottery-dto";
+import { DataFieldDto, FormFieldDto, id, inputType } from "@ottery/ottery-dto";
 import { FormFieldToInput } from "./FormFieldToInput";
 import { useState } from "react";
 
@@ -24,6 +24,14 @@ export interface GetFormInfoProps {
 export function GetFormInfo(props: GetFormInfoProps) {
     const [datafields, setDataFields] = useState({});
 
+    props.formFields.sort((a,b)=>{
+        if (a.type === inputType.PICTURE) {
+            return -1;
+        } else if (b.type === inputType.PICTURE) {
+            return 1;
+        }
+    })
+
     function updateDataField(dataField:DataFieldDto) {
         setDataFields((p)=>{
             return {
@@ -33,7 +41,7 @@ export function GetFormInfo(props: GetFormInfoProps) {
         })
     }
 
-    return <Main>
+    return <Main scrollable={true}>
         <Text variant="titleLarge" style={styles.title} >{props.title}</Text>
         <Form>
             {props.formFields?.map((f: FormFieldDto)=>{
