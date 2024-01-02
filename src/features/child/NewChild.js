@@ -56,11 +56,6 @@ export function NewChild() {
                 onChange={(value)=>{setForm({...form, firstName:value})}}
             />
             <TextInput
-                label={"Middle name"}
-                value={form?.middleName}
-                onChange={(value)=>{setForm({...form, middleName:value})}}
-            />
-            <TextInput
                 label={"Last name"}
                 value={form?.lastName}
                 onChange={(value)=>{setForm({...form, lastName:value})}}
