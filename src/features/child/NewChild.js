@@ -1,4 +1,4 @@
-import { CreateChildDto, gender } from "@ottery/ottery-dto";
+import { gender } from "@ottery/ottery-dto";
 import { Main } from "../../../ottery-ui/containers/Main";
 import DateInput from "../../../ottery-ui/input/DateInput";
 import { Dropdown } from "../../../ottery-ui/input/Dropdown";
