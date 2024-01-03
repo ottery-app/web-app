@@ -13,7 +13,9 @@ import { View } from "react-native";
 import { useNavigator } from "../../../router/useNavigator";
 import paths from "../../../router/paths";
 import { fadedStyle, fadedVariant } from "./tempzone.style";
-import { margin } from "../../../../ottery-ui/styles/margin";
+import { useTempzoneClient } from "./tempzoneClient";
+import { requestType } from "@ottery/ottery-dto";
+import { query_delta } from "../../../provider/clideInst";
 
 
 export function Signin() {
@@ -21,11 +23,28 @@ export function Signin() {
     const navigator = useNavigator();
     const dropOff = useRosterClient().useDropOff();
     const childrenRes = useRosterClient().useGetAttendees({inputs:[eventId, {present:false}]});
-    const children = childrenRes?.data?.data;
+    const allChildren = childrenRes?.data?.data || [];
     const [selected, setSelected] = React.useState([]);
+    const requestsRes = useTempzoneClient().useGetWaitingChildrenForEvent({
+        inputs:[eventId, requestType.DROPOFF],
+        refetchInterval: query_delta,
+    });
+    const waitingChildrenIds = requestsRes?.data?.data?.reduce((map, request)=>{
+        map[request.child] = request.child;
+        return map;
+    }, {});
 
-    //does not sort right when in a effect
-    children?.sort((a, b) => {
+    const children = [];
+    const waitingChildren = allChildren?.filter((child)=>{
+        if (waitingChildrenIds[child._id]) {
+            return true;
+        } else {
+            children.push(child);
+            return false;
+        }
+    }) || [];
+
+    function sortChildrenByName(a,b) {
         const nameA = `${a.lastName} ${a.firstName}`.toLowerCase();
         const nameB = `${b.lastName} ${b.firstName}`.toLowerCase();
         
@@ -36,7 +55,10 @@ export function Signin() {
             return 1;
         }
         return 0;
-    });
+    }
+
+    children?.sort(sortChildrenByName);
+    waitingChildren?.sort(sortChildrenByName);
 
     function markPresent() {
         dropOff.mutate({
@@ -49,7 +71,7 @@ export function Signin() {
             }
         })
     }
-    
+
     return(
         <Main>
             {(children?.length)
@@ -62,6 +84,21 @@ export function Signin() {
                         state={(dropOff.status==="success")?undefined:dropOff.status}
                     />
                     <ImageButtonList>
+                        {(waitingChildren?.length) ? <Text>Waiting for sign in</Text> : undefined}
+                        {(waitingChildren?.map(child=>
+                            <ImageButton 
+                                right={child.pfp}
+                                state={(selected.includes(child._id))?"success":"default"}
+                                onPress={()=>{
+                                    if (selected.includes(child._id)) {
+                                        setSelected([...selected].filter((id)=>id!==child._id))
+                                    } else {
+                                        setSelected([...selected, child._id]);
+                                    }
+                                }}
+                            ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
+                        ))}
+                        { (children?.length) ? <Text>Absent children</Text> : undefined}
                         {(children?.map(child=>
                             <ImageButton 
                                 right={child.pfp}

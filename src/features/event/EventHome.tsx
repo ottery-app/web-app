@@ -16,7 +16,7 @@ import React from "react";
 
 export function EventHome({route}) {
     const navigator = useNavigator();
-    const [clipboardContent, setClipboard] = useClipboard();
+    //const [clipboardContent, setClipboard] = useClipboard();
     const Ping = usePing();
 
     const userId = useAuthClient().useUserId();
@@ -44,14 +44,14 @@ export function EventHome({route}) {
                     navigator(paths.main.social.chat, {chatId: chat._id})
                 },
             },
-            {
-                icon: { uri: share.src },
-                title: "Copy signup link",
-                onPress: () => {
-                    setClipboard(`${window.location.origin}/${paths.main.event.signup}?eventId=${eventId}`);
-                    Ping.success("coppied to clipboard");
-                },
-            },
+            // {
+            //     icon: { uri: share.src },
+            //     title: "Copy signup link",
+            //     onPress: () => {
+            //         setClipboard(`${window.location.origin}/${paths.main.event.signup}?eventId=${eventId}`);
+            //         Ping.success("coppied to clipboard");
+            //     },
+            // },
         ];
 
         if (isVolenteer) {

@@ -1,9 +1,8 @@
 import { noId, requestType } from "@ottery/ottery-dto";
-import { useAuthClient } from "../../../auth/useAuthClient";
 import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneSlice";
 import { useEventClient } from "../../useEventClient";
 import { useChildClient } from "../../../child/useChildClient";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigator } from "../../../../router/useNavigator";
 import paths from "../../../../router/paths";
 import {useState} from "react";
@@ -20,7 +19,6 @@ export function SelectEvents() {
     const navigator = useNavigator();
     const requests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event === noId);
     const readyRequests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event !== noId && !request._id);
-    const removeRequest = useRemoveRequest();
     const updateReqeust = useUpdateRequest();
     //take the top. On refresh
     const childRes = useChildClient().useGetChild({inputs:[requests[0]?.child], enabled:!!requests.length});
@@ -62,7 +60,7 @@ export function SelectEvents() {
                 })
             }
         }
-    }, [requests])
+    }, [requests]);
 
     if (child === undefined || events === undefined) { 
         return;

@@ -2,27 +2,41 @@ import React from "react";
 import { Main } from "../../../../ottery-ui/containers/Main";
 import { useAuthClient } from "../../auth/useAuthClient"
 import { useRosterClient } from "./useRosterClient";
-import { useNavigator } from "../../../router/useNavigator";
 import SelectionButton from "../../../../ottery-ui/buttons/SelectionButton";
 import { ImageButtonList } from "../../../../ottery-ui/containers/ImageButtonList";
 import { ImageButton } from "../../../../ottery-ui/buttons/ImageButton";
 import { Text } from "react-native-paper";
-import { ButtonMenu } from "../../../../ottery-ui/containers/ButtonMenu";
-import paths from "../../../router/paths";
-import { clock, users } from "../../../../assets/icons";
-import {View} from "react-native";
 import { fadedStyle, fadedVariant } from "./tempzone.style";
+import { useTempzoneClient } from "./tempzoneClient";
+import { requestType } from "@ottery/ottery-dto";
+import { query_delta } from "../../../provider/clideInst";
 
 export function Dismissal() {
     const eventId = useAuthClient().useSesh().event;
     const childrenRes = useRosterClient().useGetAttendees({inputs:[eventId, {present:true}]});
-    const children = childrenRes?.data?.data;
-    const navigator = useNavigator()
+    const children = childrenRes?.data?.data || [];
     const [selected, setSelected] = React.useState([]);
     const pickup = useRosterClient().usePickUp();
+    const requestsRes = useTempzoneClient().useGetWaitingChildrenForEvent({
+        inputs:[eventId, requestType.PICKUP],
+        refetchInterval: query_delta,
+    });
+    const waitingChildrenIds = requestsRes?.data?.data?.reduce((map, request)=>{
+        map[request.child] = request.child;
+        return map;
+    }, {});
 
-    //does not sort right when in a effect
-    children?.sort((a, b) => {
+    const presentChildren = [];
+    const waitingChildren = children?.filter((child)=>{
+        if (waitingChildrenIds[child._id]) {
+            return true;
+        } else {
+            presentChildren.push(child);
+            return false;
+        }
+    }) || [];
+
+    function sortChildrenByName(a,b) {
         const nameA = `${a.lastName} ${a.firstName}`.toLowerCase();
         const nameB = `${b.lastName} ${b.firstName}`.toLowerCase();
         
@@ -33,7 +47,10 @@ export function Dismissal() {
             return 1;
         }
         return 0;
-    });
+    }
+
+    children?.sort(sortChildrenByName);
+    waitingChildren?.sort(sortChildrenByName);
 
     function markDismiss() {
         pickup.mutate({
@@ -59,7 +76,22 @@ export function Dismissal() {
                         state={(pickup.status==="success")?undefined:pickup.status}
                     />
                     <ImageButtonList>
-                        {(children?.map(child=>
+                        {(waitingChildren?.length) ? <Text>Parents are here for:</Text> : undefined}
+                        {(waitingChildren?.map(child=>
+                            <ImageButton
+                                right={child.pfp}
+                                state={(selected.includes(child._id))?"success":"default"}
+                                onPress={()=>{
+                                    if (selected.includes(child._id)) {
+                                        setSelected([...selected].filter((id)=>id!==child._id))
+                                    } else {
+                                        setSelected([...selected, child._id]);
+                                    }
+                                }}
+                            ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
+                        ))}
+                        {(presentChildren?.length) ? <Text>Children currently present:</Text> : undefined}
+                        {(presentChildren?.map(child=>
                             <ImageButton
                                 right={child.pfp}
                                 state={(selected.includes(child._id))?"success":"default"}
