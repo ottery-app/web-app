@@ -23,18 +23,10 @@ export function PickChildren() {
     const updateRequest = useUpdateRequest();
     const childrenRes = useUserClient().useChildrenAt({inputs:[userId, noId]});
     let children = childrenRes?.data?.data.filter(child=>child.events.length);
-    // const eventRes = useEventClient().useGetEvents({inputs:[children?.reduce((arr, child)=>[...arr, child.events],[])]});
-    // const eventMap = eventRes?.data?.data.reduce((map, event)=>{
-    //     map[event._id] = event;
-    //     return map;
-    // }, {});
     const eventsRes = useEventClient().useGetEvents({
-        inputs:[children?.reduce((arr, c)=>[...arr, c.events], [])],
+        inputs:[children?.reduce((arr, c)=>[...arr, ...c.events], [])],
         enabled:!!children,
     });
-
-    console.log(eventsRes?.data?.data)
-   
 
     const navigator = useNavigator();
     const Ping = usePing();

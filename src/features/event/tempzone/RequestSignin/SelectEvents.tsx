@@ -3,7 +3,7 @@ import { useAuthClient } from "../../../auth/useAuthClient";
 import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneSlice";
 import { useEventClient } from "../../useEventClient";
 import { useChildClient } from "../../../child/useChildClient";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useNavigator } from "../../../../router/useNavigator";
 import paths from "../../../../router/paths";
 import {useState} from "react";
@@ -16,6 +16,7 @@ import Button from "../../../../../ottery-ui/buttons/Button";
 import { useTempzoneClient } from "../tempzoneClient";
 
 export function SelectEvents() {
+    const killPage = useRef(false);
     const navigator = useNavigator();
     const requests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event === noId);
     const readyRequests = useGetRequests(request=>request.type === requestType.DROPOFF).filter(request=>request.event !== noId && !request._id);
@@ -24,36 +25,41 @@ export function SelectEvents() {
     //take the top. On refresh
     const childRes = useChildClient().useGetChild({inputs:[requests[0]?.child], enabled:!!requests.length});
     const child = childRes?.data?.data;
-    const eventsRes = useEventClient().useGetEvents({inputs:[child?.events], enabled:!!child});
+
+
+    function addEventToRequest(eventId) {
+        console.log('adding event to request');
+        updateReqeust({
+            ...requests[0],
+            event: eventId,
+        });
+    }
+
+    const eventsRes = useEventClient().useGetEvents({
+        inputs:[child?.events],
+        enabled:!!child,
+        onSuccess:(res)=>{
+            if (res?.data?.length === 1) {
+                addEventToRequest(res.data[0]._id);
+            }
+        }
+    });
+
     const events = eventsRes?.data?.data;
-    const [navigated, setNavigated] = useState(false);
     const [selected, setSelected] = useState(noId);
 
     const dropOff = useTempzoneClient().useMakeChildRequest();
 
-    function addEventToRequest(eventId) {
-        updateReqeust({
-            ...requests[0],
-            event: eventId,
-        })
-    }
-
     useEffect(()=>{
-        if (events?.length === 1) { 
-            addEventToRequest(events[0]._id);
-        }
-    }, [eventsRes]);
-
-    useEffect(()=>{
-        if (navigated===false) {
+        if (killPage.current === false) {
             if (requests.length === 0) {
+                killPage.current = true;
                 dropOff.mutate(readyRequests, {
                     onSuccess:(res:any)=>{
                         res.data.forEach(request=>updateReqeust(request));
                         navigator(paths.dropoff.guardian.status);
                     }
                 })
-                setNavigated(true);
             }
         }
     }, [requests])
@@ -77,7 +83,9 @@ export function SelectEvents() {
                 )}
             </ImageButtonList>
             <ButtonSpan>
-                <Button onPress={()=>addEventToRequest(selected)}>Drop off</Button>
+                <Button onPress={()=>{
+                    addEventToRequest(selected)
+                }}>Drop off</Button>
             </ButtonSpan>
         </Main>
     );

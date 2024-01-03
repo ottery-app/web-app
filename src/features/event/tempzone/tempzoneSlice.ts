@@ -29,6 +29,8 @@ export const tempzoneSlice = createSlice({
             }
 
             store.requests = [...store.requests, payload.payload];
+
+            return store;
         } 
     }
 });
@@ -38,7 +40,7 @@ export function useUpdateRequest() {
     const updateRequestApi = useTempzoneClient().useMakeChildRequest();
 
     return async function updateRequest(request: ChildRequestDto) {
-        dispatch(tempzoneSlice.actions.updateRequest(request));
+        return dispatch(tempzoneSlice.actions.updateRequest(request)).payload;
     }   
 }
 
