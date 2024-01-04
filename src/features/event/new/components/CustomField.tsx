@@ -78,7 +78,6 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           label="Label"
           mode="outlined"
           placeholder="Name of the field"
-          placeholderTextColor={colors.background.secondary}
           value={label}
           onChangeText={setLabel}
         />
@@ -94,8 +93,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           multiline
           numberOfLines={4}
           onChangeText={handleNoteChange}
-          placeholder="Leave a note why you want this feild"
-          placeholderTextColor={colors.background.secondary}
+          placeholder="Leave a note why you want this field"
           value={note}
         />
         <View style={styles.actions}>

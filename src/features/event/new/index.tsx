@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { usePing } from "../../../../ottery-ping";
 import { useEventClient } from "../useEventClient";
@@ -10,12 +10,14 @@ import VolunteerSignUpOptionsForm from "./VolunteerSignUpOptions";
 import AttendeeSignUpOptionsForm from "./AttendeeSignUpOptions";
 import PaymentOptionsForm from "./PaymentOptions";
 
-import { FormFieldDto, noId, time } from "@ottery/ottery-dto";
+import { FormFieldDto, FormFlag, noId, time } from "@ottery/ottery-dto";
 import { useNavigator } from "../../../router/useNavigator";
 import { AppendListItem } from "../../../../ottery-ui/lists/AppendList";
 import { Frequency, RRule } from "rrule";
 import { margin } from "../../../../ottery-ui/styles/margin";
 import { Dimensions } from 'react-native';
+import { useFormClient } from "../../form/useFormClient";
+import GuardianSignUpOptionsForm from "./GuardianSignUpOptions";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -31,7 +33,7 @@ export interface EventFormData {
   durration: time,
   volenteerSignUp: AppendListItem<FormFieldDto>[];
   attendeeSignUp: AppendListItem<FormFieldDto>[];
-  guardianSignUp: any[];
+  guardianSignUp: AppendListItem<FormFieldDto>[];
   cost: number;
   public: boolean;
 }
@@ -41,7 +43,6 @@ function NewEventScreen() {
   const Ping = usePing();
   const { useNewEvent } = useEventClient();
   const newEvent = useNewEvent();
-
 
   const start = new Date();
   start.setSeconds(0);
@@ -62,12 +63,42 @@ function NewEventScreen() {
     public: false,
   });
 
+  useFormClient().useGetBaseFormFields({
+    inputs:[FormFlag.caretaker],
+    onSuccess:(res)=>{
+      setEventForm((p)=>{
+        const fields = res?.data.map((form)=>({id:form._id, value:form})) || [];
+        p.volenteerSignUp.push(...fields);
+        return {...p};
+      })
+    }
+  });
+  useFormClient().useGetBaseFormFields({
+    inputs:[FormFlag.guardian],
+    onSuccess:(res)=>{
+      setEventForm((p)=>{
+        const fields = res?.data.map((form)=>({id:form._id, value:form})) || [];
+        p.guardianSignUp.push(...fields);
+        return {...p};
+      })
+    }
+  });
+  useFormClient().useGetBaseFormFields({
+    inputs:[FormFlag.attendee],
+    onSuccess:(res)=>{
+      setEventForm((p)=>{
+        const fields = res?.data.map((form)=>({id:form._id, value:form})) || [];
+        p.attendeeSignUp.push(...fields);
+        return {...p};
+      })
+    }
+  });
+
   function handleError(err: any) {
     Ping.error(err);
   }
 
   function handleSubmit(form: EventFormData) {
-    console.log(form.rrule)
     newEvent.mutate({
       ...form,
       volenteerSignUp: form.volenteerSignUp.map(({value})=>value),
@@ -89,6 +120,7 @@ function NewEventScreen() {
           BasicInfoForm,
           TimesForm,
           VolunteerSignUpOptionsForm,
+          GuardianSignUpOptionsForm,
           AttendeeSignUpOptionsForm,
           PaymentOptionsForm,
         ]}
