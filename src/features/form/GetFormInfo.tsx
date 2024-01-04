@@ -7,10 +7,12 @@ import { StyleSheet } from "react-native";
 import { DataFieldDto, FormFieldDto, id, inputType } from "@ottery/ottery-dto";
 import { FormFieldToInput } from "./FormFieldToInput";
 import { useState } from "react";
+import { margin } from "../../../ottery-ui/styles/margin";
 
 const styles = StyleSheet.create({
     title: {
         textAlign:"center",
+        paddingBottom: margin.large,
     }
 });
 
@@ -24,7 +26,7 @@ export interface GetFormInfoProps {
 export function GetFormInfo(props: GetFormInfoProps) {
     const [datafields, setDataFields] = useState({});
 
-    props.formFields.sort((a,b)=>{
+    props.formFields?.sort((a,b)=>{
         if (a.type === inputType.PICTURE) {
             return -1;
         } else if (b.type === inputType.PICTURE) {

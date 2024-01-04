@@ -1,18 +1,19 @@
 import { PropsWithChildren } from "react";
-import Main from "./Main";
 import Head from "./Head";
-import Hint from "../../../../../../ottery-ui/containers/Hint";
+import { View } from "react-native";
+import { margin } from "../../../../../../ottery-ui/styles/margin";
 
 function HelpWrapper({
   title,
+  hint,
   children,
-}: PropsWithChildren & { title?: string }) {
+}: PropsWithChildren & { title:string, hint:string }) {
   return (
-    <Main>
-      {title && <Head>{title}</Head>}
-      <Hint peak="Identification and emergency contacts are provided by default" />
+    <View>
+      {title && <Head style={{paddingBottom:margin.large}}>{title}</Head>}
+      {/* <Hint peak={hint} /> */}
       {children}
-    </Main>
+    </View>
   );
 }
 

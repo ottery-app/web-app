@@ -1,8 +1,8 @@
 import {View, StyleSheet, TouchableOpacity} from "react-native";
 import Image from "../image/Image";
 import { clickable } from "../styles/clickable";
-import { ImageAsset } from "../../assets/ImageAsset";
 import { margin } from "../styles/margin";
+import { ImageDto } from "@ottery/ottery-dto";
 
 const styles = StyleSheet.create({
     container:{
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 export interface InputIconWrapperProps {
     children: any,
-    icon: ImageAsset,
+    icon: ImageDto,
     onPress: ()=>void,
 }
 

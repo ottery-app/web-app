@@ -51,6 +51,8 @@ function AppendList<T>({
   onDelete,
   renderItem,
 }: AppendListProps<T>) {
+  window["onAdd"] = onAdd;
+
   return (
     <>
       {items.map((item) => (
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
   itemField: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems:"center",
   },
   item: {
     flex:6,

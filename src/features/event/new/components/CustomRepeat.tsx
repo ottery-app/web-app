@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import Main from "./UI/Main";
+import { Main } from "../../../../../ottery-ui/containers/Main";
 import Head from "./UI/Head";
 import Row from "./UI/Row";
 import NumericInput from "../../../../../ottery-ui/input/NumericInput";
@@ -16,6 +16,7 @@ import {
 } from "../../../../../ottery-ui/controls/InputRadioGroup";
 import { inputType } from "@ottery/ottery-dto";
 import { ByWeekday, Frequency, RRule } from "rrule";
+import { margin } from "../../../../../ottery-ui/styles/margin";
 
 const FREQUENCY_OPTIONS = [
   { label: "day", value: Frequency.DAILY },
@@ -99,13 +100,34 @@ interface CustomRepeatProps {
 }
 
 function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
-  const [endKey, setEndKey] = useState(END_TYPES.Never);
-  const [endValues, setEndValues] = useState({});
+  const [endKey, setEndKey] = useState(()=>{
+    const rule = {...rrule.origOptions};
+
+    if (rule.count) {
+      return END_TYPES.After;
+    } else if (rule.until) {
+      return END_TYPES.On;
+    } else {
+      return END_TYPES.Never;
+    }
+  });
+  const [endValues, setEndValues] = useState(()=>{
+    const rule = {...rrule.origOptions};
+    const endValues = {};
+    endValues[END_TYPES.Never] = undefined;
+    endValues[END_TYPES.After] = rule.count;
+    endValues[END_TYPES.On] = rule["until"];
+    return endValues;
+  });
   const [rule, setRule] = useState({...rrule.origOptions});
+
+  console.log(endValues);
 
   useEffect(()=>{
     if (rule.interval !== undefined) {
-      setRRule(new RRule(rule));
+      const rrule = new RRule(rule);
+      console.log(rrule.toString());
+      setRRule(rrule);
     }
   }, [rule]);
 
@@ -172,10 +194,10 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
   }
 
   return (
-    <Main>
+    <View style={{gap:margin.large}}>
       <Head style={{ textAlign: "left" }}>Custom repeat</Head>
       <Row>
-        <Text>Every: </Text>
+        <Text style={{ flex: 1 }}>Every: </Text>
         <View style={{ flex: 1 }}>
           <NumericInput
             min={1}
@@ -219,7 +241,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
           values={endValues}
         />
       </Row>
-    </Main>
+    </View>
   );
 }
 

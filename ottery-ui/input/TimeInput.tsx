@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
-import { DefaultTheme, TextInput, ThemeProvider } from "react-native-paper";
+import { DefaultTheme, ThemeProvider } from "react-native-paper";
 import { TimePickerModal } from "react-native-paper-dates";
 import { colors } from "../styles/colors";
 import { radius } from "../styles/radius";
+
+import TextInput from "./TextInput";
 
 export interface TimeValueType {
   hours?: number;
@@ -32,21 +34,21 @@ function TimeInput({ label, value, onChange }: TimeInputProps) {
     setIsPickerOpen(false);
   }
 
+  const formattedHours = value?.hours % 12 || 12; // Convert hours to 12-hour format
+  const amOrPm = value?.hours >= 12 ? 'PM' : 'AM'; // Determine AM or PM
+
   const minutes = (value?.minutes.toString().length === 1) ? `0${value?.minutes}` : value?.minutes;
-  const hours = (value?.hours.toString().length === 1) ? `0${value?.hours}` : value?.hours;
+  const hours = (formattedHours.toString().length === 1) ? `0${formattedHours}` : formattedHours;
 
   return (
-    <View style={styles.container}>
+    <View>
       <TouchableWithoutFeedback onPress={handleTimeInputPress}>
         <View pointerEvents="box-only">
           <TextInput
-            keyboardType="numeric"
+            style={{width:110}}
             label={label}
-            mode="outlined"
-            outlineColor={colors.primary.dark}
-            outlineStyle={{ borderRadius: radius.default }}
-            style={{ borderColor: colors.primary.dark }}
-            value={`${hours}:${minutes}`}
+            value={`${hours}:${minutes} ${amOrPm}`}
+            onChange={()=>{}}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -78,11 +80,5 @@ function TimeInput({ label, value, onChange }: TimeInputProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default TimeInput;

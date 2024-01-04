@@ -138,9 +138,7 @@ function MultiStepForm<T>({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
-    margin: margin.medium,
+    width: "100%",
     gap: margin.medium,
   },
 });

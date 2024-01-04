@@ -1,10 +1,7 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { TextInput } from "react-native-paper";
-import { nanoid } from "@reduxjs/toolkit";
 import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
-import { FormFieldDto, classifyWithDto } from "@ottery/ottery-dto";
-
+import { FormFieldDto, noId } from "@ottery/ottery-dto";
 import { margin } from "../../../../../ottery-ui/styles/margin";
 import Error from "../../../../../ottery-ui/text/Error";
 import { Dropdown, DropdownOption } from "../../../../../ottery-ui/input/Dropdown";
@@ -12,17 +9,17 @@ import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
 import { AppendListItem } from "../../../../../ottery-ui/lists/AppendList";
+import TextInput from "../../../../../ottery-ui/input/TextInput";
 
 function Column({ children }: PropsWithChildren) {
   return <View style={styles.column}>{children}</View>;
 }
 
 const INPUT_TYPE_OPTIONS = [
+  { label: inputType.TEXT, value: inputType.TEXT },
   { label: inputType.DATE, value: inputType.DATE },
   { label: inputType.NUMBER, value: inputType.NUMBER },
-  { label: inputType.TEXT, value: inputType.TEXT },
-  { label: inputType.PHONE, value: inputType.PHONE },
-  { label: inputType.EMAIL, value: inputType.EMAIL },
+  { label: inputType.CHECKBOX, value: inputType.CHECKBOX },
 ];
 
 interface CustomFieldProps {
@@ -65,6 +62,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
         label,
         type,
         note,
+        forEvent: noId,
       }
     };
 
@@ -78,9 +76,8 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           label="Label"
           mode="outlined"
           placeholder="Name of the field"
-          placeholderTextColor={colors.background.secondary}
           value={label}
-          onChangeText={setLabel}
+          onChange={setLabel}
         />
         <Dropdown
           label="Type"
@@ -93,9 +90,8 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           mode="outlined"
           multiline
           numberOfLines={4}
-          onChangeText={handleNoteChange}
-          placeholder="Leave a note why you want this feild"
-          placeholderTextColor={colors.background.secondary}
+          onChange={handleNoteChange}
+          placeholder="Leave a note why you want this field"
           value={note}
         />
         <View style={styles.actions}>

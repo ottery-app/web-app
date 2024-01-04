@@ -30,6 +30,7 @@ const stylesDefault = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: margin.medium,
+        width: "100%",
     }
 })
 
@@ -51,7 +52,7 @@ export function CheckBox({
     value,
     label,
     onChange,
-    mode=CheckBoxMode.filled
+    mode=CheckBoxMode.default
 }: CheckBoxProps) {
 
     function Icon({active}) {
