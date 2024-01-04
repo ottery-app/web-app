@@ -5,7 +5,6 @@ import { makeValidator, useValidator } from "./useValidator";
 import { useThemeMaker } from "../styles/Color";
 import { radius } from "../styles/radius";
 import { InputProps } from "./Input";
-import { clickable } from "../styles/clickable";
 
 export interface TextInputProps extends InputProps<string> {
   color?: color;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import Main from "./UI/Main";
+import { Main } from "../../../../../ottery-ui/containers/Main";
 import Head from "./UI/Head";
 import Row from "./UI/Row";
 import NumericInput from "../../../../../ottery-ui/input/NumericInput";
@@ -16,6 +16,7 @@ import {
 } from "../../../../../ottery-ui/controls/InputRadioGroup";
 import { inputType } from "@ottery/ottery-dto";
 import { ByWeekday, Frequency, RRule } from "rrule";
+import { margin } from "../../../../../ottery-ui/styles/margin";
 
 const FREQUENCY_OPTIONS = [
   { label: "day", value: Frequency.DAILY },
@@ -105,6 +106,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
 
   useEffect(()=>{
     if (rule.interval !== undefined) {
+      console.log(rule);
       setRRule(new RRule(rule));
     }
   }, [rule]);
@@ -175,7 +177,7 @@ function CustomRepeat({ rrule, setRRule }: CustomRepeatProps) {
     <Main>
       <Head style={{ textAlign: "left" }}>Custom repeat</Head>
       <Row>
-        <Text>Every: </Text>
+        <Text style={{ flex: 1 }}>Every: </Text>
         <View style={{ flex: 1 }}>
           <NumericInput
             min={1}

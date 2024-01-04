@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { noId } from "@ottery/ottery-dto";
-
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
 import Head from "./components/UI/Head";
 import TextInput from "../../../../ottery-ui/input/TextInput";
-import Main from "./components/UI/Main";
+import { Main } from "../../../../ottery-ui/containers/Main";
 
 function BasicInfoForm({
   form,
@@ -60,7 +58,7 @@ function BasicInfoForm({
   }
 
   return (
-    <Main>
+    <>
       <Head>Basic Info</Head>
       {/* <CheckBox label="Make public?" onChange={setPublic} value={pub} /> */}
       <TextInput label="Event Title" onChange={setTitle} value={title} />
@@ -78,7 +76,7 @@ function BasicInfoForm({
         onChange={setAbout}
         value={about}
       />
-    </Main>
+    </>
   );
 }
 

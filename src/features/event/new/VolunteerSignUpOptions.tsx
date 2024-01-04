@@ -2,7 +2,7 @@ import HelpWrapper from "./components/UI/HelpWrapper";
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
 import SignUpOptions, { makeHandleDone } from "./components/SignUpOptions";
-import Main from "./components/UI/Main";
+import { Main } from "../../../../ottery-ui/containers/Main";
 
 function VolunteerSignUpOptionsForm({
   form,
@@ -10,7 +10,7 @@ function VolunteerSignUpOptionsForm({
   updateErrorHandler,
 }: StepProps<EventFormData>) {
   return (
-    <Main>
+    <>
       <HelpWrapper title="Volunteer Info">
         <SignUpOptions
           fields={form.volenteerSignUp}
@@ -18,7 +18,7 @@ function VolunteerSignUpOptionsForm({
           updateErrorHandler={updateErrorHandler}
         />
       </HelpWrapper>
-    </Main>
+    </>
   );
 }
 

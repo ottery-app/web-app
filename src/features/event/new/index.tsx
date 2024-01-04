@@ -14,6 +14,10 @@ import { FormFieldDto, noId, time } from "@ottery/ottery-dto";
 import { useNavigator } from "../../../router/useNavigator";
 import { AppendListItem } from "../../../../ottery-ui/lists/AppendList";
 import { Frequency, RRule } from "rrule";
+import { margin } from "../../../../ottery-ui/styles/margin";
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 window['RRule'] = RRule;
 
@@ -27,6 +31,7 @@ export interface EventFormData {
   durration: time,
   volenteerSignUp: AppendListItem<FormFieldDto>[];
   attendeeSignUp: AppendListItem<FormFieldDto>[];
+  guardianSignUp: any[];
   cost: number;
   public: boolean;
 }
@@ -52,6 +57,7 @@ function NewEventScreen() {
     durration: 3600000,
     volenteerSignUp: [],
     attendeeSignUp: [],
+    guardianSignUp: [],
     cost: 0,
     public: false,
   });
@@ -74,7 +80,7 @@ function NewEventScreen() {
   }
 
   return (
-    <Main scrollable>
+    <Main style={{width:windowWidth - margin.large}} scrollable>
       <MultiStepForm<EventFormData>
         form={eventForm}
         handleError={handleError}

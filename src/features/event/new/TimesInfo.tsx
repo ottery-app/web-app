@@ -1,20 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { isDate, isRRule } from "@ottery/ottery-dto";
-
 import TimeInput, {
   TimeValueType,
 } from "../../../../ottery-ui/input/TimeInput";
 import Head from "./components/UI/Head";
 import { StepProps } from "../../../../ottery-ui/forms/MultiStepForm";
 import { EventFormData } from ".";
-import {
-  getTime,
-  setDate as setDateFields,
-} from "../../../functions/time";
 import DateInput from "../../../../ottery-ui/input/DateInput";
-import Main from "./components/UI/Main";
+import { Main } from "../../../../ottery-ui/containers/Main";
 import { Dropdown, DropdownOption } from "../../../../ottery-ui/input/Dropdown";
 import CustomRepeat from "./components/CustomRepeat";
 import { margin } from "../../../../ottery-ui/styles/margin";
@@ -144,7 +137,7 @@ function TimesForm({
   }
 
   return (
-    <Main>
+    <>
       <Head>Time</Head>
       <DateInput label="Date" onChange={handleDateChange} value={getDate()} />
       <View style={styles.timesContainer}>
@@ -168,7 +161,7 @@ function TimesForm({
       {!Object.keys(TIMEPROTOCOLS).includes(form.rrule.toString()) && (
         <CustomRepeat rrule={form.rrule} setRRule={updateRRule} />
       )}
-    </Main>
+    </>
   );
 }
 
@@ -176,7 +169,7 @@ const styles = StyleSheet.create({
   timesContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   timesText: {
     marginHorizontal: margin.small,
