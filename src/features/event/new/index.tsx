@@ -103,12 +103,15 @@ function NewEventScreen() {
       ...form,
       volenteerSignUp: form.volenteerSignUp.map(({value})=>value),
       attendeeSignUp: form.attendeeSignUp.map(({value})=>value),
+      guardianSignUp: form.guardianSignUp.map(({value})=>value),
       rrule: form.rrule.toString(),
     }, {
       onSuccess: () => navigator(-1),
       onError: (err: any) => Ping.error(err.message),
     });
   }
+
+  console.log(eventForm);
 
   return (
     <Main style={{width:windowWidth - margin.large}} scrollable>

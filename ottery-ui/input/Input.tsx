@@ -1,7 +1,7 @@
 import { inputType } from "@ottery/ottery-dto"
 import DateInput from "./DateInput"
 import ImageInput from "./ImageInput"
-import { CheckBox } from "./CheckBox";
+import { CheckBox, CheckBoxMode } from "./CheckBox";
 import { Dropdown } from "./Dropdown";
 import PhoneNumberInput from "./PhoneInput";
 import TextInput, { TextInputProps } from "./TextInput";
@@ -44,7 +44,7 @@ export interface BaseInputProps extends InputProps<any> {
 export function Input({ type = inputType.TEXT, ...props }:BaseInputProps) {
     switch (type) {
       case inputType.CHECKBOX:
-        return <CheckBox {...props} />;
+        return <CheckBox {...props}/>;
       case inputType.DATE:
         return <DateInput {...props} />;
       case inputType.TIME:

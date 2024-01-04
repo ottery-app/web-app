@@ -30,6 +30,7 @@ function Row({ children }: PropsWithChildren) {
 
 function FieldSelect({ onDone, options, value }: FieldSelectProps) {
   const [done, setDone] = useState(classifyWithDto(FormFieldDto, value.value));
+  const [note, setNote] = useState(value?.value?.note);
   const [isCustom, setIsCustom] = useState(false);
   const [label, setLabel] = useState(value?.value?.label);
   
@@ -78,16 +79,17 @@ function FieldSelect({ onDone, options, value }: FieldSelectProps) {
   function handleDone(data: AppendListItem<FormFieldDto>) {
     setLabel(data.value.label);
     setDone(true);
-
+    setNote(data.value.note);
     onDone(data);
   }
 
   // render
   if (done) {
     return (
-      <Row>
-        <Text>{label}</Text>
-      </Row>
+      <View>
+        <Text style={{fontWeight:"bold"}}>{label}</Text>
+        <Text>{note}</Text>
+      </View>
     );
   }
 

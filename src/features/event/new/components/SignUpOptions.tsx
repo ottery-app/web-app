@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-import { FormFieldDto, classifyWithDto, id } from "@ottery/ottery-dto";
+import { FormFieldDto, classifyWithDto, id, noId } from "@ottery/ottery-dto";
 
 import { EventFormData } from "..";
 import AppendList, { AppendListItem } from "../../../../../ottery-ui/lists/AppendList";
@@ -103,6 +103,8 @@ function SignUpOptions({
       <FieldSelect onDone={handleDone} options={options} value={item} />
     );
   }
+
+  console.log(items);
 
   return (
     <AppendList

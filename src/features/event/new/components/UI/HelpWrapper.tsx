@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import Head from "./Head";
 import { View } from "react-native";
+import { margin } from "../../../../../../ottery-ui/styles/margin";
 
 function HelpWrapper({
   title,
@@ -9,7 +10,7 @@ function HelpWrapper({
 }: PropsWithChildren & { title:string, hint:string }) {
   return (
     <View>
-      {title && <Head>{title}</Head>}
+      {title && <Head style={{paddingBottom:margin.large}}>{title}</Head>}
       {/* <Hint peak={hint} /> */}
       {children}
     </View>
