@@ -104,8 +104,6 @@ function SignUpOptions({
     );
   }
 
-  console.log(items);
-
   return (
     <AppendList
       items={removeDuplicates(items)}

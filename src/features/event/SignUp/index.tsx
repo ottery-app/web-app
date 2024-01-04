@@ -286,11 +286,12 @@ function SignupChildren() {
         inputs:[current.props.childId, eventRes?.data?.data?.attendeeSignUp],
         enabled: !!eventRes?.data?.data?.attendeeSignUp
     });
+    const childRes = useChildClient().useGetChild({inputs:[current?.props?.childId]});
+    const child = childRes?.data?.data;
     const missingFields = missingRes?.data?.data;
     const updateData = useChildClient().useUpdateChildData();
     const signup = eventClient.useSignupAttendee(); 
     const goBack = useBack();
-
 
     function signupNow(datafields) {
         function singupMutate() {
@@ -333,7 +334,7 @@ function SignupChildren() {
     }
 
     return <GetFormInfo
-        title={"Uh oh! Looks like we are missing some info for signing you up"}
+        title={`Uh oh! Looks like we are missing some info for signing ${child?.firstName}`}
         formFields={missingFields}
         onBack={goBack}
         onDone={signupNow}

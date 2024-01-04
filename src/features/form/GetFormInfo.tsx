@@ -8,6 +8,7 @@ import { DataFieldDto, FormFieldDto, id, inputType } from "@ottery/ottery-dto";
 import { FormFieldToInput } from "./FormFieldToInput";
 import { useState } from "react";
 import { margin } from "../../../ottery-ui/styles/margin";
+import { usePing } from "../../../ottery-ping";
 
 const styles = StyleSheet.create({
     title: {
@@ -24,6 +25,8 @@ export interface GetFormInfoProps {
 }
 
 export function GetFormInfo(props: GetFormInfoProps) {
+    const [missing, setMissing] = useState([]);
+    const Ping = usePing();
     const [datafields, setDataFields] = useState({});
 
     props.formFields?.sort((a,b)=>{
@@ -55,7 +58,21 @@ export function GetFormInfo(props: GetFormInfoProps) {
         {props.onDone || props.onBack
             ? <ButtonSpan>
                 {props.onBack ? <Button state="error" onPress={()=>props.onBack()}>Back</Button> : undefined}
-                {props.onDone ? <Button onPress={()=>props.onDone(datafields)}>Done</Button> : undefined}
+                {props.onDone ? <Button onPress={()=>{
+                    const missing = props.formFields.reduce((map, formField: FormFieldDto & {_id:id})=>{
+                        if (!!datafields[formField._id].value === false && formField.required) {
+                            map.push(datafields[formField._id]);
+                        }
+                        return map;
+                    }, []);
+
+                    if (missing.length) {
+                        Ping.error("You are missing some required fields");
+                        setMissing(missing);  
+                    } else {
+                        props.onDone(datafields)  
+                    }
+                }}>Done</Button> : undefined}
             </ButtonSpan>
             : undefined
         }

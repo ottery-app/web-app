@@ -1,6 +1,7 @@
 import { DataFieldDto } from "@ottery/ottery-dto";
 import { InfoWrapper } from "../../../ottery-ui/input/InfoWrapper";
 import { Input } from "../../../ottery-ui/input/Input";
+import { Text } from "react-native-paper";
 
 export function FormFieldToInput({formField, value, onChange}) {
     return (
@@ -25,6 +26,7 @@ export function FormFieldToInput({formField, value, onChange}) {
                     onChange(value);
                 }}
             />
+            {(formField.required) ? <Text style={{width:"100%", textAlign:'left'}}>required</Text> : undefined}
         </InfoWrapper>
     );
 }

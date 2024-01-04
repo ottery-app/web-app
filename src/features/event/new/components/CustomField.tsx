@@ -3,13 +3,14 @@ import { StyleSheet, View } from "react-native";
 import { inputType } from "@ottery/ottery-dto/lib/types/input/input.enums";
 import { FormFieldDto, noId } from "@ottery/ottery-dto";
 import { margin } from "../../../../../ottery-ui/styles/margin";
-import Error from "../../../../../ottery-ui/text/Error";
 import { Dropdown, DropdownOption } from "../../../../../ottery-ui/input/Dropdown";
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { colors } from "../../../../../ottery-ui/styles/colors";
 import { radius } from "../../../../../ottery-ui/styles/radius";
 import { AppendListItem } from "../../../../../ottery-ui/lists/AppendList";
 import TextInput from "../../../../../ottery-ui/input/TextInput";
+import { CheckBox, CheckBoxMode } from "../../../../../ottery-ui/input/CheckBox";
+import { usePing } from "../../../../../ottery-ping";
 
 function Column({ children }: PropsWithChildren) {
   return <View style={styles.column}>{children}</View>;
@@ -31,11 +32,8 @@ function CustomField({ id, onDone }: CustomFieldProps) {
   const [label, setLabel] = useState("");
   const [type, setType] = useState<inputType>(undefined);
   const [note, setNote] = useState("");
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    setError("");
-  }, [label, type]);
+  const [required, setRequired] = useState(true);
+  const Ping = usePing()
 
   function handleTypeChange({ value: type}: DropdownOption) {
     setType(type);
@@ -47,12 +45,12 @@ function CustomField({ id, onDone }: CustomFieldProps) {
 
   function handleDone() {
     if (!label) {
-      setError("Label field can not be empty");
+      Ping.error("Label field can not be empty");
       return;
     }
 
     if (!type) {
-      setError("Type field can not be empty");
+      Ping.error("Type field can not be empty");
       return;
     }
 
@@ -62,6 +60,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
         label,
         type,
         note,
+        required,
         forEvent: noId,
       }
     };
@@ -94,6 +93,12 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           placeholder="Leave a note why you want this field"
           value={note}
         />
+        <CheckBox
+          label="Required"
+          value={required}
+          onChange={setRequired}
+          mode={CheckBoxMode.filled}
+        />
         <View style={styles.actions}>
           <Button
             color={colors.success}
@@ -104,7 +109,6 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           </Button>
         </View>
       </Column>
-      <Error>{error}</Error>
     </>
   );
 }
