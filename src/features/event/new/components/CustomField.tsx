@@ -32,7 +32,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
   const [label, setLabel] = useState("");
   const [type, setType] = useState<inputType>(undefined);
   const [note, setNote] = useState("");
-  const [required, setRequired] = useState(true);
+  //const [required, setRequired] = useState(true);
   const Ping = usePing()
 
   function handleTypeChange({ value: type}: DropdownOption) {
@@ -60,7 +60,7 @@ function CustomField({ id, onDone }: CustomFieldProps) {
         label,
         type,
         note,
-        required,
+        required:true,
         forEvent: noId,
       }
     };
@@ -93,12 +93,12 @@ function CustomField({ id, onDone }: CustomFieldProps) {
           placeholder="Leave a note why you want this field"
           value={note}
         />
-        <CheckBox
+        {/* <CheckBox
           label="Required"
           value={required}
           onChange={setRequired}
           mode={CheckBoxMode.filled}
-        />
+        /> */}
         <View style={styles.actions}>
           <Button
             color={colors.success}

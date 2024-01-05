@@ -60,7 +60,7 @@ export function GetFormInfo(props: GetFormInfoProps) {
                 {props.onBack ? <Button state="error" onPress={()=>props.onBack()}>Back</Button> : undefined}
                 {props.onDone ? <Button onPress={()=>{
                     const missing = props.formFields.reduce((map, formField: FormFieldDto & {_id:id})=>{
-                        if (!!datafields[formField._id].value === false && formField.required) {
+                        if (!!datafields[formField._id]?.value === false && formField.required) {
                             map.push(datafields[formField._id]);
                         }
                         return map;
