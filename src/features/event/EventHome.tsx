@@ -15,7 +15,6 @@ import { DateFormat, Time } from "../../../ottery-ui/text/Time";
 import { View } from "react-native";
 import * as Clipboard from 'expo-clipboard';
 import { usePing } from "../../../ottery-ping";
-import { makeUrl } from "../../router/navigate";
 
 export function EventHome({route}) {
     const Ping = usePing();

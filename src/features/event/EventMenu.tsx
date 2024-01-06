@@ -11,6 +11,7 @@ import { useAuthClient } from "../auth/useAuthClient";
 import { role } from "@ottery/ottery-dto";
 import {useMemo} from "react"
 import { usePing } from "../../../ottery-ping";
+import { useUserClient } from "../user/useUserClient";
 
 export function EventMenu({route}) {
     const navigator = useNavigator();
@@ -24,6 +25,9 @@ export function EventMenu({route}) {
     const eventRes = eventClient.useGetEvent({inputs:[eventId]});
     const event = eventRes?.data?.data;
 
+    const userChildrenRes = useUserClient().useGetUserChildren({inputs:[userId]});
+    const userChildren = userChildrenRes?.data?.data;
+
     const chatIdRes = useChatClient().useGetDirectChat({
         inputs:[userId, event?.leadManager],
         enabled: !!event,
@@ -32,7 +36,13 @@ export function EventMenu({route}) {
     const isLeadManager = useMemo(()=>event?.leadManager === userId || false, [eventRes]);
     const isManager = useMemo(()=>event?.managers?.includes(userId) || false, [eventRes]);
     const isVolenteer = useMemo(()=>event?.volenteers?.includes(userId) || false, [eventRes]);
-    const isAtendee = useMemo(()=>event?.attendees?.includes(userId) || false, [eventRes]);
+    const isAtendee = useMemo(()=>userChildren.reduce((events, eventId)=>{
+        if (!events.includes(eventId)) {
+            events.push(eventId);
+        }
+
+        return events;
+    },[]).includes(eventId), [eventRes, userChildrenRes]);
 
     const buttons = useMemo(()=>{
         const buttons = [
@@ -80,7 +90,13 @@ export function EventMenu({route}) {
         }
 
         if (isAtendee) {
-
+            // buttons.push(
+            //     {
+            //         icon: {uri: users.src},
+            //         title: "My kids",
+            //         onPress: 
+            //     }
+            // )
         }
 
         if (isManager) {
