@@ -9,7 +9,7 @@ import { UserProfile } from "../../features/user/UserProfile";
 import { ChildProfile } from "../../features/child/ChildProfile";
 import AddGuardian from "../../features/child/AddGuardian";
 import Header from "./Header";
-import { EventHome } from "../../features/event/EventHome";
+import { EventMenu } from "../../features/event/EventMenu";
 import { NewChild } from "../../features/child/NewChild";
 import { Roster } from "../../features/event/Roster";
 import { InviteCaretaker } from "../../features/event/InviteCaretaker";
@@ -18,10 +18,9 @@ import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
 import NewEventScreen from "../../features/event/new";
-import { useNavigator } from "../useNavigator";
-import { useEffect } from "react";
 import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
 import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
+import { EventHome } from "../../features/event/EventHome";
 
 const Stack = createNativeStackNavigator();
 
@@ -119,6 +118,14 @@ export function HomeStack() {
         name={paths.main.event.dash}
         options={{
           title: "Event Dash",
+          header: (props) => <Header {...props} />,
+        }}
+        component={EventMenu}
+      />
+      <Stack.Screen
+        name={paths.main.event.home}
+        options={{
+          title: "Event Home",
           header: (props) => <Header {...props} />,
         }}
         component={EventHome}

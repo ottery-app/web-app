@@ -1,6 +1,6 @@
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { Main } from "../../../ottery-ui/containers/Main";
-import { clock, message, pfp, share, users } from "../../../assets/icons";
+import { message, share, userPlus } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useEventClient } from "./useEventClient";
@@ -8,93 +8,129 @@ import { Text } from "react-native-paper";
 import { margin } from "../../../ottery-ui/styles/margin";
 import { useChatClient } from "../chat/useChatClient";
 import { useAuthClient } from "../auth/useAuthClient";
-import { role } from "@ottery/ottery-dto";
+import { EventDto, role } from "@ottery/ottery-dto";
 import {useMemo} from "react"
-import {useClipboard} from "@react-native-clipboard/clipboard";
+import { RRule } from "rrule";
+import { DateFormat, Time } from "../../../ottery-ui/text/Time";
+import { View } from "react-native";
+import * as Clipboard from 'expo-clipboard';
 import { usePing } from "../../../ottery-ping";
-import React from "react";
+import { makeUrl } from "../../router/navigate";
 
 export function EventHome({route}) {
-    const navigator = useNavigator();
-    //const [clipboardContent, setClipboard] = useClipboard();
     const Ping = usePing();
+    const navigator = useNavigator()
 
-    const userId = useAuthClient().useUserId();
-    const [state, swapState] = useAuthClient().useSwapState()
+    const userId = useAuthClient().useEventId();
 
-    const eventClient = useEventClient();
     const eventId = route.params.eventId;
-    const eventRes = eventClient.useGetEvent({inputs:[eventId]});
-    const event = eventRes?.data?.data;
+    const eventRes = useEventClient().useGetEventInfo({inputs:[eventId]});
+    const event = eventRes?.data?.data as EventDto;
 
     const chatIdRes = useChatClient().useGetDirectChat({
-        inputs:[userId, event?.managers[0]],
+        inputs:[userId, event?.leadManager],
         enabled: !!event,
     });
     const chat = chatIdRes?.data?.data;
-    const isVolenteer = true || useMemo(()=>event?.volenteers.includes(userId), [eventRes]);
-    const isAtendee = useMemo(()=>event?.attendees.includes(userId), [eventRes]);
+
+    const isLeadManager = useMemo(()=>event?.leadManager, [eventRes]);
 
     const buttons = useMemo(()=>{
         const buttons = [
             {
-                icon: { uri: message.src },
-                title: "Questions?",
+                icon: { uri: userPlus.src },
+                title: "Signup",
                 onPress: () => {
-                    navigator(paths.main.social.chat, {chatId: chat._id})
+                    navigator(paths.main.event.signup, {eventId});
                 },
             },
-            // {
-            //     icon: { uri: share.src },
-            //     title: "Copy signup link",
-            //     onPress: () => {
-            //         setClipboard(`${window.location.origin}/${paths.main.event.signup}?eventId=${eventId}`);
-            //         Ping.success("coppied to clipboard");
-            //     },
-            // },
+            {
+                icon: { uri: share.src },
+                title: "Share", 
+                onPress: ()=>{
+                    //ADD SHARE TOOOOOOO LATER
+                    Clipboard.setStringAsync(`${window.location.origin}/${paths.main.event.home}?eventId=${eventId}`)
+                        .then(() => {
+                            Ping.success("Copied link to clipboard");
+                        })
+                        .catch(error => {
+                            Ping.error("We had an issue making the link");
+                        });
+                }
+            }
         ];
 
-        if (isVolenteer) {
+        if (!isLeadManager) {
             buttons.push(
                 {
-                    icon: { uri: clock.src },
-                    title: (state===role.GUARDIAN)?"Clock in":"Clock out",
+                    icon: { uri: message.src },
+                    title: "Questions?",
                     onPress: () => {
-                        swapState(event._id);
+                        navigator(paths.main.social.chat, {chatId: chat?._id})
                     },
                 },
-                {
-                    icon: { uri: users.src },
-                    title: "Roster",
-                    onPress: () => {
-                        navigator(paths.main.event.roster, {eventId: event._id});
-                    },
-                },
-                // {
-                //     icon: { uri: pfp.src },
-                //     title: "New Attendee",
-                //     onPress: () => {
-                //         navigator(paths.main.event.invite.attendee, {eventId: event._id});
-                //     },
-                // }
             )
-        } else {
-
         }
 
-        if (isAtendee) {
+        return buttons;
+    }, [chatIdRes, eventRes]);
 
-        } else {
-
-        }
-
-        return buttons
-    }, [isVolenteer, isAtendee, chatIdRes]);
-
-    return(
-        <Main>
-            <Text variant="titleLarge" style={{paddingBottom:margin.small}}>{event?.summary}</Text>
+    return (
+        <Main style={{gap:margin.large}}>
+            <View>
+                <Text variant="titleMedium">{event?.summary}</Text>
+                <DisplayTimeInfo event={event}/>
+            </View>
+            
+            <Text>{event?.description}</Text>
             <ButtonMenu buttons={buttons} />
         </Main>
     );
+}
+
+function DisplayTimeInfo({event}) {
+    const rrule = useMemo(()=>RRule.fromString('FREQ=WEEKLY;COUNT=5;BYDAY=MO,TH'), [event]);
+
+    const last = useMemo(()=>{
+        if (event) {
+            rrule.options.dtstart = new Date(event?.start);
+            return rrule?.all().pop().getTime();
+        } else {
+            return 0;
+        }
+    }, [event]);
+
+    // if (rrule.options.freq === RRule.WEEKLY) {
+    //     const byDayValue = rrule.options.byweekday;
+
+    //     // Map the BYDAY value to abbreviated day names
+    //     var daysOfWeekAbbreviated = byDayValue.map(dayIndex => {
+    //         const daysAbbreviated = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    //         return daysAbbreviated[dayIndex];
+    //     });
+    // }
+
+    if (event) {
+        return <View style={{flexDirection:"column"}}>
+            {/* {(rrule.options.freq === RRule.WEEKLY)
+                ? <Text >{daysOfWeekAbbreviated.join(", ")}</Text> 
+                : undefined
+            } */}
+            {(new Date(last).getDay() === new Date(event?.start).getDay())
+                ? <Time time={event?.start || 0} type={DateFormat.mdy}/>
+                : <View style={{flexDirection:"row"}}>
+                    <Time time={event?.start || 0} type={DateFormat.mdy}/>
+                    <Text>{" - "}</Text>
+                    <Time time={last || 0} type={DateFormat.mdy}/>   
+                </View>
+            }
+            <View style={{flexDirection:"row"}}>
+                <Time time={event?.start} type={DateFormat.time}/>
+                <Text>{" - "}</Text>
+                <Time time={event?.start + event?.durration} type={DateFormat.time}/>
+            </View>
+        </View>
+    } else {
+        return <></>
+    }
 }
