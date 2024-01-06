@@ -25,6 +25,7 @@ export const paths = {
       attendance: "/child/:childId/attendance/:eventId",
     },
     event: {
+      home: "/event/home/:eventId",
       dash: "/event/dash/:eventId",
       signup: "/event/signup/:eventId",
       roster: "/event/roster/:eventId",

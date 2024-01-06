@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Main } from "../../../../ottery-ui/containers/Main";
 import { margin } from "../../../../ottery-ui/styles/margin";
-import { CheckBox } from "../../../../ottery-ui/input/CheckBox";
+import { CheckBox, CheckBoxMode } from "../../../../ottery-ui/input/CheckBox";
 import { Text } from "react-native-paper";
 import Button from "../../../../ottery-ui/buttons/Button";
 import { ButtonSpan } from "../../../../ottery-ui/containers/ButtonSpan";
@@ -167,8 +167,8 @@ function SelectSignupTypes() {
         <Main style={styles.main}>
             <Text variant="headlineSmall">Lets get you signed up!</Text>
             <View style={styles.checkboxes}>
-                <CheckBox label="Signing up kids?" value={attend} onChange={sA}/>
-                <CheckBox label="Volenteering?" value={volenteer} onChange={sV}/>
+                <CheckBox label="Signing up kids?" value={attend} onChange={sA} mode={CheckBoxMode.filled}/>
+                <CheckBox label="Volenteering?" value={volenteer} onChange={sV} mode={CheckBoxMode.filled}/>
             </View>
             <ButtonSpan>
                 <BackButton/>

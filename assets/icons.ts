@@ -1,4 +1,5 @@
 import { ImageDto } from "@ottery/ottery-dto";
+import { Image } from "react-native";
 
 export const send: ImageDto = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/send.png?raw=true",
@@ -69,3 +70,8 @@ export const alertMessage: ImageDto = {
   src: "https://raw.githubusercontent.com/ottery-app/global-data/main/images/icons/alertMessage.png",
   aspectRatio: 1,
 };
+
+export const userPlus: ImageDto = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/userPluss.png?raw=true", 
+  aspectRatio: 1,
+}
