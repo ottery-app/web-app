@@ -13,6 +13,7 @@ import {
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
 import { useAuthClient } from "../auth/useAuthClient";
+import CameraComponent from "../../../ottery-ui/camera/CameraComponent";
 
 export function Home() {
   const navigator = useNavigator();
@@ -35,6 +36,13 @@ export function Home() {
         title: "Messages",
         onPress: () => navigator(paths.main.social.messages),
       },
+      {
+        icon: {uri: pfp.src},
+        title: "camera",
+        onPress: ()=>{
+          navigator(paths.main.camera.home);
+        }
+      }
       // {
       //   icon: "NONE",
       //   title: "Notifications",

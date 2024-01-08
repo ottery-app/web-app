@@ -18,6 +18,20 @@
         "backgroundColor": "#ffffff"
       }
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Give Ottery access to your photos?"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Give Ottery access to your photos?"
+        }
+      ]
+    ],
     "web": {},
     "scheme": "ottery"
   }

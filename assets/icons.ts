@@ -75,3 +75,13 @@ export const userPlus: ImageDto = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/userPluss.png?raw=true", 
   aspectRatio: 1,
 }
+
+export const camera: ImageDto = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/camera.png?raw=true",
+  aspectRatio: 1,
+}
+
+export const flip: ImageDto = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/flip.png?raw=true",
+  aspectRatio: 1,
+}
