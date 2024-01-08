@@ -18,8 +18,6 @@ import GetHelpScreen from "../../features/event/GetHelp";
 import { SignUp } from "../../features/event/SignUp";
 import { InviteAttendee } from "../../features/event/InviteAttendee";
 import NewEventScreen from "../../features/event/new";
-import { useNavigator } from "../useNavigator";
-import { useEffect } from "react";
 import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
 import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "../image/Image";
 import { image } from "../styles/image";
 import { radius as rad } from "../styles/radius";
@@ -14,6 +14,8 @@ import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
 import { pfp } from "../../assets/icons";
 import { InputProps } from "./Input";
+import { Camera, CameraType } from 'expo-camera';
+import { useCamera } from "../../src/features/camera/camera.hook";
 
 export interface ImageInputProps extends InputProps<ImageAsset> {
     radius?: number,
@@ -26,6 +28,7 @@ export default function ImageInput({
     radius=rad.round,
 }:ImageInputProps) {
     const [dialog, setDialog] = useState(false);
+    const {Camera} = useCamera();
 
     function open() {
         setDialog(true);
@@ -35,7 +38,8 @@ export default function ImageInput({
         setDialog(false);
     }
 
-    async function imageCallback(e) {    
+    async function imageCallback(e) {
+        console.log(e);
         
         let image = {
             aspectRatio: e.assets[0].height/e.assets[0].width,
@@ -61,6 +65,7 @@ export default function ImageInput({
 
     return(
         <>
+            <Camera/>
             <Text>{label}</Text>
             <TouchableOpacity
                 onPress={(Platform.OS === "web") ? pickPhoto : open}
