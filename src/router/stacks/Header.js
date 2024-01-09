@@ -18,8 +18,15 @@ export default function Header({
   back,
 }) {
   const [visible, setVisible] = React.useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const [menuFired, setMenuFired] = React.useState(Date.now());
+
+  const openMenu = () => {
+    setVisible(true);
+    setMenuFired(Date.now());
+  };
+  const closeMenu = () => {
+    if (Date.now() - menuFired > 400) setVisible(false)
+  };
   const sesh = useAuthClient().useSesh();
   const logout = useAuthClient().useLogout();
   const gotoNext = useGotoNext();
@@ -53,10 +60,10 @@ export default function Header({
                     />
                 }
             >
-            <Menu.Item
-                onPress={() => {logout.mutate()}}
-                title="Logout"
-            />
+              <Menu.Item
+                  onPress={() => {logout.mutate()}}
+                  title="Logout"
+              />
             </Menu>
         ) : null}
     </Appbar.Header>

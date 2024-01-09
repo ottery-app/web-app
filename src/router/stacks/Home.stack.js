@@ -6,6 +6,7 @@ import Chat from "../../features/chat/Chat";
 import Messages from "../../features/chat/Messages";
 import { Notifications } from "../../features/notifications/notifications";
 import { UserProfile } from "../../features/user/UserProfile";
+import { EditUser } from "../../features/user/EditUser";
 import { ChildProfile } from "../../features/child/ChildProfile";
 import AddGuardian from "../../features/child/AddGuardian";
 import Header from "./Header";
@@ -21,7 +22,6 @@ import NewEventScreen from "../../features/event/new";
 import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
 import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
 import { EventHome } from "../../features/event/EventHome";
-import CameraComponent from "../../../ottery-ui/camera/CameraComponent";
 
 const Stack = createNativeStackNavigator();
 
@@ -114,6 +114,14 @@ export function HomeStack() {
           header: (props) => <Header {...props} />,
         }}
         component={UserProfile}
+      />
+      <Stack.Screen
+        name={paths.main.user.edit}
+        options={{
+          title: "Edit User Profile",
+          header: (props) => <Header {...props} />,
+        }}
+        component={EditUser}
       />
       <Stack.Screen
         name={paths.main.event.dash}

@@ -85,3 +85,8 @@ export const flip: ImageDto = {
   src: "https://github.com/ottery-app/global-data/blob/main/images/icons/flip.png?raw=true",
   aspectRatio: 1,
 }
+
+export const gear: ImageDto = {
+  src: "https://github.com/ottery-app/global-data/blob/main/images/icons/gear.png?raw=true",
+  aspectRatio: 1,
+}

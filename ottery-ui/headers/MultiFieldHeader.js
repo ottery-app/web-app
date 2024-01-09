@@ -43,7 +43,7 @@ export function MultiFieldHeader({
   tabs = [],
   tab = tabs[0],
   onTab = undefined,
-  onSettings = null,
+  onEdit = null,
 }) {
   return (
     <View style={styles.main}>
@@ -51,6 +51,7 @@ export function MultiFieldHeader({
         title={title}
         src={src}
         alt={alt}
+        onEdit={onEdit}
       />
       <View style={styles.bottom}>
         <TabField
