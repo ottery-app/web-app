@@ -21,6 +21,7 @@ import NewEventScreen from "../../features/event/new";
 import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
 import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
 import { EventHome } from "../../features/event/EventHome";
+import CameraComponent from "../../../ottery-ui/camera/CameraComponent";
 
 const Stack = createNativeStackNavigator();
 

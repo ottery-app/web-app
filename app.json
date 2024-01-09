@@ -9,15 +9,40 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Ottery needs access to your Camera.",
+        "NSMicrophoneUsageDescription": "Ottery needs access to your Microphone."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.ottery"
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Give Ottery access to your photos?"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Give Ottery access to your photos?"
+        }
+      ]
+    ],
     "web": {},
     "scheme": "ottery"
   }

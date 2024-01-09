@@ -13,6 +13,7 @@ import {
 import paths from "../../router/paths";
 import { Main } from "../../../ottery-ui/containers/Main.tsx";
 import { useAuthClient } from "../auth/useAuthClient";
+import CameraComponent from "../../../ottery-ui/camera/CameraComponent";
 
 export function Home() {
   const navigator = useNavigator();

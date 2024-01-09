@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "../image/Image";
 import { image } from "../styles/image";
 import { radius as rad } from "../styles/radius";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { TouchableOpacity, View } from "react-native";
 import Button from "../buttons/Button";
 import { zindex } from "../styles/zindex";
-import { ImageDto as ImageAsset } from "@ottery/ottery-dto";
+import { ImageDto as ImageAsset, ImageDto } from "@ottery/ottery-dto";
 import { Dialog, Portal, TouchableRipple } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
@@ -14,6 +13,8 @@ import { ButtonSpan } from "../containers/ButtonSpan";
 import { colors } from "../styles/colors";
 import { pfp } from "../../assets/icons";
 import { InputProps } from "./Input";
+import CameraComponent from "../camera/CameraComponent";
+import { useImagePicker } from "../camera/useImagePicker";
 
 export interface ImageInputProps extends InputProps<ImageAsset> {
     radius?: number,
@@ -26,6 +27,8 @@ export default function ImageInput({
     radius=rad.round,
 }:ImageInputProps) {
     const [dialog, setDialog] = useState(false);
+    const [take, setTake] = useState(false);
+    const [pickImage] = useImagePicker();
 
     function open() {
         setDialog(true);
@@ -35,84 +38,93 @@ export default function ImageInput({
         setDialog(false);
     }
 
-    async function imageCallback(e) {    
-        
-        let image = {
-            aspectRatio: e.assets[0].height/e.assets[0].width,
-            src: e.assets[0].uri
-        };
-
-        //image = await formatForApi(image);
-
+    async function imageUpdateCallback(image:ImageDto) {
         onChange(image);
     }
 
     function pickPhoto() {
-        launchImageLibrary({
-            mediaType: "photo",
-        }, imageCallback)
+        pickImage((image)=>{
+            onChange(image);
+        })
         close();
     }
 
     function takePhoto() {
-        launchCamera({mediaType:"photo"}, imageCallback)
+        setTake(true);
         close();
     }
 
+    function closeCamera() {
+        setTake(false);
+    }
+
     return(
-        <>
-            <Text>{label}</Text>
-            <TouchableOpacity
-                onPress={(Platform.OS === "web") ? pickPhoto : open}
-                style={{
-                    width:image.mediumProfile,
-                    height:image.mediumProfile,
-                }}
-            >
-                <View style={{
-                    position: "absolute",
-                    zIndex: zindex.front,
-                }}>
-                    <View style={{position: "relative"}}>
-                        <TouchableRipple
+        <>  
+            {(!take) 
+                ? <>
+                    <Text>{label}</Text>
+                        <TouchableOpacity
+                            onPress={(Platform.OS === "web") ? pickPhoto : open}
+
                             style={{
-                                backgroundColor: colors.primary.main,
-                                height: 25,
-                                width: 25,
-                                borderRadius: rad.round,
-                                justifyContent: "center",
+                                width:image.mediumProfile,
+                                height:image.mediumProfile,
                             }}
                         >
-                            <Text style={{
-                                textAlign:"center",
-                                color: colors.primary.contrastText,
-                            }}>+</Text>
-                        </TouchableRipple>
-                    </View>
-                </View>
-                <Image
-                    src={value}
-                    alt={"Image input"}
-                    width={image.mediumProfile}
-                    height={image.mediumProfile}
-                    radius={radius}
-                />
-            </TouchableOpacity>
-            <Portal>
-                <Dialog visible={dialog} onDismiss={close} dismissable={true}>
-                    <Dialog.Title>Photo</Dialog.Title>
-                    <Dialog.Content>
-                        <Text>Choose an option for the photo</Text>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <ButtonSpan>
-                            <Button onPress={pickPhoto}>Album</Button>
-                            <Button onPress={takePhoto}>Take Photo</Button>
-                            <Button color={colors.error} onPress={close}>Cancel</Button>
-                        </ButtonSpan>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
+                            <View style={{
+                                position: "absolute",
+                                zIndex: zindex.front,
+                            }}>
+                                <View style={{position: "relative"}}>
+                                    <TouchableRipple
+                                        style={{
+                                            backgroundColor: colors.primary.main,
+                                            height: 25,
+                                            width: 25,
+                                            borderRadius: rad.round,
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <Text style={{
+                                            textAlign:"center",
+                                            color: colors.primary.contrastText,
+                                        }}>+</Text>
+                                    </TouchableRipple>
+                                </View>
+                            </View>
+                            <Image
+                                src={value}
+                                alt={"Image input"}
+                                width={image.mediumProfile}
+                                height={image.mediumProfile}
+                                radius={radius}
+                            />
+                        </TouchableOpacity>
+                        <Portal>
+                            <Dialog visible={dialog} onDismiss={close} dismissable={true}>
+                                <Dialog.Title>Photo</Dialog.Title>
+                                <Dialog.Content>
+                                    <Text>Choose an option for the photo</Text>
+                                </Dialog.Content>
+                                <Dialog.Actions>
+                                    <ButtonSpan>
+                                        <Button onPress={pickPhoto}>Album</Button>
+                                        <Button onPress={takePhoto}>Take Photo</Button>
+                                        <Button color={colors.error} onPress={close}>Cancel</Button>
+                                    </ButtonSpan>
+                                </Dialog.Actions>
+                            </Dialog>
+                        </Portal>
+                </> 
+                :undefined
+            }
+            {(take) 
+                ? <Portal><CameraComponent
+                    onClose={closeCamera}
+                    onTake={imageUpdateCallback}
+                /></Portal>
+                : undefined
+            }
         </>
     );
 }
