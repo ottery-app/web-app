@@ -134,6 +134,7 @@ export function UserProfile() {
           setTab(tab);
         }}
         tabs={Object.values(Tabs)}
+        //onEdit={()=>{navigator(paths.main.user.edit)}}
       />
       <ImageButtonList>{buttons}</ImageButtonList>
     </Main>

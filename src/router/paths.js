@@ -41,6 +41,7 @@ export const paths = {
     },
     user: {
       profile: "/user/profile",
+      edit: "/user/profile/edit",
     },
   },
   dropoff: {

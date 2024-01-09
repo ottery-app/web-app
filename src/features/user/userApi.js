@@ -1,4 +1,4 @@
-import { DataFieldDto, ImageDto, isId, noId, validateAsArr } from "@ottery/ottery-dto";
+import { DataFieldDto, ImageDto, StringDto, isId, validateAsArr } from "@ottery/ottery-dto";
 import { clideInst } from "../../provider/clideInst";
 
 export const missingUserData = clideInst.makeGet(
@@ -40,6 +40,56 @@ export const updateUserData = clideInst.makePatch(
     }
   }
 )
+
+export const getUserData = clideInst.makeGet(
+  "user/:userId/data",
+  {
+    param_validators: {
+      userId: isId,
+    },
+    in_pipeline: (userId)=>{
+      return {
+        params: {
+          userId: userId,
+        }
+      }
+    },
+  }
+)
+
+export const udpateFirstName = clideInst.makePatch("user/:userId/firstName", {
+  data_validator: StringDto,
+  param_validators: {
+    userId: isId,
+  },
+  in_pipeline: (userId, name)=>{
+    return {
+      data: {
+        string: name,
+      },
+      params: {
+        userId: userId,
+      }
+    }
+  }
+})
+
+export const udpateLastName = clideInst.makePatch("user/:userId/lastName", {
+  data_validator: StringDto,
+  param_validators: {
+    userId: isId,
+  },
+  in_pipeline: (userId, name)=>{
+    return {
+      data: {
+        string: name,
+      },
+      params: {
+        userId: userId,
+      }
+    }
+  }
+})
 
 export const updateProfilePhoto = clideInst.makePost("user/:userId/pfp", {
   data_validator: ImageDto,
@@ -94,3 +144,24 @@ export const getInfo = clideInst.makeGet("user/info", {
     };
   },
 });
+
+//WHY IS THIS HERE?
+export const updateChildData = clideInst.makePatch(
+  "child/:childId/data",
+  {
+    param_validators: {
+      childId: isId,
+    },
+    data_validator: validateAsArr(DataFieldDto),
+    in_pipeline: ({childId, dataFields})=>{
+      return {
+        data: dataFields,
+        params: {
+          childId: childId,
+        }
+      }
+    }
+  }
+)
+
+export const getData = clideInst.makeGet("user/data", {})

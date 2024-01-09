@@ -1,13 +1,16 @@
 import React from "react";
 import { image } from "../styles/image";
 import { colors } from "../styles/colors";
-import { radius as rad } from "../styles/radius";
+import { radius as rad, radius } from "../styles/radius";
 import { margin } from "../styles/margin";
-import { Text } from "react-native-paper";
+import { Icon, Text, TouchableRipple } from "react-native-paper";
 import Image from "../image/Image";
 import { View, StyleSheet } from "react-native";
 import { ImageDto } from "@ottery/ottery-dto";
-import { pfp } from "../../assets/icons";
+import { gear, pfp } from "../../assets/icons";
+import { IconButton } from "../buttons/IconButton";
+import { clickable } from "../styles/clickable";
+import { border } from "../styles/border";
 
 const styles = StyleSheet.create({
   main: {
@@ -31,6 +34,7 @@ export interface IconHeaderProps {
     src:ImageDto,
     alt:string,
     subTitle?: string,
+    onEdit?: ()=>void,
 }
 
 export function IconHeader({
@@ -41,6 +45,7 @@ export function IconHeader({
   src = pfp,
   alt = "profile photo",
   subTitle,
+  onEdit,
 }: IconHeaderProps) {
   return (
     <View style={styles.main}>
@@ -59,7 +64,18 @@ export function IconHeader({
                   : undefined
                 }
             </View>
+            {onEdit
+              ? <View style={{justifyContent:"center"}}><TouchableRipple
+                  onPress={onEdit}
+                  style={{borderRadius:radius.round}}
+                ><Icon
+                  source={{uri:gear.src}}
+                  size={clickable.minWidth}
+                /></TouchableRipple></View>
+              : undefined
+            }
         </View>
     </View>
   );
 }
+

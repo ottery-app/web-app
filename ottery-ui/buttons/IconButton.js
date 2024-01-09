@@ -7,7 +7,7 @@ import { border } from "../styles/border";
 export function IconButton({icon, width, onPress, children}) {
   const MAX_SIZE = 200;
   const ICON_SCALE = 0.5;
-  
+  console.log(icon);
   return (
       <TouchableRipple
         style={{

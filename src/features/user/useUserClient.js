@@ -2,7 +2,10 @@ import {
   getChildren,
   getEvents,
   getInfo,
+  getUserData,
   missingUserData,
+  udpateFirstName,
+  udpateLastName,
   updateProfilePhoto,
   updateUserData,
 } from "./userApi";
@@ -65,6 +68,19 @@ export function useUserClient() {
     },
   });
 
+  const useGetUserData = makeUseQuery({
+    queryKey: [query_paths.user.root, "data"],
+    queryFn: getUserData,
+  })
+
+  const useUpdateFirstName = makeUseMutation({
+    mutationFn: udpateFirstName,
+  })
+
+  const useUpdateLastName = makeUseMutation({
+    mutationFn: udpateLastName,
+  })
+
   return {
     useUpdateUserData,
     useMissingUserData,
@@ -74,5 +90,9 @@ export function useUserClient() {
     useChildrenAt,
     useChildrenNotAt,
     useGetUserEvents,
+    useGetUserData,
+    //I dont like this but im rushing to get this finsished for a customer
+    useUpdateFirstName,
+    useUpdateLastName,
   };
 }
