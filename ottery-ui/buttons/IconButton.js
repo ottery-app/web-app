@@ -14,7 +14,7 @@ export function IconButton({icon, width, onPress, children}) {
             height:width,
             width,
             maxHeight: MAX_SIZE,
-            maxWidth: MAX_SIZE,
+            //maxWidth: MAX_SIZE,
             borderRadius: radius.default,
             backgroundColor: colors.secondary.main,
             borderColor: colors.secondary.dark,

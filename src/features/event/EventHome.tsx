@@ -15,6 +15,8 @@ import { DateFormat, Time } from "../../../ottery-ui/text/Time";
 import { View } from "react-native";
 import * as Clipboard from 'expo-clipboard';
 import { usePing } from "../../../ottery-ping";
+import { IconHeader } from "../../../ottery-ui/headers/IconHeader";
+import { Header } from "../../../ottery-ui/headers/Header";
 
 export function EventHome({route}) {
     const Ping = usePing();
@@ -75,14 +77,15 @@ export function EventHome({route}) {
     }, [chatIdRes, eventRes]);
 
     return (
-        <Main style={{gap:margin.large}}>
-            <View>
-                <Text variant="titleMedium">{event?.summary}</Text>
-                <DisplayTimeInfo event={event}/>
-            </View>
-            
-            <Text>{event?.description}</Text>
-            <ButtonMenu buttons={buttons} />
+        <Main margins={false} style={{gap:margin.large}}>
+                    <Header
+                        title={event?.summary}
+                    />
+                <Main style={{gap:margin.large}}>
+                    <Text>{event?.description}</Text>
+                    <DisplayTimeInfo event={event}/>
+                    <ButtonMenu buttons={buttons} />
+                </Main>
         </Main>
     );
 }
