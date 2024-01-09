@@ -36,13 +36,6 @@ export function Home() {
         title: "Messages",
         onPress: () => navigator(paths.main.social.messages),
       },
-      {
-        icon: {uri: pfp.src},
-        title: "camera",
-        onPress: ()=>{
-          navigator(paths.main.camera.home);
-        }
-      }
       // {
       //   icon: "NONE",
       //   title: "Notifications",

@@ -5,7 +5,7 @@ import { radius as rad } from "../styles/radius";
 import { TouchableOpacity, View } from "react-native";
 import Button from "../buttons/Button";
 import { zindex } from "../styles/zindex";
-import { ImageDto as ImageAsset } from "@ottery/ottery-dto";
+import { ImageDto as ImageAsset, ImageDto } from "@ottery/ottery-dto";
 import { Dialog, Portal, TouchableRipple } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { Platform } from 'react-native';
@@ -14,6 +14,7 @@ import { colors } from "../styles/colors";
 import { pfp } from "../../assets/icons";
 import { InputProps } from "./Input";
 import CameraComponent from "../camera/CameraComponent";
+import { useImagePicker } from "../camera/useImagePicker";
 
 export interface ImageInputProps extends InputProps<ImageAsset> {
     radius?: number,
@@ -26,8 +27,8 @@ export default function ImageInput({
     radius=rad.round,
 }:ImageInputProps) {
     const [dialog, setDialog] = useState(false);
-    const [pick, setPick] = useState(false);
     const [take, setTake] = useState(false);
+    const [pickImage] = useImagePicker();
 
     function open() {
         setDialog(true);
@@ -37,35 +38,29 @@ export default function ImageInput({
         setDialog(false);
     }
 
-    async function imageCallback(e) {
-        console.log(e);
-        
-        let image = {
-            aspectRatio: e.assets[0].height/e.assets[0].width,
-            src: e.assets[0].uri
-        };
-
-        //image = await formatForApi(image);
-
+    async function imageUpdateCallback(image:ImageDto) {
         onChange(image);
     }
 
     function pickPhoto() {
-        // launchImageLibrary({
-        //     mediaType: "photo",
-        // }, imageCallback)
+        pickImage((image)=>{
+            onChange(image);
+        })
         close();
     }
 
     function takePhoto() {
         setTake(true);
-        // launchCamera({mediaType:"photo"}, imageCallback)
         close();
+    }
+
+    function closeCamera() {
+        setTake(false);
     }
 
     return(
         <>  
-            {(!take && !pick) 
+            {(!take) 
                 ? <>
                     <Text>{label}</Text>
                         <TouchableOpacity
@@ -124,11 +119,10 @@ export default function ImageInput({
                 :undefined
             }
             {(take) 
-                ? <Portal><CameraComponent /></Portal>
-                : undefined
-            }
-            {(pick) 
-                ? <View></View>
+                ? <Portal><CameraComponent
+                    onClose={closeCamera}
+                    onTake={imageUpdateCallback}
+                /></Portal>
                 : undefined
             }
         </>

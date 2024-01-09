@@ -3,19 +3,39 @@ import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import Image from '../image/Image';
-import {camera, flip} from '../../assets/icons';
+import {camera, flip, x} from '../../assets/icons';
 import { image } from '../styles/image';
 import { radius } from '../styles/radius';
 import { clickable } from '../styles/clickable';
 import { margin } from '../styles/margin';
 import { useScreenDimensions } from '../../src/hooks/dimentions.hook';
+import * as FileSystem from 'expo-file-system';
+import { ImageDto } from '@ottery/ottery-dto';
+
+const imageToBase64 = async (imageUri) => {
+  try {
+    let base64Image = '';
+    const fileInfo = await FileSystem.getInfoAsync(imageUri);
+    if (fileInfo.exists) {
+      const fileContent = await FileSystem.readAsStringAsync(imageUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      base64Image = `data:image/jpg;base64,${fileContent}`;
+      // Use the base64Image as needed (e.g., send it to an API or display it)
+    }
+    return base64Image;
+  } catch (error) {
+    console.error('Error converting image to base64:', error);
+    return '';
+  }
+};
 
 export interface CameraProps {
-  onClose: ()=>{},
-  onTake: ()=>{},
+  onClose: ()=>void,
+  onTake: (img:ImageDto)=>void,
 }
 
-const CameraComponent = () => {
+const CameraComponent = (props: CameraProps) => {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(CameraType.front);
@@ -41,8 +61,14 @@ const CameraComponent = () => {
   const takePicture = async () => {
     if (cameraRef) {
       let photo = await cameraRef.takePictureAsync();
-      // `photo` will contain the captured image data
-      console.log(photo);
+      photo.uri = await imageToBase64(photo.uri);
+
+      props.onTake({
+        aspectRatio:photo.width/photo.height,
+        src: photo.uri,
+      });
+
+      props.onClose();
     }
   };
 
@@ -70,6 +96,24 @@ const CameraComponent = () => {
       <View style={{ 
         position: 'absolute',
         top: margin.large + margin.large + margin.large, 
+        left: margin.large, 
+        alignSelf: 'center',
+        padding: 3, 
+        borderRadius: radius.round,
+        backgroundColor: backgroundOpacity
+      }}>
+        <TouchableOpacity onPress={props.onClose}>
+          <Image
+            src={x}
+            alt={'close camera'}
+            height={clickable.minHeight}
+            width={clickable.minWidth}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={{ 
+        position: 'absolute',
+        top: margin.large + margin.large + margin.large, 
         right: margin.large, 
         alignSelf: 'center',
         padding: 3, 
@@ -79,7 +123,7 @@ const CameraComponent = () => {
         <TouchableOpacity onPress={changeType}>
           <Image
             src={flip}
-            alt={'take picture button'}
+            alt={'flip camera button'}
             height={clickable.minHeight}
             width={clickable.minWidth}
           />

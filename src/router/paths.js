@@ -11,10 +11,6 @@ export const paths = {
   main: {
     name: "Main",
     home: "/",
-    camera: {
-      name: "Camera",
-      home: "/camera",
-    },
     social: {
       notifications: "/social/notifications",
       messages: "/social/messages",

@@ -187,14 +187,6 @@ export function HomeStack() {
         }}
         component={NewEventScreen}
       />
-      <Stack.Screen
-        name={paths.main.camera.home}
-        options={{
-          title: "Camera",
-          header: (props) => <Header {...props} />,
-        }}
-        component={CameraComponent}
-      />
     </Stack.Navigator>
   );
 }

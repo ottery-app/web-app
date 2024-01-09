@@ -73,7 +73,7 @@ export function NewChild() {
             />
             <View style={{margin:margin.medium}}>
                 <ButtonSpan>
-                    <Button onPress={submit} color={colors.success}>Save</Button>
+                    <Button onPress={submit} color={colors.success} state={createChild.status}>Save</Button>
                 </ButtonSpan>
             </View>
         </Main>
