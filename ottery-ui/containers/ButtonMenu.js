@@ -12,12 +12,12 @@ export function ButtonMenu({buttons = []}) {
 
     return (
         <View 
-            style={[styles.grid, (width>CONVERTTOLONGAT) ? {flexDirection:"column"} : {flexDirection:"row"}]}
+            style={[styles.grid, (width>CONVERTTOLONGAT) ? {flexDirection:"column",} : {flexDirection:"row"}]}
         >
             {buttons.map(button=>
                 <View>
                     <IconButton 
-                        width={(width>CONVERTTOLONGAT) ? "100%" : (width / 2 - margin.large)}
+                        width={(width>CONVERTTOLONGAT) ? "100%" : (width / 2 - margin.large * 1.3)}
                         key={button.title}
                         onPress={button.onPress}
                         icon={button.icon}
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         //flex: 2,
         gap: margin.small,
         //flexDirection: 'row', // Arrange buttons in a row
+        width:"100%",
         flexWrap: 'wrap', // Wrap to the next line when there's not enough space
         justifyContent:"center",
     }

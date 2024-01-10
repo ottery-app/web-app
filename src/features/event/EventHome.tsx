@@ -22,7 +22,7 @@ export function EventHome({route}) {
     const Ping = usePing();
     const navigator = useNavigator()
 
-    const userId = useAuthClient().useEventId();
+    const userId = useAuthClient().useUserId();
 
     const eventId = route.params.eventId;
     const eventRes = useEventClient().useGetEventInfo({inputs:[eventId]});
@@ -30,11 +30,11 @@ export function EventHome({route}) {
 
     const chatIdRes = useChatClient().useGetDirectChat({
         inputs:[userId, event?.leadManager],
-        enabled: !!event,
+        enabled: !!event && !!event?.leadManager,
     });
     const chat = chatIdRes?.data?.data;
 
-    const isLeadManager = useMemo(()=>event?.leadManager, [eventRes]);
+    const isLeadManager = useMemo(()=>event?.leadManager === userId, [eventRes]);
 
     const buttons = useMemo(()=>{
         const buttons = [
@@ -77,14 +77,13 @@ export function EventHome({route}) {
     }, [chatIdRes, eventRes]);
 
     return (
-        <Main margins={false} style={{gap:margin.large}}>
-                    <Header
-                        title={event?.summary}
-                    />
-                <Main style={{gap:margin.large}}>
-                    <Text>{event?.description}</Text>
-                    <DisplayTimeInfo event={event}/>
+        <Main margins={false}>
+                <Header
+                    title={event?.summary}
+                />
+                <Main scrollable={true} style={{gap:margin.medium, justifyContent:"left"}}>
                     <ButtonMenu buttons={buttons} />
+                    <Text>{event?.description}</Text>
                 </Main>
         </Main>
     );

@@ -6,15 +6,13 @@ import { Main } from "../../../../../ottery-ui/containers/Main"
 import { useAuthClient } from "../../../auth/useAuthClient";
 import { useUserClient } from "../../../user/useUserClient";
 import { noId, requestStatus, requestType } from "@ottery/ottery-dto";
-import { View } from "react-native";
 import { fadedStyle, fadedVariant } from "../tempzone.style";
 import { useGetRequests, useRemoveRequest, useUpdateRequest } from "../tempzoneSlice";
 import { useNavigator } from "../../../../router/useNavigator";
 import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
-import React from "react";
 import { useEventClient } from "../../useEventClient";
-import { rruleToObj } from "../../../../functions/ical";
+import { RRule } from "rrule";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -27,6 +25,55 @@ export function PickChildren() {
         inputs:[children?.reduce((arr, c)=>[...arr, ...c.events], [])],
         enabled:!!children,
     });
+
+    const currentDate = new Date(); // Get the current date
+    const startOfWeek = new Date(currentDate); // Clone the current date for start of week
+    const endOfWeek = new Date(currentDate); // Clone the current date for end of week
+
+    // Calculate the difference between the current day and the start of the week
+    const startDiff = currentDate.getDay() - 1; // Assuming Monday as the start of the week (0-indexed)
+    startOfWeek.setDate(currentDate.getDate() - startDiff); // Subtract the difference from the current date
+
+    // Calculate the difference between the end of the week and the current day
+    const endDiff = 6 - currentDate.getDay(); // Assuming Saturday as the end of the week (0-indexed)
+    endOfWeek.setDate(currentDate.getDate() + endDiff);
+
+    const events = eventsRes?.data?.data.filter((event) => {
+        const rrule = RRule.fromString(event.rrule);
+        const eventOccurrences = rrule.between(startOfWeek, endOfWeek);
+    
+        // Filter out events that occur within the start and end of the current week
+        if (eventOccurrences.every((date) => date.getDay() !== currentDate.getDay())) {
+            const start = new Date(event.start);
+            const end = new Date(event.start + event.duration); // Assuming event.duration is in milliseconds
+    
+            // Check if the time of the currentDate falls between the start and end times of the event
+            const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes();
+            const eventStartTime = start.getHours() * 60 + start.getMinutes();
+            const eventEndTime = end.getHours() * 60 + end.getMinutes();
+    
+            // Check if the current time is within the event's time range
+            if (currentTime >= eventStartTime && currentTime <= eventEndTime) {
+                return true; // Include the event if the current time is within the event's time range
+            }
+    
+            return false;
+        }
+    
+        return false;
+    });
+    children = children?.filter((child)=>{
+        console.log(child)
+        console.log(events);
+        const yes_perhaps = child.events.filter((event)=>{
+            console.log(event);
+            return events?.map(({_id})=>_id).includes(event);
+        });
+
+        return !!yes_perhaps.length;
+    });
+
+    console.log(events);
 
     const navigator = useNavigator();
     const Ping = usePing();
@@ -79,9 +126,9 @@ export function PickChildren() {
                                 onPress={()=>updateSelected(child)}
                             ><Text>{child.firstName} {child.lastName}</Text></ImageButton>
                         }))}
-                    </ImageButtonList> 
+                    </ImageButtonList>
                 </>
-                : <Text style={[fadedStyle]} variant={fadedVariant}>All your kids are dropped off!</Text>
+                : <Text style={[fadedStyle]} variant={fadedVariant}>No kids to drop off!</Text>
             }
         </Main>
     )

@@ -6,7 +6,6 @@ import { useUserClient } from "../user/useUserClient";
 import ChatListItem from "./components/ChatListItem";
 import { Chat as ChatDto } from "./components/types/chat";
 import { pfp } from "../../../assets/icons";
-import React from "react";
 import { Main } from "../../../ottery-ui/containers/Main";
 import { fadedStyle, fadedVariant } from "../event/tempzone/tempzone.style";
 import { Text } from "react-native-paper";
@@ -50,7 +49,7 @@ function Messages() {
 
   return (
     <Main>
-      {(chats &&
+      {(chats && chats.length &&
         chats
           .sort(
             (
