@@ -13,6 +13,7 @@ import { usePing } from "../../../../../ottery-ping";
 import paths from "../../../../router/paths";
 import { useEventClient } from "../../useEventClient";
 import { RRule } from "rrule";
+import { activeEvent } from "../../../../functions/activeEvent";
 
 export function PickChildren() {
     const userId = useAuthClient().useUserId();
@@ -38,35 +39,9 @@ export function PickChildren() {
     const endDiff = 6 - currentDate.getDay(); // Assuming Saturday as the end of the week (0-indexed)
     endOfWeek.setDate(currentDate.getDate() + endDiff);
 
-    const events = eventsRes?.data?.data.filter((event) => {
-        const rrule = RRule.fromString(event.rrule);
-        const eventOccurrences = rrule.between(startOfWeek, endOfWeek);
-    
-        // Filter out events that occur within the start and end of the current week
-        if (eventOccurrences.every((date) => date.getDay() !== currentDate.getDay())) {
-            const start = new Date(event.start);
-            const end = new Date(event.start + event.duration); // Assuming event.duration is in milliseconds
-    
-            // Check if the time of the currentDate falls between the start and end times of the event
-            const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes();
-            const eventStartTime = start.getHours() * 60 + start.getMinutes();
-            const eventEndTime = end.getHours() * 60 + end.getMinutes();
-    
-            // Check if the current time is within the event's time range
-            if (currentTime >= eventStartTime && currentTime <= eventEndTime) {
-                return true; // Include the event if the current time is within the event's time range
-            }
-    
-            return false;
-        }
-    
-        return false;
-    });
+    const events = eventsRes?.data?.data.filter(activeEvent);
     children = children?.filter((child)=>{
-        console.log(child)
-        console.log(events);
         const yes_perhaps = child.events.filter((event)=>{
-            console.log(event);
             return events?.map(({_id})=>_id).includes(event);
         });
 

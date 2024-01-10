@@ -12,12 +12,13 @@ import { margin } from "../../../ottery-ui/styles/margin";
 import TextInput from "../../../ottery-ui/input/TextInput";
 import { AwaitButton } from "../../guards/AwaitButton";
 import { isActivationCode } from "@ottery/ottery-dto";
-import { Form } from "../../../ottery-ui/containers/Form";
+import { useGotoNext, useNavigator } from "../../router/useNavigator";
 
 export default function Validate() {
     const Ping = usePing();
     const [code, setCode] = useState("");
 
+    const gotoNext = useGotoNext();
     const {useResendEmail, useActivate, useUserEmail} = useAuthClient();
     const email = useUserEmail();
     const resendEmail = useResendEmail();
@@ -42,6 +43,8 @@ export default function Validate() {
             onSuccess: (res)=>{
                 if (res.error) {
                     Ping.error("Incorrect code");
+                } else {
+                    gotoNext();
                 }
             },
         });

@@ -36,7 +36,7 @@ export default function Register() {
                     Ping.error(res.error.message);
                     throw res.error;
                 } else {
-                    navigator(paths.auth.validate);
+                    navigator(paths.auth.validate, undefined, {ignoreNext:true});
                 }
             }
         })
@@ -80,7 +80,7 @@ export default function Register() {
                 </Form>
             </Shadowbox>
             <Shadowbox>
-                <Text>Have an account? <Link onPress={()=>navigator(paths.auth.login)}>Log in!</Link></Text>
+                <Text>Have an account? <Link onPress={()=>navigator(paths.auth.login, undefined, {ignoreNext:true})}>Log in!</Link></Text>
             </Shadowbox>
         </Main>
     );

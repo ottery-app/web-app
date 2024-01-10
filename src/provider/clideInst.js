@@ -2,7 +2,7 @@ import {BACKEND_API} from "@api_env";
 import Clide from "../../ottery-clide"
 
 export const clideInst = new Clide({
-    baseURL: "https://d9a8-107-15-199-74.ngrok-free.app" + "/api/",
+    baseURL: "https://3b5e-2600-1004-a031-3b57-2197-2672-7299-e630.ngrok-free.app" + "/api/",
     //baseURL: BACKEND_API + "/api/",
     timeout: 10000,
 });

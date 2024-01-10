@@ -21,7 +21,7 @@ export default function Login() {
   const login = useLogin();
 
   function navigateForgotPassword() {
-    navigator(paths.auth.forgotPassword);
+    navigator(paths.auth.forgotPassword, undefined, {ignoreNext:true});
   }
 
   function submit() {
@@ -38,7 +38,7 @@ export default function Login() {
           }
 
           if (data.payload && !data.error) {
-            navigator(paths.auth.validate);
+            navigator(paths.auth.validate, undefined, {ignoreNext:true});
           }
         },
       }
@@ -76,7 +76,7 @@ export default function Login() {
       <Shadowbox>
         <Text>
           Don't have an account?{" "}
-          <Link onPress={() => navigator(paths.auth.register)}>Sign up!</Link>
+          <Link onPress={() => navigator(paths.auth.register, undefined, {ignoreNext:true})}>Sign up!</Link>
         </Text>
       </Shadowbox>
     </Main>

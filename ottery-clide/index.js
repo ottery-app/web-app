@@ -37,7 +37,6 @@ export default class Clide {
    * @returns
    */
   makeRequest(url, conf = {}) {
-    console.log(url)
     conf.url = url;
     conf = Object.assign({}, this.conf, conf);
 

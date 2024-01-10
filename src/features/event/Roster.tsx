@@ -30,7 +30,6 @@ export function Roster({route}) {
     const eventClient = useEventClient();
     const eventInfoRes = eventClient.useGetEventInfo({inputs: [eventId]});
     const eventInfo = eventInfoRes?.data?.data;
-    console.log(eventInfo);
     const volenteersRes = useUserClient().useGetUserInfo({
         inputs: [eventInfo?.volenteers],
         enabled: !!eventInfo,

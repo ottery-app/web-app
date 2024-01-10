@@ -17,7 +17,7 @@ export function AuthStack() {
 
   useEffect(() => {
     if (sesh.loggedin && !sesh.activated) {
-      navigator(paths.auth.validate);
+      navigator(paths.auth.validate, undefined, {ignoreNext:true});
     }
   }, [sesh]);
 

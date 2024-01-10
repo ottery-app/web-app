@@ -24,6 +24,7 @@ function useNext() {
     nextRef.current = undefined;
     const p = paramsRef.current
     paramsRef.current = undefined;
+    console.log(n, p);
     return [n, p];
   }, [])
 
@@ -78,14 +79,14 @@ export function useNavigator() {
   const {addNext, hasNext, consumeNext} = useContext(NavigatorContext);
   const navigation = useNavigation();
 
-  return function navigator(path, params) {
+  return function navigator(path, params, options={}) {
     let addedNext = false;
     if (params?.next) {
       addedNext = true;
       addNext(params.next, params.nextParams);
     }
 
-    if (addedNext === false && hasNext()) {
+    if (addedNext === false && hasNext() && !options.ignoreNext) {
       const [next, nextParams] = consumeNext();
       navigation.navigate(next, nextParams);
       return;

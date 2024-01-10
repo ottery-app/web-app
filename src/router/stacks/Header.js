@@ -34,6 +34,7 @@ export default function Header({
   React.useEffect(()=>{
     if (initialized === false) {
       initialized = true;
+      console.log("GOING TO NEXT");
       gotoNext();
     }
   }, []);
