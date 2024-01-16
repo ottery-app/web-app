@@ -30,7 +30,7 @@ export function AttendanceChildEvent({route}) {
                 subTitle={`${event?.summary} Attendance`}
             />
             {(attendance?.length ===0)
-                ? <Text style={[fadedStyle]} variant={fadedVariant}>{child?.firstName} has not attended ${event?.summary}</Text>
+                ? <Text style={[fadedStyle]} variant={fadedVariant}>{child?.firstName} has not attended {event?.summary}</Text>
                 : <Main margins={false}>
                     {attendance?.map((attendance:AttendanceDto, i)=>
                         <View style={{

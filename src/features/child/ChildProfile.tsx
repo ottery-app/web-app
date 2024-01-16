@@ -15,7 +15,7 @@ import { useEventClient } from "../event/useEventClient";
 import React from "react";
 import { Main } from "../../../ottery-ui/containers/Main";
 import { View } from "react-native";
-import { DataFieldDto, FormFieldDto, noId } from "@ottery/ottery-dto";
+import { DataFieldDto, FormFieldDto, inputType, noId } from "@ottery/ottery-dto";
 import { margin } from "../../../ottery-ui/styles/margin";
 import { SettingsOption } from "../../../ottery-ui/buttons/SettingsOption";
 
@@ -143,9 +143,11 @@ export function ChildProfile({route}) {
                 }
                 return childEvents?.find(({_id})=>_id === childData.lastStampedLocation.at)?.summary;
             })()}/>
-            {childData?.data.map((formField:DataFieldDto)=>
-                <DataRow label={formField.label} value={formField.value}/>
-            )}
+            {childData?.data.map((formField:DataFieldDto)=>{
+                console.log(formField);
+                if (formField.type === inputType.PICTURE) return;
+                return <DataRow label={formField.label} value={formField.value}/>
+            })}
             <SettingsOption onPress={()=>navigator(paths.main.child.attendancePickEvent, {childId})}>Attendance</SettingsOption>
         </Main>
     }, [childData, childEvents]);
