@@ -2,15 +2,14 @@ import { radius } from "./radius";
 
 /**
  * the style options for shadows
- * @deprecated
  */
 export const shadows = {
     default: {
         shadowColor: 'black',
-        shadowOffset: {width: 0, height: 4},
+        shadowOffset: {width: 0, height: 1},
         shadowOpacity: 0.2,
         shadowRadius: radius.default,
-        elevation: 3,
+        elevation: 1,
     },
 }
 

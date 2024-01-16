@@ -10,10 +10,12 @@ import Image from "../image/Image";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { clickable } from "../styles/clickable";
 import { IconHeader } from "./IconHeader";
+import { shadows } from "../styles/shadow";
 
 const styles = StyleSheet.create({
   main: {
     backgroundColor: colors.background.primary,
+    ...shadows.default,
   },
   top: {
     height: image.mediumProfile,
@@ -48,6 +50,7 @@ export function MultiFieldHeader({
   return (
     <View style={styles.main}>
       <IconHeader
+        shadow={false}
         title={title}
         src={src}
         alt={alt}

@@ -11,6 +11,7 @@ import { gear, pfp } from "../../assets/icons";
 import { IconButton } from "../buttons/IconButton";
 import { clickable } from "../styles/clickable";
 import { border } from "../styles/border";
+import { shadows } from "../styles/shadow";
 
 const styles = StyleSheet.create({
   main: {
@@ -35,6 +36,7 @@ export interface IconHeaderProps {
     alt:string,
     subTitle?: string,
     onEdit?: ()=>void,
+    shadow?: boolean
 }
 
 export function IconHeader({
@@ -46,9 +48,10 @@ export function IconHeader({
   alt = "profile photo",
   subTitle,
   onEdit,
+  shadow = true,
 }: IconHeaderProps) {
   return (
-    <View style={styles.main}>
+    <View style={[styles.main, shadow && shadows.default]}>
         <View style={styles.inner}>
             <Image
                 src={src}

@@ -7,10 +7,12 @@ import { Icon, Text, TouchableRipple } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { gear } from "../../assets/icons";
 import { clickable } from "../styles/clickable";
+import { shadows } from "../styles/shadow";
 
 const styles = StyleSheet.create({
   main: {
     backgroundColor: colors.background.primary,
+    ...shadows.default,
   },
   inner: {
     height: image.mediumProfile,

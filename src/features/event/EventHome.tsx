@@ -4,7 +4,7 @@ import { message, share, userPlus } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useEventClient } from "./useEventClient";
-import { Text } from "react-native-paper";
+import { Card, Text } from "react-native-paper";
 import { margin } from "../../../ottery-ui/styles/margin";
 import { useChatClient } from "../chat/useChatClient";
 import { useAuthClient } from "../auth/useAuthClient";
@@ -17,6 +17,7 @@ import * as Clipboard from 'expo-clipboard';
 import { usePing } from "../../../ottery-ping";
 import { IconHeader } from "../../../ottery-ui/headers/IconHeader";
 import { Header } from "../../../ottery-ui/headers/Header";
+import { colors } from "../../../ottery-ui/styles/colors";
 
 export function EventHome({route}) {
     const Ping = usePing();
@@ -82,8 +83,13 @@ export function EventHome({route}) {
                     title={event?.summary}
                 />
                 <Main scrollable={true} style={{gap:margin.medium, justifyContent:"left"}}>
+                    <Card  style={{ backgroundColor: colors.background.primary }}>
+                        <Card.Title title="About" />
+                        <Card.Content>
+                            <Text>{event?.description}</Text>
+                        </Card.Content>
+                    </Card>
                     <ButtonMenu buttons={buttons} />
-                    <Text>{event?.description}</Text>
                 </Main>
         </Main>
     );

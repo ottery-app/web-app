@@ -8,7 +8,7 @@ import { role } from '@ottery/ottery-dto';
 import { colors } from '../../../ottery-ui/styles/colors';
 import { margin } from '../../../ottery-ui/styles/margin';
 import { useGotoNext } from '../useNavigator';
-import { zindex } from '../../../ottery-ui/styles/zindex';
+import { shadows } from '../../../ottery-ui/styles/shadow';
 
 //gets set to true till the user restarts the app
 let initialized = false;
@@ -44,7 +44,8 @@ export default function Header({
       //elevated={true}
       style={{
         //elevation:zindex.front,
-        backgroundColor:(sesh.state === role.CARETAKER)?colors.success.main:colors.primary.main
+        backgroundColor:(sesh.state === role.CARETAKER)?colors.success.main:colors.primary.main,
+        ...shadows.default,
       }}
     >
         {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}

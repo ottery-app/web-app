@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Icon, Text, TouchableRipple } from "react-native-paper";
 import { radius } from "../styles/radius";
 import { border } from "../styles/border";
+import { shadows } from "../styles/shadow";
 
 export function IconButton({icon, width, onPress, children}) {
   const MAX_SIZE = 200;
@@ -19,6 +20,7 @@ export function IconButton({icon, width, onPress, children}) {
             backgroundColor: colors.secondary.main,
             borderColor: colors.secondary.dark,
             borderWidth: border.default,
+            ...shadows.default,
         }}
         onPress={onPress}
       >
