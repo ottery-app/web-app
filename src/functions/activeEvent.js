@@ -2,12 +2,30 @@ import { RRule } from "rrule";
 
 export const activeEvent = (event) => {
     const rrule = RRule.fromString(event.rrule);
+    let currentDate = new Date();
+
+    // Calculate the start of the week (Sunday)
+    let startOfWeek = new Date(currentDate);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    // Calculate the end of the week (Saturday)
+    let endOfWeek = new Date(currentDate);
+    endOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()));
+    
     const eventOccurrences = rrule.between(startOfWeek, endOfWeek);
 
+    let isToday = false;
+    for (let i = 0; i < eventOccurrences.length; i++) {
+        if (eventOccurrences[i].getDay() === currentDate.getDay()) {
+            isToday = true;
+            break;
+        }
+    }
+
     // Filter out events that occur within the start and end of the current week
-    if (eventOccurrences.every((date) => date.getDay() !== currentDate.getDay())) {
+    if (isToday) {
         const start = new Date(event.start);
-        const end = new Date(event.start + event.duration); // Assuming event.duration is in milliseconds
+        const end = new Date(event.start + event.durration); // Assuming event.duration is in milliseconds
 
         // Check if the time of the currentDate falls between the start and end times of the event
         const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes();

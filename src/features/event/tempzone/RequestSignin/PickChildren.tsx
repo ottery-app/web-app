@@ -39,16 +39,15 @@ export function PickChildren() {
     const endDiff = 6 - currentDate.getDay(); // Assuming Saturday as the end of the week (0-indexed)
     endOfWeek.setDate(currentDate.getDate() + endDiff);
 
-    const events = eventsRes?.data?.data.filter(activeEvent);
+    console.log(eventsRes?.data?.data);
+    const events = eventsRes?.data?.data?.filter(activeEvent);
     children = children?.filter((child)=>{
-        const yes_perhaps = child.events.filter((event)=>{
+        const yes_perhaps = child?.events?.filter((event)=>{
             return events?.map(({_id})=>_id).includes(event);
         });
 
         return !!yes_perhaps.length;
     });
-
-    console.log(events);
 
     const navigator = useNavigator();
     const Ping = usePing();

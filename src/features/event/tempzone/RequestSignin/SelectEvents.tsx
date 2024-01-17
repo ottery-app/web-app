@@ -13,6 +13,7 @@ import { Main } from "../../../../../ottery-ui/containers/Main";
 import { ButtonSpan } from "../../../../../ottery-ui/containers/ButtonSpan";
 import Button from "../../../../../ottery-ui/buttons/Button";
 import { useTempzoneClient } from "../tempzoneClient";
+import { activeEvent } from "../../../../functions/activeEvent";
 
 export function SelectEvents() {
     const killPage = useRef(false);
@@ -26,7 +27,6 @@ export function SelectEvents() {
 
 
     function addEventToRequest(eventId) {
-        console.log('adding event to request');
         updateReqeust({
             ...requests[0],
             event: eventId,
@@ -37,13 +37,15 @@ export function SelectEvents() {
         inputs:[child?.events],
         enabled:!!child,
         onSuccess:(res)=>{
-            if (res?.data?.length === 1) {
-                addEventToRequest(res.data[0]._id);
+            const events = res?.data?.filter(activeEvent);
+            if (events.length === 1) {
+                console.log(events[0]);
+                addEventToRequest(events[0]._id);
             }
         }
     });
 
-    const events = eventsRes?.data?.data;
+    const events = eventsRes?.data?.data?.filter(activeEvent);
     const [selected, setSelected] = useState(noId);
 
     const dropOff = useTempzoneClient().useMakeChildRequest();

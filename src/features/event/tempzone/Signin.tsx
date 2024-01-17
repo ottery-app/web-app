@@ -60,6 +60,7 @@ export function Signin() {
     children?.sort(sortChildrenByName);
     waitingChildren?.sort(sortChildrenByName);
 
+
     function markPresent() {
         dropOff.mutate({
             eventId: eventId,
@@ -74,7 +75,7 @@ export function Signin() {
 
     return(
         <Main>
-            {(children?.length)
+            {(children?.length || waitingChildren?.length)
                 ? <>
                     <SelectionButton
                         itemCount={selected.length}
