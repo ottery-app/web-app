@@ -14,16 +14,16 @@ export function FormFieldToInput({formField, value, onChange}) {
                 label={formField.label}
                 value={value?.value} 
                 onChange={(val:any)=>{
-                    value = value || {
+                    const updatedValue = value ? {...value} : {
                         formField: formField._id,
                         label: formField.label,
                         type: formField.type,
                         value: undefined,
-                    } as DataFieldDto,
+                    } as DataFieldDto;
 
-                    value.value = val;
+                    updatedValue.value = val;
 
-                    onChange(value);
+                    onChange(updatedValue);
                 }}
             />
             {/* {(formField.required) ? <Text style={{width:"100%", textAlign:'left'}}>required</Text> : undefined} */}
