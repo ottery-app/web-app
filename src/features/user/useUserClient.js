@@ -1,3 +1,5 @@
+import { useQueryClient } from "react-query";
+
 import {
   getChildren,
   getEvents,
@@ -14,6 +16,8 @@ import { makeUseMutation } from "../../queryStatus/makeUseMutation";
 import { query_paths } from "../../provider/queryClient";
 
 export function useUserClient() {
+  const queryClient = useQueryClient();
+
   const useGetUserInfo = makeUseQuery({
     queryKey: [query_paths.user.root],
     queryFn: getInfo,
@@ -31,24 +35,29 @@ export function useUserClient() {
 
   const useUpdateProfilePhoto = makeUseMutation({
     mutationFn: updateProfilePhoto,
-  })
+    onSuccessAlways: () => {
+      queryClient.invalidateQueries(query_paths.user.root);
+    },
+  });
 
   const useUpdateUserData = makeUseMutation({
     mutationFn: updateUserData,
-  })
+  });
 
   const useMissingUserData = makeUseQuery({
     queryKey: [query_paths.user.root, "data"],
     queryFn: missingUserData,
-  })
+  });
 
   const useChildrenAt = makeUseQuery({
     queryKey: [query_paths.user.root, query_paths.child.root, "at"],
-    queryFn: async (userId, at)=>{
+    queryFn: async (userId, at) => {
       const childrenRes = await getChildren(userId);
 
       if (childrenRes?.data) {
-        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at === at)
+        childrenRes.data = childrenRes.data.filter(
+          (child) => child.lastStampedLocation.at === at
+        );
       }
 
       return childrenRes;
@@ -57,11 +66,13 @@ export function useUserClient() {
 
   const useChildrenNotAt = makeUseQuery({
     queryKey: [query_paths.user.root, query_paths.child.root, "notAt"],
-    queryFn: async (userId, at)=>{
+    queryFn: async (userId, at) => {
       const childrenRes = await getChildren(userId);
 
       if (childrenRes?.data) {
-        childrenRes.data = childrenRes.data.filter((child)=>child.lastStampedLocation.at !== at)
+        childrenRes.data = childrenRes.data.filter(
+          (child) => child.lastStampedLocation.at !== at
+        );
       }
 
       return childrenRes;
@@ -71,15 +82,21 @@ export function useUserClient() {
   const useGetUserData = makeUseQuery({
     queryKey: [query_paths.user.root, "data"],
     queryFn: getUserData,
-  })
+  });
 
   const useUpdateFirstName = makeUseMutation({
     mutationFn: udpateFirstName,
-  })
+    onSuccessAlways: () => {
+      queryClient.invalidateQueries(query_paths.user.root);
+    },
+  });
 
   const useUpdateLastName = makeUseMutation({
     mutationFn: udpateLastName,
-  })
+    onSuccessAlways: () => {
+      queryClient.invalidateQueries(query_paths.user.root);
+    },
+  });
 
   return {
     useUpdateUserData,
