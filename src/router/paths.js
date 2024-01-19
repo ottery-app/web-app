@@ -38,6 +38,7 @@ export const paths = {
       },
       getHelp: "/event/:eventId/get-help",
       new: "/event/new",
+      edit: "/event/:eventId/edit"
     },
     user: {
       profile: "/user/profile",

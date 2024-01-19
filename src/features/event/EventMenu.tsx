@@ -1,6 +1,6 @@
 import { ButtonMenu } from "../../../ottery-ui/containers/ButtonMenu";
 import { Main } from "../../../ottery-ui/containers/Main";
-import { clock, info, message, users } from "../../../assets/icons";
+import { clock, gear, info, message, users } from "../../../assets/icons";
 import { useNavigator } from "../../router/useNavigator";
 import paths from "../../router/paths";
 import { useEventClient } from "./useEventClient";
@@ -104,7 +104,15 @@ export function EventMenu({route}) {
         }
 
         if (isLeadManager) {
-
+            buttons.push(
+                {
+                    icon: {uri: gear.src},
+                    title: "Settings",
+                    onPress: () => {
+                        navigator(paths.main.event.edit, {eventId: event._id});
+                    }
+                }
+            )
         } else {
             buttons.push(
                 {

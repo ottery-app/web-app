@@ -1,4 +1,4 @@
-import { CreateEventDto } from "@ottery/ottery-dto";
+import { CreateEventDto, isId } from "@ottery/ottery-dto";
 import { getChildren } from "../user/userApi";
 import { clideInst } from "../../provider/clideInst";
 
@@ -97,6 +97,22 @@ export const getOwner = clideInst
             return {
                 params: {
                     id:eventId,
+                }
+            }
+        }
+    });
+
+export const updateEvent = clideInst
+    .makePatch("event/:eventId", {
+        params_validators: {
+            eventId: isId,
+        },
+        data_validator: CreateEventDto,
+        in_pipeline: ({ eventId, form })=>{            
+            return {
+                data: form,
+                params: {
+                    eventId
                 }
             }
         }
