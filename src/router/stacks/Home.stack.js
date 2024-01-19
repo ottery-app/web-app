@@ -22,6 +22,7 @@ import NewEventScreen from "../../features/event/new";
 import { AttendanceChildPickEvent } from "../../features/child/Attendance/AttendanceChildPickEvent";
 import { AttendanceChildEvent } from "../../features/child/Attendance/AttendanceChildEvent";
 import { EventHome } from "../../features/event/EventHome";
+import EditEventScreen from "../../features/event/edit";
 
 const Stack = createNativeStackNavigator();
 
@@ -194,6 +195,14 @@ export function HomeStack() {
           header: (props) => <Header {...props} />,
         }}
         component={NewEventScreen}
+      />
+      <Stack.Screen
+        name={paths.main.event.edit}
+        options={{
+          title: "Edit Event",
+          header: (props) => <Header {...props} />,
+        }}
+        component={EditEventScreen}
       />
     </Stack.Navigator>
   );
